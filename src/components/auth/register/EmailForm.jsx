@@ -91,7 +91,7 @@ import {
             )}
           />
         
-        <button type="submit" className='bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'> Suivant </button></div>
+        <button type="submit" className='bg-blue-900 mx-auto rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'> Suivant </button></div>
         </form>
       </Form>
     );
