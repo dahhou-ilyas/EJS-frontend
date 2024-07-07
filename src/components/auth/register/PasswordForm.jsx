@@ -1,4 +1,3 @@
-"use client";
 import Layout from "@/components/auth/register/Layout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -26,7 +25,7 @@ const schema = z.object({
     
 });
 
-const Fields = () => {
+const Fields = ({ setFormData, nextStep }) => {
   const form = useForm({
     defaultValues: {
       password: "",
@@ -43,14 +42,20 @@ const Fields = () => {
 
   const onSubmit = (data) => {
     if (password !== confirmerPassword) {
-      // Set an error message manually
+
       form.setError("confirmerPassword", {
         type: "manual",
         message: "Les mots de passe ne correspondent pas",
       });
       return;
     }
+
     console.log(data);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      password: data.password,
+    }));
+    nextStep();
   };
 
   return (
@@ -109,16 +114,17 @@ const Fields = () => {
   );
 };
 
-const MotDePasse = () => {
+const PasswordForm = ({ setFormData, nextStep, prevStep }) => {
   return (
     <Layout
       title={"Mot de passe sécurisé"}
       subtitle={
         "Créez un mot de passe sécurisé avec des lettres, des chiffres et des symboles."
       }
-      fields={<Fields />}
+      fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
+      prevStep={prevStep}
     />
   );
 };
 
-export default MotDePasse;
+export default PasswordForm;

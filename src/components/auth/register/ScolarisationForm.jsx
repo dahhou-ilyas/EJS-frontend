@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import Layout from "@/components/auth/register/Layout";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,10 +11,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 const schema = z.object({
   scolarise: z.string().nonempty("Veuillez indiquer si vous êtes scolarisé(e)"),
   niveauEtudes: z.string().nonempty("Veuillez sélectionner votre niveau d'études"),
-  situationActuelle: z.string().nonempty("Veuillez sélectionner votre situation actuelle").optional(), // Updated schema
+  situationActuelle: z.string().optional(), 
 });
 
-const Fields = () => {
+const Fields = ({ setFormData, nextStep }) => {
   const form = useForm({
     defaultValues: {
       scolarise: "",
@@ -38,8 +37,14 @@ const Fields = () => {
       return;
     }
 
-    console.log(data);
-    // Proceed with form submission
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      scolarise: data.scolarise,
+      niveauEtudes: data.niveauEtudes,
+      situationActuelle: data.situationActuelle || "",
+    }));
+    nextStep();
+    
   };
 
   return (
@@ -153,17 +158,18 @@ const Fields = () => {
         </form>
       </Form>
     </div>
-  );
+  ); 
 };
 
-const ScolariseEtudes = () => {
+const ScolarisationForm = ({ setFormData, prevStep, nextStep }) => {
   return (
     <Layout
       title={"Informations générales"}
       subtitle={"Sélectionnez si vous êtes scolarisé(e) et votre niveau d'études actuel."}
-      fields={<Fields />}
+      fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
+      prevStep={prevStep}
     />
   );
 };
 
-export default ScolariseEtudes;
+export default ScolarisationForm;

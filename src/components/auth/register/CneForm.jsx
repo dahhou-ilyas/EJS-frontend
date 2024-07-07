@@ -1,4 +1,3 @@
-"use client"
 import Layout from "@/components/auth/register/Layout"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -19,7 +18,7 @@ const schema = z.object({
         .regex(/^\d+$/, "Le numéro de CNE invalid"),
 });
 
-const Fields = () => {
+const Fields = ({ setFormData, nextStep }) => {
     const form = useForm({
         defaultValues: {
             cne: "",
@@ -32,6 +31,12 @@ const Fields = () => {
 
     const onSubmit = (data) => {
         console.log(data);
+    
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            cne: data.cne,
+          }));
+        nextStep();
     };
 
     return (
@@ -63,14 +68,15 @@ const Fields = () => {
     );
 };
 
-const Cne = () => {
+const CneForm = ({ setFormData, nextStep, prevStep }) => {
     return (
         <Layout
             title={"Informations d'activités"}
             subtitle={"Saisissez votre CNE (Code National de l'Etudiant)"}
-            fields={<Fields />}
+            fields={<Fields setFormData={setFormData} nextStep={nextStep}/>}
+            prevStep={prevStep}
         />
     );
 }
 
-export default Cne;
+export default CneForm;

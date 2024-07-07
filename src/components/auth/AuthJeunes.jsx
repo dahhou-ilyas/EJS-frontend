@@ -108,7 +108,7 @@ const AuthJeunes = () => {
                                 </FormControl>
                                 
                                 <FormMessage className="sm:w-96 max-w-sm" />
-                                <FormDescription className="sm:hidden border-b-2 border-blue-600 text-blue-600 cursor-pointer">
+                                <FormDescription className="sm:hidden border-b-[1px] inline-block border-blue-600 text-blue-600 cursor-pointer">
                                     Mot de passe oublié?
                                 </FormDescription>
                                 </FormItem>

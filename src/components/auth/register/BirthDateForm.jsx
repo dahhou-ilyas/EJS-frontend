@@ -1,4 +1,3 @@
-"use client"
 import * as React from "react"
 import Layout from "@/components/auth/register/Layout"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,18 +9,20 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 
 const schema = z.object({
-  dateNaissance: z.date().refine(
+  dateNaissance: z.date()
+  .refine(
     (date) => isBefore(date, addYears(new Date(), -10)) && isAfter(date, addYears(new Date(), -30)),
-    "Vous devez avoir entre 10 et 30 ans"
-  ),
+    "Vous devez avoir entre 10 et 30 ans" 
+  )
+  ,
   genre: z.string().nonempty("Veuillez sélectionner votre genre"),
 });
 
-const Fields = () => {
+const Fields = ({ setFormData, nextStep }) => {
   const form = useForm({
     defaultValues: {
       dateNaissance: null,
@@ -34,6 +35,12 @@ const Fields = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      dateNaissance: data.dateNaissance,
+      genre: data.genre,
+    }));
+    nextStep();
   };
 
   return (
@@ -113,14 +120,15 @@ const Fields = () => {
   );
 };
 
-const AgeGenre = () => {
+const BirthDateForm = ({ setFormData, nextStep, prevStep }) => {
   return ( 
     <Layout 
       title={"Informations générales"} 
       subtitle={"Saisissez votre date de naissance et votre genre. Remarquez que vous devez être âgé entre 10 et 30 ans pour avoir accès à e-ESJ."} 
-      fields={<Fields />}  
+      fields={<Fields setFormData={setFormData} nextStep={nextStep} />}  
+      prevStep={prevStep}
     />
   );
 }
 
-export default AgeGenre;
+export default BirthDateForm;

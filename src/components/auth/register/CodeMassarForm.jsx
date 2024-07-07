@@ -1,4 +1,3 @@
-"use client"
 import Layout from "@/components/auth/register/Layout"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -16,10 +15,10 @@ import {
 
 const schema = z.object({
     codeMassar: z.string()
-        .regex(/^[A-Za-z]{2}\d+$/, "Code MASSAR invalide"),
+        .regex(/^[A-Za-z]{1}\d+$/, "Code MASSAR invalide"),
 });
 
-const Fields = () => {
+const Fields = ({ setFormData, nextStep }) => {
     const form = useForm({
         defaultValues: {
             codeMassar: "",
@@ -32,6 +31,12 @@ const Fields = () => {
 
     const onSubmit = (data) => {
         console.log(data);
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            codeMassar: data.codeMassar,
+          }));
+
+        nextStep();
     };
 
     return (
@@ -63,14 +68,15 @@ const Fields = () => {
     );
 };
 
-const CodeMassar = () => {
+const CodeMassarForm = ({ setFormData, nextStep, prevStep }) => {
     return (
         <Layout
             title={"Informations d'activités"}
             subtitle={"Saisissez votre code MASSAR"}
-            fields={<Fields />}
+            fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
+            prevStep={prevStep}
         />
     );
 }
 
-export default CodeMassar;
+export default CodeMassarForm;

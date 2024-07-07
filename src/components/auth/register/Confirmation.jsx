@@ -1,7 +1,7 @@
 import Layout from "@/components/auth/register/Layout"
 
 
-const Confirmation = () => {
+const Confirmation = ({prevStep}) => {
     return ( 
     <Layout 
       title={"Consulter votre boite mail"} 

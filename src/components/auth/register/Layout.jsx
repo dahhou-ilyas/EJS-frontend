@@ -1,9 +1,6 @@
-"use client"
-
 import React, { useCallback } from 'react';
 import Image from "next/image";
 
-import { useRouter } from "next/navigation";
 import { LanguageSelector } from '@/components/LanguageSelector';
 
 import Logo from "../../../../public/logoJeune.png";
@@ -11,35 +8,39 @@ import { BiArrowBack } from "react-icons/bi";
 
 
 
-const Layout = ({ title, subtitle, fields }) => {
-    const router = useRouter();
+const Layout = ({ title, subtitle, fields, prevStep }) => {
 
-    const handleBack = useCallback(() => {
-      router.back();
-    }, [router]);
 
   return (
 
     <div className="lg:h-screen lg:flex lg:items-center lg:justify-center lg:bg-gray-400">
         <div className="ml-4 mt-1 flex justify-between lg:hidden w-full">
-            <BiArrowBack 
-                onClick={handleBack} 
+            {prevStep && <div onClick={prevStep}><BiArrowBack 
                 color="black" 
                 size={20} 
                 className="
                 cursor-pointer 
                 hover:opacity-70 
                 transition
-                mt-[6px]
+                inline
             "/>
-            <span className="ml-2 mt-1">Retour</span>
+            <span className="ml-2 mt-1">Retour</span></div>}
             <div className="ml-auto mr-4">
                 <LanguageSelector />
             </div>
         </div>
         <div className="w-full lg:min-h-[450px] lg:max-w-7xl lg:border lg:rounded-3xl lg:min-w-[900px] xl:min-w-[1000px] bg-white sm:flex lg:mx-48">
             <div className="w-full sm:w-1/2 sm:ml-8 sm:mb-2 sm:mt-8 mx-4 flex flex-col justify-between">
-                <div>
+                <div className="">
+                    {prevStep && <div onClick={prevStep} className='cursor-pointer hover:opacity-70 transition -mt-4 mb-2 hidden lg:block'>
+                    
+                        <BiArrowBack 
+                        color="black" 
+                        size={20} 
+                        className="inline"
+                        />
+                        <span className="ml-2 ">Retour</span>
+                    </div>}
                     <div
                     className="
                         flex 

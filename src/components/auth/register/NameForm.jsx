@@ -1,4 +1,3 @@
-"use client"
 import Layout from "@/components/auth/register/Layout"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -12,23 +11,21 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-    FormDescription,
   } from "@/components/ui/form"
 
 
 
-
   const schema = z.object({
-    email: z.string().email("Veuillez saisir une adresse email valide"),
-    tel: z.string()
-        .regex(/^0[67]\d{8}$/, "Le numéro de téléphone doit commencer par 06 ou 07 et contenir 10 chiffres"),
-});
+    nom: z.string().min(1, "Veuillez saisir votre nom"),
+    prenom: z.string().min(1, "Veuillez saisir votre prénom"),
+  });
 
-  const Fields = () => {
+
+  const Fields = ({ setFormData, nextStep }) => {
     const form = useForm({
       defaultValues: {
-        email: "",
-        tel: "",
+        nom: "",
+        prenom: "",
       },
       resolver: zodResolver(schema),
     });
@@ -38,6 +35,13 @@ import {
   
     const onSubmit = (data) => {
       console.log(data);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        nom: data.nom,
+        prenom: data.prenom,
+      }));
+      
+      nextStep();
     };
   
     return (
@@ -47,42 +51,36 @@ import {
           
           <FormField
             control={form.control}
-            name="email"
+            name="nom"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Adresse email*</FormLabel>
+                <FormLabel>Nom*</FormLabel>
                 <FormControl>
                   <Input
                     className="md:w-96 max-w-sm"
-                    placeholder="Email"
+                    placeholder="Nom"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                    exemple@gmail.com
-                </FormDescription>
-                <FormMessage>{errors.email?.message}</FormMessage>
+                <FormMessage>{errors.nom?.message}</FormMessage>
               </FormItem>
             )}
           />
   
           <FormField
             control={form.control}
-            name="tel"
+            name="prenom"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Numéro de Téléphone*</FormLabel>
+                <FormLabel>Prénom*</FormLabel>
                 <FormControl>
                   <Input
                     className="md:w-96 max-w-sm"
-                    placeholder="N° Tél"
+                    placeholder="Prénom"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                    Exemple: 0612345678 / 0712345678
-                </FormDescription>
-                <FormMessage>{errors.tel?.message}</FormMessage>
+                <FormMessage>{errors.prenom?.message}</FormMessage>
               </FormItem>
             )}
           />
@@ -93,15 +91,16 @@ import {
     );
   };
 
-const EmailTel = () => {
+const NameForm = ({ setFormData, nextStep }) => {
     return ( 
     <Layout 
-      title={"Saisissez votre Adresse email et Numéro de Téléphone "} 
-      fields={<Fields />} 
+      title={"Créer votre compte e-ESJ"} 
+      subtitle={"Saisissez votre nom et prénom"} 
+      fields={<Fields setFormData={setFormData} nextStep={nextStep} />} 
       />
      );
 }
  
-export default EmailTel;
+export default NameForm;
 
 

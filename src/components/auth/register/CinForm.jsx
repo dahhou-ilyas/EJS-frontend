@@ -1,4 +1,3 @@
-"use client"
 import Layout from "@/components/auth/register/Layout"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -19,7 +18,7 @@ const schema = z.object({
         .regex(/^[A-Za-z]{1,2}\d+$/, "Ce numéro de CIN est invalide"),
 });
 
-const Fields = () => {
+const Fields = ({ setFormData, nextStep }) => {
     const form = useForm({
         defaultValues: {
             cin: "",
@@ -32,6 +31,11 @@ const Fields = () => {
 
     const onSubmit = (data) => {
         console.log(data);
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            cin: data.cin,
+          }));
+          nextStep();
     };
 
     return (
@@ -63,14 +67,15 @@ const Fields = () => {
     );
 };
 
-const Cin = () => {
+const CinForm = ({ setFormData, nextStep, prevStep }) => {
     return (
         <Layout
-            title={"Informations d’activités"}
+            title={"Informations d'activités"}
             subtitle={"Saisissez votre Numéro de CIN"}
-            fields={<Fields />}
-        />
+            fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
+            prevStep={prevStep}
+            />
     );
 }
 
-export default Cin;
+export default CinForm;
