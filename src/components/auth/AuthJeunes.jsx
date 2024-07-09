@@ -41,9 +41,6 @@ const AuthJeunes = () => {
         resolver: zodResolver(schema),
       });
     
-      const { register, handleSubmit, formState } = form;
-      const { errors } = formState;
-    
       const onSubmit = (data) => {
         console.log(data);
       };

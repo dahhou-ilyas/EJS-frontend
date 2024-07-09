@@ -1,4 +1,4 @@
-import Layout from "@/components/auth/register/Layout"
+import Layout from "@/components/auth/Layout"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -91,7 +91,7 @@ import {
             )}
           />
         
-        <button type="submit" className='bg-blue-900 mx-auto rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'> Suivant </button></div>
+        <button type="submit" className='bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'> Suivant </button></div>
         </form>
       </Form>
     );

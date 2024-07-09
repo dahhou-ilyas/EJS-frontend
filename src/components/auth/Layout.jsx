@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Image from "next/image";
 
 import { LanguageSelector } from '@/components/LanguageSelector';
 
-import Logo from "../../../../public/logoJeune.png";
+import Logo from "../../../public/logoJeune.png";
 import { BiArrowBack } from "react-icons/bi";
 
 
@@ -63,7 +63,7 @@ const Layout = ({ title, subtitle, fields, prevStep }) => {
                     <LanguageSelector />
                 </div>
             </div>
-            <div className="w-full sm:w-1/2 sm:mt-8 sm:mb-4 sm:mr-8 sm:ml-4 px-4 mt-24">
+            <div className="w-full sm:w-1/2 sm:mt-8 sm:mb-4 sm:mr-8 sm:ml-4 px-4 mt-4">
                 {fields}
             </div>
             

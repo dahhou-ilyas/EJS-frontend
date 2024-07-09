@@ -37,9 +37,34 @@ const MultiStepForm = () => {
       setStep(step - 1);
     }
   };
-
+  
   const handleSubmit = (values) => {
-    console.log('Form Data:', values);
+      fetch('http://localhost:8080/jeunes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            nom:formData.nom,
+            prenom:formData.prenom,
+            mail:formData.email,
+            numTele:formData.tel.replace(/^0/, "+212"),
+            password:formData.password,
+            type_jeune:(formData.scolarise == "oui")? "SCOLARISE":"NON_SCOLARISE",
+            sexe:(formData.genre=="Homme") ? "MASCULIN":"FEMININ",
+            dateNaissance:formData.dateNaissance,
+            scolarise:(formData.scolarise == "oui") ? true : false ,
+            cin:formData.cin,
+            niveauEtudesActuel: (formData.scolarise == "oui") ? formData.niveauEtudes:"",
+            cne:"CNE"+formData.cne,
+            codeMASSAR:formData.codeMassar,
+            dernierNiveauEtudes:(formData.scolarise == "non") ? formData.niveauEtudes:"",
+            situationActuelle:formData.situationActuelle,
+        })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Success:', data))
+    .catch(error => console.error('Error:', error));
     nextStep();
   };
 
@@ -61,7 +86,6 @@ const MultiStepForm = () => {
         return <EmailForm nextStep={nextStep} prevStep={prevStep} setFormData={setFormData} formData={formData} />;
       case 4:
         const age = formData.dateNaissance ? calculateAge(formData.dateNaissance) : null;
-        console.log(age)
         if (age !== null && age >= 16 && age <= 30) {
           return <CinForm nextStep={nextStep} prevStep={prevStep} setFormData={setFormData} formData={formData} />;
         }

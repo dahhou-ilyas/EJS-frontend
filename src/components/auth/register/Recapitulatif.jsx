@@ -95,7 +95,7 @@ const Recapitulatif = ({ formData, handleSubmit, prevStep }) => {
                       ))}
                     </div></div>
                 </div>
-                <button onClick={handleSubmit} className='bg-blue-900 rounded-2xl mx-auto mt-8 py-1 w-fit px-12 md:px-24 mr-4 lg:mr-[89px] xl:mr-24 max-w-sm text-white font-medium ml-auto'> Valider </button> 
+                <button onClick={() => {handleSubmit(formData)}} className='bg-blue-900 rounded-2xl mt-8 py-1 w-fit px-12 md:px-24 mr-4 lg:mr-[89px] xl:mr-24 max-w-sm text-white font-medium ml-auto'> Valider </button> 
                 <div className="hidden lg:block">
                     <LanguageSelector />
                 </div>
