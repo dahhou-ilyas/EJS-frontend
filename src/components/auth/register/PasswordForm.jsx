@@ -25,7 +25,7 @@ const schema = z.object({
     
 });
 
-const Fields = ({ setFormData, nextStep }) => {
+const Fields = ({ setFormData, nextStep, formData, buttonColor }) => {
   const form = useForm({
     defaultValues: {
       password: "",
@@ -55,9 +55,11 @@ const Fields = ({ setFormData, nextStep }) => {
       ...prevFormData,
       password: data.password,
     }));
-    nextStep();
+    nextStep(formData);
   };
-
+  const bgClasses = {
+    green: 'bg-[#018A90]',
+  };
   return (
     <div className="mt-4">
       <Form {...form}>
@@ -103,9 +105,9 @@ const Fields = ({ setFormData, nextStep }) => {
 
             <button
               type="submit"
-              className="bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto"
+              className={`rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto ${bgClasses[buttonColor] || 'bg-blue-900'}`}
             >
-              Suivant
+              Valider
             </button>
           </div>
         </form>
@@ -114,15 +116,16 @@ const Fields = ({ setFormData, nextStep }) => {
   );
 };
 
-const PasswordForm = ({ setFormData, nextStep, prevStep }) => {
+const PasswordForm = ({ setFormData, nextStep, prevStep, formData, buttonColor, bgColor }) => {
   return (
     <Layout
       title={"Mot de passe sécurisé"}
       subtitle={
         "Créez un mot de passe sécurisé avec des lettres, des chiffres et des symboles."
       }
-      fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
+      fields={<Fields setFormData={setFormData} nextStep={nextStep} formData={formData} buttonColor={buttonColor}/>}
       prevStep={prevStep}
+      bgColor={bgColor}
     />
   );
 };

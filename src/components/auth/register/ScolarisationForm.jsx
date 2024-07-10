@@ -23,7 +23,7 @@ const Fields = ({ setFormData, nextStep }) => {
     },
     resolver: zodResolver(schema),
   });
-
+  
   const { handleSubmit, control, formState: { errors }, watch } = form;
   const scolariseValue = watch("scolarise");
 
@@ -150,7 +150,7 @@ const Fields = ({ setFormData, nextStep }) => {
                 />
             )}
 
-            <button type="submit" className="bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
+            <button type="submit" className="bg-[${buttonColor}] rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
               Suivant
             </button>
           </div>
@@ -164,8 +164,8 @@ const ScolarisationForm = ({ setFormData, prevStep, nextStep }) => {
   return (
     <Layout
       title={"Informations générales"}
-      subtitle={"Sélectionnez si vous êtes scolarisé(e) et votre niveau d'études actuel."}
-      fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
+      subtitle={"Veuillez sélectionnez si vous êtes scolarisé(e) et votre niveau d'études actuel."}
+      fields={<Fields setFormData={setFormData} nextStep={nextStep} buttonColor={buttonColor}/>}
       prevStep={prevStep}
     />
   );
