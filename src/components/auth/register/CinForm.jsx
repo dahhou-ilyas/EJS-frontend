@@ -71,7 +71,7 @@ const CinForm = ({ setFormData, nextStep, prevStep }) => {
     return (
         <Layout
             title={"Informations d'activités"}
-            subtitle={"Saisissez votre Numéro de CIN"}
+            subtitle={"Veuillez saisir votre Numéro de CIN"}
             fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
             prevStep={prevStep}
             />

@@ -72,7 +72,7 @@ const CodeMassarForm = ({ setFormData, nextStep, prevStep }) => {
     return (
         <Layout
             title={"Informations d'activités"}
-            subtitle={"Saisissez votre code MASSAR"}
+            subtitle={"Veuillez saisir votre code MASSAR"}
             fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
             prevStep={prevStep}
         />

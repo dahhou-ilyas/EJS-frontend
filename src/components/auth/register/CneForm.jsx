@@ -72,7 +72,7 @@ const CneForm = ({ setFormData, nextStep, prevStep }) => {
     return (
         <Layout
             title={"Informations d'activités"}
-            subtitle={"Saisissez votre CNE (Code National de l'Etudiant)"}
+            subtitle={"Veuillez saisir votre CNE (Code National de l'Etudiant)"}
             fields={<Fields setFormData={setFormData} nextStep={nextStep}/>}
             prevStep={prevStep}
         />

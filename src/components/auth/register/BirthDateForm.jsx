@@ -124,7 +124,7 @@ const BirthDateForm = ({ setFormData, nextStep, prevStep }) => {
   return ( 
     <Layout 
       title={"Informations générales"} 
-      subtitle={"Saisissez votre date de naissance et votre genre. Remarquez que vous devez être âgé entre 10 et 30 ans pour avoir accès à e-ESJ."} 
+      subtitle={"Veuillez saisir votre date de naissance et votre genre. Remarquez que vous devez être âgé entre 10 et 30 ans pour avoir accès à e-ESJ."} 
       fields={<Fields setFormData={setFormData} nextStep={nextStep} />}  
       prevStep={prevStep}
     />

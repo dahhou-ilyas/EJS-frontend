@@ -20,11 +20,13 @@ const MultiStepForm = () => {
     genre: "",
     email: '',
     tel: '',
+    cin: '',
     scolarise: "",
     niveauEtudes: "",
     situationActuelle: "",
     cne: "",
     codeMassar: "",
+    password: "",
   });
 
   const nextStep = () => setStep(step + 1);
