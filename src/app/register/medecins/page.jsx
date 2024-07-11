@@ -36,12 +36,12 @@ const RegisterMedecinsForm = () => {
           'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        appUser:{
+        infoUser:{
           nom:formData.nom,
           prenom:formData.prenom,
           mail:formData.email,
-          numTele:formData.tel.replace(/^0/, "+212"),
-          password:formData.password,
+          numTel:formData.tel.replace(/^0/, "+212"),
+          motDePasse:formData.password,
         },
         cin:formData.cin,
         inpe:formData.inpe,
