@@ -13,9 +13,9 @@ export default function resultat() {
 
     useEffect(() => {
       if (Score < 25) {
-          setInterpretation("Votre estime de soi est très faible. Un travail dans ce domaine semble souhaitable.");
+          setInterpretation("Vos résultats montrent quelques défis avec votre estime de soi. Il est important de se rappeler que ce test n'est qu'un instantané et ne définit pas votre valeur. Parler avec un professionnel peut vous aider à explorer des moyens pour renforcer votre confiance en vous.");
       } else if (Score >= 25 && Score < 31) {
-          setInterpretation("Votre estime de soi est faible. Un travail dans ce domaine serait bénéfique.");
+          setInterpretation("Vos résultats montrent quelques faibles défis avec votre estime de soi. Il est important de se rappeler que ce test n'est qu'un instantané et ne définit pas votre valeur. Parler avec un professionnel peut vous aider à explorer des moyens pour renforcer votre confiance en vous.");
       } else if (Score >= 31 && Score < 34) {
           setInterpretation("Votre estime de soi est dans la moyenne.");
       } else if (Score >= 34 && Score <= 39) {
