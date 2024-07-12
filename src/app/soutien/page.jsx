@@ -22,7 +22,7 @@ export default function soutien() {
                         <div className="col-sm-12">
                             <ul className="breadcrumb">
                                 <li className="breadcrumb-item">
-                                    <Link  className={"text-decoration-none"}href="/">Soutien Psychologique </Link>
+                                    <Link  className={"text-decoration-none  text-[#2E37A4]"}href="/soutien">Soutien Psychologique </Link>
                                 </li>
                                 <li className="breadcrumb-item">
                                     <i className="feather-chevron-right"></i>
@@ -32,25 +32,24 @@ export default function soutien() {
                         </div>
                     </div>
                 </div>
-                <div className="good-morning-blk">
-                    <div className="row">
-                        <div className="morning-user">
-                            <h2 className='mx-4'>
-                            Bienvenue dans votre espace <span> Bien être</span>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
+                <div className="soutien-container-title">
+              <div className="row">
+                            
+               <p className=' text-center'> Bienvenue dans votre espace Bien Etre   </p>
+                            
+               </div>
+            </div>
 
                 {/*container for technical sheet  */}
 
                 <div className="row">
                     <div className="col-md-8">
                         <div className="blog-view">
-                        <article className="blog blog-single-post">
-                            <h3 className="text-[#2e37a4] ">
+                          
+                        <article className="soutien-blog blog-single-post">
+                            <h5 className="relat-head ">
                             Soutien Psychologique et Bien être
-                            </h3>
+                            </h5>
                             <div className="blog-info clearfix">
                             
                             <Image

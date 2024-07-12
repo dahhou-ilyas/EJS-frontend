@@ -21,7 +21,7 @@ export default function Paix() {
                             <div className="col-sm-12">
                                 <ul className="breadcrumb">
                                     <li className="breadcrumb-item">
-                                        <Link className={"text-decoration-none"} href="/soutien">Soutien Psychologique </Link>
+                                        <Link className={"text-decoration-none text-[#2E37A4]"} href="/soutien">Soutien Psychologique </Link>
                                     </li>
                                     <li className="breadcrumb-item">
                                         <i className="feather-chevron-right">
@@ -32,22 +32,23 @@ export default function Paix() {
                             </div>
                         </div>
                     </div>
-                    <div className="good-morning-blk">
+
+                    <div className='grid place-items-center'>
+                    <div className="soutien-container-title">
                         <div className="row">
-                            <div className="morning-user">
-                                <h2 className='ml-3 text-center'>
-                                Evaluation de la Paix Intérieure     </h2>
-                            </div>
+                            
+                                <p className=' text-center'>
+                                Evaluation de la Paix Intérieure  </p>
+                            
                         </div>
                     </div>
     
     
                     <div className="row">
                         <div className="col">
-                            <div className="blog-view">
-                            <article className="blog blog-single-post">
-                                <h5 className=" text-[#2e37a4] text-center ">
-                                Plongez dans votre tranquillité intérieure pour comprendre et maîtriser votre niveau d'anxiété. </h5>
+                            <article className="soutien-blog blog-single-post">
+                                <p className=" text-justify ">
+                                Plongez dans votre tranquillité intérieure pour comprendre et maîtriser votre niveau d'anxiété. </p>
                                 <div className="blog-info clearfix">
                                 <div className='d-flex flex-column align-items-center'>
                                     <Image
@@ -56,19 +57,18 @@ export default function Paix() {
                                         className=" img-fluid my-5 "
                                         width= {350} height= {350}
                                         />
-                                        <Link className={"text-decoration-none"} href={"/soutien/paix/questions" }>Commencer le test</Link>
+                                        <Link className={"start-test"} href={"/soutien/paix/questions" }>Commencer le test</Link>
                                 </div>
                                 </div>
                              
     
                             </article>
-                        </div>
                         </div>                
                 </div>
                 </div>
             </div>
         </div>
-        
+        </div>
       )
     }
     

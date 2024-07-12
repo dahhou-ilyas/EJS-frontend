@@ -21,7 +21,7 @@ export default function Sommeil() {
                             <div className="col-sm-12">
                                 <ul className="breadcrumb">
                                     <li className="breadcrumb-item">
-                                        <Link className={"text-decoration-none"} href="/soutien">Soutien Psychologique </Link>
+                                        <Link className={"text-decoration-none text-[#2E37A4]"} href="/soutien">Soutien Psychologique </Link>
                                     </li>
                                     <li className="breadcrumb-item">
                                         <i className="feather-chevron-right">
@@ -32,23 +32,23 @@ export default function Sommeil() {
                             </div>
                         </div>
                     </div>
-                    <div className="good-morning-blk">
+
+                    <div className='grid place-items-center'>
+                    <div className="soutien-container-title">
                         <div className="row">
-                            <div className="morning-user">
-                                <h2 className='ml-3 text-center'>
-                                Evaluation de la qualité de sommeil
-                                </h2>
-                            </div>
+                            
+                                <p className=' text-center'>
+                                Evaluation de la qualité de sommeil   </p>
+                            
                         </div>
                     </div>
-    
     
                     <div className="row">
                         <div className="col">
                             <div className="blog-view">
-                            <article className="blog blog-single-post">
-                                <h6 className=" text-[#2e37a4] text-center ">
-                                Évaluez votre sommeil pour mieux comprendre ses impacts sur votre bien-être quotidien et trouver des solutions pour améliorer votre repos.   </h6>
+                            <article className="soutien-blog blog-single-post">
+                                <p className=" text-center ">
+                                Évaluez votre sommeil pour mieux comprendre ses impacts sur votre bien-être quotidien et trouver des solutions pour améliorer votre repos.   </p>
                                 <div className="blog-info clearfix">
                                 <div className='d-flex flex-column align-items-center'>
                                     <Image
@@ -57,7 +57,7 @@ export default function Sommeil() {
                                         className=" img-fluid my-5 "
                                         width= {350} height= {350}
                                         />
-                                        <Link className={"text-decoration-none"} href={"/soutien/sommeil/questions" }>Commencer le test</Link>
+                                        <Link className={"start-test"} href={"/soutien/sommeil/questions" }>Commencer le test</Link>
                                 </div>
                                 </div>
                              
@@ -68,6 +68,7 @@ export default function Sommeil() {
                 </div>
                 </div>
             </div>
+        </div>
         </div>
         
       )
