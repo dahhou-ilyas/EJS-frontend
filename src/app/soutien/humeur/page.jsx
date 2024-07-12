@@ -21,7 +21,7 @@ export default function Humeur() {
                             <div className="col-sm-12">
                                 <ul className="breadcrumb">
                                     <li className="breadcrumb-item">
-                                        <Link className={"text-decoration-none"} href="/soutien">Soutien Psychologique </Link>
+                                        <Link className={"text-decoration-none text-[#2E37A4]"} href="/soutien">Soutien Psychologique </Link>
                                     </li>
                                     <li className="breadcrumb-item">
                                         <i className="feather-chevron-right">
@@ -32,13 +32,14 @@ export default function Humeur() {
                             </div>
                         </div>
                     </div>
-                    <div className="good-morning-blk">
+
+                    <div className='grid place-items-center'>
+                    <div className="soutien-container-title">
                         <div className="row">
-                            <div className="morning-user">
-                                <h2 className='ml-3 text-center'>
-                                Evaluation de l&apos;Humeur et de la Vitalité
-                                </h2>
-                            </div>
+                            
+                                <p className=' text-center'>
+                                Evaluation de l'Humeur et de la Vitalité  </p>
+                            
                         </div>
                     </div>
     
@@ -46,10 +47,10 @@ export default function Humeur() {
                     <div className="row">
                         <div className="col">
                             <div className="blog-view">
-                            <article className="blog blog-single-post">
-                                <h5 className=" text-[#2e37a4] text-center ">
+                            <article className="soutien-blog blog-single-post">
+                                <p className="text-center	">
                                 Explorez votre humeur et découvrez des moyens de retrouver votre vitalité émotionnelle pour une vie plus équilibrée.
-                                </h5>
+                                </p>
                                 <div className="blog-info clearfix">
                                 <div className='d-flex flex-column align-items-center'>
                                     <Image
@@ -58,7 +59,7 @@ export default function Humeur() {
                                         className=" img-fluid my-5 "
                                         width= {350} height= {350}
                                         />
-                                        <Link className={"text-decoration-none"} href={"/soutien/humeur/questions" }>Commencer le test</Link>
+                                        <Link className={"start-test"} href={"/soutien/humeur/questions" }>Commencer le test</Link>
                                 </div>
                                 </div>
                              
@@ -70,7 +71,7 @@ export default function Humeur() {
                 </div>
             </div>
         </div>
-        
+        </div>
       )
     }
     

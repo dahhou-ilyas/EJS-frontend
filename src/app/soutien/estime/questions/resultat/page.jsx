@@ -44,33 +44,34 @@ export default function resultat() {
     <div className="page-wrapper">
       <div className="content">
         {/* Page Header */}
+
         <div className="page-header">
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <ul className="breadcrumb">
-                                <li className="breadcrumb-item">
-                                    <Link  className={"text-decoration-none"}href="/soutien">Soutien Psychologique </Link>
-                                </li>
-                                <li className="breadcrumb-item">
-                                    <i className="feather-chevron-right"></i>
-                                </li>
-                                <li className="breadcrumb-item active">Estime de soi</li>
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <ul className="breadcrumb">
+                                    <li className="breadcrumb-item">
+                                        <Link className={"text-decoration-none text-[#2E37A4]"} href="/soutien">Soutien Psychologique </Link>
+                                    </li>
+                                    <li className="breadcrumb-item">
+                                        <i className="feather-chevron-right">
+                                            </i>
+                                    </li>
+                                    <li className="breadcrumb-item active">Estime de soi</li>
                                 </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-        <div className="good-morning-blk">
-          <div className="row">
-            <div className="morning-user">
-              <h2 className='ml-3 text-center'>
-              Résultats du test d'estime de soi
-              </h2>
+        <div className='grid place-items-center '>
+          <div className="soutien-container-title">
+              <div className="row">
+                            
+               <p className='mx-3 text-center'> Résultat du test de l'Estime de soi   </p>
+                            
+               </div>
             </div>
-          </div>
-        </div>
 
         <div className="row">
-              <div className="col-md-4 ">
+              
                   <div>
                   <div className="blog blog-single-post">
                     <h4 className='blog-title'>Vos informations</h4>
@@ -80,16 +81,16 @@ export default function resultat() {
                         <p className="my-2"><strong>Score:</strong> {Score} </p>
                   </div>
                   </div>
-              </div>
-              <div className="col-md-8">
+              
+              
               <div className="blog-view">
                   <div className="blog blog-single-post">
                   <h4 className='blog-title'>Interprétation du résultat</h4>
                     <p className='text-justify' > {interpretation} </p>
                   </div>
               </div>
-              </div>
-          
+         
+          </div>
         </div>
       </div>
     </div>

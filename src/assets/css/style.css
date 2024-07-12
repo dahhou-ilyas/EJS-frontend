@@ -11215,3 +11215,79 @@ tr.ant-table-row.ant-table-row-level-0.ant-table-row-selected,
   top: 26%;
 
 }
+
+/*------ soutien ----------------*/
+
+.content{
+}
+
+.soutien-container-title{
+  background: #ffffff;
+  color: #2E37A4;
+  border-radius: 12px;
+  margin: 0 0 25px;
+  padding: 15px;
+  position: relative;
+  z-index: 9;
+  max-width: 750px;
+  min-height: 80px;
+  width: 100%;
+
+}
+.soutien-container-title:before{
+  content: "";
+  position: absolute;
+  width: 100%;
+  min-height: 80px;
+  z-index: -1;
+  max-width: 750px;
+  width: 100%;
+  min-height: 80px;
+}
+.soutien-blog {
+  position: relative;
+  margin: 0 0 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  min-height: 80px;
+  max-width: 750px;
+}
+.start-test{
+  font-family: "Segoe Script"; 
+  text-decoration: none;
+  color: #6C757D;
+  font-size: 20px;
+}
+.soutien-blog h4{
+  font-family: "Segoe Script";
+  text-align: center; 
+}
+
+@media (max-width: 767px) {
+  .content {
+      max-width: 100%; 
+  }
+  .soutien-container-title{
+    font-size: 23px;
+    font-family: "Segoe Script";  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .content {
+      max-width: 1000px;
+  }
+  .soutien-container-title{
+    font-size: 26px;
+    font-family: "Segoe Script";  }
+}
+
+@media (min-width: 1024px) {
+  .content {
+      max-width: 1200px; 
+  }
+  .soutien-container-title{
+    font-size: 35px;
+    font-family: "Segoe Script";  }
+}
+/*----------------------------------------------------------*/
