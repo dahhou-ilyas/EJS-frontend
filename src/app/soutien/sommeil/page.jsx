@@ -1,52 +1,23 @@
 import Header from '../../../components/Header'
 import Link from "next/link";
 import Image from "next/image";
+import Breadcrumb from '@/components/soutien/home/breadcrumb';
 
 export default function Sommeil() {
 
     return (
-  
-        <div className="main-wrapper">
-            {/* Header */}
-            <Header />
-          {/*    <Sidebar id='menu-item11' id1='menu-items11' activeClassName='blog-grid'/>
-           Sidebar */}
-            {/* Page Wrapper */}
-            
-            <div className="page-wrapper">
-                <div className="content">
-                    {/* Page Header */}
-                    <div className="page-header">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <ul className="breadcrumb">
-                                    <li className="breadcrumb-item">
-                                        <Link className={"text-decoration-none text-[#2E37A4]"} href="/soutien">Soutien Psychologique </Link>
-                                    </li>
-                                    <li className="breadcrumb-item">
-                                        <i className="feather-chevron-right">
-                                            </i>
-                                    </li>
-                                    <li className="breadcrumb-item active">Sommeil</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className='grid place-items-center'>
-                    <div className="soutien-container-title">
-                        <div className="row">
-                            
-                                <p className=' text-center'>
-                                Evaluation de la qualité de sommeil   </p>
-                            
-                        </div>
-                    </div>
-    
-                    <div className="row">
-                        <div className="col">
-                            <div className="blog-view">
-                            <article className="soutien-blog blog-single-post">
+        <div className="main-wrapper">
+        <Header />
+        <div className="page-wrapper">
+           <div className="content">
+           <Breadcrumb title={"Sommeil"} /> 
+           <div class="container">
+               <div class="top soutien-container-title">
+                   <p className=' text-center'>Evaluation de la qualité de sommeil   </p>
+               </div>
+               <div class="middle">
+               <article className="soutien-blog blog-single-post">
                                 <p className=" text-center ">
                                 Évaluez votre sommeil pour mieux comprendre ses impacts sur votre bien-être quotidien et trouver des solutions pour améliorer votre repos.   </p>
                                 <div className="blog-info clearfix">
@@ -62,14 +33,13 @@ export default function Sommeil() {
                                 </div>
                              
     
-                            </article>
-                        </div>
-                        </div>                
-                </div>
-                </div>
-            </div>
-        </div>
-        </div>
+                </article>
+               </div>
+       </div>
+   </div>
+   </div>
+   </div>
+  
         
       )
     }
