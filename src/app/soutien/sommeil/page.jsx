@@ -20,7 +20,7 @@ export default function Sommeil() {
                <article className="soutien-blog blog-single-post">
                                 <p className=" text-center ">
                                 Évaluez votre sommeil pour mieux comprendre ses impacts sur votre bien-être quotidien et trouver des solutions pour améliorer votre repos.   </p>
-                                <div className="blog-info clearfix">
+                                <div className=" clearfix">
                                 <div className='d-flex flex-column align-items-center'>
                                     <Image
                                         alt="#"

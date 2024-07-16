@@ -66,20 +66,20 @@ const Header = () => {
         <div className="header-left">
           <Link href="/" className="logo">
             <Image src={logo} width={35} height={35} alt="" />{" "}
-            <span>Pre Clinic</span>
+            <span>e-ESJ</span>
           </Link>
         </div>
-        <Link href="/" id="toggle_btn" onClick={handlesidebar}>
+     <Link href="/" id="toggle_btn" onClick={handlesidebar}>
           <Image src={baricon} alt="" />
         </Link>
         <Link
           href="/"
           id="mobile_btn"
           className="mobile_btn float-start"
-          onClick={handlesidebarmobilemenu}
-        >
+          onClick={handlesidebarmobilemenu}>
+     
           <Image src={baricon1} alt="" />
-        </Link>
+        </Link> 
         <div className="top-nav-search mob-view">
           <form>
             <input
@@ -264,7 +264,7 @@ const Header = () => {
               </Link>
             </div>
           </li>
-          <li className="nav-item ">
+    <li className="nav-item ">
             <Link href="/" className="hasnotifications nav-link">
               <Image src={settingicon01} alt="" />{" "}
             </Link>
