@@ -4,6 +4,7 @@ import {  useSearchParams } from "next/navigation";
 import Header from "../../../../../components/Header"
 import Breadcrumb from '@/components/soutien/home/breadcrumb';
 
+
 export default function Humeur_Result() {
     const searchParams = useSearchParams();
     const Score = searchParams.get('finalScore');
