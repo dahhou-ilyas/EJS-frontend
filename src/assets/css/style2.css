@@ -1,0 +1,59 @@
+body{
+	font-family: 'poppins';
+}
+a:hover,
+a:active,
+a:focus {
+  text-decoration: none;
+  color: #009ce7;
+  outline: none;
+}
+a{
+	text-decoration: none;
+}
+.customized-subtittle h5{
+  font-size:16px;
+  font-weight:400;
+}
+.customized-blog{
+  padding:2rem;
+}
+
+.blog-grp-blk{
+  padding: 0 1rem;
+  justify-content: space-between;
+}
+.card{
+  border: var(--bs-card-border-width) solid #fff;
+}
+.col-xl-3 {
+  flex: 0 0 auto;
+  width: 30%;
+}
+.hideInput,.type-ant-selected,.type-fam{
+  display:none;
+}
+
+.form-heading h4{
+  margin-bottom: 1rem;
+}
+
+.activity-boxs{
+  
+  background: rgba(200, 200, 200, 1);
+} 
+.activity-boxs:hover{
+  
+  background: rgb(120, 82, 82);
+}
+
+.custom-modal .modal-body {
+  padding: 40px 30px;
+}
+
+.delete-modal .modal-body .btn{
+  width:30%;
+}
+.delete-modal .modal-body .imprimer{
+  color:#fff;
+}

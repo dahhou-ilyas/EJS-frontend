@@ -1,4 +1,46 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-  
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';  
+
+
+.sidebar-menu ul li a span.menu-side {
+  font-size: 18px;
+  min-height: 24px;
+  line-height: 18px;
+  transition: all 0.2s ease-in-out 0s;
+  background: rgba(46, 55, 164, 0.05);
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  margin-left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+}
+
+.sidebar-menu .menu-arrow {
+  -webkit-transition: -webkit-transform 0.15s;
+  -o-transition: -o-transform 0.15s;
+  transition: transform 0.15s;
+  position: absolute;
+  right: 25px;
+  display: inline-block;
+  font-family: "FontAwesome";
+  text-rendering: auto;
+  line-height: 40px;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+  line-height: 18px;
+  top: 23px;
+}
