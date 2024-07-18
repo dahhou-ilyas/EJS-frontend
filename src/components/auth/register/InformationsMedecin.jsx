@@ -1,52 +1,60 @@
-import * as React from "react";
 import Layout from "@/components/auth/Layout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 const schema = z.object({
   medecinESJ: z.string().nonempty("Veuillez indiquer si vous êtes médecin au sein d'un centre ESJ"),
-  medecinGeneraliste: z.string().nonempty("Veuillez sélectionner si vous êtes un médecin géneraliste"),
-  specialite: z.string().optional(), 
+  medecinGeneraliste: z.string().nonempty("Veuillez indiquer si vous êtes un médecin généraliste"),
+  specialite: z.string().optional(),
+  autre: z.string().optional(),
 });
 
-const Fields = ({ setFormData, nextStep }) => {
+const Fields = ({ setFormData, nextStep, formData }) => {
   const form = useForm({
     defaultValues: {
       medecinESJ: "",
       medecinGeneraliste: "",
-      specialite: "", 
+      specialite: "",
+      autre: "",
     },
     resolver: zodResolver(schema),
   });
 
-  const { handleSubmit, control, formState: { errors },  watch } = form;
+  const { handleSubmit, control, formState: { errors }, watch } = form;
   const generalisteValue = watch("medecinGeneraliste");
 
   const onSubmit = (data) => {
-    // Ensure situationActuelle is validated if scolarise is 'oui'
-    if (data.medecinGeneraliste === "non" && !data.specialite) {
-      form.setError("specialite", {
-        type: "manual",
-        message: "Veuillez sélectionner votre specialité",
-      });
-      return;
+    if (data.medecinGeneraliste === "non") {
+      if (!data.specialite && !data.autre) {
+        form.setError("specialite", {
+          type: "manual",
+          message: "Veuillez sélectionner votre spécialité ou indiquer autre",
+        });
+        return;
+      } else if (!data.specialite && data.autre) {
+        data.specialite = data.autre; // Assign data.autre to data.specialite if specialite is not selected
+      }
     }
-    
-
+  
+    // Update form data and move to next step
     setFormData((prevFormData) => ({
       ...prevFormData,
       medecinESJ: data.medecinESJ,
       medecinGeneraliste: data.medecinGeneraliste,
-      specialite: data.specialite || "",
+      specialite: data.specialite || "", // Ensure specialite is set, fallback to empty string
     }));
-    nextStep();
+    console.log(data.specialite)
     
+    console.log(formData); // Verify formData update
+    nextStep(); // Move to the next step
+    console.log(data.specialite)
   };
+  
 
   return (
     <div className="sm:mt-8">
@@ -114,50 +122,88 @@ const Fields = ({ setFormData, nextStep }) => {
               )}
             />
 
-
-        {generalisteValue == "non" && <FormField
+            {generalisteValue === "non" && (
+              <>
+                <FormField
                   control={control}
                   name="specialite"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Spécialité</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Sélectionnez votre spécialité" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Psychiatre">Psychiatre</SelectItem>
-                          <SelectItem value="Gynécologue">Gynécologue</SelectItem>
-                          <SelectItem value="Dermatologue">Dermatologue</SelectItem>
-                          <SelectItem value="Ophtalmologue">Ophtalmologue</SelectItem>
-                          <SelectItem value="Médecin spécialiste en sevrage tabagique ">Médecin spécialiste en sevrage tabagique</SelectItem>
-                          <SelectItem value="Dentiste">Dentiste</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-1"
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="Pédiatre" />
+                            </FormControl>
+                            <FormLabel className="font-normal">Pédiatre</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="Psychiatre" />
+                            </FormControl>
+                            <FormLabel className="font-normal">Psychiatre</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="Gynécologue" />
+                            </FormControl>
+                            <FormLabel className="font-normal">Gynécologue</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="Dermatologue" />
+                            </FormControl>
+                            <FormLabel className="font-normal">Dermatologue</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="Ophtalmologue" />
+                            </FormControl>
+                            <FormLabel className="font-normal">Ophtalmologue</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
                       <FormMessage>{errors.specialite?.message}</FormMessage>
                     </FormItem>
                   )}
                 />
-}
+                <FormField
+                  control={control}
+                  name="autre"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Autre :</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Veuillez indiquez votre spécialité" {...field} />
+                      </FormControl>
+                      <FormMessage>{errors.autre?.message}</FormMessage>
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
 
-                
-            <button type="submit" className="bg-[#018A90] rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
+            <button type="submit" className="bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
               Suivant
             </button>
           </div>
         </form>
       </Form>
     </div>
-  ); 
+  );
 };
 
-const InformationsMedecin = ({ setFormData, prevStep, nextStep }) => {
+const InformationsMedecin = ({ setFormData, prevStep, nextStep, formData }) => {
   return (
     <Layout
       title={"Informations d'activités"}
-      fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
+      fields={<Fields setFormData={setFormData} nextStep={nextStep} formData={formData}/>}
       prevStep={prevStep}
-      bgColor={"green"}
     />
   );
 };

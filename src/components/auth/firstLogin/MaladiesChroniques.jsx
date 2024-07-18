@@ -31,29 +31,18 @@ const maladieJeune = [
       label: "Diabète",
     },
     {
-      id: "aji",
-      label: "Arthrite juvénile idiopathique (AJI)",
-    },
-    {
       id: "epilepsie",
       label: "Épilepsie",
-    },
-    {
-      id: "coliaque",
-      label: "Maladie cœliaque",
-    },
-    {
-      id: "fibrose",
-      label: "Fibrose kystique",
     },
     {
       id: "tsa",
       label: "Troubles du spectre de l'autisme (TSA)",
     },
     {
-      id: "depression",
-      label: "Dépression",
+      id: "troubleSommeil",
+      label: "Trouble de Sommeil",
     },
+
   ]
    
   const FormSchema = z.object({
@@ -140,13 +129,12 @@ const Fields = ({ setFormData, nextStep, formData }) => {
   );
 };
 
-const MaladiesChroniques = ({ setFormData, nextStep, prevStep, formData}) => {
+const MaladiesChroniques = ({ setFormData, nextStep, formData}) => {
   return ( 
     <Layout 
-      title={"Antécédents Personnels"} 
+      title={"Antécédents Personnels Médicaux"} 
       subtitle={"Veuillez saisir les informations suivantes"} 
       fields={<Fields setFormData={setFormData} nextStep={nextStep} formData={formData}/>}  
-      prevStep={prevStep}
     />
   );
 }

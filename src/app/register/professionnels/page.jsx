@@ -4,6 +4,7 @@ import InformationsActivites from '@/components/auth/register/InformationsActivi
 import NameForm from '@/components/auth/register/NameForm';
 import EmailForm from '@/components/auth/register/EmailForm';
 import PasswordForm from '@/components/auth/register/PasswordForm';
+import Confirmation from '@/components/auth/register/Confirmation';
 
 
 
@@ -25,6 +26,28 @@ const RegisterProfessionnelsForm = () => {
   
   const handleSubmit = (values) => {
     console.log('Form Data:', values);
+    // fetch('http://localhost:8080/register/professionnelsantes', {
+    //   method: 'POST',
+    //   headers: {
+    //       'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     user:{
+    //       nom:formData.nom,
+    //       prenom:formData.prenom,
+    //       mail:formData.email,
+    //       numTele:formData.tel.replace(/^0/, "+212"),
+    //       password:formData.password,
+    //     },
+    //     cin:formData.cin,
+    //     inpe:formData.inpe
+    //   })
+    // })
+    // .then(response => response.json())
+    // .then(data => nextStep())
+    // .catch(error => console.error('Error:', error));
+
+    nextStep()
   };
 
    
@@ -32,14 +55,16 @@ const RegisterProfessionnelsForm = () => {
  
     switch (step) {
       case 1:
-        return <NameForm nextStep={nextStep} setFormData={setFormData} formData={formData} bgColor={"green"} buttonColor={"green"}/>;
+        return <NameForm nextStep={nextStep} setFormData={setFormData} formData={formData} />;
       case 2:
         return <InformationsActivites nextStep={nextStep} prevStep={prevStep} setFormData={setFormData} formData={formData} />;
       case 3:
-        return <EmailForm nextStep={nextStep} prevStep={prevStep} setFormData={setFormData} formData={formData} bgColor={"green"} buttonColor={"green"} />;
+        return <EmailForm nextStep={nextStep} prevStep={prevStep} setFormData={setFormData} formData={formData}  />;
       
-      default:
-        return <PasswordForm nextStep={handleSubmit} prevStep={prevStep} setFormData={setFormData} formData={formData} bgColor={"green"} buttonColor={"green"} />;
+      case 4:
+        return <PasswordForm nextStep={handleSubmit} prevStep={prevStep} setFormData={setFormData} formData={formData} />;
+      case 5:
+        return <Confirmation />;
     }
   };
 

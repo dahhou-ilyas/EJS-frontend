@@ -4,26 +4,15 @@ import Image from "next/image";
 import { LanguageSelector } from '@/components/LanguageSelector';
 
 import Logo from "../../../public/logoJeune.png";
-import Logo2 from "../../../public/logoMedecin.png";
 import { BiArrowBack } from "react-icons/bi";
 
 
 
-const Layout = ({ title, subtitle, fields, prevStep, bgColor }) => {
+const Layout = ({ title, subtitle, fields, prevStep }) => {
 
-    const bgClasses = {
-        blue: 'bg-blue-100',
-        green: 'bg-[#DBEBE2]',
-      };
+    
 
       const logoConfig = {
-        green: {
-            src: Logo2,
-            height: 100,
-            width: 200,
-            ml: '-ml-6',
-            mt: '-mt-2',
-        },
         default: {
             src: Logo,
             height: 80,
@@ -33,12 +22,11 @@ const Layout = ({ title, subtitle, fields, prevStep, bgColor }) => {
         },
     };
 
-
-    const selectedLogo = logoConfig[bgColor] || logoConfig.default;
+    const selectedLogo = logoConfig.default;
 
   return (
 
-    <div className={`lg:h-screen lg:flex lg:items-center lg:justify-center ${bgClasses[bgColor] || 'bg-gray-400'}`}>
+    <div className="lg:h-screen lg:flex lg:items-center lg:justify-center bg-[#6d7886a3]">
         <div className="ml-4 mt-1 flex justify-between lg:hidden w-full">
             {prevStep && <div onClick={prevStep}><BiArrowBack 
                 color="black" 
@@ -72,6 +60,7 @@ const Layout = ({ title, subtitle, fields, prevStep, bgColor }) => {
                                 alt="Logo" 
                                 height={selectedLogo.height} 
                                 width={selectedLogo.width} 
+                                
                             />
                         </div>
                         <h2 className={`sm:text-3xl text-2xl font-medium ${selectedLogo.mt} text-gray-950`}>{title}</h2>
