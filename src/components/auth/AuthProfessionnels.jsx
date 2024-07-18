@@ -1,7 +1,8 @@
 "use client"
- 
-import React from 'react';
+
+import React, { useRef } from 'react'; 
 import Image from "next/image";
+import Link from "next/link"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -18,6 +19,8 @@ import {
     FormLabel,
     FormMessage,
   } from "@/components/ui/form"
+import Terms from './Terms';
+import CheckVerifiedEmail from './CheckVerifiedEmail';
 
 import Logo from "../../../public/logoMedecin.png";
 import Illustration from "../../../public/image3.png";
@@ -44,12 +47,38 @@ const AuthProfessionnels = () => {
     //   const { register, handleSubmit, formState } = form;
     //   const { errors } = formState;
     
-      const onSubmit = (data) => {
-        console.log(data);
-      };
+    const alertDialogTriggerRef = useRef(null);
+
+    const alertDialogTriggerRef2 = useRef(null);
+
+    const onSubmit = (data) => {
+
+        //verifier les identifiants....si tout est ok alors: 
+
+
+        if (alertDialogTriggerRef.current && false) {
+            // ajouter dans les conditions && jwt variable first login
+            alertDialogTriggerRef.current.click();
+        } else  {
+            if (alertDialogTriggerRef2.current ) { // ajouter dans les conditions && email non valide
+                alertDialogTriggerRef2.current.click();
+            }
+
+        else {
+            nextStep();
+        }
+    };
+    }
+    const nextStep = () => {
+        //router push main page professionnels
+    }
+    const envoyerEmail = () => {
+        //envoyerEmailderécuperation
+        //afficher Confirmation component (a faire plus tard)
+    }
   return (
 
-    <div className="lg:h-screen lg:flex lg:items-center lg:justify-center lg:bg-[#DBEBE2]">
+    <div className="lg:h-screen lg:flex lg:items-center lg:justify-center lg:bg-gray-400">
         <div className="mt-1 flex justify-between lg:hidden w-full">
             <div className="ml-auto mr-2">
                 <LanguageSelector />
@@ -99,7 +128,7 @@ const AuthProfessionnels = () => {
                                 <FormItem>
                                 <FormLabel className=" sm:inline">Mot de Passe</FormLabel>
                                 <FormDescription className="hidden sm:inline text-blue-600 cursor-pointer sm:ml-40 border-b-2 border-blue-600">
-                                    Mot de passe oublié?
+                                    <Link href="/forgotPassword">Mot de passe oublié?</Link>
                                 </FormDescription>
                                 
                                 <FormControl>
@@ -108,18 +137,22 @@ const AuthProfessionnels = () => {
                                 
                                 <FormMessage className="w-80 sm:w-96 max-w-sm" />
                                 <FormDescription className="sm:hidden border-b-[1px] inline-block border-blue-600 text-blue-600 cursor-pointer">
-                                    Mot de passe oublié?
+                                    <Link href="/forgotPassword">Mot de passe oublié?</Link>
                                 </FormDescription>
                                 </FormItem>
                             )}
                             />
 
-                            <button type="submit" className=' bg-[#018A90] rounded-2xl mt-4 py-1 w-full max-w-sm text-white font-medium'> Se Connecter</button> 
+                            <button type="submit" className=' bg-blue-900 rounded-2xl mt-4 py-1 w-full max-w-sm text-white font-medium'> Se Connecter</button> 
+
+
+                            <Terms nextStep={nextStep}  alertDialogTriggerRef={alertDialogTriggerRef}/>
+                            <CheckVerifiedEmail envoyerEmail={envoyerEmail}  alertDialogTriggerRef={alertDialogTriggerRef2}/>
                         </form>
                         </Form>
                      
                     </div>
-                    <h4 className="text-xs text-center text-gray-700 mt-4">Vous n'avez pas de compte ? <span className=' font-semibold border-b-2 border-gray-700 cursor-pointer'> Inscrivez-vous </span></h4> 
+                    <Link href="/register/professionnels" ><h4 className="text-xs text-center text-gray-700 mt-4">Vous n'avez pas de compte ?  <span className=' font-semibold border-b-2 border-gray-700 cursor-pointer'> Inscrivez-vous </span></h4>  </Link>
                 </div>    
                 <div className="hidden lg:block ml-3 mt-auto">
                     <LanguageSelector />

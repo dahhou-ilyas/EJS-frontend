@@ -17,7 +17,7 @@ import {
 
   const schema = z.object({
     cin: z.string().min(1, "Veuillez saisir votre numéro de CIN").regex(/^[A-Za-z]{1,2}\d+$/, "Ce numéro de CIN est invalide"),
-    inpe: z.string().min(1, "Veuillez saisir votre INPE"),
+    inpe: z.string().optional(),
     ppr: z.string().optional(),
   });
 
@@ -36,6 +36,20 @@ import {
     const { errors } = formState;
   
     const onSubmit = (data) => {
+      if (data.inpe && !/^\d+$/.test(data.inpe)) {
+        form.setError("inpe", {
+          type: "manual",
+          message: "Le code INPE doit contenir uniquement des chiffres",
+        });
+        return;
+      }
+      if (data.ppr && !/^\d+$/.test(data.ppr)) {
+        form.setError("ppr", {
+          type: "manual",
+          message: "Ce champ doit contenir uniquement des chiffres",
+        });
+        return;
+      }
         if (medecin && !data.ppr) {
             form.setError("ppr", {
               type: "manual",
@@ -43,10 +57,17 @@ import {
             });
             return;
           }
+        if (medecin && !data.inpe) {
+            form.setError("inpe", {
+              type: "manual",
+              message: "Veuillez saisir votre INPE",
+            });
+            return;
+          }
           setFormData((prevFormData) => ({
             ...prevFormData,
             cin: data.cin,
-            inpe: data.inpe,
+            inpe: data.inpe || "",
             ...(medecin && { ppr: data.ppr }),
         }));
       
@@ -63,7 +84,7 @@ import {
             name="cin"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Numéro de CIN**</FormLabel>
+                <FormLabel>Numéro de CIN*</FormLabel>
                 <FormControl>
                   <Input
                     className="md:w-96 max-w-sm"
@@ -81,7 +102,7 @@ import {
             name="inpe"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>INPE*</FormLabel>
+                <FormLabel>INPE{medecin && "*"}</FormLabel>
                 <FormControl>
                   <Input
                     className="md:w-96 max-w-sm"
@@ -110,7 +131,7 @@ import {
               </FormItem>
             )}
           />}
-        <button type="submit" className='bg-[#018A90] rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'> Suivant </button></div>
+        <button type="submit" className="rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto bg-blue-900"> Suivant </button></div>
         </form>
       </Form>
     );
@@ -120,14 +141,11 @@ const InformationsActivites = ({ setFormData, nextStep, prevStep, medecin }) => 
     return ( 
     <Layout 
       title={"Informations d'activités"} 
-      subtitle={"Veuillez saisir votre numéro de CIN, INPE et PPR"} 
+      subtitle={"Veuillez saisir les informations suivantes"} 
       fields={<Fields setFormData={setFormData}  nextStep={nextStep} medecin={medecin}/>}
       prevStep= {prevStep}
-      bgColor={"green"}
       />
      );
 }
  
 export default InformationsActivites;
-
-
