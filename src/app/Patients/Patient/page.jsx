@@ -123,7 +123,7 @@ const patient = (props) => {
                       </div>
                       <div className="views-personal">
                         <h4>Compte Rendu</h4>
-                        <h5>Generer le Compte Rendu</h5>
+                        <h5>Generer son Compte Rendu</h5>
                       </div>
                     </Link>
                   </div>
