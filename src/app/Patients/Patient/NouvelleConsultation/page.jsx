@@ -256,7 +256,6 @@ const NouvelleConsultation = (props) => {
   ];
 
   const antFamilial = [
-    { value: "Aucune", label: "Aucune" },
     { value: "Diabète", label: "Diabète" },
     {
       value: "Hypertension artérielle (tension)",
@@ -728,7 +727,7 @@ const NouvelleConsultation = (props) => {
                             <label className="form-check-label">
                               <input
                                 type="radio"
-                                name="gender"
+                                name="radiologie"
                                 className="form-check-input"
                                 onChange={() => {
                                   DisplayExamen(true);
@@ -741,7 +740,7 @@ const NouvelleConsultation = (props) => {
                             <label className="form-check-label">
                               <input
                                 type="radio"
-                                name="gender"
+                                name="radiologie"
                                 className="form-check-input"
                                 onChange={() => {
                                   DisplayExamen(false);
@@ -889,7 +888,7 @@ const NouvelleConsultation = (props) => {
                             <label className="form-check-label">
                               <input
                                 type="radio"
-                                name="gender"
+                                name="diagnostic"
                                 className="form-check-input"
                               />
                               Oui
@@ -899,7 +898,7 @@ const NouvelleConsultation = (props) => {
                             <label className="form-check-label">
                               <input
                                 type="radio"
-                                name="gender"
+                                name="diagnostic"
                                 className="form-check-input"
                               />
                               Non
@@ -909,7 +908,7 @@ const NouvelleConsultation = (props) => {
                             <label className="form-check-label">
                               <input
                                 type="radio"
-                                name="gender"
+                                name="diagnostic"
                                 className="form-check-input"
                               />
                               Correspondance
@@ -919,7 +918,7 @@ const NouvelleConsultation = (props) => {
                             <label className="form-check-label">
                               <input
                                 type="radio"
-                                name="gender"
+                                name="diagnostic"
                                 className="form-check-input"
                               />
                               Télé Expertise

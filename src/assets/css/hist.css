@@ -462,3 +462,27 @@
   .cd-horizontal-timeline .events-content p {
 	line-height: 30px;
   }
+
+	.timeline a{
+		color:#333448;
+	}
+
+	.activity-boxs{
+		background-color: #2e37aa;
+    transition: background-color 0.5s ease-in-out,box-shadow 0.5s ease-in-out;
+	}
+	.activity-boxs:hover{
+		box-shadow:  0 0 10px rgba(0, 0, 0, 0.5);
+		background-color: #fff;
+		
+	}
+	.timeline > li > .timeline-panel{
+		border: none;
+		box-shadow:  0 0 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.7s ease-in-out,color 0.7s ease-in-out,box-shadow 0.7s ease-in-out;
+	}
+	.timeline > li > .timeline-panel:hover{
+		box-shadow:  0 0 30px rgba(0, 0, 0, 0.5);
+		background-color: #2e37aa;
+		color:#fff;
+	}
