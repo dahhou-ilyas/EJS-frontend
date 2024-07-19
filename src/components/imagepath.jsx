@@ -18,6 +18,10 @@ export { default as noteicon1 } from "../assets/img/icons/note-icon-01.svg";
 export { default as user06 } from "../assets/img/user-06.jpg";
 export { default as settingicon01 } from "../assets/img/icons/setting-icon-01.svg";
 
+export { default as dots } from "../assets/img/patients/dots.svg";
+export { default as edit } from "../assets/img/patients/edit.svg";
+export { default as deleteIcon } from "../assets/img/patients/delete.svg";
+
 export { default as menuicon08 } from "../assets/img/icons/menu-icon-08.svg";
 export { default as menuicon04 } from "../assets/img/icons/menu-icon-04.svg";
 export { default as menuicon06 } from "../assets/img/icons/menu-icon-06.svg";

@@ -57,3 +57,17 @@ a{
 .delete-modal .modal-body .imprimer{
   color:#fff;
 }
+
+.dropdown-menu{
+
+}
+
+.dropdown-item{
+  display: flex;
+  align-items: center;
+  font-family : 'Poppins';
+  font-weight: 500;
+  gap:10%;
+  padding : 4px 12px;
+  width: 100%;
+}

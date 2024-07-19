@@ -11,7 +11,7 @@ import Image from "next/image";
 import { printer } from "@/components/imagepath";
 
 const NouvelleConsultation = (props) => {
-  const pages = ["Patients", "Patient", "Nouvelle Consultation"];
+  const pages = ["Patients", "Patient", "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
   // -------STATES-------
@@ -952,10 +952,13 @@ const NouvelleConsultation = (props) => {
                             Ordonnance Medicale{isOrdonannce}
                             <span className="login-danger">*</span>
                           </label>
-                          <input
+                          <textarea
                             className="form-control"
-                            type="text"
-                            placeholder="Saisir.."
+                            rows={4}
+                            cols={30}
+                            placeholder={
+                              "Veuillez entrer l'ordonnance de consultation .."
+                            }
                           />
                         </div>
                       </div>

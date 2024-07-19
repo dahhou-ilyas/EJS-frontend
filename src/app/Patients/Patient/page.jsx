@@ -99,7 +99,7 @@ const patient = (props) => {
                     {/* <div className="heading-detail">
                       <h4>Speciality</h4>
                     </div> */}
-                    <Link href='Patient/NouvelleConsultation' className="personal-activity">
+                    <Link href='Patient/Consultation' className="personal-activity">
                       <div className="personal-icons status-grey">
                         <Image src={medalicon} alt="" />
                       </div>
@@ -117,7 +117,7 @@ const patient = (props) => {
                         <h5>L&#39;historique de Consultation</h5>
                       </div>
                     </Link>
-                    <Link href='NouvelleConsultation' className="personal-activity mb-0">
+                    <Link href='Patient/Consultation' className="personal-activity mb-0">
                       <div className="personal-icons status-orange">
                         <Image src={medalicon03} alt="" />
                       </div>
