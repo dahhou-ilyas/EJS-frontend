@@ -9,30 +9,42 @@ export default function resultat() {
     const Score = searchParams.get('finalScore');
     const [currentDate, setCurrentDate] = useState('');
     const [interpretation, setInterpretation] = useState("");
-    
 
     useEffect(() => {
       if (Score < 25) {
-          setInterpretation("Vos résultats montrent quelques défis avec votre estime de soi. Il est important de se rappeler que ce test n'est qu'un instantané et ne définit pas votre valeur. Parler avec un professionnel peut vous aider à explorer des moyens pour renforcer votre confiance en vous.");
+        setInterpretation("Vos résultats montrent quelques défis avec votre estime de soi. Il est important de se rappeler que ce test n'est qu'un instantané et ne définit pas votre valeur. Parler avec un professionnel peut vous aider à explorer des moyens pour renforcer votre confiance en vous.");
       } else if (Score >= 25 && Score < 31) {
-          setInterpretation("Vos résultats montrent quelques faibles défis avec votre estime de soi. Il est important de se rappeler que ce test n'est qu'un instantané et ne définit pas votre valeur. Parler avec un professionnel peut vous aider à explorer des moyens pour renforcer votre confiance en vous.");
+          setInterpretation("Votre estime de soi est faible. Un travail dans ce domaine serait bénéfique.");
       } else if (Score >= 31 && Score < 34) {
-          setInterpretation("Votre estime de soi est dans la moyenne.");
+          setInterpretation("Félicite-toi pour tous tes petits succès, vous devrez développer davantage votre bonne estime de soi. Nous vous conseillons de prendre contact avec l’établissement de soins publique le plus proche pour des séances d’écoute et de soutien.");
       } else if (Score >= 34 && Score <= 39) {
-          setInterpretation("Votre estime de soi est forte.");
+        setInterpretation("Bravo ! Votre estime de soi est forte.");
       } else if (Score > 39) {
-          setInterpretation("Votre estime de soi est très forte et vous avez tendance à être fortement affirmé.");
+        setInterpretation("Bravo ! Votre estime de soi est très forte et vous avez tendance à être fortement affirmé.");
       }
   }, [Score]);
   
 
     useEffect(() => {
-    const date = new Date();
-    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    setCurrentDate(formattedDate);
+        const date = new Date();
+        const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+        setCurrentDate(formattedDate);
     }, []);
 
+    const generatePDF = () => {
+        const doc = new jsPDF();
+        const textLines = doc.splitTextToSize(interpretation, 180);
 
+        doc.text("Résultat du test de l'Estime de soi", 10, 10);
+        doc.text(`Identifiant: 01`, 10, 20);
+        doc.text(`Nom et Prénom: nom prenom`, 10, 30);
+        doc.text(`Date du test: ${currentDate}`, 10, 40);
+        doc.text(`Score: ${Score}`, 10, 50);
+        doc.text("Interprétation du résultat:", 10, 60);
+        doc.text(textLines, 10, 70);
+
+        doc.save("test_result.pdf");
+    };
 
   return (
     <div className="main-wrapper">

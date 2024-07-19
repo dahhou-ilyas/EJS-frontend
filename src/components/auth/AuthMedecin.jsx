@@ -1,7 +1,9 @@
 "use client"
- 
-import React from 'react';
+
+import React, { useRef, useState } from 'react'; 
 import Image from "next/image";
+import Link from "next/link"
+
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -21,6 +23,9 @@ import {
 
 import Logo from "../../../public/logoMedecin.png";
 import Illustration from "../../../public/image2.png";
+import Terms from './Terms';
+import CheckVerifiedEmail from './CheckVerifiedEmail';
+import { jwtDecode } from 'jwt-decode';
 
 
 const schema = z.object({
@@ -32,6 +37,8 @@ const schema = z.object({
 
 
 const AuthMedecin = () => {
+    const [token,setToken]=useState({});
+    const [accesToken,setAccesToken]=useState('');
 
     const form = useForm({
         defaultValues: {
@@ -44,12 +51,85 @@ const AuthMedecin = () => {
     //   const { register, handleSubmit, formState } = form;
     //   const { errors } = formState;
     
-      const onSubmit = (data) => {
-        console.log(data);
-      };
+    const alertDialogTriggerRef = useRef(null);
+    const alertDialogTriggerRef2 = useRef(null);
+
+    const onSubmit = (data) => {
+
+        // fetch('http://localhost:8080/auth/login/medecins', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         username:data.identifier,
+        //         password:data.password
+        //     })
+        //   })
+        //   .then(response => response.json())
+        //   .then(res => {
+        //     console.log(res);
+        //     const decodeJwt=jwtDecode(res["access-token"]);
+        //     setAccesToken(res["access-token"]);
+        //     setToken(decodeJwt.claims);
+        //     if(!decodeJwt.claims.confirmed){
+        //         alertDialogTriggerRef2.current.click();
+        //     }else if(decodeJwt.claims.isFirstAuth){
+        //         alertDialogTriggerRef.current.click();
+        //     }else{
+        //         nextStep();
+        //     }
+        //   })
+        //   .catch(error => console.error('Error:', error));
+
+    }
+
+    const confirmeRules=()=>{
+        // console.log("***************");
+        // console.log(accesToken);
+        // console.log("***************");
+        // fetch(`http://localhost:8080/medecins/${token.id}`, {
+        //     method: "PATCH",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       "Authorization": `Bearer ${accesToken}`
+        //     },
+        //     body: JSON.stringify({
+        //         isFirstAuth:false,
+        //     })
+        // }).then(response => response.json())
+        // .then(data => {
+        //   nextStep();
+        // })
+        // .catch(error => {
+        //   console.error('Erreur lors de la mise à jour du medecin:', error);
+        // });
+    }
+
+    const nextStep = () => {
+        console.log("eeeeeeeeeeeeeeeeeeeee");
+        //router push main page medecin
+    }
+    const envoyerEmail = () => {
+        // fetch('http://localhost:8080/register/resend-token?email='+token.mail, {
+        //     method: 'POST'
+        //   }).then(response => {
+        //     if (!response.ok) {
+        //       throw new Error('Network response was not ok');
+        //     }
+        //     return response.text();
+        //   })
+        //   .then(data => {
+        //     console.log('Success:', data);
+        //   })
+        //   .catch(error => {
+        //     console.error('Error:', error);
+        //   });
+    }
+    
   return (
 
-    <div className="lg:h-screen lg:flex lg:items-center lg:justify-center lg:bg-[#DBEBE2]">
+    <div className="lg:h-screen lg:flex lg:items-center lg:justify-center lg:bg-gray-400">
         <div className="mt-1 flex justify-between lg:hidden w-full">
             <div className="ml-auto mr-2">
                 <LanguageSelector />
@@ -99,7 +179,7 @@ const AuthMedecin = () => {
                                 <FormItem>
                                 <FormLabel className=" sm:inline">Mot de Passe</FormLabel>
                                 <FormDescription className="hidden sm:inline border-b-2 border-blue-600 text-blue-600  cursor-pointer sm:ml-40">
-                                    Mot de passe oublié?
+                                <Link href="/forgotPassword">Mot de passe oublié?</Link>
                                 </FormDescription>
                                 
                                 <FormControl>
@@ -108,18 +188,21 @@ const AuthMedecin = () => {
                                 
                                 <FormMessage className="w-80 sm:w-96 max-w-sm" />
                                 <FormDescription className="sm:hidden border-b-[1px] inline-block border-blue-600 text-blue-600 cursor-pointer">
-                                    Mot de passe oublié?
+                                <Link href="/forgotPassword">Mot de passe oublié?</Link>
                                 </FormDescription>
                                 </FormItem>
                             )}
                             />
 
-                            <button type="submit" className=' bg-[#018A90] rounded-2xl mt-4 py-1 w-full max-w-sm text-white font-medium'> Se Connecter </button> 
+                            <button type="submit" className=' bg-blue-900 rounded-2xl mt-4 py-1 w-full max-w-sm text-white font-medium'> Se Connecter </button> 
+
+                            <Terms nextStep={confirmeRules}  alertDialogTriggerRef={alertDialogTriggerRef}/>
+                            <CheckVerifiedEmail envoyerEmail={envoyerEmail}  alertDialogTriggerRef={alertDialogTriggerRef2}/>
                         </form>
                         </Form>
                      
                     </div>
-                    <h4 className="text-xs text-center text-gray-700 mt-4">Vous n'avez pas de compte ? <span className=' font-semibold border-b-2 border-gray-700 cursor-pointer'> Inscrivez-vous </span></h4> 
+                    <Link href="/register/medecins" ><h4 className="text-xs text-center text-gray-700 mt-4">Vous n'avez pas de compte ?  <span className=' font-semibold border-b-2 border-gray-700 cursor-pointer'> Inscrivez-vous </span></h4>  </Link>
                 </div>    
                 <div className="hidden lg:block ml-3 mt-auto">
                     <LanguageSelector />

@@ -25,7 +25,7 @@ const schema = z.object({
     
 });
 
-const Fields = ({ setFormData, nextStep, formData }) => {
+const Fields = ({ nextStep, buttonColor }) => {
   const form = useForm({
     defaultValues: {
       password: "",
@@ -50,14 +50,10 @@ const Fields = ({ setFormData, nextStep, formData }) => {
       return;
     }
 
-    
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      password: data.password,
-    }));console.log(data);
-    nextStep({formData,password:data.password});
+    console.log(data);
+    nextStep(data.password);
   };
-
+ 
   return (
     <div className="mt-4">
       <Form {...form}>
@@ -114,18 +110,17 @@ const Fields = ({ setFormData, nextStep, formData }) => {
   );
 };
 
-const PasswordForm = ({ setFormData, nextStep, prevStep, formData }) => {
+const PasswordReset = ({ nextStep }) => {
   return (
     <Layout
       title={"Mot de passe sécurisé"}
       subtitle={
-        "Créez un mot de passe sécurisé avec des lettres, des chiffres et des symboles."
+        "Créez votre nouveau mot de passe sécurisé avec des lettres, des chiffres et des symboles."
       }
-      fields={<Fields setFormData={setFormData} nextStep={nextStep} formData={formData}/>}
-      prevStep={prevStep}
-
+      fields={<Fields  nextStep={nextStep} />}
+      
     />
   );
 };
 
-export default PasswordForm;
+export default PasswordReset;

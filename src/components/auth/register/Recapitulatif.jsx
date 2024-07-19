@@ -52,7 +52,7 @@ const Recapitulatif = ({ formData, handleSubmit, prevStep }) => {
         <div className="w-full h-screen  lg:overflow-y-scroll lg:overflow-x-hidden lg:min-h-[450px] lg:max-h-[650px] lg:max-w-7xl lg:border lg:rounded-xl lg:min-w-[900px] xl:min-w-[1000px] bg-white lg:mx-48">
             <div className="w-full sm:mb-2 sm:mt-4 mx-4 flex flex-col justify-between">
                 <div>
-                <div onClick={prevStep} className='cursor-pointer -mt-2 mb-2'>
+                <div onClick={prevStep} className='cursor-pointer -mt-2 mb-2 hidden  lg:block'>
                     
                     <BiArrowBack 
                     color="black" 

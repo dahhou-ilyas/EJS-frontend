@@ -10,11 +10,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { Input } from "@/components/ui/input";
 
 const schema = z.object({
-  chirurgicaux: z.string().nonempty("Veuillez indiquer si vous êtes souffrez ou non de maladies chirurgicaux"),
-  typeOperation: z.string().optional(), 
-  anneeOperation: z.string()
-    .optional(),
-    // .regex(/^\d{4}$/, "L'année doit être un nombre à 4 chiffres."),
+  medicaments: z.string().nonempty("Veuillez indiquer si vous prenez des médicaments"),
+  typeMedicaments: z.string().optional(), 
+
 
 
 });
@@ -22,9 +20,9 @@ const schema = z.object({
 const Fields = ({ setFormData, nextStep }) => {
   const form = useForm({
     defaultValues: {
-      chirurgicaux: "",
-      typeOperation: "",
-      anneeOperation: "",
+      medicaments: "",
+      typeMedicaments: "",
+     
     },
     resolver: zodResolver(schema),
   });
@@ -34,14 +32,13 @@ const Fields = ({ setFormData, nextStep }) => {
   const onSubmit = (data) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      chirurgicaux: data.chirurgicaux,
-      typeOperation: data.typeOperation || "",
-      anneeOperation: data.anneeOperation || "",
+      medicaments: data.medicaments,
+      typeMedicaments: data.typeMedicaments || "",
     }));
     nextStep();
   };
     
-  const chirurgicauxValue = watch("chirurgicaux");
+  const medicamentsValue = watch("medicaments");
 
 
   return (
@@ -51,10 +48,10 @@ const Fields = ({ setFormData, nextStep }) => {
           <div className="w-full flex flex-col justify-between gap-4">
             <FormField
               control={control}
-              name="chirurgicaux"
+              name="medicaments"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Souffrez vous de maladies chirurgicaux?</FormLabel>
+                  <FormLabel>Utilisez vous des médicaments ?</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -75,52 +72,32 @@ const Fields = ({ setFormData, nextStep }) => {
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
-                  <FormMessage>{errors.chirurgicaux?.message}</FormMessage>
+                  <FormMessage>{errors.medicaments?.message}</FormMessage>
                 </FormItem>
               )}
             />
-            {chirurgicauxValue === "oui" && ( <>
+            {medicamentsValue === "oui" && (
               <FormField
               control={form.control}
-              name="typeOperation"
+              name="typeMedicaments"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Type d'opération</FormLabel>
+                  <FormLabel>Type de médicaments</FormLabel>
                   <FormControl>
                     <Input
                       className="md:w-96 max-w-sm"
-                      placeholder="Type d'opération"
+                      placeholder="Type de médicaments"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                  Veuillez indiquer le type d'opération que vous avez reçue
+                  Veuillez indiquer les médicaments que vous prenez
                 </FormDescription>
-                  <FormMessage>{errors.typeOperation?.message}</FormMessage>
+                  <FormMessage>{errors.typeMedicaments?.message}</FormMessage>
                 </FormItem>
               )}
             />
-              <FormField
-              control={form.control}
-              name="anneeOperation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Année de l'opération</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="md:w-96 max-w-sm"
-                      placeholder="Année d'opération"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                  Veuillez indiquer l'année d'opération que vous avez reçue
-                </FormDescription>
-                  <FormMessage>{errors.anneeOperation?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-    </>
+              
               )}
 
 
@@ -134,7 +111,7 @@ const Fields = ({ setFormData, nextStep }) => {
   ); 
 };
 
-const MaladiesChirurgicaux = ({ setFormData, prevStep, nextStep }) => {
+const Medicaments = ({ setFormData, prevStep, nextStep }) => {
   return (
     <Layout
       title={"Antécédents Personnels Médicaux"}
@@ -145,4 +122,4 @@ const MaladiesChirurgicaux = ({ setFormData, prevStep, nextStep }) => {
   );
 };
 
-export default MaladiesChirurgicaux;
+export default Medicaments;
