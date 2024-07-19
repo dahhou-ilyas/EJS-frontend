@@ -31,7 +31,9 @@ export default function Estime() {
                                     className=" img-fluid my-5 "
                                     width= {350} height= {350}
                                     />
-                                    <Link className={"start-test"} href={"/soutien/estime/questions" }>Commencer le test</Link>
+                                    <Link className={"start-test"} href={"/soutien/estime/questions" }>Commencer le test</Link> 
+                                    <a className={"start-test"} href="/tests-psycho/echelle-estime-de-soi-de-rosenberg.pdf" download> Télécharger le test</a>
+
                             </div>
                         </article>
                         </div>

@@ -11230,9 +11230,7 @@ tr.ant-table-row.ant-table-row-level-0.ant-table-row-selected,
     ". bottom ."; 
 }
 .top { grid-area: top; }
-.bottom { grid-area: bottom;
-
-}
+.bottom { grid-area: bottom; }
 
 .soutien-container-title{
   background: #ffffff;
@@ -11273,6 +11271,7 @@ tr.ant-table-row.ant-table-row-level-0.ant-table-row-selected,
   text-decoration: none;
   color: #6C757D;
   font-size: 20px;
+  margin: 5px;
 }
 
 

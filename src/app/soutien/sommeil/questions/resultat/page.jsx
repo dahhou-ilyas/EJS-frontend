@@ -4,7 +4,6 @@ import {  useSearchParams } from "next/navigation";
 import Header from "../../../../../components/Header"
 import Breadcrumb from '@/components/soutien/home/breadcrumb';
 
-
 export default function Humeur_Result() {
     const searchParams = useSearchParams();
     const Score = searchParams.get('finalScore');
@@ -16,7 +15,7 @@ export default function Humeur_Result() {
       if (Score <= 8) {
         setInterpretation("Votre évaluation indique que vous n'avez pas de signes significatifs de troubles du sommeil. Continuez à maintenir de bonnes habitudes de sommeil pour garantir votre bien-être. Si vous ressentez des symptômes perturbants, consultez un professionnel de la santé.");
       } else {
-        setInterpretation("Vos résultats indiquent des problèmes potentiels de sommeil. Un bon sommeil est crucial pour votre bien-être global. Il pourrait être utile de discuter avec un professionnel pour identifier les causes possibles et explorer des solutions pour améliorer votre qualité de sommeil.");
+        setInterpretation("Vos résultats indiquent des problèmes potentiels de sommeil. Il est recommandé de consulter un professionnel de la santé pour une évaluation plus approfondie et des conseils personnalisés. Entre-temps, explorez nos ressources pour des conseils sur l'amélioration de la qualité du sommeil.");
       }
     }, [Score]);
 

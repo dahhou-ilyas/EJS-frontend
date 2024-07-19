@@ -51,17 +51,17 @@ export default function page() {
                             <h5 className="relat-head ">
                             Soutien Psychologique et Bien être
                             </h5>
-                            <div className=" clearfix  ">
+                            <div className=" clearfix ">
                             
                             <Image
                                 alt="#"
                                 src='https://itsocial.fr/wp-content/uploads/2021/09/Capture-d%E2%80%99%C3%A9cran-2021-09-14-093859.jpg'
-                                className="img-fluid my-5  mx-auto d-block "
+                                className="img-fluid my-5  mx-auto d-block"
                                 width={500}
                                 height={500}
                                 />
                             <div className="post-right read-blks">
-                                <Link className={"text-decoration-none text-[15px]"} href="/">Lire plus </Link>
+                                <Link className={"text-decoration-none"} href="/">Lire plus </Link>
                             </div>
                             </div>
                             <div className="blog-content">
