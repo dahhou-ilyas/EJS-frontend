@@ -1,5 +1,5 @@
 import * as React from "react";
-import Layout from "@/components/auth/register/Layout";
+import Layout from "@/components/auth/Layout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 const schema = z.object({
   scolarise: z.string().nonempty("Veuillez indiquer si vous êtes scolarisé(e)"),
   niveauEtudes: z.string().nonempty("Veuillez sélectionner votre niveau d'études"),
-  situationActuelle: z.string().optional(), 
+  enActivite: z.string().optional(), 
 });
 
 const Fields = ({ setFormData, nextStep }) => {
@@ -19,18 +19,18 @@ const Fields = ({ setFormData, nextStep }) => {
     defaultValues: {
       scolarise: "",
       niveauEtudes: "",
-      situationActuelle: "", // Added for optional field
+      enActivite: "", 
     },
     resolver: zodResolver(schema),
   });
-
+  
   const { handleSubmit, control, formState: { errors }, watch } = form;
   const scolariseValue = watch("scolarise");
 
   const onSubmit = (data) => {
-    // Ensure situationActuelle is validated if scolarise is 'oui'
-    if (data.scolarise === "oui" && !data.situationActuelle) {
-      form.setError("situationActuelle", {
+    // Ensure enActivite is validated if scolarise is 'oui'
+    if (data.scolarise === "non" && !data.enActivite) {
+      form.setError("enActivite", {
         type: "manual",
         message: "Veuillez sélectionner votre situation actuelle",
       });
@@ -41,7 +41,7 @@ const Fields = ({ setFormData, nextStep }) => {
       ...prevFormData,
       scolarise: data.scolarise,
       niveauEtudes: data.niveauEtudes,
-      situationActuelle: data.situationActuelle || "",
+      enActivite: data.enActivite || "",
     }));
     nextStep();
     
@@ -83,18 +83,19 @@ const Fields = ({ setFormData, nextStep }) => {
               )}
             />
 
-            {scolariseValue === "non" && (
+            {scolariseValue === "non" && (<>
               <FormField
                 control={control}
                 name="niveauEtudes"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Niveau d'Études Actuel</FormLabel>
+                    <FormLabel>Dernier Niveau d'Études</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <SelectTrigger>
                         <SelectValue placeholder="Sélectionnez votre niveau d'études actuel" />
                       </SelectTrigger>
                       <SelectContent>
+                        <SelectItem value="Aucun">Aucun</SelectItem>
                         <SelectItem value="Primaire">Primaire</SelectItem>
                         <SelectItem value="Secondaire">Secondaire</SelectItem>
                         <SelectItem value="Supérieure">Supérieure</SelectItem>
@@ -104,10 +105,59 @@ const Fields = ({ setFormData, nextStep }) => {
                   </FormItem>
                 )}
               />
+              {/* <FormField
+                  control={control}
+                  name="enActivite"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Situation Actuelle</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Sélectionnez votre situation actuelle" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Chômage">Chômage</SelectItem>
+                          <SelectItem value="Activité">En Activité</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage>{errors.enActivite?.message}</FormMessage>
+                    </FormItem>
+                  )}
+                /> */}
+                <FormField
+              control={control}
+              name="enActivite"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>En activité ?</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="oui" />
+                        </FormControl>
+                        <FormLabel className="font-normal">OUI</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="non" />
+                        </FormControl>
+                        <FormLabel className="font-normal">NON</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage>{errors.enActivite?.message}</FormMessage>
+                </FormItem>
+              )}
+            />
+                </>
             )}
 
             {scolariseValue === "oui" && (
-              <>
                 <FormField
                   control={control}
                   name="niveauEtudes"
@@ -128,30 +178,9 @@ const Fields = ({ setFormData, nextStep }) => {
                     </FormItem>
                   )}
                 />
-
-                <FormField
-                  control={control}
-                  name="situationActuelle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Situation Actuelle</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Sélectionnez votre situation actuelle" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Chômage">Chômage</SelectItem>
-                          <SelectItem value="Activité">En Activité</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage>{errors.situationActuelle?.message}</FormMessage>
-                    </FormItem>
-                  )}
-                />
-              </>
             )}
 
-            <button type="submit" className="bg-blue-900 mx-auto rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
+            <button type="submit" className="bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
               Suivant
             </button>
           </div>
@@ -165,7 +194,7 @@ const ScolarisationForm = ({ setFormData, prevStep, nextStep }) => {
   return (
     <Layout
       title={"Informations générales"}
-      subtitle={"Sélectionnez si vous êtes scolarisé(e) et votre niveau d'études actuel."}
+      subtitle={"Veuillez sélectionnez si vous êtes scolarisé(e) et votre niveau d'études actuel."}
       fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
       prevStep={prevStep}
     />

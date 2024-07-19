@@ -1,4 +1,4 @@
-import Layout from "@/components/auth/register/Layout"
+import Layout from "@/components/auth/Layout"
 
 
 const Confirmation = ({prevStep}) => {

@@ -20,12 +20,53 @@ const MultiStepForm = () => {
     genre: "",
     email: '',
     tel: '',
+    cin: '',
     scolarise: "",
     niveauEtudes: "",
     situationActuelle: "",
     cne: "",
     codeMassar: "",
+    password: "",
   });
+
+  
+  
+  const handleSubmit = (values) => {
+    //   fetch('http://localhost:8080/jeunes', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //         nom:formData.nom,
+    //         prenom:formData.prenom,
+    //         mail:formData.email,
+    //         numTele:formData.tel.replace(/^0/, "+212"),
+    //         password:formData.password,
+    //         type_jeune:(formData.scolarise == "oui")? "SCOLARISE":"NON_SCOLARISE",
+    //         sexe:(formData.genre=="Homme") ? "MASCULIN":"FEMININ",
+    //         dateNaissance:formData.dateNaissance,
+    //         scolarise:(formData.scolarise == "oui") ? true : false ,
+    //         cin:formData.cin,
+    //         niveauEtudesActuel: (formData.scolarise == "oui") ? formData.niveauEtudes:"",
+    //         cne:"CNE"+formData.cne,
+    //         codeMASSAR:formData.codeMassar,
+    //         dernierNiveauEtudes:(formData.scolarise == "non") ? formData.niveauEtudes:"",
+    //         enActivite:formData.enActivite,  
+    //     })
+    // })
+    // .then(response => response.json())
+    // .then(data => console.log('Success:', data))
+    // .catch(error => console.error('Error:', error));
+    nextStep();
+  };
+
+  const calculateAge = (date) => {
+    const birthDate = new Date(date);
+    const ageDiff = Date.now() - birthDate.getTime();
+    const ageDate = new Date(ageDiff);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -37,18 +78,16 @@ const MultiStepForm = () => {
       setStep(step - 1);
     }
   };
-
-  const handleSubmit = (values) => {
-    console.log('Form Data:', values);
-    nextStep();
+  const prevStep3 = () => {
+    if (formData.niveauEtudes == "Aucun") {
+      setStep(5);
+    } else {
+      setStep(step - 1);
+    }
   };
 
-  const calculateAge = (date) => {
-    const birthDate = new Date(date);
-    const ageDiff = Date.now() - birthDate.getTime();
-    const ageDate = new Date(ageDiff);
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-  };
+
+
 
   const renderStep = () => {
 
@@ -61,7 +100,6 @@ const MultiStepForm = () => {
         return <EmailForm nextStep={nextStep} prevStep={prevStep} setFormData={setFormData} formData={formData} />;
       case 4:
         const age = formData.dateNaissance ? calculateAge(formData.dateNaissance) : null;
-        console.log(age)
         if (age !== null && age >= 16 && age <= 30) {
           return <CinForm nextStep={nextStep} prevStep={prevStep} setFormData={setFormData} formData={formData} />;
         }
@@ -81,7 +119,7 @@ const MultiStepForm = () => {
         break;
         }
       case 7:
-        return <PasswordForm nextStep={nextStep} prevStep={prevStep} setFormData={setFormData} formData={formData} />;
+        return <PasswordForm nextStep={nextStep} prevStep={prevStep3} setFormData={setFormData} formData={formData} />;
       case 8:
         return <Recapitulatif nextStep={nextStep} prevStep={prevStep} formData={formData} handleSubmit={handleSubmit} />;
       default:

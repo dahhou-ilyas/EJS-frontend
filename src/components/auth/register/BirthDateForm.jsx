@@ -1,26 +1,42 @@
-import * as React from "react"
-import Layout from "@/components/auth/register/Layout"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { addYears, isBefore, isAfter, format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import React from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import Layout from "@/components/auth/Layout";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { addYears, getYear, getMonth, isBefore, isAfter } from "date-fns";
+
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+
+
+
 
 const schema = z.object({
-  dateNaissance: z.date()
-  .refine(
-    (date) => isBefore(date, addYears(new Date(), -10)) && isAfter(date, addYears(new Date(), -30)),
-    "Vous devez avoir entre 10 et 30 ans" 
-  )
-  ,
+  dateNaissance: z.date().nullable().refine(
+    (date) => date !== null, 
+    {
+      message: "Veuillez sélectionner une date de naissance"
+    }
+  ).refine(
+    (date) => date && isBefore(date, addYears(new Date(), -10)) && isAfter(date, addYears(new Date(), -30)),
+    {
+      message: "Vous devez avoir entre 10 et 30 ans"
+    }
+  ),
   genre: z.string().nonempty("Veuillez sélectionner votre genre"),
 });
+
+
+const range = (start, end, step) => {
+  let years = [];
+  for (let i = start; i <= end; i += step) {
+    years.push(i);
+  }
+  return years;
+};
+
 
 const Fields = ({ setFormData, nextStep }) => {
   const form = useForm({
@@ -40,79 +56,152 @@ const Fields = ({ setFormData, nextStep }) => {
       dateNaissance: data.dateNaissance,
       genre: data.genre,
     }));
+    console.log(data.dateNaissance)
     nextStep();
   };
+
+  const years = range(getYear(new Date())-30, getYear(new Date()) + 1, 1);
+  const months = [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre",
+  ];
+  
 
   return (
     <div className="sm:mt-8">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="w-full flex flex-col justify-between gap-4">
-            
-            <FormField
-              control={control}
-              name="dateNaissance"
-              render={({ field }) => (
-                <FormItem className="flex flex-col ">
-                  <FormLabel>Date de Naissance</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "md:w-96 max-w-sm pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Date de Naissance</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage>{errors.dateNaissance?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
             <div className="md:w-96 max-w-sm">
-            <FormField
-              control={control}
-              name="genre"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Genre</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <FormField
+                control={control}
+                name="dateNaissance"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Date de Naissance</FormLabel>
                     <FormControl>
-                      <SelectTrigger >
-                        <SelectValue placeholder="Genre" />
-                      </SelectTrigger>
+                      <DatePicker
+                        showIcon
+                        icon={
+                          <svg
+                            className='mt-[2.5px]'
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="1em"
+                            height="1em"
+                            viewBox="0 0 48 48"
+                          >
+                            <mask id="ipSApplication0">
+                              <g fill="none" stroke="#fff" strokeLinejoin="round" strokeWidth="4">
+                                <path strokeLinecap="round" d="M40.04 22v20h-32V22"></path>
+                                <path
+                                  fill="#fff"
+                                  d="M5.842 13.777C4.312 17.737 7.263 22 11.51 22c3.314 0 6.019-2.686 6.019-6a6 6 0 0 0 6 6h1.018a6 6 0 0 0 6-6c0 3.314 2.706 6 6.02 6c4.248 0 7.201-4.265 5.67-8.228L39.234 6H8.845l-3.003 7.777Z"
+                                ></path>
+                              </g>
+                            </mask>
+                            <path
+                              fill="currentColor"
+                              d="M0 0h48v48H0z"
+                              mask="url(#ipSApplication0)"
+                            ></path>
+                          </svg>
+                        }
+                        renderCustomHeader={({
+                          date,
+                          changeYear,
+                          changeMonth,
+                          decreaseMonth,
+                          increaseMonth,
+                          prevMonthButtonDisabled,
+                          nextMonthButtonDisabled,
+                        }) => (
+                          <div
+                            style={{
+                              margin: 10,
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <button className="mr-4" onClick={decreaseMonth} disabled={prevMonthButtonDisabled}> 
+                              {"< "}
+                            </button>
+                            <select
+                              value={getYear(date)}
+                              onChange={({ target: { value } }) => changeYear(value)}
+                            >
+                              {years.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+
+                            <select
+                              value={months[getMonth(date)]}
+                              onChange={({ target: { value } }) =>
+                                changeMonth(months.indexOf(value))
+                              }
+                            >
+                              {months.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+
+                            <button className="ml-4" onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+                              {" >"}
+                            </button>
+                          </div>
+                        )}
+                        selected={field.value}
+                        onChange={field.onChange}
+                        dateFormat="dd/MM/yyyy"
+                        placeholderText="jj/mm/aaaa"
+                        className="w-full px-3 py-2 border rounded-md ml-1"
+                        maxDate={addYears(new Date(), -10)}
+                        minDate={addYears(new Date(), -30)}
+                      />
                     </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Femme">Femme</SelectItem>
-                      <SelectItem value="Homme">Homme</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage>{errors.genre?.message}</FormMessage>
-                </FormItem>
-              )}
-            /></div>
-            <button type="submit" className='bg-blue-900 mx-auto rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'> Suivant </button>
+                    <FormMessage>{errors.dateNaissance?.message}</FormMessage>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="md:w-96 max-w-sm">
+              <FormField
+                control={control}
+                name="genre"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sexe*</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Sexe" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Femme">Féminin</SelectItem>
+                        <SelectItem value="Homme">Masculin</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage>{errors.genre?.message}</FormMessage>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <button type="submit" className='bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'> Suivant </button>
           </div>
         </form>
       </Form>
@@ -121,14 +210,14 @@ const Fields = ({ setFormData, nextStep }) => {
 };
 
 const BirthDateForm = ({ setFormData, nextStep, prevStep }) => {
-  return ( 
-    <Layout 
-      title={"Informations générales"} 
-      subtitle={"Saisissez votre date de naissance et votre genre. Remarquez que vous devez être âgé entre 10 et 30 ans pour avoir accès à e-ESJ."} 
-      fields={<Fields setFormData={setFormData} nextStep={nextStep} />}  
+  return (
+    <Layout
+      title={"Informations générales"}
+      subtitle={"Veuillez saisir votre date de naissance et votre genre. Remarquez que vous devez être âgé entre 10 et 30 ans pour avoir accès à e-ESJ."}
+      fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
       prevStep={prevStep}
     />
   );
-}
+};
 
 export default BirthDateForm;

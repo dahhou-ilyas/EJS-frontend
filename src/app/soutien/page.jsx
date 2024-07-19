@@ -1,66 +1,67 @@
-import Header from '../../components/Header'
-import Link from 'next/link';
-import Image from 'next/image';
+import Header from "@/components/Header"
+import Breadcrumb from "@/components/soutien/home/breadcrumb"
+import Image from "next/image"
+import Link from "next/link"
+import PostItem from "@/components/soutien/home/PostItem"
 
+const postItems = [
+    {
+      href: "/soutien/estime",
+      imgSrc: "https://www.ciao.ch/media/topics/estime-de-soi.png.767x576_q85.png",
+      imgAlt: "Estime de soi",
+      title: "Estime de soi",
+      description: "Est-ce que Vous Avez Confiance en Vous-Même ?"
+    },
+    {
+      href: "/soutien/paix",
+      imgSrc: "https://resize.elle.fr/article/var/plain_site/storage/images/love-sexe/news/stress-inquietude-ou-anxiete-voici-comment-les-differencier-4043472/97177063-1-fre-FR/Stress-inquietude-ou-anxiete-Voici-comment-les-differencier-!.jpg",
+      imgAlt: "Paix",
+      title: "Paix",
+      description: "Êtes-vous en Paix avec Vous-Même ?"
+    },
+    {
+      href: "/soutien/humeur",
+      imgSrc: "https://static.vecteezy.com/system/resources/previews/011/411/660/non_2x/man-felling-depression-under-moral-stressful-sad-feel-guilty-need-attention-help-sitting-alone-vector.jpg",
+      imgAlt: "Humeur",
+      title: "Humeur",
+      description: "Est-ce que Votre Humeur et Vitalité sont Équilibrées ?"
+    },
+    {
+      href: "/soutien/sommeil",
+      imgSrc: "https://blog.reseau-morphee.fr/wp-content/uploads/sites/2/2021/12/mieux_dormir_pour_mieux_vivre-1130x580.jpg",
+      imgAlt: "Sommeil",
+      title: "Sommeil",
+      description: "Est-ce que Votre Qualité de Sommeil Est Satisfaisante ?"
+    }
+  ];
 
-
-export default function soutien() {
+export default function page() {
   return (
-  
     <div className="main-wrapper">
-        {/* Header */}
-        <Header />
-   {/*  <Sidebar id='menu-item11' id1='menu-items11' activeClassName='blog-grid'/>
-       Sidebar */}
-        {/* Page Wrapper */}
-        
-        <div className="page-wrapper">
+         <Header />
+         <div className="page-wrapper">
             <div className="content">
-                {/* Page Header */}
-                <div className="page-header">
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <ul className="breadcrumb">
-                                <li className="breadcrumb-item">
-                                    <Link  className={"text-decoration-none  text-[#2E37A4]"}href="/soutien">Soutien Psychologique </Link>
-                                </li>
-                                <li className="breadcrumb-item">
-                                    <i className="feather-chevron-right"></i>
-                                </li>
-                                {/*<li className="breadcrumb-item active">Blogs</li>*/}
-                            </ul>
-                        </div>
-                    </div>
+            <Breadcrumb title={""}/>
+            <div class="container">
+                <div class="top soutien-container-title">
+                    <p className=' text-center'> Bienvenue dans votre espace Bien Etre   </p>
                 </div>
-                <div className="soutien-container-title">
-              <div className="row">
-                            
-               <p className=' text-center'> Bienvenue dans votre espace Bien Etre   </p>
-                            
-               </div>
-            </div>
-
-                {/*container for technical sheet  */}
-
-                <div className="row">
-                    <div className="col-md-8">
-                        <div className="blog-view">
-                          
-                        <article className="soutien-blog blog-single-post">
+                <div class="middle">
+                <article className="soutien-blog blog-single-post">
                             <h5 className="relat-head ">
                             Soutien Psychologique et Bien être
                             </h5>
-                            <div className="blog-info clearfix">
+                            <div className=" clearfix  ">
                             
                             <Image
                                 alt="#"
                                 src='https://itsocial.fr/wp-content/uploads/2021/09/Capture-d%E2%80%99%C3%A9cran-2021-09-14-093859.jpg'
-                                className="img-fluid my-5"
+                                className="img-fluid my-5  mx-auto d-block "
                                 width={500}
                                 height={500}
                                 />
                             <div className="post-right read-blks">
-                                <Link className={"text-decoration-none"} href="/">Lire plus </Link>
+                                <Link className={"text-decoration-none text-[15px]"} href="/">Lire plus </Link>
                             </div>
                             </div>
                             <div className="blog-content">
@@ -75,127 +76,31 @@ export default function soutien() {
                             </div>
 
                         </article>
-                    </div>
-                    </div>
-                
-                
-                {/*container for tests */}
-            <div className='col-md-4'>
-            <div className="widget post-widget">
-              <div  className="relat-head">
-                <h5 >Tests Psychologiques</h5>
-                
-              </div>
-             
-              <ul className="latest-posts">
-                <li>
-                  <div className="post-thumb">
-                    <Link  href="/soutien/estime">
-                     <Image
-                        className="img-fluid"
-                        src="https://www.ciao.ch/media/topics/estime-de-soi.png.767x576_q85.png"
-                       alt="#"
-                       width={80}
-                       height={80}
-                      />
-                    
-                    </Link>
-                  </div>
-                  <div className="post-info">
-                    <div className="date-posts">
-                      <h5>Estime de soi</h5>
-                    </div>
-                    <h4>
-                      <Link className={"text-decoration-none"}  href="/soutien/estime">
-                      Est-ce que Vous Avez Confiance en Vous-Même ?
-                      </Link>
-                    </h4>
-                  </ div>
-                </li>
-                <li>
-                  <div className="post-thumb">
-                    <Link href="/soutien/paix">
-                     <Image
-                        className="img-fluid"
-                        src="https://resize.elle.fr/article/var/plain_site/storage/images/love-sexe/news/stress-inquietude-ou-anxiete-voici-comment-les-differencier-4043472/97177063-1-fre-FR/Stress-inquietude-ou-anxiete-Voici-comment-les-differencier-!.jpg"
-                       alt="#"
-                       width={80}
-                       height={80}
+                </div>
+                <div class="bottom">
+                    <article className="soutien-blog blog-single-post">
+                         <h5 className="relat-head ">
+                                Tests Psychologiques  
+                          </h5>
 
-                      />
-                      
-                    </Link>
-                  </div>
-                  <div className="post-info">
-                    <div className="date-posts">
-                      <h5>Paix</h5>
-                      
-                    </div>
-                    <h4>
-                      <Link className={"text-decoration-none"} href="/soutien/paix">
-                      Êtes-vous en Paix avec Vous-Même ?
-                       </Link>
-                    </h4>
-                   
-                  </div>
-                </li>
-                <li>
-                  <div className="post-thumb">
-                    <Link className={"text-decoration-none"} href="soutien/humeur">
-                      <Image
-                        className="img-fluid"
-                        src="https://static.vecteezy.com/system/resources/previews/011/411/660/non_2x/man-felling-depression-under-moral-stressful-sad-feel-guilty-need-attention-help-sitting-alone-vector.jpg"
-                       alt="#"
-                       width={80}
-                       height={80}
-                      />
-                     
-                    </Link>
-                  </div>
-                  <div className="post-info">
-                    <div className="date-posts">
-                      <h5>Humeur</h5>
-                      
-                    </div>
-                    <h4>
-                      <Link className={"text-decoration-none"} href="/soutien/humeur">
-                      Est-ce que Votre Humeur et Vitalité sont Équilibrées ? </Link>
-                    </h4>
-                   
-                  </div>
-                </li>
-                <li>
-                  <div className="post-thumb">
-                    <Link  className={"text-decoration-none"} href= "/soutien/sommeil" >
-                     <Image
-                        className="img-fluid"
-                        src="https://blog.reseau-morphee.fr/wp-content/uploads/sites/2/2021/12/mieux_dormir_pour_mieux_vivre-1130x580.jpg"
-                       alt="#"
-                       width={80}
-                       height={80}
-                      />
-                    </Link>
-                  </div>
-                  <div className="post-info">
-                    <div className="date-posts">
-                      <h5>Sommeil</h5>
-                      
-                    </div>
-                    <h4>
-                      <Link className={"text-decoration-none"} href="/soutien/sommeil">
-                      Est-ce que Votre Qualité de Sommeil Est Satisfaisante ?
-                      </Link>
-                    </h4>
-                   
-                  </div>
-                </li>
-              </ul>
-            </div> 
+                          <ul className="latest-posts">
+                                {postItems.map((item, index) => (
+                                <PostItem
+                                    key={index}
+                                    href={item.href}
+                                    imgSrc={item.imgSrc}
+                                    imgAlt={item.imgAlt}
+                                    title={item.title}
+                                    description={item.description}
+                                />
+                                ))}
+                            </ul>
+                    </article>
+                </div>
             </div>
             </div>
-            </div>
-        </div>
+         </div>
+      
     </div>
-    
   )
 }

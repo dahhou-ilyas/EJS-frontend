@@ -1,19 +1,32 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Image from "next/image";
 
 import { LanguageSelector } from '@/components/LanguageSelector';
 
-import Logo from "../../../../public/logoJeune.png";
+import Logo from "../../../public/logoJeune.png";
 import { BiArrowBack } from "react-icons/bi";
 
 
 
 const Layout = ({ title, subtitle, fields, prevStep }) => {
 
+    
+
+      const logoConfig = {
+        default: {
+            src: Logo,
+            height: 80,
+            width: 160,
+            ml: '-ml-2',
+            mt: 'mt-2',
+        },
+    };
+
+    const selectedLogo = logoConfig.default;
 
   return (
 
-    <div className="lg:h-screen lg:flex lg:items-center lg:justify-center lg:bg-gray-400">
+    <div className="lg:h-screen lg:flex lg:items-center lg:justify-center bg-[#6d7886a3]">
         <div className="ml-4 mt-1 flex justify-between lg:hidden w-full">
             {prevStep && <div onClick={prevStep}><BiArrowBack 
                 color="black" 
@@ -41,29 +54,23 @@ const Layout = ({ title, subtitle, fields, prevStep }) => {
                         />
                         <span className="ml-2 ">Retour</span>
                     </div>}
-                    <div
-                    className="
-                        flex 
-                        items-center 
-                        justify-center 
-                        w-fit
-                        -ml-2
-                    ">
-                    <Image 
-                        src={Logo} 
-                        alt="Logo" 
-                        height={80} 
-                        width={160} 
-                    />
-                    </div>
-                    <h2 className="sm:text-3xl text-2xl font-medium mt-2 text-gray-950">{title}</h2>
+                    <div className={`flex items-center justify-center w-fit ${selectedLogo.ml}`}>
+                            <Image 
+                                src={selectedLogo.src} 
+                                alt="Logo" 
+                                height={selectedLogo.height} 
+                                width={selectedLogo.width} 
+                                
+                            />
+                        </div>
+                        <h2 className={`sm:text-3xl text-2xl font-medium ${selectedLogo.mt} text-gray-950`}>{title}</h2>
                     <h4 className="sm:text-lg text-gray-700 mt-1">{subtitle}</h4>   
                 </div>
                 <div className="hidden lg:block">
                     <LanguageSelector />
                 </div>
             </div>
-            <div className="w-full sm:w-1/2 sm:mt-8 sm:mb-4 sm:mr-8 sm:ml-4 px-4 mt-24">
+            <div className="w-full sm:w-1/2 sm:mt-8 sm:mb-4 sm:mr-8 sm:ml-4 px-4 mt-4">
                 {fields}
             </div>
             
