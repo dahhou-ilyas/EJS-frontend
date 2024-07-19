@@ -30,6 +30,8 @@ export default function Paix() {
                                         width= {350} height= {350}
                                         />
                                         <Link className={"start-test"} href={"/soutien/paix/questions" }>Commencer le test</Link>
+                                        <a className={"start-test"} href="/tests-psycho/had.pdf" download> Télécharger le test</a>
+
                                 </div>
                                 </div>
                              
