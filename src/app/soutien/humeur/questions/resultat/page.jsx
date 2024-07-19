@@ -11,12 +11,13 @@ export default function Humeur_Result() {
     const [interpretation, setInterpretation] = useState("");
     console.log(Score)
 
+
     useEffect(() => {
         if ( Score < 8 ){
             setInterpretation("Votre évaluation indique que vous avez un bon état émotionnel. Continuez à prendre soin de vous et à pratiquer des activités qui vous apportent joie et satisfaction. Restez attentif à votre bien-être et n'hésitez pas à consulter nos ressources pour maintenir cet équilibre.")
         }else if (Score >= 8 & Score <= 10 ){
-            setInterpretation("Votre évaluation suggère que vous traversez peut-être une période d'incertitude émotionnelle. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse.")
-        } else setInterpretation("Votre évaluation indique un niveau élevé de détresse émotionnelle. Il est essentiel de ne pas ignorer ces sentiments. Nous vous recommandons fortement de consulter un professionnel de la santé pour obtenir un soutien adapté. En attendant, prenez le temps de parcourir nos ressources pour trouver des moyens de vous apaiser et de vous sentir mieux.")
+            setInterpretation("Votre évaluation suggère que vous traversez peut-être une période de changements émotionnels. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse.")
+        } else setInterpretation("Votre évaluation suggère que vous traversez peut-être une période de préoccupations émotionnelles. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse.")
     })
 
     useEffect(() => {

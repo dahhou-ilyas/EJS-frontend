@@ -21,7 +21,7 @@ export default function Paix() {
                         <article className="soutien-blog blog-single-post">
                                 <p className=" text-justify ">
                                 Plongez dans votre tranquillité intérieure pour comprendre et maîtriser votre niveau d'anxiété. </p>
-                                <div className=" clearfix">
+                                <div className="clearfix">
                                 <div className='d-flex flex-column align-items-center'>
                                     <Image
                                         alt="#"

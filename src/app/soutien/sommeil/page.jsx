@@ -18,8 +18,10 @@ export default function Sommeil() {
                </div>
                <div class="middle">
                <article className="soutien-blog blog-single-post">
-                                <p className=" text-center ">
-                                Évaluez votre sommeil pour mieux comprendre ses impacts sur votre bien-être quotidien et trouver des solutions pour améliorer votre repos.   </p>
+                                <p className=" text-justify ">
+                                Le Questionnaire sur le sommeil pédiatrique PSQ est un outil de dépistage des problèmes de sommeil chez les enfants.  Le PSQ est largement utilisé pour la recherche et en milieu clinique. Le questionnaire comporte 22 questions, comprenant trois complexes de symptômes : le ronflement, la somnolence diurne excessive et le comportement inattentif ou hyperactif.
+                               
+                             </p>
                                 <div className=" clearfix">
                                 <div className='d-flex flex-column align-items-center'>
                                     <Image
