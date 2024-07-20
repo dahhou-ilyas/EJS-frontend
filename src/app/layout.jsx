@@ -25,6 +25,7 @@ const RootLayout = ({ children }) => {
       </head>
       <body>
         <Header />
+        <Sidebar activeClassName="patients" />
         {children}
       </body>
     </html>

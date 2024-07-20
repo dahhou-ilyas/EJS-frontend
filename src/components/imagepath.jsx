@@ -108,6 +108,7 @@ export {default as corr} from "../assets/img/patients/business.png"
 export {default as generate} from "../assets/img/patients/export.png"
 export {default as history} from "../assets/img/patients/history.png"
 export {default as prescription} from "../assets/img/patients/prescription.png"
+
 // HISTORIQUE
 export {default as bones} from "../assets/img/hist-icons/bones.svg"
 export {default as eye} from "../assets/img/hist-icons/eye.svg"
@@ -115,6 +116,7 @@ export {default as heart} from "../assets/img/hist-icons/heart.svg"
 export {default as lungs} from "../assets/img/hist-icons/lungs.svg"
 export {default as stomach} from "../assets/img/hist-icons/stomach.svg"
 export {default as teeth} from "../assets/img/hist-icons/teeth.svg"
+export {default as consultation} from "../assets/img/hist-icons/consultation.svg"
 
 
 //Profile 

@@ -206,7 +206,6 @@ const Patients = () => {
   ];
   return (
     <div id="root">
-      <Sidebar activeClassName="patients" />
       <div className="page-wrapper">
         <div className="content">
           <NavigationHeader pages={["Patients"]} currentPage="Patients" />

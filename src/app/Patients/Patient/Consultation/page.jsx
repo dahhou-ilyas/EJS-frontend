@@ -2,14 +2,12 @@
 import Sidebar from "@/components/Sidebar";
 import NavigationHeader from "@/components/NavigationHeader";
 import "@/assets/css/style2.css";
-
 import { useState, useEffect } from "react";
 import Select from "react-select";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { printer } from "@/components/imagepath";
-
 
 import {
   motif,
@@ -25,14 +23,13 @@ import {
   antFamilial
 } from "@/assets/dumpdata.js";
 
-
-
 const NouvelleConsultation = (props) => {
   const pages = ["Patients", "Patient", "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
   // -------STATES-------
-  const [ChirurgicalOrHabitudes,setChirurgicalOrHabitudes] = useState(Chirurgical);
+  const [ChirurgicalOrHabitudes, setChirurgicalOrHabitudes] =
+    useState(Chirurgical);
   const [choiceChirHab, setChoiceChirHab] = useState("");
   const [antPersonnelTitle, setAntPersonnel] = useState("");
   const [antPersonnelOptions, setAntPersonnelOptions] = useState(defaultOption);
@@ -48,12 +45,17 @@ const NouvelleConsultation = (props) => {
   function DisplayPersonnels(action) {
     const type = document.querySelector("div[id='type-ant']");
     const autreInput = document.querySelector("div[id='type-autre-input']");
-    const habitudesChoicesInput = document.querySelector("div[id='type-chirg-habitudes']");
+    const habitudesChoicesInput = document.querySelector(
+      "div[id='type-chirg-habitudes']"
+    );
     autreInput.classList.add("hideInput");
     habitudesChoicesInput.classList.add("hideInput");
 
-    if (action){ type.classList.remove("hideInput");}
-    else {type.classList.add("hideInput");}
+    if (action) {
+      type.classList.remove("hideInput");
+    } else {
+      type.classList.add("hideInput");
+    }
   }
 
   //PERMET D'AFFICHER UNE LISTE DEROULANTE OU UN CHAMP TEXTE
@@ -93,8 +95,7 @@ const NouvelleConsultation = (props) => {
       setOtherTitle("Type de Maladie Chirurgical");
       otherInput.classList.remove("hideInput");
       typeInput.classList.remove("hideInput");
-    } 
-    else {
+    } else {
       setChoiceChirHab("Nombre Année des soins");
       otherInput.classList.add("hideInput");
       typeInput.classList.add("hideInput");
@@ -124,27 +125,25 @@ const NouvelleConsultation = (props) => {
   function HandleAntPersonnelChoice(selectedOption) {
     const otherInput = document.querySelector("div[id='type-autre-input']");
     const habitudesChoices = ["Alcool", "Tabac", "Temps d'écran"];
-    const habitudesChoicesInput = document.querySelector("div[id='type-chirg-habitudes']");
+    const habitudesChoicesInput = document.querySelector(
+      "div[id='type-chirg-habitudes']"
+    );
 
     setOtherTitle("Specifier Autre");
-    if(habitudesChoices.includes(selectedOption["value"])){
+    if (habitudesChoices.includes(selectedOption["value"])) {
       habitudesChoicesInput.classList.remove("hideInput");
-      if(selectedOption["value"]=="Alcool"){
+      if (selectedOption["value"] == "Alcool") {
         setChirurgicalOrHabitudes(alcoolFrequency);
         setChoiceChirHab("Alcool");
-      }
-      else if(selectedOption["value"]=="Tabac"){
+      } else if (selectedOption["value"] == "Tabac") {
         setChirurgicalOrHabitudes(tabacQuantity);
         setChoiceChirHab("Tabac");
-      }
-      else{
+      } else {
         setChirurgicalOrHabitudes(tempsEcran);
-        setChoiceChirHab("Temps d'ecrant");
+        setChoiceChirHab("Temps d'ecran");
       }
       otherInput.classList.add("hideInput");
-
-    } 
-    else if (selectedOption["value"] == "AUTRE") {
+    } else if (selectedOption["value"] == "AUTRE") {
       otherInput.classList.remove("hideInput");
       habitudesChoicesInput.classList.add("hideInput");
     } else {
@@ -231,8 +230,6 @@ const NouvelleConsultation = (props) => {
 
   // -------DATA-------
   const [selectedOption, setSelectedOption] = useState("Choisir");
-
-  
 
   return (
     <div id="root">
@@ -915,7 +912,10 @@ const NouvelleConsultation = (props) => {
                       <div className="form-heading">
                         <h4>8. Ordonnance Médicale </h4>
                       </div>
-                      <div className="col-12 col-md-12 col-xl-12" id="ordanance">
+                      <div
+                        className="col-12 col-md-12 col-xl-12"
+                        id="ordanance"
+                      >
                         <div className="form-group local-forms">
                           <label>
                             {isOrdonannce}
@@ -981,7 +981,10 @@ const NouvelleConsultation = (props) => {
                               >
                                 plus tard
                               </Link>
-                              <button type="submit" className="btn btn-success imprimer">
+                              <button
+                                type="submit"
+                                className="btn btn-success imprimer"
+                              >
                                 Imprimer
                               </button>
                             </div>

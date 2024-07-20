@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import "@/assets/css/style.css";
 import "@/assets/css/style2.css";
+import "@/assets/css/style3.css";
+
 import FeatherIcon from "feather-icons-react";
 
 // import "@/assets/css/font-awesome.min.css";
