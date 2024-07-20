@@ -1,26 +1,17 @@
-import Sidebar from "@/components/Sidebar";
 import NavigationHeader from "@/components/NavigationHeader";
 import Image from "next/image";
 import Link from "next/link";
 import "@/assets/css/style.css";
-import "@/assets/css/style2.css";
-import "@/assets/css/style3.css";
+import "@/assets/css/links.css";
+import "@/assets/css/center.css";
+import "@/assets/css/patient.css";
 
 import FeatherIcon from "feather-icons-react";
 
 // import "@/assets/css/font-awesome.min.css";
-// import "@/assets/css/customized.css";
-import { pagination, Table } from "antd";
+// import "@/assets/css/customized.css";  
 import {
   blogimg2,
-  blogimg1,
-  doctor,
-  menuicon16,
-  add,
-  allergies,
-  corr,
-  generate,
-  history,
   medalicon03,
   medalicon,
   medalicon02
@@ -30,7 +21,6 @@ const patient = (props) => {
   const pages = ["Patients", "Patient"];
   return (
     <div id="root">
-      <Sidebar activeClassName="patients" />
       <div className="page-wrapper">
         <div className="content">
           <NavigationHeader pages={pages} currentPage="Patient" />
@@ -101,7 +91,7 @@ const patient = (props) => {
                     {/* <div className="heading-detail">
                       <h4>Speciality</h4>
                     </div> */}
-                    <Link href='Patient/Consultation' className="personal-activity">
+                    <Link href='Patient/Consultation/Ajouter' className="personal-activity">
                       <div className="personal-icons status-grey">
                         <Image src={medalicon} alt="" />
                       </div>

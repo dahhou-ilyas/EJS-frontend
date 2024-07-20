@@ -1,6 +1,7 @@
 import "@/assets/css/style.css";
 import "../assets/css/bootstrap.min.css";
 import "../assets/css/font-awesome.min.css";
+
 import Header from "../components/Header";
 import Sidebar from "@/components/Sidebar";
 

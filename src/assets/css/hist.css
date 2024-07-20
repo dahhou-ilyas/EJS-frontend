@@ -541,3 +541,10 @@
 	.delete-modal .modal-body .imprimer {
 		color:#333448;
 	}
+
+	.modal-dialog.fade {
+    transition: opacity 0s linear 0s;
+	}
+	.modal-dialog.fade.show {
+			transition: opacity 0.15s linear 0s;
+	}

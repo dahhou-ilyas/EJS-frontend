@@ -1,7 +1,7 @@
 "use client";
-import Sidebar from "@/components/Sidebar";
 import NavigationHeader from "@/components/NavigationHeader";
-import "@/assets/css/style2.css";
+import "@/assets/css/links.css";
+
 import { useState, useEffect } from "react";
 import Select from "react-select";
 import { useRouter } from "next/navigation";
@@ -43,6 +43,7 @@ const NouvelleConsultation = (props) => {
   // -------FUNCTIONS-------
   //PERMET D'AFFCIHER TYPE D'ANTECEDANTS PERSONNELS
   function DisplayPersonnels(action) {
+    
     const type = document.querySelector("div[id='type-ant']");
     const autreInput = document.querySelector("div[id='type-autre-input']");
     const habitudesChoicesInput = document.querySelector(
@@ -233,7 +234,6 @@ const NouvelleConsultation = (props) => {
 
   return (
     <div id="root">
-      <Sidebar activeClassName="patients" />
       <div className="page-wrapper">
         <div className="content">
           <NavigationHeader pages={pages} currentPage="Nouvelle Consultation" />

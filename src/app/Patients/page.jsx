@@ -1,6 +1,5 @@
 "use client";
 import NavigationHeader from "@/components/NavigationHeader";
-import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
 import Image from "next/image";
 import { pagination, Table } from "antd";
@@ -11,19 +10,8 @@ import { usePathname } from 'next/navigation'
 
 // import {onShowSizeChange,itemRender} from  '@/components/Pagination.jsx'
 import "@/assets/css/style.css";
-import "@/assets/css/style2.css";
+import "@/assets/css/links.css";
 import { plusicon, refreshicon, imagesend,dots,edit,deleteIcon } from "@/components/imagepath";
-import {
-  blogimg10,
-  pdficon,
-  pdficon3,
-  pdficon4,
-  blogimg12,
-  blogimg2,
-  blogimg4,
-  blogimg6,
-  blogimg8
-} from "@/components/imagepath";
 
 const Patients = () => {
   const path = usePathname();

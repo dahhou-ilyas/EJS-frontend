@@ -1,0 +1,48 @@
+.customized-subtittle h5{
+  font-size:16px !important;
+  font-weight:400 !important;
+}
+.customized-blog{
+  padding:2rem !important;
+}
+
+.blog-grp-blk{
+  padding: 0 1rem !important;
+  justify-content: space-between !important;
+}
+.card{
+  border: var(--bs-card-border-width) solid #fff !important;
+}
+.col-xl-3 {
+  flex: 0 0 auto !important;
+  width: 30% !important;
+}
+.hideInput,.type-ant-selected,.type-fam{
+  display:none !important;
+}
+
+.form-heading h4{
+  margin-bottom: 1rem !important;
+}
+
+
+.custom-modal .modal-body {
+  padding: 40px 30px !important;
+}
+
+.delete-modal .modal-body .btn{
+  width:30% !important;
+}
+.delete-modal .modal-body .imprimer{
+  color:#fff !important;
+}
+
+.dropdown-item{
+  display: flex !important;
+  align-items: center !important;
+  font-family : 'Poppins' !important;
+  font-weight: 500 !important;
+  gap:10% !important;
+  padding : 4px 12px !important;
+  width: 100% !important;
+}
