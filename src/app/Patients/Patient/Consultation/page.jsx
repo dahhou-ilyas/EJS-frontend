@@ -10,11 +10,30 @@ import Link from "next/link";
 import Image from "next/image";
 import { printer } from "@/components/imagepath";
 
+
+import {
+  motif,
+  antecedants,
+  medicaments,
+  habitudes,
+  Chirurgical,
+  alcoolFrequency,
+  tabacQuantity,
+  tempsEcran,
+  biologicalTests,
+  radiologicalTests,
+  antFamilial
+} from "@/assets/dumpdata.js";
+
+
+
 const NouvelleConsultation = (props) => {
   const pages = ["Patients", "Patient", "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
   // -------STATES-------
+  const [ChirurgicalOrHabitudes,setChirurgicalOrHabitudes] = useState(Chirurgical);
+  const [choiceChirHab, setChoiceChirHab] = useState("");
   const [antPersonnelTitle, setAntPersonnel] = useState("");
   const [antPersonnelOptions, setAntPersonnelOptions] = useState(defaultOption);
   const [examenClinique, setExamenClinique] = useState("");
@@ -22,16 +41,19 @@ const NouvelleConsultation = (props) => {
   const [isOrdonannce, setIsOrdannance] = useState("");
   const [isPersonnelsChecked, setIsPersonnelsChecked] = useState(false);
   const [isFamilialsChecked, setIsFamilialsChecked] = useState(false);
-  const [options, setOptions] = useState(defaultOption);
+  // const [options, setOptions] = useState(defaultOption);
 
   // -------FUNCTIONS-------
   //PERMET D'AFFCIHER TYPE D'ANTECEDANTS PERSONNELS
   function DisplayPersonnels(action) {
     const type = document.querySelector("div[id='type-ant']");
     const autreInput = document.querySelector("div[id='type-autre-input']");
+    const habitudesChoicesInput = document.querySelector("div[id='type-chirg-habitudes']");
     autreInput.classList.add("hideInput");
-    if (action) type.classList.remove("hideInput");
-    else type.classList.add("hideInput");
+    habitudesChoicesInput.classList.add("hideInput");
+
+    if (action){ type.classList.remove("hideInput");}
+    else {type.classList.add("hideInput");}
   }
 
   //PERMET D'AFFICHER UNE LISTE DEROULANTE OU UN CHAMP TEXTE
@@ -63,24 +85,26 @@ const NouvelleConsultation = (props) => {
       typesInput.classList.add("hideInput");
     }
   }
+
   function chirurgicalHandle(action) {
     const otherInput = document.querySelector("div[id='type-autre-input']");
-    const typeInput = document.querySelector("div[id='type-chirg']");
+    const typeInput = document.querySelector("div[id='type-chirg-habitudes']");
     if (action) {
       setOtherTitle("Type de Maladie Chirurgical");
       otherInput.classList.remove("hideInput");
       typeInput.classList.remove("hideInput");
-    } else {
+    } 
+    else {
+      setChoiceChirHab("Nombre Année des soins");
       otherInput.classList.add("hideInput");
       typeInput.classList.add("hideInput");
     }
   }
-  // PERMET DE CHANGER LA LISTE DEROULANTES DE ANTECEDANTS PERSONNELS TYPE SELON LE CHOIS
+
+  // PERMET DE CHANGER LA LISTE DEROULANTES DE ANTECEDANTS PERSONNELS TYPE SELON LES CHOIX
   function HandleAntPersonnel(selectedOption) {
     DisplayTypeAntPer(selectedOption);
     const otherInput = document.querySelector("div[id='type-autre-input']");
-    const TypeAntPersonnel = document.querySelector("input[name='hhh']");
-    console.log(TypeAntPersonnel);
 
     chirurgicalHandle(false);
     if (selectedOption["value"] == "Medical") {
@@ -99,11 +123,33 @@ const NouvelleConsultation = (props) => {
 
   function HandleAntPersonnelChoice(selectedOption) {
     const otherInput = document.querySelector("div[id='type-autre-input']");
+    const habitudesChoices = ["Alcool", "Tabac", "Temps d'écran"];
+    const habitudesChoicesInput = document.querySelector("div[id='type-chirg-habitudes']");
+
     setOtherTitle("Specifier Autre");
-    if (selectedOption["value"] == "AUTRE") {
+    if(habitudesChoices.includes(selectedOption["value"])){
+      habitudesChoicesInput.classList.remove("hideInput");
+      if(selectedOption["value"]=="Alcool"){
+        setChirurgicalOrHabitudes(alcoolFrequency);
+        setChoiceChirHab("Alcool");
+      }
+      else if(selectedOption["value"]=="Tabac"){
+        setChirurgicalOrHabitudes(tabacQuantity);
+        setChoiceChirHab("Tabac");
+      }
+      else{
+        setChirurgicalOrHabitudes(tempsEcran);
+        setChoiceChirHab("Temps d'ecrant");
+      }
+      otherInput.classList.add("hideInput");
+
+    } 
+    else if (selectedOption["value"] == "AUTRE") {
       otherInput.classList.remove("hideInput");
+      habitudesChoicesInput.classList.add("hideInput");
     } else {
       otherInput.classList.add("hideInput");
+      habitudesChoicesInput.classList.add("hideInput");
     }
   }
 
@@ -186,84 +232,7 @@ const NouvelleConsultation = (props) => {
   // -------DATA-------
   const [selectedOption, setSelectedOption] = useState("Choisir");
 
-  const motif = [
-    { value: "Ophtalmique", label: "Ophtalmique" },
-    { value: "Bucco-dentaire", label: "Bucco-dentaire" },
-    { value: "O.R.L", label: "O.R.L" },
-    { value: "Pleuropulmonaire", label: "Pleuropulmonaire" },
-    { value: "Cardio-vasculaire", label: "Cardio-vasculaire" },
-    { value: "Digestif", label: "Digestif" },
-    { value: "Loco-moteur", label: "Loco-moteur" }
-  ];
-  const antecedants = [
-    { value: "Medical", label: "Médical" },
-    { value: "Chirurgical", label: "Chirurgical" },
-    { value: "Habitudes", label: "Habitudes" },
-    { value: "Allergies Médicales", label: "Allergies Médicales" },
-    { value: "Allergies Alimentaires", label: "Allergies Alimentaires" }
-  ];
-  const medicaments = [
-    { value: "Asthme", label: "Asthme" },
-    { value: "Diabète", label: "Diabète" },
-    { value: "Epilepsie", label: "Epilepsie" },
-    { value: "TSA", label: "Troubles du spectre de l'autisme (TSA)" },
-    { value: "Trouble de Sommeil", label: "Trouble de Sommeil" },
-    { value: "AUTRE", label: "Autre.." }
-  ];
-  const habitudes = [
-    { value: "Sport", label: "Sport" },
-    { value: "Alcool", label: "Alcool" },
-    { value: "Tabac", label: "Tabac" },
-    { value: "Temps d'écran", label: "Temps d'écran" },
-    { value: "AUTRE", label: "Autre.." }
-  ];
-  const Chirurgical = [
-    { value: "aucun", label: "aucun" },
-    { value: "< 1 ans", label: "< 1 ans" },
-    { value: "< 2 ans", label: "< 2 ans" },
-    { value: "< 5 ans", label: "< 5 ans" },
-    { value: "< 10 ans", label: "< 10 ans" },
-    { value: ">= 10 ans", label: ">= 10 ans" }
-  ];
-
-  const alcoolFrequency = [
-    { value: "Quotidien", label: "Quotidien" },
-    { value: "Occasionnel", label: "Occasionnel" }
-  ];
-  const tabacQuantity = [
-    { value: "0", label: "Choisir.." },
-    { value: "1", label: "1 cigarette par jour" },
-    { value: "2", label: "2 cigarettes par jour" },
-    { value: "3", label: "3 cigarettes par jour" }
-    // Add more options as needed
-  ];
-  const tempsEcran = [
-    { value: "30min", label: "30 minutes" },
-    { value: "1h", label: "1 heure" }
-    // Add more options as needed
-  ];
-  const biologicalTests = [
-    { value: "NFS", label: "NFS" },
-    { value: "GAJ", label: "GAJ" },
-    { value: "AUTRE", label: "Autre.." }
-  ];
-  const radiologicalTests = [
-    { value: "Échographie", label: "Échographie" },
-    { value: "Radiographie standard", label: "Radiographie standard" },
-    { value: "TDM", label: "TDM" },
-    { value: "IRM", label: "IRM" },
-    { value: "AUTRE", label: "Autre.." }
-  ];
-
-  const antFamilial = [
-    { value: "Diabète", label: "Diabète" },
-    {
-      value: "Hypertension artérielle (tension)",
-      label: "Hypertension artérielle (tension)"
-    },
-    { value: "Cancer", label: "Cancer" },
-    { value: "AUTRE", label: "Autre.." }
-  ];
+  
 
   return (
     <div id="root">
@@ -623,11 +592,11 @@ const NouvelleConsultation = (props) => {
                       </div>
                       <div
                         className="col-12 col-md-4 col-xl-4 hideInput"
-                        id="type-chirg"
+                        id="type-chirg-habitudes"
                       >
                         <div className="form-group local-forms ">
                           <label>
-                            Nombre Année des soins{" "}
+                            {choiceChirHab}{" "}
                             <span className="login-danger">*</span>
                           </label>
                           <Select
@@ -637,8 +606,8 @@ const NouvelleConsultation = (props) => {
                             }}
                             defaultValue={defaultOption}
                             // onChange={HandleAntPersonnelChoice}
-                            options={Chirurgical}
-                            id="select-type-chirg"
+                            options={ChirurgicalOrHabitudes}
+                            id="select-type-chirg-habitudes"
                             components={{
                               IndicatorSeparator: () => null
                             }}
@@ -946,10 +915,10 @@ const NouvelleConsultation = (props) => {
                       <div className="form-heading">
                         <h4>8. Ordonnance Médicale </h4>
                       </div>
-                      <div className="col-12 col-md-6 col-xl-6" id="ordanance">
+                      <div className="col-12 col-md-12 col-xl-12" id="ordanance">
                         <div className="form-group local-forms">
                           <label>
-                            Ordonnance Medicale{isOrdonannce}
+                            {isOrdonannce}
                             <span className="login-danger">*</span>
                           </label>
                           <textarea

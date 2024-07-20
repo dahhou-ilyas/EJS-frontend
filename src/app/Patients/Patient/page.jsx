@@ -117,7 +117,7 @@ const patient = (props) => {
                         <h5>L&#39;historique de Consultation</h5>
                       </div>
                     </Link>
-                    <Link href='Patient/Consultation' className="personal-activity mb-0">
+                    <Link href='#' className="personal-activity mb-0">
                       <div className="personal-icons status-orange">
                         <Image src={medalicon03} alt="" />
                       </div>
