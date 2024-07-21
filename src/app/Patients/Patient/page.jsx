@@ -1,3 +1,4 @@
+"use client"
 import NavigationHeader from "@/components/NavigationHeader";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,9 +17,16 @@ import {
   medalicon,
   medalicon02
 } from "@/components/imagepath";
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import ReactPDF from '@react-pdf/renderer';
+
 
 const patient = (props) => {
   const pages = ["Patients", "Patient"];
+
+  function handleGenerateDocument(){   
+  }
+
   return (
     <div id="root">
       <div className="page-wrapper">
@@ -109,7 +117,10 @@ const patient = (props) => {
                         <h5>L&#39;historique de Consultation</h5>
                       </div>
                     </Link>
-                    <Link href='#' className="personal-activity mb-0">
+                    
+                    <div className="personal-activity mb-0"
+                      onClick={handleGenerateDocument}
+                    >
                       <div className="personal-icons status-orange">
                         <Image src={medalicon03} alt="" />
                       </div>
@@ -117,7 +128,7 @@ const patient = (props) => {
                         <h4>Compte Rendu</h4>
                         <h5>Generer son Compte Rendu</h5>
                       </div>
-                    </Link>
+                    </div >
                   </div>
                 </div>
               </div>

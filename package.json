@@ -21,6 +21,7 @@
     "@radix-ui/react-radio-group": "^1.2.0",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
+    "@react-pdf/renderer": "^3.4.4",
     "antd": "^5.19.1",
     "bootstrap": "^5.3.3",
     "class-variance-authority": "^0.7.0",
