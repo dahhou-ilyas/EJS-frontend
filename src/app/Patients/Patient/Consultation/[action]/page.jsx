@@ -2,11 +2,13 @@
 import NavigationHeader from "@/components/NavigationHeader";
 import "@/assets/css/links.css";
 
-import { useState, useEffect } from "react";
-import Select from "react-select";
+import { useState, useEffect,useRef } from "react";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import Select from "react-select";
 import Link from "next/link";
 import Image from "next/image";
+
 import { printer } from "@/components/imagepath";
 
 import {
@@ -27,9 +29,24 @@ const NouvelleConsultation = (props) => {
   const pages = ["Patients", "Patient", "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
+  const pathName = usePathname();
+  // let actionName = "";
+  let actionName = "";
+  let buttonName = "Enregistrer";
+  if(!pathName.includes("modifier")&&!pathName.includes("ajouter")){
+    router.push("/error");
+  }
+  else{
+    if(pathName.includes("modifier")){
+      actionName = buttonName = "Modifier";
+    }
+    else{
+      actionName = "Ajouter";
+    }
+  }
+
   // -------STATES-------
-  const [ChirurgicalOrHabitudes, setChirurgicalOrHabitudes] =
-    useState(Chirurgical);
+  const [ChirurgicalOrHabitudes, setChirurgicalOrHabitudes] = useState(Chirurgical);
   const [choiceChirHab, setChoiceChirHab] = useState("");
   const [antPersonnelTitle, setAntPersonnel] = useState("");
   const [antPersonnelOptions, setAntPersonnelOptions] = useState(defaultOption);
@@ -245,7 +262,7 @@ const NouvelleConsultation = (props) => {
                     <div className="row">
                       <div className="col-12 mb-4">
                         <div className="form-heading mb-7">
-                          <h3>Ajouter une consultation pour M. Yamine Lamal</h3>
+                          <h3>{actionName} une consultation pour M. Yamine Lamal</h3>
                         </div>
                       </div>
 
@@ -944,7 +961,7 @@ const NouvelleConsultation = (props) => {
                               data-bs-toggle="modal"
                               data-bs-target="#delete_patient"
                             >
-                              Enregistrer
+                              {buttonName}
                             </Link>
                           </button>
                           <button

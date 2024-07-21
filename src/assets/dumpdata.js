@@ -77,6 +77,15 @@ const antFamilial = [
   { value: "Cancer", label: "Cancer" },
   { value: "AUTRE", label: "Autre.." }
 ];
+// used in the function handleGenerateDocument in Patient
+const dossier = {
+  date : "27/05/2024",
+  location : "Espace Sante Jeune Tabriket, Sale",
+  title : "Dossier Medicale",
+  motif : "Opthamologie",
+  doctor : "Mr Karim Berrada",
+  info : "Lorem Ipsum ...", 
+}
 
 export 
 {
@@ -90,4 +99,5 @@ tabacQuantity,
 tempsEcran,
 biologicalTests,
 radiologicalTests,
-antFamilial}
+antFamilial,
+dossier}

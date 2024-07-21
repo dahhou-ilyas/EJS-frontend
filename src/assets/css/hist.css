@@ -468,12 +468,12 @@
 	}
 
 	.activity-boxs{
-		background-color: #2e37aa;
-	transition: background-color 0.5s ease-in-out,box-shadow 0.5s ease-in-out;
+		background-color: #2e37aa !important;
+		transition: background-color 0.5s ease-in-out,box-shadow 0.5s ease-in-out !important;
 	}
 	.activity-boxs:hover{
-		box-shadow:  0 0 10px rgba(0, 0, 0, 0.5);
-		background-color: #fff;
+		box-shadow:  0 0 10px rgba(0, 0, 0, 0.5) !important;
+		background-color: #fff !important;
 		
 	}
 	.timeline > li > .timeline-panel{
@@ -506,6 +506,14 @@
 		width: 80%;
 	}
 
+	.hist-card{
+		width: 80%!important;
+	}
+
+	.hist-row{
+		justify-content: center!important;
+	}
+
 	.about-me-list ul li span{
 		font-size: 12px;
 	}
@@ -524,9 +532,11 @@
     border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
     border-radius: var(--bs-modal-border-radius);
     outline: 0;
-    align-content: center;
     flex-wrap: wrap;
 	
+	}
+	.modal-backdrop {
+		background-color: rgba(0, 0, 0, 0.3)!important;
 	}
 	.consultation-title{
 		padding : 0;
@@ -541,10 +551,52 @@
 	.delete-modal .modal-body .imprimer {
 		color:#333448;
 	}
-
+	.modal-header{
+		gap:5%!important;
+	}
 	.modal-dialog.fade {
     transition: opacity 0s linear 0s;
 	}
 	.modal-dialog.fade.show {
 			transition: opacity 0.15s linear 0s;
+	}
+	@media (min-width: 768px){
+		.one-input > .col-md-12{
+			width: 100% !important;;
+		}
+	}
+
+	.row input,textarea{
+		font-size: 12px!important;
+	}
+	.row label{
+		font-weight: bold;
+	}
+
+	.modal-footer button{
+		padding:0.5rem 1rem!important;
+		font-family: Poppins;
+		font-size: 14px;
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+	
+	.btn-modifier{
+		color: #000;
+		border:1px solid #000!important;
+		background-color: #fff!important;
+	}
+
+	.btn-modifier:hover{
+		border: 0;
+		color:#fff!important;
+		background-color: #ff8000!important;
+	}
+	.btn-imprimer{
+		background-color: #9d9d9d!important;
+		color: #000!important;
+	}
+	.btn-imprimer:hover{
+		color: #fff!important;
+		background-color: #404040!important;
 	}

@@ -3,7 +3,7 @@ import "../assets/css/style.css";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { morning_Img_03 } from "../components/imagepath";
+import { morning_img_03 } from "@/components/imagepath";
 import {Avatar2} from "@/components/imagepath";
 import NavigationHeader from "@/components/NavigationHeader";
 import Sidebar from "../components/Sidebar";
@@ -46,7 +46,7 @@ export default function Home() {
                 </div>
                 <div className="col-md-6 position-blk">
                   <div className="morning-Image z-index-0">
-                    <Image src={morning_Img_03}  alt="" />
+                    <Image src={morning_img_03}  alt="" />
                   </div>
                 </div>
               </div>
