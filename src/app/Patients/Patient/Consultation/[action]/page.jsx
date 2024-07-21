@@ -10,6 +10,7 @@ import Image from "next/image";
 
 // ASSETS
 import "@/assets/css/links.css";
+import "@/assets/css/consultation.css";
 import {
   motif,
   antecedants,
@@ -960,7 +961,7 @@ const NouvelleConsultation = (props) => {
                         <div className="doctor-submit text-end">
                           <button
                             type="submit"
-                            className="btn btn-success btn-lg me-1"
+                            className="btn btn-success btn-lg me-1 customizedBtn save"
                           >
                             <Link
                               className="dropdown-item"
@@ -973,7 +974,7 @@ const NouvelleConsultation = (props) => {
                           </button>
                           <button
                             type="button"
-                            className="btn btn-light btn-lg me-1"
+                            className="btn btn-light btn-lg me-1 customizedBtn cancel"
                             onClick={handleCancel}
                           >
                             Annuler
@@ -1025,7 +1026,7 @@ const NouvelleConsultation = (props) => {
       </div>
     </div>
   );
-  
+
 };
 
 export default NouvelleConsultation;
