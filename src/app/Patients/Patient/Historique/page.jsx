@@ -4,7 +4,7 @@ import NavigationHeader from "@/components/NavigationHeader";
 import Link from "next/link";
 import Image from "next/image";
 import "@/assets/css/links.css"; //sublines on linkes
-import "@/assets/css/center.css";
+import "@/assets/css/center.module.css";
 import "@/assets/css/hist.css";
 import {
   teeth,

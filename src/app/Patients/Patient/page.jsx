@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import "@/assets/css/style.css";
 import "@/assets/css/links.css";
-import "@/assets/css/center.css";
 import "@/assets/css/patient.css";
 
 import FeatherIcon from "feather-icons-react";
@@ -40,7 +39,7 @@ const patient = (props) => {
       <div className="page-wrapper">
         <div className="content">
           <NavigationHeader pages={pages} currentPage="Patient" />
-          <div className="row">
+          <div className="row center-layout">
             <div className="col-sm-6 col-md-6 col-xl-5">
               <div className="blog grid-blog customized-blog">
                 <div className="blog-content">

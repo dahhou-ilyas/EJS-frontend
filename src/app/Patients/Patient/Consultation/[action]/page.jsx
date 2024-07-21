@@ -1,16 +1,15 @@
 "use client";
-import NavigationHeader from "@/components/NavigationHeader";
-import "@/assets/css/links.css";
 
-import { useState, useEffect,useRef } from "react";
+//LIBRARIES
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import Select from "react-select";
 import Link from "next/link";
 import Image from "next/image";
 
-import { printer } from "@/components/imagepath";
-
+// ASSETS
+import "@/assets/css/links.css";
 import {
   motif,
   antecedants,
@@ -25,24 +24,31 @@ import {
   antFamilial
 } from "@/assets/dumpdata.js";
 
+// COMPONENTS
+import NavigationHeader from "@/components/NavigationHeader";
+import { printer } from "@/components/imagepath";
+
 const NouvelleConsultation = (props) => {
   const pages = ["Patients", "Patient", "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
-  const pathName = usePathname();
-  // let actionName = "";
+  let pathName = usePathname();
+  pathName = pathName.toLowerCase();
+  
   let actionName = "";
   let buttonName = "Enregistrer";
-  if(!pathName.includes("modifier")&&!pathName.includes("ajouter")){
-    router.push("/error");
+
+  useEffect(() => {
+    console.log("Action:", pathName);
+    if (!pathName.includes('ajouter') && !pathName.includes('modifier')) {
+      router.push('/error'); // Redirect to error page if the action is invalid
+    }
+  }, [pathName, router]);
+  if(pathName.includes("modifier")){
+    actionName = buttonName = "Modifier";
   }
   else{
-    if(pathName.includes("modifier")){
-      actionName = buttonName = "Modifier";
-    }
-    else{
-      actionName = "Ajouter";
-    }
+    actionName = "Ajouter";
   }
 
   // -------STATES-------
@@ -71,7 +77,8 @@ const NouvelleConsultation = (props) => {
 
     if (action) {
       type.classList.remove("hideInput");
-    } else {
+    } 
+    else {
       type.classList.add("hideInput");
     }
   }
@@ -1018,6 +1025,7 @@ const NouvelleConsultation = (props) => {
       </div>
     </div>
   );
+  
 };
 
 export default NouvelleConsultation;

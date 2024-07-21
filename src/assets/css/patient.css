@@ -56,3 +56,7 @@
 .generate{
   cursor :pointer!important;
 }
+
+.center-layout{
+  justify-content: center!important;
+}

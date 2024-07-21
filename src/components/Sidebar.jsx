@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../assets/css/font-awesome.min.css";
 import Link from "next/link";
 import Image from "next/image";
@@ -55,7 +56,7 @@ const Sidebar = (props) => {
             <ul>
               <li className="menu-title">Dossier Medical</li>
 
-              <li className="submenu">
+              <li className="submenu" key="dashboard">
                 <Link
                   href="/"
                   className={
@@ -68,7 +69,7 @@ const Sidebar = (props) => {
                   <span>Tableau de Bord</span>
                 </Link>
               </li>
-              <li className="submenu">
+              <li className="submenu" key="patients">
                 <Link
                   href="/Patients"
                   id="menu-item2"
@@ -81,6 +82,36 @@ const Sidebar = (props) => {
                     <i className="fa fa-users" />
                   </span>
                   <span>Patients </span>
+                </Link>
+              </li>
+              <li className="submenu" key="psy">
+                <Link
+                  href="/Patients"
+                  id="menu-item2"
+                  // onClick={(e) => handleClick(e, "menu-item2", "menu-items2")}
+                  className={
+                    props?.activeClassName === "psy" ? "active" : ""
+                  }
+                >
+                  <span>
+                    <i class="fa fa-clipboard"></i>
+                  </span>
+                  <span>Soutien Psy</span>
+                </Link>
+              </li>
+              <li className="submenu" key="ies">
+                <Link
+                  href="/Patients"
+                  id="menu-item2"
+                  // onClick={(e) => handleClick(e, "menu-item2", "menu-items2")}
+                  className={
+                    props?.activeClassName === "ies" ? "active" : ""
+                  }
+                >
+                  <span>
+                    <i class="fa fa-film"></i>
+                  </span>
+                  <span>IES</span>
                 </Link>
               </li>
             </ul>
