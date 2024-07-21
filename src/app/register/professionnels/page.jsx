@@ -26,28 +26,28 @@ const RegisterProfessionnelsForm = () => {
   
   const handleSubmit = (values) => {
     console.log('Form Data:', values);
-    // fetch('http://localhost:8080/register/professionnelsantes', {
-    //   method: 'POST',
-    //   headers: {
-    //       'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     user:{
-    //       nom:formData.nom,
-    //       prenom:formData.prenom,
-    //       mail:formData.email,
-    //       numTele:formData.tel.replace(/^0/, "+212"),
-    //       password:formData.password,
-    //     },
-    //     cin:formData.cin,
-    //     inpe:formData.inpe
-    //   })
-    // })
-    // .then(response => response.json())
-    // .then(data => nextStep())
-    // .catch(error => console.error('Error:', error));
+    fetch('http://localhost:8080/register/professionnels', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        infoUser:{
+          nom:formData.nom,
+          prenom:formData.prenom,
+          mail:formData.email,
+          numTel:formData.tel,
+          motDePasse:formData.password,
+        },
+        cin:formData.cin,
+        inpe:formData.inpe
+      })
+    })
+    .then(response => response.json())
+    .then(data => nextStep())
+    .catch(error => console.error('Error:', error));
 
-    nextStep()
+    //nextStep()
   };
 
    
