@@ -46,3 +46,13 @@
   padding : 4px 12px !important;
   width: 100% !important;
 }
+
+.views-personal > h4{
+  color :#2e37aa;
+}
+.views-personal > h4:hover{
+  color :#009ce7;
+}
+.generate{
+  cursor :pointer!important;
+}

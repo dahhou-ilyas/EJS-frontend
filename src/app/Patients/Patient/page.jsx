@@ -19,12 +19,28 @@ import {
 } from "@/components/imagepath";
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import ReactPDF from '@react-pdf/renderer';
-
+import jsPDF from "jspdf";
 
 const patient = (props) => {
   const pages = ["Patients", "Patient"];
-
+  const dossier = {
+    date : "27/05/2024",
+    location : "Espace Sante Jeune Tabriket, Sale",
+    title : "Dossier Medicale",
+    motif : "Opthamologie",
+    doctor : "Mr Karim Berrada",
+    info : "Lorem Ipsum ...", 
+  }
   function handleGenerateDocument(){   
+      const doc = new jsPDF()
+      doc.text(`Date: ${dossier.date}`, 10, 10);
+      doc.text(`Espace: ${dossier.location}`, 10, 20);
+      doc.text(`Consultation: ${dossier.title}`, 10, 30);//(text,x,y);x and y are coordinates
+      doc.text(`Motif: ${dossier.motif}`, 10, 40);
+      doc.text(`Docteur: ${dossier.doctor}`, 10, 50);
+      doc.text(`Ordonnance: ${dossier.info}`, 10, 60);
+      doc.save(`${dossier.title}.pdf`);
+    
   }
 
   return (
@@ -118,7 +134,7 @@ const patient = (props) => {
                       </div>
                     </Link>
                     
-                    <div className="personal-activity mb-0"
+                    <div className="personal-activity generate mb-0"
                       onClick={handleGenerateDocument}
                     >
                       <div className="personal-icons status-orange">
