@@ -31,6 +31,7 @@ export default function Sommeil() {
                                         width= {350} height= {350}
                                         />
                                         <Link className={"start-test"} href={"/soutien/sommeil/questions" }>Commencer le test</Link>
+                                        <a className={"start-test"} href="/tests-psycho/test-de-sommeil.pdf" download>Télécharger le test</a>
                                 </div>
                                 </div>
                              
