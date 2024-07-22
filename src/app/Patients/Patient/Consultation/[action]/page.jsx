@@ -57,12 +57,15 @@ const NouvelleConsultation = (props) => {
   const [choiceChirHab, setChoiceChirHab] = useState("");
   const [antPersonnelTitle, setAntPersonnel] = useState("");
   const [antPersonnelOptions, setAntPersonnelOptions] = useState(defaultOption);
-  const [examenClinique, setExamenClinique] = useState("");
+  const [examenCliniqueBio, setExamenCliniqueBio] = useState("");
+  const [examenCliniqueRad, setExamenCliniqueRad] = useState("");
   const [otherTitleFam, setOtherTitleFam] = useState("Autre.."); //Pour le champ qui s'affiche lors de choix : autre
   const [otherTitlePer, setOtherTitlePer] = useState("Autre.."); //Pour le champ qui s'affiche lors de choix : autre
   const [isOrdonannce, setIsOrdannance] = useState("");
   const [isPersonnelsChecked, setIsPersonnelsChecked] = useState(false);
   const [isFamilialsChecked, setIsFamilialsChecked] = useState(false);
+  const [isRadiologie, setIsRadiologie] = useState(false);
+  const [isBiologie, setIsBiologie] = useState(false);
   // const [options, setOptions] = useState(defaultOption);
 
   // -------FUNCTIONS-------
@@ -224,33 +227,37 @@ const NouvelleConsultation = (props) => {
   }
 
   // POUR AFFICHER LA LISTE DES EXAMEN SELON LE CHOIX BIOLOGIQUE OU RADIOLOGIQUE
-  function DisplayExamen(isBio) {
+  function DisplayExamenBio(isBio) {
     const bio = document.querySelector("div[id='examen-bio']");
-    const rad = document.querySelector("div[id='examen-rad']");
-    const inputOfExamen = document.querySelector("div[id='examen-autre']");
+    const inputOfExamen = document.querySelector("div[id='examen-autre-bio']");
     if (inputOfExamen) {
       inputOfExamen.classList.add("hideInput");
     }
     if (isBio) {
-      if (bio) {
-        bio.classList.remove("hideInput");
-      } else {
-        console.log("Element Introuvable");
-      }
-      rad.classList.add("hideInput");
-    } else {
-      if (rad) {
-        rad.classList.remove("hideInput");
-      } else {
-        console.log("Element Introuvable");
-      }
+      bio.classList.remove("hideInput");
+    } 
+    else {
       bio.classList.add("hideInput");
+    }
+  }
+  // POUR AFFICHER LA LISTE DES EXAMEN SELON LE CHOIX BIOLOGIQUE OU RADIOLOGIQUE
+  function DisplayExamenRad(isRad) {
+    const rad = document.querySelector("div[id='examen-rad']");
+    const inputOfExamen = document.querySelector("div[id='examen-autre-rad']");
+    if (inputOfExamen) {
+      inputOfExamen.classList.add("hideInput");
+    }
+    if (isRad) {
+      rad.classList.remove("hideInput");
+    } 
+    else {
+      rad.classList.add("hideInput");
     }
   }
 
   //POUR AFFICHER LE CHAMP DE TEXTE
-  function handleExamenChange(selectedOption) {
-    const inputOfExamen = document.querySelector("div[id='examen-autre']");
+  function handleExamenChangeBio(selectedOption) {
+    const inputOfExamen = document.querySelector("div[id='examen-autre-bio']");
     if (inputOfExamen) {
       inputOfExamen.classList.remove("hideInput");
     } else {
@@ -259,9 +266,25 @@ const NouvelleConsultation = (props) => {
     if (selectedOption["value"] == "0") {
       inputOfExamen.classList.add("hideInput");
     } else if (selectedOption["value"] == "AUTRE") {
-      setExamenClinique("Specifier autre");
+      setExamenCliniqueBio("Specifier autre");
     } else {
-      setExamenClinique(selectedOption["value"]);
+      setExamenCliniqueBio(selectedOption["value"]);
+    }
+  }
+  //POUR AFFICHER LE CHAMP DE TEXTE
+  function handleExamenChangeRad(selectedOption) {
+    const inputOfExamen = document.querySelector("div[id='examen-autre-rad']");
+    if (inputOfExamen) {
+      inputOfExamen.classList.remove("hideInput");
+    } else {
+      console.log("Element introuvable");
+    }
+    if (selectedOption["value"] == "0") {
+      inputOfExamen.classList.add("hideInput");
+    } else if (selectedOption["value"] == "AUTRE") {
+      setExamenCliniqueRad("Specifier autre");
+    } else {
+      setExamenCliniqueRad(selectedOption["value"]);
     }
   }
 
@@ -752,11 +775,12 @@ const NouvelleConsultation = (props) => {
                           <div className="form-check-inline">
                             <label className="form-check-label">
                               <input
-                                type="radio"
+                                type="checkbox"
                                 name="radiologie"
                                 className="form-check-input"
                                 onChange={() => {
-                                  DisplayExamen(true);
+                                  DisplayExamenBio(!isBiologie);
+                                  setIsBiologie(!isBiologie);
                                 }}
                               />
                               Biologique
@@ -765,11 +789,12 @@ const NouvelleConsultation = (props) => {
                           <div className="form-check-inline">
                             <label className="form-check-label">
                               <input
-                                type="radio"
+                                type="checkbox"
                                 name="radiologie"
                                 className="form-check-input"
                                 onChange={() => {
-                                  DisplayExamen(false);
+                                  DisplayExamenRad(!isRadiologie);
+                                  setIsRadiologie(!isRadiologie);
                                 }}
                               />
                               Radiologique
@@ -793,7 +818,7 @@ const NouvelleConsultation = (props) => {
                               menuPortal: (base) => ({ ...base, zIndex: 9999 })
                             }}
                             defaultValue={defaultOption}
-                            onChange={handleExamenChange}
+                            onChange={handleExamenChangeBio}
                             options={biologicalTests}
                             id="select-examen-bio"
                             components={{
@@ -846,7 +871,7 @@ const NouvelleConsultation = (props) => {
                               menuPortal: (base) => ({ ...base, zIndex: 9999 })
                             }}
                             defaultValue={defaultOption}
-                            onChange={handleExamenChange}
+                            onChange={handleExamenChangeRad}
                             options={radiologicalTests}
                             id="select-examen-rad"
                             components={{
@@ -886,11 +911,27 @@ const NouvelleConsultation = (props) => {
                       </div>
                       <div
                         className="col-12 col-md-4 col-xl-4 hideInput"
-                        id="examen-autre"
+                        id="examen-autre-bio"
                       >
                         <div className="form-group local-forms ">
                           <label>
-                            {examenClinique}{" "}
+                            {examenCliniqueBio}{" "}
+                            <span className="login-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Saisir.."
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="col-12 col-md-4 col-xl-4 hideInput"
+                        id="examen-autre-rad"
+                      >
+                        <div className="form-group local-forms ">
+                          <label>
+                            {examenCliniqueRad}{" "}
                             <span className="login-danger">*</span>
                           </label>
                           <input
