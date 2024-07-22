@@ -64,7 +64,7 @@ html {
 body {
   font-family: "Poppins", sans-serif;
   font-size: 16px;
-  color: #333448;
+  color: #483333;
   background: linear-gradient(
       0deg,
       rgba(51, 53, 72, 0.05),
@@ -11272,6 +11272,33 @@ tr.ant-table-row.ant-table-row-level-0.ant-table-row-selected,
   color: #6C757D;
   font-size: 20px;
   margin: 5px;
+}
+.test-next-part {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.soutien-questions {
+  width: 100%;
+  margin-top: 20px;
+}
+.soutien-question {
+  display: flex;
+  justify-content: space-between;
+}
+.options label {
+  margin-left: 20px;
+}
+.options input[type="radio"] {
+  margin-right: 4px;
+  cursor: pointer;
+}
+.test-title {
+  color: #2E37A4;
+}
+.part-title {
+  color: #6C757D;
 }
 
 
