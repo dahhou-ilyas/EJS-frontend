@@ -2593,7 +2593,7 @@ table.dataTable thead .sorting_desc_disabled:after {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #00d3c7;
+  background: #fcaa05;
 }
 .pulse:before {
   content: "";
@@ -2603,9 +2603,9 @@ table.dataTable thead .sorting_desc_disabled:after {
   height: 10px;
   position: absolute;
   border-radius: 50%;
-  background: rgb(0 211 199 / 50%);
+  background: rgba(255 168 0 / 50%);
   cursor: pointer;
-  box-shadow: 0 0 0 rgb(0 211 199);
+  box-shadow: 0 0 0 rgba(255,168,0);
   animation: pulse 1s linear infinite;
   z-index: 1;
 }

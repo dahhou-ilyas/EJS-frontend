@@ -59,16 +59,18 @@ export default function Header(){
       <div className="header">
         <div className="header-left">
           {/* THE IMAGE */}
+          
           <Link href="/" className="logo">
-            {/* <Image src={logo} width={35} height={35} alt="" />{" "} */}
-            <Image src="/logoJeune.png" width={80} height={35} alt="" />{" "}
+            <Image src={logo} width={35} height={35} alt="" />{" "}
+            {/* <Image src="/logoJeune.png" width={80} height={35} alt="" />{" "} */}
+            <span>PPN</span>
           </Link>
         </div>
-        <Link href="/" id="toggle_btn" onClick={handlesidebar}>
+        <Link href="#" id="toggle_btn" onClick={handlesidebar}>
           <Image src={baricon} alt="" />
         </Link>
         <Link
-          href="/"
+          href="#"
           id="mobile_btn"
           className="mobile_btn float-start"
           onClick={handlesidebarmobilemenu}
@@ -89,6 +91,7 @@ export default function Header(){
             </Link>
           </form>
         </div>
+
         <ul className="nav user-menu float-end">
           <li className="nav-item dropdown d-none d-sm-block">
             <Link
