@@ -7,3 +7,18 @@
 .save:hover,.save > a:hover{
   color:white!important;
 }
+.cancel{
+  background-color: #fff!important;
+  border:1px solid #000!important; 
+}
+.cancel:hover{
+  background-color: #c7c7c7!important;
+}
+.card{
+  border: 0 !important;
+	-webkit-box-shadow: 0 1px 1rem rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 1rem rgba(0, 0, 0, 0.1);
+}
+.hideInput{
+  display: none!important;
+}
