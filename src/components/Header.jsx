@@ -4,8 +4,11 @@ import React, { useEffect} from "react";
 
 import Image from "next/image.js";
 import Link from "next/link";
+import "@/assets/css/header.css"
+
 import {
   logo,
+  logoEsj,
   baricon,
   baricon1,
   searchnormal,
@@ -61,9 +64,9 @@ export default function Header(){
           {/* THE IMAGE */}
           
           <Link href="/" className="logo">
-            <Image src={logo} width={35} height={35} alt="" />{" "}
+            <Image src={logoEsj} className="logoSizing" alt="" />{" "}
             {/* <Image src="/logoJeune.png" width={80} height={35} alt="" />{" "} */}
-            <span>PPN</span>
+            {/* <span>Dossier Medicale</span> */}
           </Link>
         </div>
         <Link href="#" id="toggle_btn" onClick={handlesidebar}>

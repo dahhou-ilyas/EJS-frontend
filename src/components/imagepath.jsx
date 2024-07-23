@@ -7,6 +7,7 @@ export { default as logout } from "../assets/img/icons/logout.svg";
 export { default as printer } from "../assets/img/icons/printer.svg";
 
 export { default as logo } from "../assets/img/logo.png";
+export { default as logoEsj } from "../assets/img/logo-esj.png";
 
 export { default as baricon } from "../assets/img/icons/bar-icon.svg";
 export { default as baricon1 } from "../assets/img/icons/bar-icon.svg";

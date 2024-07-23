@@ -1,0 +1,17 @@
+.logoSizing{
+  width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  max-width: 400px; /* Ensure it does not exceed a maximum width */
+  max-height: 300px; /* Ensure it does not exceed a maximum height */
+  min-width: 100px; /* Ensure it does not go below a minimum width */
+  min-height: 100px; /* Ensure it does not go below a minimum height */
+  object-fit: contain; /* Adjust the object-fit property as needed */
+}
+
+@media only screen and (max-width: 400) {
+  .logoSizing {
+    max-width: 80px; 
+    min-width: 50px; 
+    height: auto; 
+  }
+}

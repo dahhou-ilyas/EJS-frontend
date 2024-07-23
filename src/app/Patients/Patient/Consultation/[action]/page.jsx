@@ -422,7 +422,7 @@ const NouvelleConsultation = (props) => {
                       </div>
 
 
-                      <SelectInput 
+                      {/* <SelectInput 
                         columnSize = {[12,6,4]}
                         label = "Antécédents Personnels"
                         default = {defaultOption}
@@ -431,12 +431,12 @@ const NouvelleConsultation = (props) => {
                         idSelect = "ant-personnel"
                         hide = {true}
                         functions = {[HandleAntPersonnel]}   
-                      />
+                      /> */}
 
 
                       <div
                         className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-an"
+                        id="type-ant"
                       >
                         <div className="form-group local-forms ">
                           <label>
