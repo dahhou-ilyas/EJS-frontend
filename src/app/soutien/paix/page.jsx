@@ -15,7 +15,7 @@ export default function Paix() {
                     <Breadcrumb title={"Paix"} /> 
                     <div class="container">
                         <div class="top soutien-container-title">
-                            <p className=' text-center'>Evaluation de la Paix Intérieure   </p>
+                            <p className=' text-center'>Evaluation de l'anxiété'   </p>
                         </div>
                         <div class="middle">
                         <article className="soutien-blog blog-single-post">
