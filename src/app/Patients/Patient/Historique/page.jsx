@@ -230,4 +230,5 @@ const Historique = () => {
     </div>
   );
 };
+
 export default Historique;

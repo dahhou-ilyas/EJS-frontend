@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../assets/css/font-awesome.min.css";
+import "@/assets/css/sidebar.css";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -11,7 +12,7 @@ import {
   patients,
   logout,
   menuicon10,
-  menuicon08,
+  menuicon13,
   callicon1
 } from "./imagepath";
 import Scrollbars from "react-custom-scrollbars-2";
@@ -63,8 +64,8 @@ const Sidebar = (props) => {
                     props?.activeClassName === "doctor-home" ? "active" : ""
                   }
                 >
-                  <span>
-                    <i className="fa fa-home" />
+                  <span className="menu-side">
+                    <Image src={dashboard} alt="dashboard"/>
                   </span>
                   <span>Tableau de Bord</span>
                 </Link>
@@ -73,13 +74,14 @@ const Sidebar = (props) => {
                 <Link
                   href="/Patients"
                   id="menu-item2"
+                  
                   // onClick={(e) => handleClick(e, "menu-item2", "menu-items2")}
                   className={
                     props?.activeClassName === "patients" ? "active" : ""
                   }
                 >
                   <span>
-                    <i className="fa fa-users" />
+                    <Image src={patients} alt="dashboard"/>
                   </span>
                   <span>Patients </span>
                 </Link>
@@ -94,7 +96,7 @@ const Sidebar = (props) => {
                   }
                 >
                   <span>
-                    <i class="fa fa-clipboard"></i>
+                    <Image src={menuicon13} alt="dashboard"/>
                   </span>
                   <span>Soutien Psy</span>
                 </Link>
@@ -109,7 +111,7 @@ const Sidebar = (props) => {
                   }
                 >
                   <span>
-                    <i class="fa fa-film"></i>
+                    <Image src={menuicon10} alt="dashboard"/>
                   </span>
                   <span>IES</span>
                 </Link>

@@ -29,6 +29,7 @@ export { default as menuicon09 } from "../assets/img/icons/menu-icon-09.svg";
 export { default as menuicon10 } from "../assets/img/icons/menu-icon-10.svg";
 export { default as menuicon11 } from "../assets/img/icons/menu-icon-11.svg";
 export { default as menuicon12 } from "../assets/img/icons/menu-icon-12.svg";
+export { default as menuicon13 } from "../assets/img/icons/menu-icon-13.svg";
 export { default as menuicon14 } from "../assets/img/icons/menu-icon-14.svg";
 export { default as menuicon15 } from "../assets/img/icons/menu-icon-15.svg";
 export { default as menuicon16 } from "../assets/img/icons/menu-icon-16.svg";

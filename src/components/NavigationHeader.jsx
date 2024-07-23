@@ -22,8 +22,6 @@ const NavigationHeader = (props)=>{
   }
   let i=-1;
   let pageNames =  links[links.length-1].split('/');
-  console.log(pageNames);
-  console.log(links);
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);

@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import Select from "react-select";
 import Link from "next/link";
 import Image from "next/image";
+import SelectInput from "@/components/SelectInput";
 
 // ASSETS
 import "@/assets/css/links.css";
@@ -359,55 +360,15 @@ const NouvelleConsultation = (props) => {
                       <div className="form-heading">
                         <h4>2. Motif</h4>
                       </div>
-                      <div className="col-12 col-md-12 col-xl-12">
-                        <div className="form-group local-forms">
-                          <label>
-                            Motif <span className="login-danger">*</span>
-                          </label>
-                          <Select
-                            menuPortalTarget={document.body}
-                            styles={{
-                              menuPortal: (base) => ({ ...base, zIndex: 9999 })
-                            }}
-                            defaultValue={defaultOption}
-                            onChange={setSelectedOption}
-                            options={motif}
-                            id="motif"
-                            components={{
-                              IndicatorSeparator: () => null
-                            }}
-                            // eslint-disable-next-line react/jsx-no-duplicate-props
-                            styles={{
-                              control: (baseStyles, state) => ({
-                                ...baseStyles,
-                                borderColor: state.isFocused
-                                  ? "none"
-                                  : "2px solid rgba(46, 55, 164, 0.1);",
-                                boxShadow: state.isFocused
-                                  ? "0 0 0 1px #2e37a4"
-                                  : "none",
-                                "&:hover": {
-                                  borderColor: state.isFocused
-                                    ? "none"
-                                    : "2px solid rgba(46, 55, 164, 0.1)"
-                                },
-                                borderRadius: "10px",
-                                fontSize: "14px",
-                                minHeight: "45px"
-                              }),
-                              dropdownIndicator: (base, state) => ({
-                                ...base,
-                                transform: state.selectProps.menuIsOpen
-                                  ? "rotate(-180deg)"
-                                  : "rotate(0)",
-                                transition: "250ms",
-                                width: "35px",
-                                height: "35px"
-                              })
-                            }}
-                          />
-                        </div>
-                      </div>
+                      <SelectInput 
+                        columnSize = {[12,12,12]}
+                        label = "Motif"
+                        default = {defaultOption}
+                        options = {motif}
+                        id = "motif"
+                        hide = {false}
+                        functions = {[setSelectedOption]}   
+                      />
 
                       <div className="form-heading">
                         <h4>3. Antécédents</h4>
@@ -460,9 +421,22 @@ const NouvelleConsultation = (props) => {
                         </div>
                       </div>
 
+
+                      <SelectInput 
+                        columnSize = {[12,6,4]}
+                        label = "Antécédents Personnels"
+                        default = {defaultOption}
+                        options = {antecedants}
+                        idDiv = "type-ant"
+                        idSelect = "ant-personnel"
+                        hide = {true}
+                        functions = {[HandleAntPersonnel]}   
+                      />
+
+
                       <div
                         className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-ant"
+                        id="type-an"
                       >
                         <div className="form-group local-forms ">
                           <label>

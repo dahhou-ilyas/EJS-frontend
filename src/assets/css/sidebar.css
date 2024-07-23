@@ -1,0 +1,8 @@
+
+.sidebar .sidebar-menu > ul > li > a:hover span{
+  color:#2e37a4!important;
+}
+
+.sidebar .sidebar-menu > ul > li > a:hover img{
+  fill:#024e89!important;
+}
