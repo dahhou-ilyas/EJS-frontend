@@ -1,16 +1,16 @@
 // app/actions/sendEmail.js
 "use server"
 
+
 import nodemailer from "nodemailer";
 
 export default async function sendEmail(pdfBase64) {
-  const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
 
   const transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: SMTP_EMAIL,
-      pass: SMTP_PASSWORD,
+      user: "eespacesantejeunes@gmail.com",
+      pass: "emkh ziin cjgv tpmz",
     },
   });
 
@@ -18,8 +18,8 @@ export default async function sendEmail(pdfBase64) {
     await transport.verify();
 
     const sendResult = await transport.sendMail({
-      from: SMTP_EMAIL,
-      to: "aymenneffar222@gmail.com",
+      from: "nfcreativehorizon@gmail.com",
+      to: "nfcreativehorizon@gmail.com",
       subject: "Résultat du test",
       html: "<b>Vous trouverez ci-joint le résultat de votre test!</b>",
       attachments: [
