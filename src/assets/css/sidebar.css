@@ -3,6 +3,9 @@
   color:#2e37a4!important;
 }
 
-.sidebar .sidebar-menu > ul > li > a:hover img{
-  fill:#024e89!important;
+.sidebar-menu ul .submenu .active img {
+  filter: invert(36%) sepia(75%) saturate(5762%) hue-rotate(190deg) brightness(88%) contrast(80%)!important;
+}
+.sidebar-menu ul .submenu .active img:hover{
+  filter: invert(14%) sepia(92%) saturate(2506%) hue-rotate(232deg) brightness(96%) contrast(93%)!important;
 }
