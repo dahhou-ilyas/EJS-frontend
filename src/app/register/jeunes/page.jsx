@@ -32,33 +32,44 @@ const MultiStepForm = () => {
   
   
   const handleSubmit = (values) => {
-    //   fetch('http://localhost:8080/jeunes', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //         nom:formData.nom,
-    //         prenom:formData.prenom,
-    //         mail:formData.email,
-    //         numTele:formData.tel.replace(/^0/, "+212"),
-    //         password:formData.password,
-    //         type_jeune:(formData.scolarise == "oui")? "SCOLARISE":"NON_SCOLARISE",
-    //         sexe:(formData.genre=="Homme") ? "MASCULIN":"FEMININ",
-    //         dateNaissance:formData.dateNaissance,
-    //         scolarise:(formData.scolarise == "oui") ? true : false ,
-    //         cin:formData.cin,
-    //         niveauEtudesActuel: (formData.scolarise == "oui") ? formData.niveauEtudes:"",
-    //         cne:"CNE"+formData.cne,
-    //         codeMASSAR:formData.codeMassar,
-    //         dernierNiveauEtudes:(formData.scolarise == "non") ? formData.niveauEtudes:"",
-    //         enActivite:formData.enActivite,  
-    //     })
-    // })
-    // .then(response => response.json())
-    // .then(data => console.log('Success:', data))
-    // .catch(error => console.error('Error:', error));
-    nextStep();
+    let scolaris=""
+    let data={
+      infoUser: {
+        nom: values.nom,
+        prenom: values.prenom,
+        mail: values.email,
+        numTel: values.tel,
+        motDePasse: values.password
+      },
+      sexe: values.genre,
+      dateNaissance: values.dateNaissance,
+      scolarise: (values.scolarise == "oui") ? true : false,
+      cin: values.cin,
+    };
+    if(values.scolarise=="oui"){
+      scolaris="scolarise"
+      data.cne=values.cne
+      data.codeMassare=values.codeMassar
+      data.niveauEtudeActuel= values.niveauEtudes
+    }else if(values.scolarise=="non"){
+      scolaris="nonscolarise"
+      data.derniereNiveauEtudes=values.niveauEtudes
+      data.enActivite=(values.enActivite=="oui") ? true : false
+      data.cne=values.cne
+      data.codeMassare=values.codeMassar
+    }
+
+      fetch('http://localhost:8080/register/jeunes/'+scolaris, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => nextStep())
+    .catch(error => console.error('Error:', error));
+    //nextStep();
   };
 
   const calculateAge = (date) => {
@@ -108,10 +119,10 @@ const MultiStepForm = () => {
       case 5:
         return <ScolarisationForm nextStep={nextStep} prevStep={prevStep2} setFormData={setFormData} formData={formData} />;
       case 6:
-        if (formData.niveauEtudes !== "" && (formData.niveauEtudes == "Secondaire" || formData.niveauEtudes == "Supérieure")) {
+        if (formData.niveauEtudes !== "" && (formData.niveauEtudes == "SECONDAIRE" || formData.niveauEtudes == "SUPERIEUR")) {
           return <CneForm nextStep={nextStep} prevStep={prevStep} setFormData={setFormData} formData={formData}/>;
         }
-        else if (formData.niveauEtudes !== "" && formData.niveauEtudes == "Primaire"){
+        else if (formData.niveauEtudes !== "" && formData.niveauEtudes == "PRIMAIRE"){
           return <CodeMassarForm nextStep={nextStep} prevStep={prevStep} setFormData={setFormData} formData={formData} />;
         }
         else {

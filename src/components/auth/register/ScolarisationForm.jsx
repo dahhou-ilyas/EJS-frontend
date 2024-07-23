@@ -95,10 +95,10 @@ const Fields = ({ setFormData, nextStep }) => {
                         <SelectValue placeholder="Sélectionnez votre niveau d'études actuel" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Aucun">Aucun</SelectItem>
-                        <SelectItem value="Primaire">Primaire</SelectItem>
-                        <SelectItem value="Secondaire">Secondaire</SelectItem>
-                        <SelectItem value="Supérieure">Supérieure</SelectItem>
+                        <SelectItem value="AUCUN">Aucun</SelectItem>
+                        <SelectItem value="PRIMAIRE">Primaire</SelectItem>
+                        <SelectItem value="SECONDAIRE">Secondaire</SelectItem>
+                        <SelectItem value="SUPERIEUR">Supérieure</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage>{errors.niveauEtudes?.message}</FormMessage>
@@ -169,9 +169,9 @@ const Fields = ({ setFormData, nextStep }) => {
                           <SelectValue placeholder="Sélectionnez votre niveau d'études actuel" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Primaire">Primaire</SelectItem>
-                          <SelectItem value="Secondaire">Secondaire</SelectItem>
-                          <SelectItem value="Supérieure">Supérieure</SelectItem>
+                          <SelectItem value="PRIMAIRE">Primaire</SelectItem>
+                          <SelectItem value="SECONDAIRE">Secondaire</SelectItem>
+                          <SelectItem value="SUPERIEUR">Supérieure</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage>{errors.niveauEtudes?.message}</FormMessage>

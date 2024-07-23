@@ -33,31 +33,31 @@ const RegisterMedecinsForm = () => {
   
   const handleSubmit = (values) => {
     console.log('Form Data:', values);
-    // fetch('http://localhost:8080/register/medecins', {
-    //   method: 'POST',
-    //   headers: {
-    //       'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     appUser:{
-    //       nom:values.formData.nom,
-    //       prenom:values.formData.prenom,
-    //       mail:values.formData.email,
-    //       numTele:values.formData.tel.replace(/^0/, "+212"),
-    //       password:values.password,
-    //     },
-    //     cin:values.formData.cin,
-    //     inpe:values.formData.inpe,
-    //     ppr:values.formData.ppr,
-    //     estMedcinESJ:(values.formData.medecinESJ=="oui") ? true:false,
-    //     estGeneraliste:(values.formData.medecinGeneraliste=="oui")? true:false,
-    //     specialite:values.formData.specialite
-    //   })
-    // })
-    // .then(response => response.json())
-    // .then(data => nextStep())
-    // .catch(error => console.error('Error:', error));
-     nextStep()
+    fetch('http://localhost:8080/register/medecins', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        infoUser:{
+          nom:values.formData.nom,
+          prenom:values.formData.prenom,
+          mail:values.formData.email,
+          numTel:values.formData.tel.replace(/^0/, "+212"),
+          motDePasse:values.password,
+        },
+        cin:values.formData.cin,
+        inpe:values.formData.inpe,
+        ppr:values.formData.ppr,
+        estMedcinESJ:(values.formData.medecinESJ=="oui") ? true:false,
+        estGeneraliste:(values.formData.medecinGeneraliste=="oui")? true:false,
+        specialite:values.formData.specialite
+      })
+    })
+    .then(response => response.json())
+    .then(data => nextStep())
+    .catch(error => console.error('Error:', error));
+     //nextStep()
   };
 
    

@@ -26,6 +26,7 @@ import Illustration from "../../../public/image2.png";
 import Terms from './Terms';
 import CheckVerifiedEmail from './CheckVerifiedEmail';
 import { jwtDecode } from 'jwt-decode';
+import { useRouter } from 'next/navigation';
 
 
 const schema = z.object({
@@ -39,6 +40,7 @@ const schema = z.object({
 const AuthMedecin = () => {
     const [token,setToken]=useState({});
     const [accesToken,setAccesToken]=useState('');
+    const router = useRouter();
 
     const form = useForm({
         defaultValues: {
@@ -56,75 +58,76 @@ const AuthMedecin = () => {
 
     const onSubmit = (data) => {
 
-        // fetch('http://localhost:8080/auth/login/medecins', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         username:data.identifier,
-        //         password:data.password
-        //     })
-        //   })
-        //   .then(response => response.json())
-        //   .then(res => {
-        //     console.log(res);
-        //     const decodeJwt=jwtDecode(res["access-token"]);
-        //     setAccesToken(res["access-token"]);
-        //     setToken(decodeJwt.claims);
-        //     if(!decodeJwt.claims.confirmed){
-        //         alertDialogTriggerRef2.current.click();
-        //     }else if(decodeJwt.claims.isFirstAuth){
-        //         alertDialogTriggerRef.current.click();
-        //     }else{
-        //         nextStep();
-        //     }
-        //   })
-        //   .catch(error => console.error('Error:', error));
+        fetch('http://localhost:8080/auth/login/medecins', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username:data.identifier,
+                password:data.password
+            })
+          })
+          .then(response => response.json())
+          .then(res => {
+            console.log(res);
+            const decodeJwt=jwtDecode(res["access-token"]);
+            setAccesToken(res["access-token"]);
+            setToken(decodeJwt.claims);
+            if(!decodeJwt.claims.confirmed){
+                alertDialogTriggerRef2.current.click();
+            }else if(decodeJwt.claims.isFirstAuth){
+                alertDialogTriggerRef.current.click();
+            }else{
+                nextStep();
+            }
+          })
+          .catch(error => console.error('Error:', error));
 
     }
 
     const confirmeRules=()=>{
-        // console.log("***************");
-        // console.log(accesToken);
-        // console.log("***************");
-        // fetch(`http://localhost:8080/medecins/${token.id}`, {
-        //     method: "PATCH",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       "Authorization": `Bearer ${accesToken}`
-        //     },
-        //     body: JSON.stringify({
-        //         isFirstAuth:false,
-        //     })
-        // }).then(response => response.json())
-        // .then(data => {
-        //   nextStep();
-        // })
-        // .catch(error => {
-        //   console.error('Erreur lors de la mise à jour du medecin:', error);
-        // });
+        console.log("***************");
+        console.log(accesToken);
+        console.log("***************");
+        fetch(`http://localhost:8080/medecins/${token.id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${accesToken}`
+            },
+            body: JSON.stringify({
+                isFirstAuth:false,
+            })
+        }).then(response => response.json())
+        .then(data => {
+          nextStep();
+        })
+        .catch(error => {
+          console.error('Erreur lors de la mise à jour du medecin:', error);
+        });
     }
 
     const nextStep = () => {
+        router.push('/')
         console.log("eeeeeeeeeeeeeeeeeeeee");
         //router push main page medecin
     }
     const envoyerEmail = () => {
-        // fetch('http://localhost:8080/register/resend-token?email='+token.mail, {
-        //     method: 'POST'
-        //   }).then(response => {
-        //     if (!response.ok) {
-        //       throw new Error('Network response was not ok');
-        //     }
-        //     return response.text();
-        //   })
-        //   .then(data => {
-        //     console.log('Success:', data);
-        //   })
-        //   .catch(error => {
-        //     console.error('Error:', error);
-        //   });
+        fetch('http://localhost:8080/register/resend-token?email='+token.mail, {
+            method: 'POST'
+          }).then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+          .then(data => {
+            console.log('Success:', data);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
     }
     
   return (
