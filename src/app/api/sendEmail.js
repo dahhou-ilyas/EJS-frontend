@@ -18,7 +18,7 @@ export default async function sendEmail(pdfBase64) {
     await transport.verify();
 
     const sendResult = await transport.sendMail({
-      from: "nfcreativehorizon@gmail.com",
+      from: "eespacesantejeunes@gmail.com",
       to: "nfcreativehorizon@gmail.com",
       subject: "Résultat du test",
       html: "<b>Vous trouverez ci-joint le résultat de votre test!</b>",
