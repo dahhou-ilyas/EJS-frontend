@@ -3,7 +3,6 @@ import { useLanguage } from "../context/LanguageContext"
 import Header from "@/components/Header"
 import Breadcrumb from "@/components/soutien/home/breadcrumb"
 import Image from "next/image"
-import Link from "next/link"
 import PostItem from "@/components/soutien/home/PostItem"
 const postItems_francais = [
     {
@@ -85,12 +84,12 @@ const {arabic}=useLanguage();
                   <Breadcrumb title={""}  arabic={true} showbutt/>
                   <div className="container">
                       <div className="top soutien-container-title" >
-                          <p className='text-center'>مرحباً بك في مساحة الرفاهية الخاصة بك</p>
+                          <p className='text-center'>مرحباً بك في فضاء صحتك النفسية</p>
                       </div>
                       <div className="middle">
                           <article className="soutien-blog blog-single-post">
                               <h5 className="text-center"  dir="rtl">
-                                  الدعم النفسي والرفاهية
+                                  الدعم النفسي 
                               </h5>
                               <div className="clearfix">
                                   <Image
@@ -100,17 +99,15 @@ const {arabic}=useLanguage();
                                       width={500}
                                       height={500}
                                   />
-                                  <div className="post-right read-blks"  dir="rtl">
-                                      <Link className={"text-decoration-none text-center"} href="/">اقرأ المزيد</Link>
-                                  </div>
+                                  
                               </div>
                               <div className="blog-content">
-                                  <p className='text-center'  dir="rtl">
+                                  <p className='text-justify'  dir="rtl">
                                       خذ لحظة لنفسك، لرفاهيتك. اختباراتنا التفاعلية مصممة لمساعدتك في استكشاف حالتك العاطفية بطريقة لطيفة وإيجابية.
                                       من خلال الإجابة على بعض الأسئلة البسيطة، ستحصل على رؤى قيمة حول صحتك النفسية ونصائح مخصصة لتحسين شعورك اليومي.
                                       يمكن أن يكون لهذه الخطوة الصغيرة تأثير كبير على جودة حياتك.
                                   </p>
-                                  <p  className='text-center' dir="rtl">
+                                  <p  className='text-justify' dir="rtl">
                                       ابدأ الآن واكتشف طرقًا لحياة أكثر توازنًا وازدهارًا. أنت تستحق أن تشعر بالراحة.
                                   </p>
                               </div>
@@ -118,7 +115,7 @@ const {arabic}=useLanguage();
                       </div>
                       <div className="bottom" >
                           <article className="soutien-blog blog-single-post">
-                              <h5 className="text-center" dir="rtl">
+                              <h5 className="relat-head" dir="rtl">
                                   اختبارات نفسية
                               </h5>
                               <ul className="latest-posts" >
@@ -166,10 +163,8 @@ const {arabic}=useLanguage();
                                 className="img-fluid my-5  mx-auto d-block"
                                 width={500}
                                 height={500}
-                                />
-                            <div className="post-right read-blks">
-                                <Link className={"text-decoration-none"} href="/">Lire plus </Link>
-                            </div>
+                             />
+
                             </div>
                             <div className="blog-content">
                             <p className='text-justify'>
@@ -203,6 +198,9 @@ const {arabic}=useLanguage();
                                 ))}
                             </ul>
                     </article>
+                </div>
+                <div className='footer'>
+                <p className='text-center text-[5px] my-20'>Soutien Psychologique</p>
                 </div>
             </div>
             </div>

@@ -8,6 +8,7 @@ import Breadcrumb from "@/components/soutien/home/breadcrumb";
 import Image from 'next/image'; // Make sure to import Image for Next.js image optimization
 import logo from "../../../../../assets/img/logo.png";
 import sendEmail from '../../../../api/sendEmail';
+import Link from "next/link";
 
 export default function SommeilResult() {
   const searchParams = useSearchParams();
@@ -99,40 +100,48 @@ export default function SommeilResult() {
       <Header />
       <div className="page-wrapper">
         <div className="content">
-          <Breadcrumb title={"Sommeil"} />
+          <Breadcrumb title={"Paix"} />
           <div className="container">
-            <div className="top soutien-container-title">
-              <p className="text-center" style={{ fontSize: '30px' }}>
-                Résultat du test de la qualité de sommeil
-              </p>
+          <div ref={pdfRef} style={{ fontSize: '20px' }}>
+          
+            <div className="top soutien-container-title flex items-center space-x-4">
+            <Image src={logo} alt="Logo" width={100} height={100} />
+              <p className='text-center' style={{ fontSize: '30px' }}>Résultat du test de la Qualité du Sommeil</p>
             </div>
-            <div ref={pdfRef} style={{ fontSize: '20px' }}>
+            
               <div className="middle soutien-blog blog-single-post">
-                <Image src={logo} alt="Logo" width={100} height={100} />
+                
                 <h5 className="relat-head" style={{ fontSize: '28px' }}>Vos informations</h5>
-                <p className="my-2">
-                  <strong>Identifiant:</strong> 01
-                </p>
-                <p className="my-2">
-                  <strong>Nom et Prénom:</strong> nom prenom
-                </p>
-                <p className="my-2">
-                  <strong>Date du test:</strong> {currentDate}
-                </p>
-                <p className="my-2">
-                  <strong>Score:</strong> {Score}
-                </p>
+                <p className="my-2"><strong>Identifiant:</strong> 01</p>
+                <p className="my-2"><strong>Nom et Prénom:</strong> nom prenom</p>
+                <p className="my-2"><strong>Date du test:</strong> {currentDate}</p>
+                <p className="my-2"><strong>Score:</strong> {Score}</p>
               </div>
               <div className="bottom soutien-blog blog-single-post">
                 <h5 className="relat-head">Interprétation du résultat</h5>
-                <p className="text-justify">{interpretation}</p>
+                <p className='text-justify'>{interpretation}</p>
               </div>
-            </div>
-            <button onClick={handleGenerateAndSendPDF} className="btn btn-primary mt-4">
+         </div> 
+
+           
+            <div className='bottom2 soutien-blog blog-single-post d-flex flex-column align-items-center'>
+            <button onClick={handleGenerateAndSendPDF} className="btn-primary ">
               Télécharger le PDF
             </button>
-          </div>
-        </div>
+            <Link href= "/soutien" >
+                
+                <button className="btn-primary">
+                Revenir aux tests psychologiques
+                </button>
+        
+               </Link>
+            </div>
+
+            <div className='footer'>
+                <p className='text-center text-[5px] my-20'>Soutien Psychologique</p>
+            </div>
+         </div>
+         </div>
       </div>
     </div>
   );
