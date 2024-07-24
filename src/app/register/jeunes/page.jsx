@@ -29,8 +29,8 @@ const MultiStepForm = () => {
     password: "",
   });
 
-  
-  
+
+
   const handleSubmit = (values) => {
     let scolaris=""
     let data={
@@ -144,5 +144,4 @@ const MultiStepForm = () => {
     </div>
   );
 };
-
 export default MultiStepForm;
