@@ -32,8 +32,8 @@ export default function Humeur() {
                         height={350}
                       />
                       <Link className={"start-test"} href={"/soutien/humeur/questions"}>ابدأ الاختبار</Link>
-                      <Link className={"start-test"} href="localhost:3000/tests-psycho/had.pdf" target="_blank" alt="test" rel="noopener noreferrer">تحميل الاختبار</Link>
-                    </div>
+                      <a className={"start-test"} href="/tests-psycho/had-arabe.pdf" download>تحميل الاختبار</a>
+                      </div>
                   </article>
                 </div>
               </div>
@@ -67,7 +67,7 @@ export default function Humeur() {
                                         width= {350} height= {350}
                                         />
                                         <Link className={"start-test"} href={"/soutien/humeur/questions" }>Commencer le test</Link>
-                                        <Link className={"start-test"} href="localhost:3000/tests-psycho/had.pdf" target="_blank" alt="test" rel="noopener noreferrer">Télécharger le test</Link>
+                                        <Link className={"start-test"} href="/tests-psycho/had.pdf" target="_blank" alt="test" rel="noopener noreferrer">Télécharger le test</Link>
                     </div>
                </article>
                </div>

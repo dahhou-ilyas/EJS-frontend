@@ -34,6 +34,7 @@ export default function Sommeil() {
                                                 height={350}
                                             />
                                             <Link className={"start-test"} href={"/soutien/sommeil/questions"}>ابدأ الاختبار</Link>
+                                            <a className={"start-test"} href="/tests-psycho/test-de-sommeil-arabe.pdf" download>تحميل الاختبار</a>
                                         </div>
                                     </div>
                                 </article>
@@ -71,6 +72,7 @@ export default function Sommeil() {
                                         width= {350} height= {350}
                                         />
                                         <Link className={"start-test"} href={"/soutien/sommeil/questions" }>Commencer le test</Link>
+                                        <a className={"start-test"} href="/tests-psycho/echelle-estime-de-soi-de-rosenberg.pdf" download>Télécharger le test</a>
                                 </div>
                                 </div>
                              
