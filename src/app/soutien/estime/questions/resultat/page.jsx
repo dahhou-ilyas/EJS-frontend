@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from 'next/image'; // Make sure to import Image for Next.js image optimization
 import logo from "../../../../../assets/img/logo.png";
 import sendEmail from '../../../../api/sendEmail';
+import Breadcrumb from "@/components/soutien/home/breadcrumb";
 
 export default function Resultat() {
   const searchParams = useSearchParams();
@@ -49,11 +50,11 @@ export default function Resultat() {
   const generatePDF = async () => {
     const element = pdfRef.current;
     const canvas = await html2canvas(element, {
-      scale: 1, // Reduces the scale, which can significantly reduce file size
+      scale: 5, // Reduces the scale, which can significantly reduce file size
       logging: false,
       useCORS: true
     });
-    const imgData = canvas.toDataURL("image/jpeg", 0.7); // 0.7 is the quality of the image
+    const imgData = canvas.toDataURL("image/jpeg", 0.9); // 0.7 is the quality of the image
     const pdf = new jsPDF({
       unit: 'px',
       format: 'a4',
@@ -106,75 +107,51 @@ export default function Resultat() {
 
   return (
     <div className="main-wrapper">
-      {/* Header */}
       <Header />
-      {/* Page Wrapper */}
       <div className="page-wrapper">
         <div className="content">
-          {/* Page Header */}
-          <div className="page-header">
-            <div className="row">
-              <div className="col-sm-12">
-                <ul className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link
-                      className={"text-decoration-none text-[#2E37A4]"}
-                      href="/soutien"
-                    >
-                      Soutien Psychologique{" "}
-                    </Link>
-                  </li>
-                  <li className="breadcrumb-item">
-                    <i className="feather-chevron-right"></i>
-                  </li>
-                  <li className="breadcrumb-item active" >Estime de soi</li>
-                </ul>
-              </div>
+          <Breadcrumb title={"Paix"} />
+          <div className="container">
+          <div ref={pdfRef} style={{ fontSize: '40px' }}>
+          
+            <div className="top soutien-container-title flex items-center space-x-4">
+            <Image src={logo} alt="Logo" width={100} height={100} />
+              <p className='text-center' style={{ fontSize: '30px' }}>Résultat du test de l'Estime de soi</p>
             </div>
-            <p className="mx-3 text-center" style={{ fontSize: '30px' }}>
-                  Résultat du test de l'Estime de soi
-                </p>
-          </div>
-          <div className="grid place-items-center">
-            <div ref={pdfRef} style={{ fontSize: '20px' }}>
-              <div className="row">
+            
+              <div className="middle soutien-blog blog-single-post">
                 
+                <h5 className="relat-head" style={{ fontSize: '28px' }}>Vos informations</h5>
+                <p className="my-2"><strong>Identifiant:</strong> 01</p>
+                <p className="my-2"><strong>Nom et Prénom:</strong> nom prenom</p>
+                <p className="my-2"><strong>Date du test:</strong> {currentDate}</p>
+                <p className="my-2"><strong>Score:</strong> {Score}</p>
               </div>
-              <div className="row">
-                <div>
-                  <div className="blog blog-single-post">
-                    <Image src={logo} alt="Logo" width={100} height={100} />
-                    <h4 className="blog-title" style={{ fontSize: '28px' }}>Vos informations</h4>
-                    <p className="my-2">
-                      <strong>Identifiant:</strong> 01
-                    </p>
-                    <p className="my-2">
-                      <strong>Nom et Prénom:</strong> nom prenom
-                    </p>
-                    <p className="my-2">
-                      <strong>Date du test:</strong> {currentDate}
-                    </p>
-                    <p className="my-2">
-                      <strong>Score:</strong> {Score}
-                    </p>
-                  </div>
-                </div>
-                <div className="blog-view">
-                  <div className="blog blog-single-post">
-                    <h4 className="blog-title">Interprétation du résultat</h4>
-                    <p className="text-justify">{interpretation}</p>
-                  </div>
-                </div>
+              <div className="bottom soutien-blog blog-single-post">
+                <h5 className="relat-head">Interprétation du résultat</h5>
+                <p className='text-justify'>{interpretation}</p>
               </div>
+         </div> 
+
+           
+            <div className='bottom2 soutien-blog blog-single-post d-flex flex-column align-items-center'>
+            <button onClick={handleGenerateAndSendPDF} className="btn-primary ">
+              Télécharger le PDF
+            </button>
+            <Link href= "/soutien" >
+                
+                <button className="btn-primary">
+                Revenir aux tests psychologiques
+                </button>
+        
+               </Link>
             </div>
-            <form action={handleGenerateAndSendPDF}>
-              <button type="submit" className="btn btn-primary mt-4">
-                Télécharger le PDF
-              </button>
-              
-            </form>
-          </div>
-        </div>
+
+            <div className='footer'>
+                <p className='text-center text-[5px] my-20'>Soutien Psychologique</p>
+            </div>
+         </div>
+         </div>
       </div>
     </div>
   );
