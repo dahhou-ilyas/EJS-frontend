@@ -33,7 +33,7 @@ if (arabic){
                                         width= {350} height= {350}
                                         />
                                         <Link className={"start-test"} href={"/soutien/paix/questions" }>ابدأ الاختبار</Link>
-                                        <a className={"start-test"} href="/tests-psycho/had.pdf" download> حميل الاختبار</a>
+                                        <a className={"start-test"} href="/tests-psycho/had-arabe.pdf" download> تحميل الاختبار</a>
 
                                 </div>
                                 </div>

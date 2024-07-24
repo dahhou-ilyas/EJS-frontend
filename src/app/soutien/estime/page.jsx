@@ -35,7 +35,7 @@ export default function Estime() {
                                             width={350} height={350}
                                         />
                                         <Link className={"start-test"} href={"/soutien/estime/questions"}>بدء الاختبار</Link>
-                                        <a className={"start-test"} href="/tests-psycho/echelle-estime-de-soi-de-rosenberg.pdf" download>تحميل الاختبار</a>
+                                        <a className={"start-test"} href="/tests-psycho/echelle-estime-de-soi-de-rosenberg-arabe.pdf" download>تحميل الاختبار</a>
                                     </div>
                                 </article>
                             </div>
