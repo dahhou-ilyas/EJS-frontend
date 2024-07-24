@@ -85,23 +85,28 @@ export default function Resultat() {
         )
       );
       
-      // Call the server action
-      const result = await sendEmail(pdfBase64);
-      
-      if (result.success) {
-        console.log("PDF sent successfully");
-        // Optionally, you can still allow the user to download the PDF
-        const blob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'test_result.pdf';
-        link.click();
-      } else {
-        console.error("Failed to send PDF:", result.error);
+      // Download the PDF
+      const blob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'test_result.pdf';
+      link.click();
+  
+      // Attempt to send the email
+      try {
+        const result = await sendEmail(pdfBase64);
+        if (result.success) {
+          console.log("PDF sent successfully via email");
+        } else {
+          console.error("Failed to send PDF via email:", result.error);
+        }
+      } catch (emailError) {
+        console.error("Error sending PDF via email:", emailError);
       }
+  
     } catch (error) {
-      console.error("Error generating and sending PDF:", error);
+      console.error("Error generating PDF:", error);
     }
   };
 
@@ -112,7 +117,7 @@ export default function Resultat() {
         <div className="content">
           <Breadcrumb title={"Paix"} />
           <div className="container">
-          <div ref={pdfRef} style={{ fontSize: '40px' }}>
+          <div ref={pdfRef} style={{ fontSize: '20px' }}>
           
             <div className="top soutien-container-title flex items-center space-x-4">
             <Image src={logo} alt="Logo" width={100} height={100} />

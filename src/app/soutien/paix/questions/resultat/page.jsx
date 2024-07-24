@@ -71,23 +71,28 @@ export default function Humeur_Result() {
         )
       );
       
-      // Call the server action
-      const result = await sendEmail(pdfBase64);
-      
-      if (result.success) {
-        console.log("PDF sent successfully");
-        // Optionally, you can still allow the user to download the PDF
-        const blob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'test_result.pdf';
-        link.click();
-      } else {
-        console.error("Failed to send PDF:", result.error);
+      // Download the PDF
+      const blob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'test_result.pdf';
+      link.click();
+  
+      // Attempt to send the email
+      try {
+        const result = await sendEmail(pdfBase64);
+        if (result.success) {
+          console.log("PDF sent successfully via email");
+        } else {
+          console.error("Failed to send PDF via email:", result.error);
+        }
+      } catch (emailError) {
+        console.error("Error sending PDF via email:", emailError);
       }
+  
     } catch (error) {
-      console.error("Error generating and sending PDF:", error);
+      console.error("Error generating PDF:", error);
     }
   };
 
