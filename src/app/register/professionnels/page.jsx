@@ -33,14 +33,14 @@ const RegisterProfessionnelsForm = () => {
       },
       body: JSON.stringify({
         infoUser:{
-          nom:formData.nom,
-          prenom:formData.prenom,
-          mail:formData.email,
-          numTel:formData.tel,
-          motDePasse:formData.password,
+          nom:values.formData.nom,
+          prenom:values.formData.prenom,
+          mail:values.formData.email,
+          numTel:values.formData.tel,
+          motDePasse:values.password,
         },
-        cin:formData.cin,
-        inpe:formData.inpe
+        cin:values.formData.cin,
+        inpe:values.formData.inpe
       })
     })
     .then(response => response.json())

@@ -11220,19 +11220,29 @@ tr.ant-table-row.ant-table-row-level-0.ant-table-row-selected,
 
 /*------ soutien ----------------*/
 
-
-
-.soutien-container {
-  display: grid; 
-  grid-template-columns: 0.7fr 1.6fr 0.7fr; 
-  grid-template-rows: 1.8fr 1.2fr; 
-  gap: 30px 10px; 
-  grid-template-areas: 
+.soutien-container {  display: grid;
+  grid-template-columns: 0.3fr 2.4fr 0.3fr;
+  grid-template-rows: 0.3fr 2.5fr 1.5fr 1.1fr 0.6fr;
+  gap: 27px 14px;
+  grid-auto-flow: column dense;
+  grid-template-areas:
     ". top ."
-    ". bottom ."; 
+    ". middle ."
+    ". bottom ."
+    ". bottom2 ."
+    ". footer .";
 }
+
 .top { grid-area: top; }
+
+.middle { grid-area: middle; }
+
 .bottom { grid-area: bottom; }
+
+.bottom2 { grid-area: bottom2; }
+
+.footer { grid-area: footer; }
+
 
 .soutien-container-title{
   background: #ffffff;
