@@ -9406,6 +9406,8 @@ td.add-remove {
 }
 .page-header {
   margin-bottom: 1.875rem;
+  display: flex;
+  justify-content: space-between;
 }
 .invoices-table.custom-table tbody tr {
   box-shadow: none;
