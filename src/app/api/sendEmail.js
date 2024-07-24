@@ -24,7 +24,7 @@ export default async function sendEmail(pdfBase64) {
     console.log('Attempting to send email...');
     const sendResult = await transport.sendMail({
       from: "eespacesantejeunes@gmail.com",
-      to: "nfcreativehorizon@gmail.com",
+      to: "aymenneffar222@gmail.com",
       subject: "Résultat du test",
       html: "<b>Vous trouverez ci-joint le résultat de votre test!</b>",
       attachments: [
