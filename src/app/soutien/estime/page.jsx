@@ -1,9 +1,52 @@
+"use client"
 import Header from '../../../components/Header'
+import { useLanguage } from '@/app/context/LanguageContext';
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from '@/components/soutien/home/breadcrumb';
 
 export default function Estime() {
+    const { arabic } = useLanguage();
+
+    if(arabic){
+        return (
+            <div className="main-wrapper">
+                <Header />
+                <div className="page-wrapper">
+                    <div className="content">
+                        <Breadcrumb title={"تقدير الذات"} arabic={true} showbutt /> 
+                        <div className="container" >
+                            <div className="top soutien-container-title" >
+                                <p className=' text-center'>تقييم تقدير الذات</p>
+                            </div>
+                            <div className="middle" >
+                                <article className="soutien-blog blog-single-post" dir='rtl'>
+                                    <p className="text-justify" >
+                                        يُعرّف تقدير الذات على أنه الحكم أو التقييم الذي يقوم به الشخص لنفسه، لقيمته الشخصية. بشكل أكثر بساطة، يمكن أيضًا تشبيه تقدير الذات بتأكيد الذات. يعتبر تقدير الذات عاملاً أساسيًا في الأداء الرياضي.
+                                    </p>
+                                    <p className="text-justify">
+                                        من خلال الإجابة على هذا الاختبار، ستتمكن من الحصول على تقييم لتقديرك لذاتك.
+                                    </p>
+                                    <div className='d-flex flex-column align-items-center'>
+                                        <Image
+                                            alt="#"
+                                            src="https://www.ciao.ch/media/topics/estime-de-soi.png.767x576_q85.png"
+                                            className="img-fluid my-5"
+                                            width={350} height={350}
+                                        />
+                                        <Link className={"start-test"} href={"/soutien/estime/questions"}>بدء الاختبار</Link>
+                                        <a className={"start-test"} href="/tests-psycho/echelle-estime-de-soi-de-rosenberg.pdf" download>تحميل الاختبار</a>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+        
+}
+
 
     return (
   
@@ -11,7 +54,7 @@ export default function Estime() {
                  <Header />
                  <div className="page-wrapper">
                     <div className="content">
-                    <Breadcrumb title={"Estime de soi"} /> 
+                    <Breadcrumb title={"Estime de soi"} showbutt /> 
                     <div class="container">
                         <div class="top soutien-container-title">
                             <p className=' text-center'>Evaluation de l'Estime de soi   </p>

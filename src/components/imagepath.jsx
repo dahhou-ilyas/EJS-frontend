@@ -268,6 +268,11 @@ export { default as report_icon2 } from "../assets/img/icons/report-icon-02.svg"
 export { default as report_icon3 } from "../assets/img/icons/report-icon-03.svg";
 export { default as report_icon4 } from "../assets/img/icons/report-icon-04.svg";
 
+//la langue
+export { default as arabe } from "../assets/img/langue/arabic.png";
+export { default as francais } from "../assets/img/langue/francais.png";
+
+
 // export { default as headlogo } from "../assets/img/logo.png";
 // export { default as logo } from "../assets/img/logo.svg";
 // export { default as logoPng } from "../assets/img/logo/logo.png";

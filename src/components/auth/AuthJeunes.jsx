@@ -68,6 +68,7 @@ const AuthJeunes = () => {
           .then(response => response.json())
           .then(res => {
             console.log(res);
+            localStorage.setItem('access-token', res["access-token"]);
             const decodeJwt=jwtDecode(res["access-token"]);
             console.log(decodeJwt);
             setAccesToken(res["access-token"]);

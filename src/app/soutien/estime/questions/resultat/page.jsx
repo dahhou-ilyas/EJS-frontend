@@ -7,6 +7,7 @@ import Header from "../../../../../components/Header";
 import Link from "next/link";
 import Image from 'next/image'; // Make sure to import Image for Next.js image optimization
 import logo from "../../../../../assets/img/logo.png";
+import sendEmail from '../../../../api/sendEmail';
 
 export default function Resultat() {
   const searchParams = useSearchParams();
@@ -47,15 +48,60 @@ export default function Resultat() {
 
   const generatePDF = async () => {
     const element = pdfRef.current;
-    const canvas = await html2canvas(element);
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    const canvas = await html2canvas(element, {
+      scale: 1, // Reduces the scale, which can significantly reduce file size
+      logging: false,
+      useCORS: true
+    });
+    const imgData = canvas.toDataURL("image/jpeg", 0.7); // 0.7 is the quality of the image
+    const pdf = new jsPDF({
+      unit: 'px',
+      format: 'a4',
+      orientation: 'portrait'
+    });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const widthRatio = pageWidth / canvas.width;
+    const heightRatio = pageHeight / canvas.height;
+    const ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
+  
+    const canvasWidth = canvas.width * ratio;
+    const canvasHeight = canvas.height * ratio;
+  
+    pdf.addImage(imgData, 'JPEG', 0, 0, canvasWidth, canvasHeight);
+    return pdf.output('arraybuffer');
+  };
 
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("test_result.pdf");
+  const handleGenerateAndSendPDF = async () => {
+    try {
+      const pdfArrayBuffer = await generatePDF();
+      
+      // Convert ArrayBuffer to Base64
+      const pdfBase64 = btoa(
+        new Uint8Array(pdfArrayBuffer).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ''
+        )
+      );
+      
+      // Call the server action
+      const result = await sendEmail(pdfBase64);
+      
+      if (result.success) {
+        console.log("PDF sent successfully");
+        // Optionally, you can still allow the user to download the PDF
+        const blob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'test_result.pdf';
+        link.click();
+      } else {
+        console.error("Failed to send PDF:", result.error);
+      }
+    } catch (error) {
+      console.error("Error generating and sending PDF:", error);
+    }
   };
 
   return (
@@ -121,9 +167,12 @@ export default function Resultat() {
                 </div>
               </div>
             </div>
-            <button onClick={generatePDF} className="btn btn-primary mt-4">
-              Télécharger le PDF
-            </button>
+            <form action={handleGenerateAndSendPDF}>
+              <button type="submit" className="btn btn-primary mt-4">
+                Télécharger le PDF
+              </button>
+              
+            </form>
           </div>
         </div>
       </div>

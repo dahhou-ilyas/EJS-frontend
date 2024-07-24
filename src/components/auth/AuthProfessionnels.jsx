@@ -72,6 +72,7 @@ const AuthProfessionnels = () => {
           .then(response => response.json())
           .then(res => {
             console.log(res);
+            localStorage.setItem('access-token', res["access-token"]);
             const decodeJwt=jwtDecode(res["access-token"]);
             setAccesToken(res["access-token"]);
             setToken(decodeJwt.claims);
