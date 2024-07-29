@@ -15,7 +15,7 @@ export default function SelectInput(props){
               menuPortal: (base) => ({ ...base, zIndex: 9999 })
             }}
             defaultValue={props.defaultOption}
-            onChange={()=>props.functions.forEach((func)=>{return func})}
+            onChange={(selectedOption) => props.functions.forEach((func) => func(selectedOption))}
             options={props.options}
             id={props.idSelect}
             components={{

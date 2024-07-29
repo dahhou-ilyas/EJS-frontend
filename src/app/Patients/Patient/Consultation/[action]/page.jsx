@@ -30,6 +30,11 @@ import {
 import NavigationHeader from "@/components/NavigationHeader";
 import { printer } from "@/components/imagepath";
 
+
+function test(){
+  console.log('hy');
+}
+
 const NouvelleConsultation = (props) => {
   const pages = ["Patients", "Patient", "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
@@ -120,20 +125,27 @@ const NouvelleConsultation = (props) => {
     );
     const typesInput = document.querySelector("div[id='type-ant-selected']");
 
+    //LE CAS OU l'OPTION SELECTIONNE EST MEDICAL OU HABITUDES
     if (types.includes(selectedOption["value"])) {
       if (typesInput) typesInput.classList.remove("hideInput");
       else console.log("Element introuvable");
+      
       if (!allergiesInput.classList.contains("hideInput"))
         allergiesInput.classList.add("hideInput");
-    } else if (allergies.includes(selectedOption["value"])) {
+    } 
+    
+
+    //LE CAS OU l'OPTION SELECTIONNE EST ALLERGIES
+    else if (allergies.includes(selectedOption["value"])) {
       if (allergiesInput) {
         allergiesInput.classList.remove("hideInput");
       }
       if (!typesInput.classList.contains("hideInput")) {
-        console.log("hhhh");
+        // console.log("hhhh");
         typesInput.classList.add("hideInput");
       }
-    } else {
+    } 
+    else {
       allergiesInput.classList.add("hideInput");
       typesInput.classList.add("hideInput");
     }
@@ -146,18 +158,18 @@ const NouvelleConsultation = (props) => {
       setOtherTitlePer("Type de Maladie Chirurgical");
       otherInput.classList.remove("hideInput");
       typeInput.classList.remove("hideInput");
-    } else {
+    } 
+    else {
       setChoiceChirHab("Nombre Année des soins");
       otherInput.classList.add("hideInput");
       typeInput.classList.add("hideInput");
     }
   }
 
-  // PERMET DE CHANGER LA LISTE DEROULANTES DE ANTECEDANTS PERSONNELS TYPE SELON LES CHOIX
+  // PERMET DE CHANGER LA LISTE DEROULANTES D ANTECEDANTS PERSONNELS TYPE SELON LES CHOIX
   function HandleAntPersonnel(selectedOption) {
-    DisplayTypeAntPer(selectedOption);
-    const otherInput = document.querySelector("div[id='type-autre-input-pers']");
 
+    DisplayTypeAntPer(selectedOption);
     chirurgicalHandle(false);
     if (selectedOption["value"] == "Medical") {
       setAntPersonnel("Medical");
@@ -168,9 +180,8 @@ const NouvelleConsultation = (props) => {
     } else if (selectedOption["value"] == "Chirurgical") {
       chirurgicalHandle(true);
       return;
-    } else if (selectedOption["value"] == "AUTRE") {
-      otherInput.classList.remove("hideInput");
     }
+
   }
 
   function HandleAntPersonnelChoice(selectedOption) {
@@ -186,34 +197,24 @@ const NouvelleConsultation = (props) => {
       if (selectedOption["value"] == "Alcool") {
         setChirurgicalOrHabitudes(alcoolFrequency);
         setChoiceChirHab("Alcool");
-      } else if (selectedOption["value"] == "Tabac") {
+      } 
+      else if (selectedOption["value"] == "Tabac") {
         setChirurgicalOrHabitudes(tabacQuantity);
         setChoiceChirHab("Tabac");
-      } else {
+      } 
+      else {
         setChirurgicalOrHabitudes(tempsEcran);
         setChoiceChirHab("Temps d'ecran");
       }
       otherInput.classList.add("hideInput");
-    } else if (selectedOption["value"] == "AUTRE") {
+    } 
+    else if (selectedOption["value"] == "AUTRE") {
       otherInput.classList.remove("hideInput");
       habitudesChoicesInput.classList.add("hideInput");
-    } else {
+    } 
+    else {
       otherInput.classList.add("hideInput");
       habitudesChoicesInput.classList.add("hideInput");
-    }
-  }
-
-  // PERMET DE CACHER LES CHAMP CONCERNANT PERSONNELS
-  function CheckPersonnels() {
-    const allergiesInput = document.querySelector(
-      "div[id = 'type-ant-allergies']"
-    );
-    const typesInput = document.querySelector("div[id='type-ant-selected']");
-    if (allergiesInput) {
-      allergiesInput.classList.add("hideInput");
-    }
-    if (typesInput) {
-      typesInput.classList.add("hideInput");
     }
   }
 
@@ -283,7 +284,7 @@ const NouvelleConsultation = (props) => {
     if (selectedOption["value"] == "0") {
       inputOfExamen.classList.add("hideInput");
     } else if (selectedOption["value"] == "AUTRE") {
-      setExamenCliniqueRad("Specifier autre");
+      setExamenCliniqueRad("Specifier autre -Radiologie-");
     } else {
       setExamenCliniqueRad(selectedOption["value"]);
     }
@@ -358,16 +359,16 @@ const NouvelleConsultation = (props) => {
                       </div>
 
                       <div className="form-heading">
-                        <h4>2. Motif</h4>
+                        <h4>2. Motif de Consultation</h4>
                       </div>
                       <SelectInput 
                         columnSize = {[12,12,12]}
-                        label = "Motif"
+                        label = ""
                         default = {defaultOption}
                         options = {motif}
                         id = "motif"
                         hide = {false}
-                        functions = {[setSelectedOption]}   
+                        functions = {[setSelectedOption,test]}   
                       />
 
                       <div className="form-heading">
@@ -411,11 +412,10 @@ const NouvelleConsultation = (props) => {
                                   // setIsFamilialsChecked(true);
                                   // DisplayPersonnels(false);
                                   DisplayFamilials(!isFamilialsChecked);
-                                  // CheckPersonnels();
                                   setIsFamilialsChecked(!isFamilialsChecked);
                                 }}
                               />
-                              Familiales
+                              Familiaux
                             </label>
                           </div>
                         </div>
@@ -635,7 +635,7 @@ const NouvelleConsultation = (props) => {
                       >
                         <div className="form-group local-forms ">
                           <label>
-                            Antécédents Familials{" "}
+                            Antécédents Familiaux{" "}
                             <span className="login-danger">*</span>
                           </label>
                           <Select
@@ -699,7 +699,7 @@ const NouvelleConsultation = (props) => {
                       </div>
 
                       <div className="form-heading">
-                        <h4>4. Historique Clinique</h4>
+                        <h4>4. Interrogatoire</h4>
                       </div>
 
                       <div className="col-12 col-sm-12">
@@ -719,26 +719,7 @@ const NouvelleConsultation = (props) => {
                       </div>
 
                       <div className="form-heading">
-                        <h4>5. Examen Clinique</h4>
-                      </div>
-                      <div className="col-12 col-sm-12">
-                        <div className="form-group local-forms">
-                          <label>
-                            <span className="login-danger">*</span>
-                          </label>
-                          <textarea
-                            className="form-control"
-                            rows={3}
-                            cols={30}
-                            placeholder={
-                              "Veuillez décrire brièvement l'examen clinique effectué aujourd'hui .."
-                            }
-                          />
-                        </div>
-                      </div>
-
-                      <div className="form-heading">
-                        <h4>6. Examen Médicaux</h4>
+                        <h4>5. Examen Clinique Biologique et Radiologique</h4>
                       </div>
                       <div className="col-12 col-md-4 col-xl-4 mb-4">
                         <div className="form-group select-gender">
@@ -777,112 +758,28 @@ const NouvelleConsultation = (props) => {
                         </div>
                       </div>
 
-                      <div
-                        className="col-12 col-md-4 col-xl-4 hideInput"
-                        id="examen-bio"
-                      >
-                        <div className="form-group local-forms">
-                          <label>
-                            Examen Biologique{" "}
-                            <span className="login-danger">*</span>
-                          </label>
-                          <Select
-                            menuPortalTarget={document.body}
-                            styles={{
-                              menuPortal: (base) => ({ ...base, zIndex: 9999 })
-                            }}
-                            defaultValue={defaultOption}
-                            onChange={handleExamenChangeBio}
-                            options={biologicalTests}
-                            id="select-examen-bio"
-                            components={{
-                              IndicatorSeparator: () => null
-                            }}
-                            // eslint-disable-next-line react/jsx-no-duplicate-props
-                            styles={{
-                              control: (baseStyles, state) => ({
-                                ...baseStyles,
-                                borderColor: state.isFocused
-                                  ? "none"
-                                  : "2px solid rgba(46, 55, 164, 0.1);",
-                                boxShadow: state.isFocused
-                                  ? "0 0 0 1px #2e37a4"
-                                  : "none",
-                                "&:hover": {
-                                  borderColor: state.isFocused
-                                    ? "none"
-                                    : "2px solid rgba(46, 55, 164, 0.1)"
-                                },
-                                borderRadius: "10px",
-                                fontSize: "14px",
-                                minHeight: "45px"
-                              }),
-                              dropdownIndicator: (base, state) => ({
-                                ...base,
-                                transform: state.selectProps.menuIsOpen
-                                  ? "rotate(-180deg)"
-                                  : "rotate(0)",
-                                transition: "250ms",
-                                width: "35px",
-                                height: "35px"
-                              })
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <div
-                        className="col-12 col-md-4 col-xl-4 hideInput"
-                        id="examen-rad"
-                      >
-                        <div className="form-group local-forms">
-                          <label>
-                            Examen Radiologique{" "}
-                            <span className="login-danger">*</span>
-                          </label>
-                          <Select
-                            menuPortalTarget={document.body}
-                            styles={{
-                              menuPortal: (base) => ({ ...base, zIndex: 9999 })
-                            }}
-                            defaultValue={defaultOption}
-                            onChange={handleExamenChangeRad}
-                            options={radiologicalTests}
-                            id="select-examen-rad"
-                            components={{
-                              IndicatorSeparator: () => null
-                            }}
-                            // eslint-disable-next-line react/jsx-no-duplicate-props
-                            styles={{
-                              control: (baseStyles, state) => ({
-                                ...baseStyles,
-                                borderColor: state.isFocused
-                                  ? "none"
-                                  : "2px solid rgba(46, 55, 164, 0.1);",
-                                boxShadow: state.isFocused
-                                  ? "0 0 0 1px #2e37a4"
-                                  : "none",
-                                "&:hover": {
-                                  borderColor: state.isFocused
-                                    ? "none"
-                                    : "2px solid rgba(46, 55, 164, 0.1)"
-                                },
-                                borderRadius: "10px",
-                                fontSize: "14px",
-                                minHeight: "45px"
-                              }),
-                              dropdownIndicator: (base, state) => ({
-                                ...base,
-                                transform: state.selectProps.menuIsOpen
-                                  ? "rotate(-180deg)"
-                                  : "rotate(0)",
-                                transition: "250ms",
-                                width: "35px",
-                                height: "35px"
-                              })
-                            }}
-                          />
-                        </div>
-                      </div>
+                      <SelectInput 
+                        columnSize = {[12,4,4]}
+                        label = "Examen Biologique"
+                        default = {defaultOption}
+                        options = {biologicalTests}
+                        idDiv = "examen-bio"
+                        id = "select-examen-bio"
+                        hide = {true}
+                        functions = {[setSelectedOption,handleExamenChangeBio]}   
+                      />
+
+                      <SelectInput 
+                        columnSize = {[12,4,4]}
+                        label = "Examen Radiologique"
+                        default = {defaultOption}
+                        options = {radiologicalTests}
+                        idDiv = "examen-rad"
+                        id = "select-examen-rad"
+                        hide = {true}
+                        functions = {[setSelectedOption,handleExamenChangeRad]}   
+                      />
+
                       <div
                         className="col-12 col-md-4 col-xl-4 hideInput"
                         id="examen-autre-bio"
@@ -916,76 +813,9 @@ const NouvelleConsultation = (props) => {
                         </div>
                       </div>
 
-                      <div className="form-heading">
-                        <h4>7. Diagnostic Positif </h4>
-                      </div>
-                      <div className="col-12 col-md-5 col-xl-5">
-                        <div className="form-group select-gender">
-                          <label className="gen-label">
-                            Diagnostic Positif {"  "}
-                            <span className="login-danger">*</span>
-                          </label>
-                          <div className="form-check-inline">
-                            <label className="form-check-label">
-                              <input
-                                type="radio"
-                                name="diagnostic"
-                                className="form-check-input"
-                              />
-                              Oui
-                            </label>
-                          </div>
-                          <div className="form-check-inline">
-                            <label className="form-check-label">
-                              <input
-                                type="radio"
-                                name="diagnostic"
-                                className="form-check-input"
-                              />
-                              Non
-                            </label>
-                          </div>
-                          <div className="form-check-inline">
-                            <label className="form-check-label">
-                              <input
-                                type="radio"
-                                name="diagnostic"
-                                className="form-check-input"
-                              />
-                              Correspondance
-                            </label>
-                          </div>
-                          <div className="form-check-inline">
-                            <label className="form-check-label">
-                              <input
-                                type="radio"
-                                name="diagnostic"
-                                className="form-check-input"
-                              />
-                              Télé Expertise
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="col-12 col-md-7 col-xl-7"
-                        id="specify-diagnostic"
-                      >
-                        <div className="form-group local-forms">
-                          <label>
-                            Specifier Le diagnostic
-                            <span className="login-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Saisir.."
-                          />
-                        </div>
-                      </div>
 
                       <div className="form-heading">
-                        <h4>8. Ordonnance Médicale </h4>
+                        <h4>6. Conseils et recommondations </h4>
                       </div>
                       <div
                         className="col-12 col-md-12 col-xl-12"
@@ -1001,7 +831,7 @@ const NouvelleConsultation = (props) => {
                             rows={4}
                             cols={30}
                             placeholder={
-                              "Veuillez entrer l'ordonnance de consultation .."
+                              "Veuillez entrer vos conseils et recommondations .."
                             }
                           />
                         </div>
