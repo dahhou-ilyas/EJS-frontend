@@ -27,6 +27,8 @@ import {
 // COMPONENTS
 import NavigationHeader from "@/components/NavigationHeader";
 import { printer } from "@/components/imagepath";
+import TextAreaInput from "@/components/TextAreaInput";
+import TextInput from "@/components/TextInput";
 
 
 const Consultation = () => {
@@ -112,18 +114,27 @@ const Consultation = () => {
     
     const types = ["Medical", "Habitudes"];
     const allergies = ["Allergies Médicales", "Allergies Alimentaires"];
+
+
     const allergiesInput = document.querySelector("div[id = 'type-ant-allergies']");
-    const typesInput = document.querySelector("div[id='type-ant-selected']");
-    const habitudesInput = document.querySelector("div[id='type-habitude']");
+    const medicalInput = document.querySelector("div[id='type-ant-selected']");
+    const habitudesInput = document.querySelector("div[id='type-ant-habitudes']");
     const autreInput = document.querySelector("div[id='type-autre-input-pers']");
 
     autreInput.classList.add('hideInput');
     habitudesInput.classList.add('hideInput');
 
+    console.log(selectedOption["value"]);
     //LE CAS OU l'OPTION SELECTIONNE EST MEDICAL OU HABITUDES
     if (types.includes(selectedOption["value"])) {
-      if (typesInput) typesInput.classList.remove("hideInput");
-      else console.log("Element introuvable");
+      if (selectedOption["value"]=="Medical") {
+        medicalInput.classList.remove("hideInput");
+        habitudesInput.classList.add("hideInput");
+      }
+      else {
+        habitudesInput.classList.remove("hideInput");
+        medicalInput.classList.add("hideInput");
+      }
       
       if (!allergiesInput.classList.contains("hideInput"))
         allergiesInput.classList.add("hideInput");
@@ -134,13 +145,13 @@ const Consultation = () => {
       if (allergiesInput) {
         allergiesInput.classList.remove("hideInput");
       }
-      if (!typesInput.classList.contains("hideInput")) {
-        typesInput.classList.add("hideInput");
+      if (!medicalInput.classList.contains("hideInput")) {
+        medicalInput.classList.add("hideInput");
       }
     } 
     else {
       allergiesInput.classList.add("hideInput");
-      typesInput.classList.add("hideInput");
+      medicalInput.classList.add("hideInput");
     }
   }
 
@@ -153,13 +164,13 @@ const Consultation = () => {
     } 
     else {
       radioBox.classList.add("hideInput");
-      setChoiceChirHab("Nombre Année des soins");
     }
   }
 
   // RESPONSABLE SUR LE CONTROLE DES ELEMENTS(LISTE OU CHAMPS DE TEXTES) AFFICHER SELON LE CHOIX D'UTILISATEUR
   function HandleAntPersonnel(selectedOption) {
     DisplayTypeAntPer(selectedOption);
+
     chirurgicalHandle(false);
 
     if (selectedOption["value"] == "Medical") {
@@ -187,9 +198,19 @@ const Consultation = () => {
     }
   }
 
-  //GERER LE CAS OU LE CHOIX D'ANT PERS ET HABITUDES
-  function HandleHabitudes(selectedOption) {
+  function HandleMedical(selectedOption){
+    const autreInput = document.querySelector('div[id="type-autre-input-pers"]');
+    autreInput.classList.remove('hideInput');
+    if(selectedOption["value"]=="AUTRE"){
+      setOtherTitlePer("Specifier Autre");
+    }
+    else{
+      setOtherTitlePer(selectedOption['value']);
+    }
+  }
 
+  //GERER LE CAS OU LE CHOIX D'ANT PERS ET HABITUDES
+  function HandleHabitudesType(selectedOption) {
     const otherInput = document.querySelector("div[id='type-autre-input-pers']");
     const habitudesChoices = ["Alcool", "Tabac", "Temps d'écran"];
     const habitudesChoicesInput = document.querySelector("div[id='type-habitude']");
@@ -224,12 +245,6 @@ const Consultation = () => {
       otherInput.classList.remove("hideInput");
       habitudesChoicesInput.classList.add("hideInput");
     }
-
-    else {
-      otherInput.classList.add("hideInput");
-      habitudesChoicesInput.classList.add("hideInput");
-    }
-
   }
 
 
@@ -283,7 +298,7 @@ const Consultation = () => {
     if (selectedOption["value"] == "0") {
       inputOfExamen.classList.add("hideInput");
     } else if (selectedOption["value"] == "AUTRE") {
-      setExamenCliniqueBio("Specifier autre");
+      setExamenCliniqueBio("Specifier autre -Biologique-");
     } else {
       setExamenCliniqueBio(selectedOption["value"]);
     }
@@ -427,6 +442,7 @@ const Consultation = () => {
                         </div>
                       </div>
 
+                      {/* SELECT OF ANTECEDANTS PERSONNELS */}
                       <SelectInput 
                         columnSize = {[12,6,4]}
                         label = "Antécédents Personnels"
@@ -480,7 +496,7 @@ const Consultation = () => {
                         </div>
                       </div>
 
-                      {/* SELECT OF MEDICALS */}
+                      {/* SELECT OF MEDICALS*/}
                       <SelectInput 
                         columnSize = {[12,6,4]}
                         label = {antPersonnelTitle}
@@ -489,28 +505,22 @@ const Consultation = () => {
                         default = {defaultOption}
                         options = {antPersonnelOptions}
                         hide = {true}
-                        functions = {[HandleAntPersonnel]}   
+                        functions = {[HandleMedical]}   
                       />
                       
+                      {/* SELECT OF HABITUDES*/}
+                      <SelectInput 
+                        columnSize = {[12,6,4]}
+                        label = {antPersonnelTitle}
+                        idDiv = "type-ant-habitudes"
+                        id = "select-habitudes"
+                        default = {defaultOption}
+                        options = {antPersonnelOptions}
+                        hide = {true}
+                        functions = {[HandleHabitudesType]}   
+                      />
 
-                      <div
-                        className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-ant-allergies"
-                      >
-                        <div className="form-group local-forms ">
-                          <label>
-                            {antPersonnelTitle}{" "}
-                            <span className="login-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Saisir.."
-                          />
-                        </div>
-                      </div>
-
-                      {/* SELECT OF HABITUDES */}
+                      {/* SELECT OF TABAC,ALCOL OR TEMPS ECRAN */}
                       <SelectInput 
                         columnSize = {[12,6,4]}
                         label = {choiceChirHab}
@@ -518,43 +528,27 @@ const Consultation = () => {
                         id = "select-type-habitude"
                         default = {defaultOption}
                         options = {habitudesChoice}
-                        hide = {true}
-                        functions = {[HandleHabitudes]}   
+                        hide = {true}  
                       />
-
-                      <div
-                        className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-autre-input-pers"
-                      >
-                        <div className="form-group local-forms ">
-                          <label>
-                            {otherTitlePer} <span className="login-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Saisir.."
-                          />
-                        </div>
-                      </div>
                       
-                      <div
-                        className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-ant-allergies"
-                      >
-                        <div className="form-group local-forms ">
-                          <label>
-                            {antPersonnelTitle}{" "}
-                            <span className="login-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Saisir.."
-                          />
-                        </div>
-                      </div>
+                      
+                      {/* SPECIFY TEXT INPUT FOR ANT ALLERGIES */}
+                      <TextInput
+                        columnSize = {[12,6,4]}
+                        label = {antPersonnelTitle}
+                        hide = {true}
+                        idDiv = "type-ant-allergies"
+                        placeholder="Saisir.."
+                      />      
 
+                      {/* SPECIFY TEXT INPUT FOR AUTRE */}
+                      <TextInput
+                        columnSize = {[12,6,4]}
+                        label = {otherTitlePer}
+                        hide = {true}
+                        idDiv = "type-autre-input-pers"
+                        placeholder="Saisir.."
+                      /> 
 
                       {/* SELECT INPUT OF ANT FAMILIALS */}
                       <SelectInput 
@@ -569,41 +563,26 @@ const Consultation = () => {
                       />
 
                       
-                      <div
-                        className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-autre-input-fam"
-                      >
-                        <div className="form-group local-forms ">
-                          <label>
-                            {otherTitleFam} <span className="login-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Saisir.."
-                          />
-                        </div>
-                      </div>
+                      {/* SPECIFY OTHER TEXT INPUT FOR ANT FAM*/}
+                      <TextInput
+                        columnSize = {[12,6,4]}
+                        label = {otherTitleFam}
+                        hide = {true}
+                        idDiv = "type-autre-input-fam"
+                        placeholder="Saisir.."
+                      />
 
                       <div className="form-heading">
                         <h4>4. Interrogatoire</h4>
                       </div>
-
-                      <div className="col-12 col-sm-12">
-                        <div className="form-group local-forms">
-                          <label>
-                            <span className="login-danger">*</span>
-                          </label>
-                          <textarea
-                            className="form-control"
-                            rows={3}
-                            cols={30}
-                            placeholder={
-                              "Veuillez décrire brièvement l'histoire de la maladie .."
-                            }
-                          />
-                        </div>
-                      </div>
+                      
+                      <TextAreaInput 
+                        columnSize={[12,12,12]}
+                        idDiv = "Inter"
+                        rows={3}
+                        cols={30}
+                        placeholder={"Veuillez décrire brièvement l'histoire de la maladie .."}
+                      />
 
                       <div className="form-heading">
                         <h4>5. Examen Clinique Biologique et Radiologique</h4>
@@ -667,61 +646,36 @@ const Consultation = () => {
                         functions = {[setSelectedOption,handleExamenChangeRad]}   
                       />
 
-                      <div
-                        className="col-12 col-md-4 col-xl-4 hideInput"
-                        id="examen-autre-bio"
-                      >
-                        <div className="form-group local-forms ">
-                          <label>
-                            {examenCliniqueBio}{" "}
-                            <span className="login-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Saisir.."
-                          />
-                        </div>
-                      </div>
-                      <div
-                        className="col-12 col-md-4 col-xl-4 hideInput"
-                        id="examen-autre-rad"
-                      >
-                        <div className="form-group local-forms ">
-                          <label>
-                            {examenCliniqueRad}{" "}
-                            <span className="login-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Saisir.."
-                          />
-                        </div>
-                      </div>
+                      {/* SPECIFY TEXT INPUT FOR ANY BIO EXAMEN */}
+                      <TextInput
+                        columnSize = {[12,4,4]}
+                        label = {examenCliniqueBio}
+                        hide = {true}
+                        idDiv = "examen-autre-bio"
+                        placeholder="Saisir.."
+                      />     
 
+                      {/* SPECIFY TEXT INPUT FOR ANY RAD EXAMEN */}
+                      <TextInput
+                        columnSize = {[12,4,4]}
+                        label = {examenCliniqueRad}
+                        hide = {true}
+                        idDiv = "examen-autre-rad"
+                        placeholder="Saisir.."
+                      />        
 
                       <div className="form-heading">
                         <h4>6. Conseils et recommondations </h4>
                       </div>
-                      <div
-                        className="col-12 col-md-12 col-xl-12"
-                        id="ordanance"
-                      >
-                        <div className="form-group local-forms">
-                          <label>
-                            <span className="login-danger">*</span>
-                          </label>
-                          <textarea
-                            className="form-control"
-                            rows={4}
-                            cols={30}
-                            placeholder={
-                              "Veuillez entrer vos conseils et recommondations .."
-                            }
-                          />
-                        </div>
-                      </div>
+                      <TextAreaInput 
+                        columnSize={[12,12,12]}
+                        idDiv = "conseils"
+                        rows={4}
+                        cols={30}
+                        placeholder={
+                          "Veuillez entrer vos conseils et recommondations .."
+                        }
+                      />
 
                       <div className="col-12">
                         <div className="doctor-submit text-end">
@@ -748,6 +702,7 @@ const Consultation = () => {
                         </div>
                       </div>
                     </div>
+
                     <div
                       id="delete_patient"
                       className="modal fade delete-modal"
@@ -783,6 +738,7 @@ const Consultation = () => {
                         </div>
                       </div>
                     </div>
+
                   </form>
                 </div>
               </div>
