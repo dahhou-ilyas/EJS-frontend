@@ -29,15 +29,6 @@ const habitudes = [
   { value: "Temps d'écran", label: "Temps d'écran" },
   { value: "AUTRE", label: "Autre.." }
 ];
-const Chirurgical = [
-  { value: "aucun", label: "aucun" },
-  { value: "< 1 ans", label: "< 1 ans" },
-  { value: "< 2 ans", label: "< 2 ans" },
-  { value: "< 5 ans", label: "< 5 ans" },
-  { value: "< 10 ans", label: "< 10 ans" },
-  { value: ">= 10 ans", label: ">= 10 ans" }
-];
-
 const alcoolFrequency = [
   { value: "Quotidien", label: "Quotidien" },
   { value: "Occasionnel", label: "Occasionnel" }
@@ -49,11 +40,11 @@ const tabacQuantity = [
   // Add more options as needed
 ];
 const tempsEcran = [
-  { value: "30min", label: "30 minutes" },
-  { value: "1h", label: "1 heure" },
-  { value: "2h", label: "2 heure" },
-  { value: "3h", label: "3 heure" },
-  { value: "4h", label: "4 heure" },
+  { value: "30min/Jour", label: "30 minutes/Jour"},
+  { value: "1h/Jour", label: "1 heure/Jour"},
+  { value: "2h/Jour", label: "2 heure/Jour"},
+  { value: "3h/Jour", label: "3 heure/Jour"},
+  { value: "4h/Jour", label: "4 heure/Jour"},
 ];
 const biologicalTests = [
   { value: "NFS", label: "NFS" },
@@ -93,7 +84,6 @@ motif,
 antecedants,
 medicaments,
 habitudes,
-Chirurgical,
 alcoolFrequency,
 tabacQuantity,
 tempsEcran,

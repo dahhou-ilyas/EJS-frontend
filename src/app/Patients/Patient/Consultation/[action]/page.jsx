@@ -17,7 +17,6 @@ import {
   antecedants,
   medicaments,
   habitudes,
-  Chirurgical,
   alcoolFrequency,
   tabacQuantity,
   tempsEcran,
@@ -31,9 +30,9 @@ import NavigationHeader from "@/components/NavigationHeader";
 import { printer } from "@/components/imagepath";
 
 
-function test(){
-  console.log('hy');
-}
+// function test(){
+//   console.log('hy');
+// }
 
 const NouvelleConsultation = (props) => {
   const pages = ["Patients", "Patient", "Consultation"];
@@ -59,8 +58,9 @@ const NouvelleConsultation = (props) => {
   }
 
   // -------STATES-------
-  const [ChirurgicalOrHabitudes, setChirurgicalOrHabitudes] = useState(Chirurgical);
+  const [habitudesChoice, setHabitudesChoice] = useState(habitudes);
   const [choiceChirHab, setChoiceChirHab] = useState("");
+  const [chirTitle, setChirTitle] = useState("");
   const [antPersonnelTitle, setAntPersonnel] = useState("");
   const [antPersonnelOptions, setAntPersonnelOptions] = useState(defaultOption);
   const [examenCliniqueBio, setExamenCliniqueBio] = useState("");
@@ -82,9 +82,11 @@ const NouvelleConsultation = (props) => {
     const autreInput = document.querySelector("div[id='type-autre-input-pers']");
     const autreInput2 = document.querySelector("div[id='type-autre-input-fam']");
     const habitudesChoicesInput = document.querySelector(
-      "div[id='type-chirg-habitudes']"
+      "div[id='type-habitude']"
     );
+    const radioBox = document.querySelector("div[id='type-chir-radio']");
 
+    radioBox.classList.add("hideInput");
     autreInput.classList.add("hideInput");
     autreInput2.classList.add("hideInput");
     habitudesChoicesInput.classList.add("hideInput");
@@ -103,7 +105,6 @@ const NouvelleConsultation = (props) => {
   function DisplayFamilials(action) {
     const famInput = document.querySelector("div[id='type-fam']");
     const autreInput = document.querySelector("div[id='type-autre-input-fam']");
-    const chirgHabInput = document.querySelector("div[id='type-chirg-habitudes']");
     autreInput.classList.add("hideInput");
     console.log("this is " + action);
     if (action) {
@@ -124,6 +125,10 @@ const NouvelleConsultation = (props) => {
       "div[id = 'type-ant-allergies']"
     );
     const typesInput = document.querySelector("div[id='type-ant-selected']");
+    const habitudesInput = document.querySelector("div[id='type-habitude']");
+    const autreInput = document.querySelector("div[id='type-autre-input-pers']");
+    autreInput.classList.add('hideInput');
+    habitudesInput.classList.add('hideInput');
 
     //LE CAS OU l'OPTION SELECTIONNE EST MEDICAL OU HABITUDES
     if (types.includes(selectedOption["value"])) {
@@ -141,7 +146,6 @@ const NouvelleConsultation = (props) => {
         allergiesInput.classList.remove("hideInput");
       }
       if (!typesInput.classList.contains("hideInput")) {
-        // console.log("hhhh");
         typesInput.classList.add("hideInput");
       }
     } 
@@ -152,23 +156,21 @@ const NouvelleConsultation = (props) => {
   }
 
   function chirurgicalHandle(action) {
-    const otherInput = document.querySelector("div[id='type-autre-input-pers']");
-    const typeInput = document.querySelector("div[id='type-chirg-habitudes']");
+    const radioBox = document.querySelector("div[id='type-chir-radio']");
+    // const otherInput = document.querySelector("div[id='type-autre-input-pers']");
+    // const typeInput = document.querySelector("div[id='type-habitude']");
     if (action) {
-      setOtherTitlePer("Type de Maladie Chirurgical");
-      otherInput.classList.remove("hideInput");
-      typeInput.classList.remove("hideInput");
+      radioBox.classList.remove("hideInput");
+      setChirTitle("Avez-vous effectué une opération ?");
     } 
     else {
+      radioBox.classList.add("hideInput");
       setChoiceChirHab("Nombre Année des soins");
-      otherInput.classList.add("hideInput");
-      typeInput.classList.add("hideInput");
     }
   }
 
   // PERMET DE CHANGER LA LISTE DEROULANTES D ANTECEDANTS PERSONNELS TYPE SELON LES CHOIX
   function HandleAntPersonnel(selectedOption) {
-
     DisplayTypeAntPer(selectedOption);
     chirurgicalHandle(false);
     if (selectedOption["value"] == "Medical") {
@@ -181,41 +183,63 @@ const NouvelleConsultation = (props) => {
       chirurgicalHandle(true);
       return;
     }
+  }
 
+  function handleChir(isYes){
+    const autreInput = document.querySelector("div[id='type-autre-input-pers']");
+    setOtherTitlePer("Specifier");
+    if(isYes){
+      autreInput.classList.remove("hideInput");
+    }
+    else{
+      autreInput.classList.add("hideInput");
+    }
   }
 
   function HandleAntPersonnelChoice(selectedOption) {
     const otherInput = document.querySelector("div[id='type-autre-input-pers']");
     const habitudesChoices = ["Alcool", "Tabac", "Temps d'écran"];
     const habitudesChoicesInput = document.querySelector(
-      "div[id='type-chirg-habitudes']"
+      "div[id='type-habitude']"
     );
+    
 
-    setOtherTitlePer("Specifier Autre");
     if (habitudesChoices.includes(selectedOption["value"])) {
       habitudesChoicesInput.classList.remove("hideInput");
+      otherInput.classList.add("hideInput");
       if (selectedOption["value"] == "Alcool") {
-        setChirurgicalOrHabitudes(alcoolFrequency);
+        setHabitudesChoice(alcoolFrequency);
         setChoiceChirHab("Alcool");
       } 
       else if (selectedOption["value"] == "Tabac") {
-        setChirurgicalOrHabitudes(tabacQuantity);
+        otherInput.classList.remove("hideInput");
+        setOtherTitlePer("Specifier duree")
+        setHabitudesChoice(tabacQuantity);
         setChoiceChirHab("Tabac");
       } 
       else {
-        setChirurgicalOrHabitudes(tempsEcran);
+        setHabitudesChoice(tempsEcran);
         setChoiceChirHab("Temps d'ecran");
       }
-      otherInput.classList.add("hideInput");
     } 
-    else if (selectedOption["value"] == "AUTRE") {
+
+    else if(selectedOption["value"]=="Sport"){
+      setOtherTitlePer("Specifier sport");
       otherInput.classList.remove("hideInput");
       habitudesChoicesInput.classList.add("hideInput");
-    } 
+    }
+
+    else if (selectedOption["value"] == "AUTRE") {
+      setOtherTitlePer("Specifier Autre");
+      otherInput.classList.remove("hideInput");
+      habitudesChoicesInput.classList.add("hideInput");
+    }
+
     else {
       otherInput.classList.add("hideInput");
       habitudesChoicesInput.classList.add("hideInput");
     }
+
   }
 
   function HandleAntFamilial(selectedOption) {
@@ -368,7 +392,7 @@ const NouvelleConsultation = (props) => {
                         options = {motif}
                         id = "motif"
                         hide = {false}
-                        functions = {[setSelectedOption,test]}   
+                        functions = {[setSelectedOption]}   
                       />
 
                       <div className="form-heading">
@@ -388,12 +412,7 @@ const NouvelleConsultation = (props) => {
                                 className="form-check-input"
                                 checked={isPersonnelsChecked}
                                 onChange={() => {
-                                  // setIsFamilialsChecked(false);
-                                  // setIsPersonnelsChecked(true);
-                                  // console.log(isPersonnelsChecked);
                                   DisplayPersonnels(!isPersonnelsChecked);
-                                  // DisplayFamilials(false);
-                                  // console.log(isPersonnelsChecked);
                                   setIsPersonnelsChecked(!isPersonnelsChecked);
                                 }}
                               />
@@ -408,9 +427,6 @@ const NouvelleConsultation = (props) => {
                                 className="form-check-input"
                                 checked={isFamilialsChecked}
                                 onChange={() => {
-                                  // setIsPersonnelsChecked(false);
-                                  // setIsFamilialsChecked(true);
-                                  // DisplayPersonnels(false);
                                   DisplayFamilials(!isFamilialsChecked);
                                   setIsFamilialsChecked(!isFamilialsChecked);
                                 }}
@@ -488,6 +504,44 @@ const NouvelleConsultation = (props) => {
                         </div>
                       </div>
 
+                      <div className="col-6 col-md-6 col-xl-6 mb-4 hideInput"
+                        id = "type-chir-radio"
+                      >
+                        <div className="form-group select-gender">
+                          <label className="gen-label">
+                            {chirTitle}{"  "}
+                            <span className="login-danger">*</span>
+                          </label>
+                          <div className="form-check-inline">
+                            <label className="form-check-label">
+                              <input
+                                type="radio"
+                                name="Chirirugical"
+                                className="form-check-input"
+                                onChange={() => {
+                                  handleChir(true)
+                                }}
+                              />
+                              Oui
+                            </label>
+                          </div>
+                          <div className="form-check-inline">
+                            <label className="form-check-label">
+                              <input
+                                type="radio"
+                                name="Chirirugical"
+                                className="form-check-input"l
+                                // checked={isFamilialsChecked}
+                                onChange={() => {
+                                  handleChir(false)
+                                }}
+                              />
+                              Non
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
                       {/* TYPE APRES LE CHOIX D'ANTECEDANTS PERSONNELS */}
                       <div
                         className="col-12 col-md-6 col-xl-4 hideInput"
@@ -562,22 +616,7 @@ const NouvelleConsultation = (props) => {
 
                       <div
                         className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-autre-input-pers"
-                      >
-                        <div className="form-group local-forms ">
-                          <label>
-                            {otherTitlePer} <span className="login-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Saisir.."
-                          />
-                        </div>
-                      </div>
-                      <div
-                        className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-chirg-habitudes"
+                        id="type-habitude"
                       >
                         <div className="form-group local-forms ">
                           <label>
@@ -591,8 +630,8 @@ const NouvelleConsultation = (props) => {
                             }}
                             defaultValue={defaultOption}
                             // onChange={HandleAntPersonnelChoice}
-                            options={ChirurgicalOrHabitudes}
-                            id="select-type-chirg-habitudes"
+                            options={habitudesChoice}
+                            id="select-type-habitude"
                             components={{
                               IndicatorSeparator: () => null
                             }}
@@ -628,7 +667,38 @@ const NouvelleConsultation = (props) => {
                           />
                         </div>
                       </div>
+                      <div
+                        className="col-12 col-md-6 col-xl-4 hideInput"
+                        id="type-autre-input-pers"
+                      >
+                        <div className="form-group local-forms ">
+                          <label>
+                            {otherTitlePer} <span className="login-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Saisir.."
+                          />
+                        </div>
+                      </div>
                       
+                      <div
+                        className="col-12 col-md-6 col-xl-4 hideInput"
+                        id="type-ant-allergies"
+                      >
+                        <div className="form-group local-forms ">
+                          <label>
+                            {antPersonnelTitle}{" "}
+                            <span className="login-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Saisir.."
+                          />
+                        </div>
+                      </div>
                       <div
                         className="col-12 col-md-6 col-xl-6 hideInput"
                         id="type-fam"
