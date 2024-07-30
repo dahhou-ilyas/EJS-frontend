@@ -4,7 +4,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import Select from "react-select";
 import Link from "next/link";
 import Image from "next/image";
 import SelectInput from "@/components/SelectInput";
@@ -30,11 +29,7 @@ import NavigationHeader from "@/components/NavigationHeader";
 import { printer } from "@/components/imagepath";
 
 
-// function test(){
-//   console.log('hy');
-// }
-
-const NouvelleConsultation = (props) => {
+const Consultation = () => {
   const pages = ["Patients", "Patient", "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
@@ -45,11 +40,11 @@ const NouvelleConsultation = (props) => {
   let buttonName = "Enregistrer";
 
   useEffect(() => {
-    console.log("Action:", pathName);
     if (!pathName.includes('ajouter') && !pathName.includes('modifier')) {
       router.push('/error'); // Redirect to error page if the action is invalid
     }
   }, [pathName, router]);
+  
   if(pathName.includes("modifier")){
     actionName = buttonName = "Modifier";
   }
@@ -58,6 +53,7 @@ const NouvelleConsultation = (props) => {
   }
 
   // -------STATES-------
+  const [selectedOption, setSelectedOption] = useState("Choisir");//VERY IMPORTANT ALLOW US TO TRACK AND HANDLE CHANGES ON SELECT INPUT
   const [habitudesChoice, setHabitudesChoice] = useState(habitudes);
   const [choiceChirHab, setChoiceChirHab] = useState("");
   const [chirTitle, setChirTitle] = useState("");
@@ -67,12 +63,10 @@ const NouvelleConsultation = (props) => {
   const [examenCliniqueRad, setExamenCliniqueRad] = useState("");
   const [otherTitleFam, setOtherTitleFam] = useState("Autre.."); //Pour le champ qui s'affiche lors de choix : autre
   const [otherTitlePer, setOtherTitlePer] = useState("Autre.."); //Pour le champ qui s'affiche lors de choix : autre
-  const [isOrdonannce, setIsOrdannance] = useState("");
   const [isPersonnelsChecked, setIsPersonnelsChecked] = useState(false);
   const [isFamilialsChecked, setIsFamilialsChecked] = useState(false);
   const [isRadiologie, setIsRadiologie] = useState(false);
   const [isBiologie, setIsBiologie] = useState(false);
-  // const [options, setOptions] = useState(defaultOption);
 
   // -------FUNCTIONS-------
   //PERMET D'AFFCIHER TYPE D'ANTECEDANTS PERSONNELS
@@ -81,11 +75,8 @@ const NouvelleConsultation = (props) => {
     const selectInput = document.querySelector("div[id='type-ant-selected']");
     const autreInput = document.querySelector("div[id='type-autre-input-pers']");
     const autreInput2 = document.querySelector("div[id='type-autre-input-fam']");
-    const habitudesChoicesInput = document.querySelector(
-      "div[id='type-habitude']"
-    );
+    const habitudesChoicesInput = document.querySelector("div[id='type-habitude']");
     const radioBox = document.querySelector("div[id='type-chir-radio']");
-
     radioBox.classList.add("hideInput");
     autreInput.classList.add("hideInput");
     autreInput2.classList.add("hideInput");
@@ -94,7 +85,6 @@ const NouvelleConsultation = (props) => {
 
     if (action) {
       type.classList.remove("hideInput");
-      // selectInput.classList.remove("hideInput");
     } 
     else {
       type.classList.add("hideInput");
@@ -106,7 +96,7 @@ const NouvelleConsultation = (props) => {
     const famInput = document.querySelector("div[id='type-fam']");
     const autreInput = document.querySelector("div[id='type-autre-input-fam']");
     autreInput.classList.add("hideInput");
-    console.log("this is " + action);
+
     if (action) {
       famInput.classList.remove("hideInput");
     }
@@ -115,18 +105,18 @@ const NouvelleConsultation = (props) => {
     }
   }
 
+
   //PERMET D'AFFICHER UNE LISTE DEROULANTE OU UN CHAMP TEXTE
   function DisplayTypeAntPer(selectedOption) {
     setAntPersonnel(selectedOption["value"]);
+    
     const types = ["Medical", "Habitudes"];
     const allergies = ["Allergies Médicales", "Allergies Alimentaires"];
-
-    const allergiesInput = document.querySelector(
-      "div[id = 'type-ant-allergies']"
-    );
+    const allergiesInput = document.querySelector("div[id = 'type-ant-allergies']");
     const typesInput = document.querySelector("div[id='type-ant-selected']");
     const habitudesInput = document.querySelector("div[id='type-habitude']");
     const autreInput = document.querySelector("div[id='type-autre-input-pers']");
+
     autreInput.classList.add('hideInput');
     habitudesInput.classList.add('hideInput');
 
@@ -139,7 +129,6 @@ const NouvelleConsultation = (props) => {
         allergiesInput.classList.add("hideInput");
     } 
     
-
     //LE CAS OU l'OPTION SELECTIONNE EST ALLERGIES
     else if (allergies.includes(selectedOption["value"])) {
       if (allergiesInput) {
@@ -157,8 +146,7 @@ const NouvelleConsultation = (props) => {
 
   function chirurgicalHandle(action) {
     const radioBox = document.querySelector("div[id='type-chir-radio']");
-    // const otherInput = document.querySelector("div[id='type-autre-input-pers']");
-    // const typeInput = document.querySelector("div[id='type-habitude']");
+
     if (action) {
       radioBox.classList.remove("hideInput");
       setChirTitle("Avez-vous effectué une opération ?");
@@ -169,17 +157,20 @@ const NouvelleConsultation = (props) => {
     }
   }
 
-  // PERMET DE CHANGER LA LISTE DEROULANTES D ANTECEDANTS PERSONNELS TYPE SELON LES CHOIX
+  // RESPONSABLE SUR LE CONTROLE DES ELEMENTS(LISTE OU CHAMPS DE TEXTES) AFFICHER SELON LE CHOIX D'UTILISATEUR
   function HandleAntPersonnel(selectedOption) {
     DisplayTypeAntPer(selectedOption);
     chirurgicalHandle(false);
+
     if (selectedOption["value"] == "Medical") {
       setAntPersonnel("Medical");
       setAntPersonnelOptions(medicaments);
-    } else if (selectedOption["value"] == "Habitudes") {
+    }
+    else if (selectedOption["value"] == "Habitudes") {
       setAntPersonnel("Habitudes");
       setAntPersonnelOptions(habitudes);
-    } else if (selectedOption["value"] == "Chirurgical") {
+    } 
+    else if (selectedOption["value"] == "Chirurgical") {
       chirurgicalHandle(true);
       return;
     }
@@ -196,14 +187,13 @@ const NouvelleConsultation = (props) => {
     }
   }
 
-  function HandleAntPersonnelChoice(selectedOption) {
+  //GERER LE CAS OU LE CHOIX D'ANT PERS ET HABITUDES
+  function HandleHabitudes(selectedOption) {
+
     const otherInput = document.querySelector("div[id='type-autre-input-pers']");
     const habitudesChoices = ["Alcool", "Tabac", "Temps d'écran"];
-    const habitudesChoicesInput = document.querySelector(
-      "div[id='type-habitude']"
-    );
+    const habitudesChoicesInput = document.querySelector("div[id='type-habitude']");
     
-
     if (habitudesChoices.includes(selectedOption["value"])) {
       habitudesChoicesInput.classList.remove("hideInput");
       otherInput.classList.add("hideInput");
@@ -213,7 +203,7 @@ const NouvelleConsultation = (props) => {
       } 
       else if (selectedOption["value"] == "Tabac") {
         otherInput.classList.remove("hideInput");
-        setOtherTitlePer("Specifier duree")
+        setOtherTitlePer("Préciser la durée d'utilisation");
         setHabitudesChoice(tabacQuantity);
         setChoiceChirHab("Tabac");
       } 
@@ -241,6 +231,7 @@ const NouvelleConsultation = (props) => {
     }
 
   }
+
 
   function HandleAntFamilial(selectedOption) {
     const otherInput = document.querySelector('div[id="type-autre-input-fam"]');
@@ -319,7 +310,6 @@ const NouvelleConsultation = (props) => {
   }
 
   // -------DATA-------
-  const [selectedOption, setSelectedOption] = useState("Choisir");
 
   return (
     <div id="root">
@@ -437,73 +427,21 @@ const NouvelleConsultation = (props) => {
                         </div>
                       </div>
 
-
-                      {/* <SelectInput 
+                      <SelectInput 
                         columnSize = {[12,6,4]}
                         label = "Antécédents Personnels"
+                        idDiv = "type-ant"
+                        id = "ant-personnel"
                         default = {defaultOption}
                         options = {antecedants}
-                        idDiv = "type-ant"
-                        idSelect = "ant-personnel"
                         hide = {true}
                         functions = {[HandleAntPersonnel]}   
-                      /> */}
+                      />
 
 
-                      <div
-                        className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-ant"
-                      >
-                        <div className="form-group local-forms ">
-                          <label>
-                            Antécédents Personnels
-                            <span className="login-danger">*</span>
-                          </label>
-                          <Select
-                            menuPortalTarget={document.body}
-                            styles={{
-                              menuPortal: (base) => ({ ...base, zIndex: 9999 })
-                            }}
-                            defaultValue={defaultOption}
-                            onChange={HandleAntPersonnel}
-                            options={antecedants}
-                            id="ant-personnel"
-                            components={{
-                              IndicatorSeparator: () => null
-                            }}
-                            // eslint-disable-next-line react/jsx-no-duplicate-props
-                            styles={{
-                              control: (baseStyles, state) => ({
-                                ...baseStyles,
-                                borderColor: state.isFocused
-                                  ? "none"
-                                  : "2px solid rgba(46, 55, 164, 0.1);",
-                                boxShadow: state.isFocused
-                                  ? "0 0 0 1px #2e37a4"
-                                  : "none",
-                                "&:hover": {
-                                  borderColor: state.isFocused
-                                    ? "none"
-                                    : "2px solid rgba(46, 55, 164, 0.1)"
-                                },
-                                borderRadius: "10px",
-                                fontSize: "14px",
-                                minHeight: "45px"
-                              }),
-                              dropdownIndicator: (base, state) => ({
-                                ...base,
-                                transform: state.selectProps.menuIsOpen
-                                  ? "rotate(-180deg)"
-                                  : "rotate(0)",
-                                transition: "250ms",
-                                width: "35px",
-                                height: "35px"
-                              })
-                            }}
-                          />
-                        </div>
-                      </div>
 
+
+                      {/* RADIO BOX */}
                       <div className="col-6 col-md-6 col-xl-6 mb-4 hideInput"
                         id = "type-chir-radio"
                       >
@@ -542,60 +480,18 @@ const NouvelleConsultation = (props) => {
                         </div>
                       </div>
 
-                      {/* TYPE APRES LE CHOIX D'ANTECEDANTS PERSONNELS */}
-                      <div
-                        className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-ant-selected"
-                      >
-                        <div className="form-group local-forms">
-                          <label>
-                            {antPersonnelTitle}{" "}
-                            <span className="login-danger">*</span>
-                          </label>
-                          <Select
-                            menuPortalTarget={document.body}
-                            styles={{
-                              menuPortal: (base) => ({ ...base, zIndex: 9999 })
-                            }}
-                            defaultValue={defaultOption}
-                            onChange={HandleAntPersonnelChoice}
-                            options={antPersonnelOptions}
-                            id="type-ant-personnel"
-                            components={{
-                              IndicatorSeparator: () => null
-                            }}
-                            // eslint-disable-next-line react/jsx-no-duplicate-props
-                            styles={{
-                              control: (baseStyles, state) => ({
-                                ...baseStyles,
-                                borderColor: state.isFocused
-                                  ? "none"
-                                  : "2px solid rgba(46, 55, 164, 0.1);",
-                                boxShadow: state.isFocused
-                                  ? "0 0 0 1px #2e37a4"
-                                  : "none",
-                                "&:hover": {
-                                  borderColor: state.isFocused
-                                    ? "none"
-                                    : "2px solid rgba(46, 55, 164, 0.1)"
-                                },
-                                borderRadius: "10px",
-                                fontSize: "14px",
-                                minHeight: "45px"
-                              }),
-                              dropdownIndicator: (base, state) => ({
-                                ...base,
-                                transform: state.selectProps.menuIsOpen
-                                  ? "rotate(-180deg)"
-                                  : "rotate(0)",
-                                transition: "250ms",
-                                width: "35px",
-                                height: "35px"
-                              })
-                            }}
-                          />
-                        </div>
-                      </div>
+                      {/* SELECT OF MEDICALS */}
+                      <SelectInput 
+                        columnSize = {[12,6,4]}
+                        label = {antPersonnelTitle}
+                        idDiv = "type-ant-selected"
+                        id = "type-ant-personnel"
+                        default = {defaultOption}
+                        options = {antPersonnelOptions}
+                        hide = {true}
+                        functions = {[HandleAntPersonnel]}   
+                      />
+                      
 
                       <div
                         className="col-12 col-md-6 col-xl-4 hideInput"
@@ -614,59 +510,18 @@ const NouvelleConsultation = (props) => {
                         </div>
                       </div>
 
-                      <div
-                        className="col-12 col-md-6 col-xl-4 hideInput"
-                        id="type-habitude"
-                      >
-                        <div className="form-group local-forms ">
-                          <label>
-                            {choiceChirHab}{" "}
-                            <span className="login-danger">*</span>
-                          </label>
-                          <Select
-                            menuPortalTarget={document.body}
-                            styles={{
-                              menuPortal: (base) => ({ ...base, zIndex: 9999 })
-                            }}
-                            defaultValue={defaultOption}
-                            // onChange={HandleAntPersonnelChoice}
-                            options={habitudesChoice}
-                            id="select-type-habitude"
-                            components={{
-                              IndicatorSeparator: () => null
-                            }}
-                            // eslint-disable-next-line react/jsx-no-duplicate-props
-                            styles={{
-                              control: (baseStyles, state) => ({
-                                ...baseStyles,
-                                borderColor: state.isFocused
-                                  ? "none"
-                                  : "2px solid rgba(46, 55, 164, 0.1);",
-                                boxShadow: state.isFocused
-                                  ? "0 0 0 1px #2e37a4"
-                                  : "none",
-                                "&:hover": {
-                                  borderColor: state.isFocused
-                                    ? "none"
-                                    : "2px solid rgba(46, 55, 164, 0.1)"
-                                },
-                                borderRadius: "10px",
-                                fontSize: "14px",
-                                minHeight: "45px"
-                              }),
-                              dropdownIndicator: (base, state) => ({
-                                ...base,
-                                transform: state.selectProps.menuIsOpen
-                                  ? "rotate(-180deg)"
-                                  : "rotate(0)",
-                                transition: "250ms",
-                                width: "35px",
-                                height: "35px"
-                              })
-                            }}
-                          />
-                        </div>
-                      </div>
+                      {/* SELECT OF HABITUDES */}
+                      <SelectInput 
+                        columnSize = {[12,6,4]}
+                        label = {choiceChirHab}
+                        idDiv = "type-habitude"
+                        id = "select-type-habitude"
+                        default = {defaultOption}
+                        options = {habitudesChoice}
+                        hide = {true}
+                        functions = {[HandleHabitudes]}   
+                      />
+
                       <div
                         className="col-12 col-md-6 col-xl-4 hideInput"
                         id="type-autre-input-pers"
@@ -699,59 +554,21 @@ const NouvelleConsultation = (props) => {
                           />
                         </div>
                       </div>
-                      <div
-                        className="col-12 col-md-6 col-xl-6 hideInput"
-                        id="type-fam"
-                      >
-                        <div className="form-group local-forms ">
-                          <label>
-                            Antécédents Familiaux{" "}
-                            <span className="login-danger">*</span>
-                          </label>
-                          <Select
-                            menuPortalTarget={document.body}
-                            styles={{
-                              menuPortal: (base) => ({ ...base, zIndex: 9999 })
-                            }}
-                            defaultValue={defaultOption}
-                            onChange={HandleAntFamilial}
-                            options={antFamilial}
-                            id="select-ant-fam"
-                            components={{
-                              IndicatorSeparator: () => null
-                            }}
-                            // eslint-disable-next-line react/jsx-no-duplicate-props
-                            styles={{
-                              control: (baseStyles, state) => ({
-                                ...baseStyles,
-                                borderColor: state.isFocused
-                                  ? "none"
-                                  : "2px solid rgba(46, 55, 164, 0.1);",
-                                boxShadow: state.isFocused
-                                  ? "0 0 0 1px #2e37a4"
-                                  : "none",
-                                "&:hover": {
-                                  borderColor: state.isFocused
-                                    ? "none"
-                                    : "2px solid rgba(46, 55, 164, 0.1)"
-                                },
-                                borderRadius: "10px",
-                                fontSize: "14px",
-                                minHeight: "45px"
-                              }),
-                              dropdownIndicator: (base, state) => ({
-                                ...base,
-                                transform: state.selectProps.menuIsOpen
-                                  ? "rotate(-180deg)"
-                                  : "rotate(0)",
-                                transition: "250ms",
-                                width: "35px",
-                                height: "35px"
-                              })
-                            }}
-                          />
-                        </div>
-                      </div>
+
+
+                      {/* SELECT INPUT OF ANT FAMILIALS */}
+                      <SelectInput 
+                        columnSize = {[12,6,6]}
+                        label = "Antécédents Familiaux"
+                        idDiv = "type-fam"
+                        id = "select-ant-fam"
+                        default = {defaultOption}
+                        options = {antFamilial}
+                        hide = {true}
+                        functions = {[HandleAntFamilial]}   
+                      />
+
+                      
                       <div
                         className="col-12 col-md-6 col-xl-4 hideInput"
                         id="type-autre-input-fam"
@@ -893,7 +710,6 @@ const NouvelleConsultation = (props) => {
                       >
                         <div className="form-group local-forms">
                           <label>
-                            {isOrdonannce}
                             <span className="login-danger">*</span>
                           </label>
                           <textarea
@@ -979,4 +795,4 @@ const NouvelleConsultation = (props) => {
 
 };
 
-export default NouvelleConsultation;
+export default Consultation;
