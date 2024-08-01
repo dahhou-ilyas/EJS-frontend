@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import Layout from "@/components/auth/Layout";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useTranslations } from 'next-intl';
 
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -19,35 +19,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const antecedantsFamiliaux = [
-  {
-    id: "diabete",
-    label: "Diabète",
-  },
-  {
-    id: "tension",
-    label: "Hypertension artérielle (tension)",
-  },
-  {
-    id: "cancer",
-    label: "Cancer",
-  },
-  {
-    id: "maladieCardiovasculaire",
-    label: "Maladie cardio-vasculaire",
-  },
-  {
-    id: "aucune",
-    label: "Aucune",
-  },
-];
-
-const FormSchema = z.object({
-  antecedantsFamiliaux: z.array(z.string()).min(1, "Veuillez sélectionner au moins une maladie. Selectionnez aucune si vous n'en avez pas."),
-  autre: z.string().optional(),
-});
-
 const Fields = ({ setFormData, nextStep, formData }) => {
+  const t = useTranslations("AntecedantsFamilliaux");
+
+  const antecedantsFamiliaux = [
+    { id: "diabete", label: t('diabetes') },
+    { id: "tension", label: t('hypertension') },
+    { id: "cancer", label: t('cancer') },
+    { id: "maladieCardiovasculaire", label: t('cardiovascularDisease') },
+    { id: "aucune", label: t('none') },
+  ];
+
+  const FormSchema = z.object({
+    antecedantsFamiliaux: z.array(z.string()).min(1, t('minSelectionError')),
+    autre: z.string().optional(),
+  });
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -59,9 +45,7 @@ const Fields = ({ setFormData, nextStep, formData }) => {
 
   const { handleSubmit } = form;
 
-
   const onSubmit = (data) => {
-
     const filteredData = data.antecedantsFamiliaux.filter((item) =>
       antecedantsFamiliaux.map((i) => i.id).includes(item)
     );
@@ -70,15 +54,12 @@ const Fields = ({ setFormData, nextStep, formData }) => {
       ...prevFormData,
       antecedantsFamiliaux: [...filteredData, data.autre].filter(Boolean),
     }));
-
     const antecedentFamiliale=[...filteredData, data.autre].filter(Boolean);
-
-    nextStep({formData,antecedentFamiliale});
+    nextStep({ formData, antecedentFamiliale });
   };
 
-
   return (
-    <div className="sm:mt-8">
+    <div className="sm:mt-2">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="w-full flex flex-col justify-between gap-4">
@@ -88,10 +69,8 @@ const Fields = ({ setFormData, nextStep, formData }) => {
               render={() => (
                 <FormItem>
                   <div className="mb-4">
-                    <FormLabel className="text-base">Est-ce que vous avez un membre de la famille souffrant de l'une des maladies suivantes ?</FormLabel>
-                    <FormDescription>
-                      Vous pouvez sélectionner plusieurs ou aucune si aucun de vos proches souffrent de l'une de ces maladies.
-                    </FormDescription>
+                    <FormLabel className="text-base">{t('diseaseQuestion')}</FormLabel>
+                    <FormDescription>{t('diseaseDescription')}</FormDescription>
                   </div>
                   {antecedantsFamiliaux.map((item) => (
                     <FormField
@@ -105,6 +84,7 @@ const Fields = ({ setFormData, nextStep, formData }) => {
                         >
                           <FormControl>
                             <Checkbox
+                            className="rtl:ml-2"
                               checked={field.value?.includes(item.id)}
                               onCheckedChange={(checked) => {
                                 return checked
@@ -117,9 +97,7 @@ const Fields = ({ setFormData, nextStep, formData }) => {
                               }}
                             />
                           </FormControl>
-                          <FormLabel className="text-sm font-normal">
-                            {item.label}
-                          </FormLabel>
+                          <FormLabel className="text-sm font-normal">{item.label}</FormLabel>
                         </FormItem>
                       )}
                     />
@@ -133,10 +111,10 @@ const Fields = ({ setFormData, nextStep, formData }) => {
               name="autre"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Autre:</FormLabel>
+                  <FormLabel>{t('otherLabel')}</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Veuillez préciser"
+                    <Input 
+                      placeholder={t('otherPlaceholder')}
                       {...field}
                     />
                   </FormControl>
@@ -144,7 +122,9 @@ const Fields = ({ setFormData, nextStep, formData }) => {
                 </FormItem>
               )}
             />
-            <button type="submit" className='bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'> Valider </button>
+            <button type="submit" className='bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'>
+              {t('submitButton')}
+            </button>
           </div>
         </form>
       </Form>
@@ -153,10 +133,11 @@ const Fields = ({ setFormData, nextStep, formData }) => {
 };
 
 const AntecedantsFamiliaux = ({ setFormData, nextStep, prevStep, formData }) => {
+  const t = useTranslations("AntecedantsFamilliaux");
   return (
     <Layout
-      title={"Antécédents Familiaux"}
-      subtitle={"Veuillez saisir les informations suivantes"}
+      title={t('antecedentsFamiliauxTitle')}
+      subtitle={t('antecedentsFamiliauxSubtitle')}
       fields={<Fields setFormData={setFormData} nextStep={nextStep} formData={formData} />}
       prevStep={prevStep}
     />

@@ -4,25 +4,24 @@ import Layout from "@/components/auth/Layout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useTranslations } from "next-intl";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const schema = z.object({
-  medicaments: z.string().nonempty("Veuillez indiquer si vous prenez des médicaments"),
-  typeMedicaments: z.string().optional(), 
-
-
-
-});
-
 const Fields = ({ setFormData, nextStep }) => {
+  const t = useTranslations("Medicaments");
+
+  const schema = z.object({
+    medicaments: z.string().nonempty(t("medicaments.error")),
+    typeMedicaments: z.string().optional(),
+  });
+
   const form = useForm({
     defaultValues: {
       medicaments: "",
       typeMedicaments: "",
-     
     },
     resolver: zodResolver(schema),
   });
@@ -37,9 +36,8 @@ const Fields = ({ setFormData, nextStep }) => {
     }));
     nextStep();
   };
-    
-  const medicamentsValue = watch("medicaments");
 
+  const medicamentsValue = watch("medicaments");
 
   return (
     <div className="sm:mt-8">
@@ -51,24 +49,24 @@ const Fields = ({ setFormData, nextStep }) => {
               name="medicaments"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Utilisez vous des médicaments ?</FormLabel>
+                  <FormLabel>{t("medicaments.label")}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
                     >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                         <FormControl>
-                          <RadioGroupItem value="oui" />
+                          <RadioGroupItem value="oui" className="rtl:ml-2"/>
                         </FormControl>
-                        <FormLabel className="font-normal">OUI</FormLabel>
+                        <FormLabel className="font-normal">{t("medicaments.yes")}</FormLabel>
                       </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                         <FormControl>
-                          <RadioGroupItem value="non" />
+                          <RadioGroupItem value="non" className="rtl:ml-2"/>
                         </FormControl>
-                        <FormLabel className="font-normal">NON</FormLabel>
+                        <FormLabel className="font-normal">{t("medicaments.no")}</FormLabel>
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
@@ -78,44 +76,41 @@ const Fields = ({ setFormData, nextStep }) => {
             />
             {medicamentsValue === "oui" && (
               <FormField
-              control={form.control}
-              name="typeMedicaments"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Type de médicaments</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="md:w-96 max-w-sm"
-                      placeholder="Type de médicaments"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                  Veuillez indiquer les médicaments que vous prenez
-                </FormDescription>
-                  <FormMessage>{errors.typeMedicaments?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-              
-              )}
-
-
+                control={form.control}
+                name="typeMedicaments"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("typeMedicaments.label")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="md:w-96 max-w-sm"
+                        placeholder={t("typeMedicaments.placeholder")}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>{t("typeMedicaments.description")}</FormDescription>
+                    <FormMessage>{errors.typeMedicaments?.message}</FormMessage>
+                  </FormItem>
+                )}
+              />
+            )}
             <button type="submit" className="bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
-              Suivant
+              {t("nextButton")}
             </button>
           </div>
         </form>
       </Form>
     </div>
-  ); 
+  );
 };
 
 const Medicaments = ({ setFormData, prevStep, nextStep }) => {
+  const t = useTranslations("Medicaments");
+
   return (
     <Layout
-      title={"Antécédents Personnels Médicaux"}
-      subtitle={"Veuillez saisir les informations suivantes"}
+      title={t("title")}
+      subtitle={t("subtitle")}
       fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
       prevStep={prevStep}
     />
