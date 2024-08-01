@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import createIntlMiddleware from 'next-intl/middleware';
 
 
-const publicRoutes = ['/','/fr/auth','/ar/auth','/auth','/forgotPassword', '/ar/forgotPassword','/fr/forgotPassword', '/fr/register', '/ar/register','/register']
+const publicRoutes = ["/",'/ar','/fr','/fr/auth','/ar/auth','/auth','/forgotPassword', '/ar/forgotPassword','/fr/forgotPassword', '/fr/register', '/ar/register','/register']
 
 // Create the next-intl middleware
 const intlMiddleware = createIntlMiddleware({
@@ -17,6 +17,10 @@ export function middleware(request) {
   const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
 
   if (!isPublicRoute) {
+    return NextResponse.next();
+  }
+
+  if (pathname.startsWith('/soutien')) {
     return NextResponse.next();
   }
 
