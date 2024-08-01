@@ -5,7 +5,7 @@ import {jwtDecode} from 'jwt-decode';
 import Navbar from "@/components/Navbar";
 import WelcomingText from "@/components/WelcomingText";
 import LiveCaroussel from '@/components/LiveCaroussel';
-import { PacmanLoader
+import { PacmanLoader, RingLoader
  } from 'react-spinners'; // Import the desired spinner
 
 export default function Home() {
