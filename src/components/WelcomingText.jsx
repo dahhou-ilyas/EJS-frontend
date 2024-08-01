@@ -1,10 +1,13 @@
 import Illustration from "../../public/illustration.png";
 import Image from "next/image";
 import { useTranslations } from 'next-intl';
+import { useRouter } from "next/navigation";
 
 const WelcomingText = ({ user }) => {
 
     const t = useTranslations('WelcomingText');
+
+    const router=useRouter();
     
     const firstName = user?.claims?.prenom
         ? user.claims.prenom.charAt(0).toUpperCase() + user.claims.prenom.slice(1).toLowerCase()
@@ -33,7 +36,7 @@ const WelcomingText = ({ user }) => {
                     <button className="bg-blue-900 hover:bg-blue-800 text-white font-medium md:text-lg rounded-3xl py-2 px-10 mx-6 sm:mx-0">
                         {t('medicalRecordButton')}
                     </button>
-                    <button className="bg-lime-600 hover:bg-lime-500 text-white font-medium md:text-lg rounded-3xl py-2 px-10 mx-6 sm:mx-0">
+                    <button className="bg-lime-600 hover:bg-lime-500 text-white font-medium md:text-lg rounded-3xl py-2 px-10 mx-6 sm:mx-0" onClick={() => router.push('/soutien')}>
                         {t('psychTestsButton')}
                     </button>
                 </div>
