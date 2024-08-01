@@ -4,22 +4,32 @@ import Layout from "@/components/auth/Layout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useTranslations } from "next-intl";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const schema = z.object({
-  chirurgicaux: z.string().nonempty("Veuillez indiquer si vous êtes souffrez ou non de maladies chirurgicaux"),
-  typeOperation: z.string().optional(), 
-  anneeOperation: z.string()
-    .optional(),
-    // .regex(/^\d{4}$/, "L'année doit être un nombre à 4 chiffres."),
-
-
-});
-
 const Fields = ({ setFormData, nextStep }) => {
+  const t = useTranslations("MaladiesChirurgicaux");
+
+  const chirurgicaux = [
+    {
+      id: "oui",
+      label: t("chirurgicaux.oui"),
+    },
+    {
+      id: "non",
+      label: t("chirurgicaux.non"),
+    },
+  ];
+
+  const schema = z.object({
+    chirurgicaux: z.string().nonempty(t("schema.chirurgicaux")),
+    typeOperation: z.string().optional(),
+    anneeOperation: z.string().optional(),
+  });
+
   const form = useForm({
     defaultValues: {
       chirurgicaux: "",
@@ -40,9 +50,8 @@ const Fields = ({ setFormData, nextStep }) => {
     }));
     nextStep();
   };
-    
-  const chirurgicauxValue = watch("chirurgicaux");
 
+  const chirurgicauxValue = watch("chirurgicaux");
 
   return (
     <div className="sm:mt-8">
@@ -54,91 +63,84 @@ const Fields = ({ setFormData, nextStep }) => {
               name="chirurgicaux"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Souffrez vous de maladies chirurgicaux?</FormLabel>
+                  <FormLabel>{t("chirurgicaux.label")}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
                     >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="oui" />
-                        </FormControl>
-                        <FormLabel className="font-normal">OUI</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="non" />
-                        </FormControl>
-                        <FormLabel className="font-normal">NON</FormLabel>
-                      </FormItem>
+                      {chirurgicaux.map((item) => (
+                        <FormItem key={item.id} className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
+                          <FormControl>
+                            <RadioGroupItem value={item.id} className="rtl:ml-2"/>
+                          </FormControl>
+                          <FormLabel className="font-normal">{item.label}</FormLabel>
+                        </FormItem>
+                      ))}
                     </RadioGroup>
                   </FormControl>
                   <FormMessage>{errors.chirurgicaux?.message}</FormMessage>
                 </FormItem>
               )}
             />
-            {chirurgicauxValue === "oui" && ( <>
-              <FormField
-              control={form.control}
-              name="typeOperation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Type d'opération</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="md:w-96 max-w-sm"
-                      placeholder="Type d'opération"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                  Veuillez indiquer le type d'opération que vous avez reçue
-                </FormDescription>
-                  <FormMessage>{errors.typeOperation?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-              <FormField
-              control={form.control}
-              name="anneeOperation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Année de l'opération</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="md:w-96 max-w-sm"
-                      placeholder="Année d'opération"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                  Veuillez indiquer l'année d'opération que vous avez reçue
-                </FormDescription>
-                  <FormMessage>{errors.anneeOperation?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-    </>
-              )}
-
-
-            <button type="submit" className="bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
-              Suivant
+            {chirurgicauxValue === "oui" && (
+              <>
+                <FormField
+                  control={control}
+                  name="typeOperation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("typeOperation.label")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="md:w-96 max-w-sm"
+                          placeholder={t("typeOperation.placeholder")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>{t("typeOperation.description")}</FormDescription>
+                      <FormMessage>{errors.typeOperation?.message}</FormMessage>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="anneeOperation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("anneeOperation.label")}</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="md:w-96 max-w-sm"
+                          placeholder={t("anneeOperation.placeholder")}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>{t("anneeOperation.description")}</FormDescription>
+                      <FormMessage>{errors.anneeOperation?.message}</FormMessage>
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
+            <button type="submit" className="bg-blue-900 rounded-2xl mt-4 py-1 px-6 w-fit text-white font-medium ml-auto">
+              {t("nextButton")}
             </button>
           </div>
         </form>
       </Form>
     </div>
-  ); 
+  );
 };
 
 const MaladiesChirurgicaux = ({ setFormData, prevStep, nextStep }) => {
+  const t = useTranslations("MaladiesChirurgicaux");
+  
   return (
     <Layout
-      title={"Antécédents Personnels Médicaux"}
-      subtitle={"Veuillez saisir les informations suivantes"}
+      title={t("title")}
+      subtitle={t("subtitle")}
       fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
       prevStep={prevStep}
     />

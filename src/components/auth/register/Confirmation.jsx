@@ -1,15 +1,15 @@
-import Layout from "@/components/auth/Layout"
+import Layout from "@/components/auth/Layout";
+import { useTranslations } from 'next-intl';
 
+const Confirmation = () => {
+  const t = useTranslations('Confirmation');
 
-const Confirmation = ({prevStep}) => {
-    return ( 
+  return ( 
     <Layout 
-      title={"Consulter votre boite mail"} 
-      subtitle={"Veuillez consulter votre boîte mail pour vérifier votre compte."} 
-      />
-     );
+      title={t('title')} 
+      subtitle={t('subtitle')} 
+    />
+  );
 }
- 
+
 export default Confirmation;
-
-

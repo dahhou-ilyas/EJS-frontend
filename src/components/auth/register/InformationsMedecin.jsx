@@ -2,25 +2,28 @@ import Layout from "@/components/auth/Layout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useTranslations } from 'next-intl';
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const schema = z.object({
-  medecinESJ: z.string().nonempty("Veuillez indiquer si vous êtes médecin au sein d'un centre ESJ"),
-  medecinGeneraliste: z.string().nonempty("Veuillez indiquer si vous êtes un médecin généraliste"),
-  specialite: z.string().optional(),
-  autre: z.string().optional(),
-});
-
 const Fields = ({ setFormData, nextStep, formData }) => {
+  const t = useTranslations('Fields');
+  
+  const schema = z.object({
+    medecinESJ: z.string().nonempty(t('medecinESJError')),
+    medecinGeneraliste: z.string().nonempty(t('medecinGeneralisteError')),
+    specialite: z.string().optional(),
+    autre: z.string().optional(),
+  });
+
   const form = useForm({
     defaultValues: {
-      medecinESJ: "",
-      medecinGeneraliste: "",
-      specialite: "",
-      autre: "",
+      medecinESJ: formData.medecinESJ || "",
+      medecinGeneraliste: formData.medecinGeneraliste || "",
+      specialite: formData.specialite || "",
+      autre: formData.autre || "",
     },
     resolver: zodResolver(schema),
   });
@@ -33,28 +36,23 @@ const Fields = ({ setFormData, nextStep, formData }) => {
       if (!data.specialite && !data.autre) {
         form.setError("specialite", {
           type: "manual",
-          message: "Veuillez sélectionner votre spécialité ou indiquer autre",
+          message: t('specialiteError'),
         });
         return;
       } else if (!data.specialite && data.autre) {
-        data.specialite = data.autre; // Assign data.autre to data.specialite if specialite is not selected
+        data.specialite = data.autre;
       }
     }
-  
-    // Update form data and move to next step
+
     setFormData((prevFormData) => ({
       ...prevFormData,
       medecinESJ: data.medecinESJ,
       medecinGeneraliste: data.medecinGeneraliste,
-      specialite: data.specialite || "", // Ensure specialite is set, fallback to empty string
+      specialite: data.specialite || "",
     }));
-    console.log(data.specialite)
-    
-    console.log(formData); // Verify formData update
-    nextStep(); // Move to the next step
-    console.log(data.specialite)
+
+    nextStep();
   };
-  
 
   return (
     <div className="sm:mt-8">
@@ -66,24 +64,24 @@ const Fields = ({ setFormData, nextStep, formData }) => {
               name="medecinESJ"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Médecin au sein d'un centre ESJ?</FormLabel>
+                  <FormLabel>{t('medecinESJLabel')}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
                     >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                         <FormControl>
-                          <RadioGroupItem value="oui" />
+                          <RadioGroupItem value="oui" className="rtl:ml-2"/>
                         </FormControl>
-                        <FormLabel className="font-normal">OUI</FormLabel>
+                        <FormLabel className="font-normal">{t('oui')}</FormLabel>
                       </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                         <FormControl>
-                          <RadioGroupItem value="non" />
+                          <RadioGroupItem value="non" className="rtl:ml-2"/>
                         </FormControl>
-                        <FormLabel className="font-normal">NON</FormLabel>
+                        <FormLabel className="font-normal">{t('non')}</FormLabel>
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
@@ -96,24 +94,24 @@ const Fields = ({ setFormData, nextStep, formData }) => {
               name="medecinGeneraliste"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Médecin Généraliste</FormLabel>
+                  <FormLabel>{t('medecinGeneralisteLabel')}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
                     >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                         <FormControl>
-                          <RadioGroupItem value="oui" />
+                          <RadioGroupItem value="oui" className="rtl:ml-2"/>
                         </FormControl>
-                        <FormLabel className="font-normal">OUI</FormLabel>
+                        <FormLabel className="font-normal">{t('oui')}</FormLabel>
                       </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                         <FormControl>
-                          <RadioGroupItem value="non" />
+                          <RadioGroupItem value="non" className="rtl:ml-2"/>
                         </FormControl>
-                        <FormLabel className="font-normal">NON</FormLabel>
+                        <FormLabel className="font-normal">{t('non')}</FormLabel>
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
@@ -129,42 +127,42 @@ const Fields = ({ setFormData, nextStep, formData }) => {
                   name="specialite"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Spécialité</FormLabel>
+                      <FormLabel>{t('specialiteLabel')}</FormLabel>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                           className="flex flex-col space-y-1"
                         >
-                          <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                             <FormControl>
-                              <RadioGroupItem value="Pédiatre" />
+                              <RadioGroupItem value="Pédiatre" className="rtl:ml-2"/>
                             </FormControl>
-                            <FormLabel className="font-normal">Pédiatre</FormLabel>
+                            <FormLabel className="font-normal">{t('pediatre')}</FormLabel>
                           </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                             <FormControl>
-                              <RadioGroupItem value="Psychiatre" />
+                              <RadioGroupItem value="Psychiatre" className="rtl:ml-2"/>
                             </FormControl>
-                            <FormLabel className="font-normal">Psychiatre</FormLabel>
+                            <FormLabel className="font-normal">{t('psychiatre')}</FormLabel>
                           </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                             <FormControl>
-                              <RadioGroupItem value="Gynécologue" />
+                              <RadioGroupItem value="Gynécologue" className="rtl:ml-2"/>
                             </FormControl>
-                            <FormLabel className="font-normal">Gynécologue</FormLabel>
+                            <FormLabel className="font-normal">{t('gynecologue')}</FormLabel>
                           </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                             <FormControl>
-                              <RadioGroupItem value="Dermatologue" />
+                              <RadioGroupItem value="Dermatologue" className="rtl:ml-2"/>
                             </FormControl>
-                            <FormLabel className="font-normal">Dermatologue</FormLabel>
+                            <FormLabel className="font-normal">{t('dermatologue')}</FormLabel>
                           </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormItem className="flex items-center space-x-3 space-y-0 rtl:flex-row-reverse">
                             <FormControl>
-                              <RadioGroupItem value="Ophtalmologue" />
+                              <RadioGroupItem value="Ophtalmologue" className="rtl:ml-2"/>
                             </FormControl>
-                            <FormLabel className="font-normal">Ophtalmologue</FormLabel>
+                            <FormLabel className="font-normal">{t('ophtalmologue')}</FormLabel>
                           </FormItem>
                         </RadioGroup>
                       </FormControl>
@@ -177,9 +175,9 @@ const Fields = ({ setFormData, nextStep, formData }) => {
                   name="autre"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Autre :</FormLabel>
+                      <FormLabel>{t('autreLabel')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="Veuillez indiquez votre spécialité" {...field} />
+                        <Input placeholder={t('autrePlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage>{errors.autre?.message}</FormMessage>
                     </FormItem>
@@ -189,7 +187,7 @@ const Fields = ({ setFormData, nextStep, formData }) => {
             )}
 
             <button type="submit" className="bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
-              Suivant
+              {t('suivant')}
             </button>
           </div>
         </form>
@@ -199,10 +197,11 @@ const Fields = ({ setFormData, nextStep, formData }) => {
 };
 
 const InformationsMedecin = ({ setFormData, prevStep, nextStep, formData }) => {
+  const t = useTranslations('Layout');
   return (
     <Layout
-      title={"Informations d'activités"}
-      fields={<Fields setFormData={setFormData} nextStep={nextStep} formData={formData}/>}
+      title={t('title')}
+      fields={<Fields setFormData={setFormData} nextStep={nextStep} formData={formData} />}
       prevStep={prevStep}
     />
   );

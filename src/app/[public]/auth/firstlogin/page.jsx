@@ -13,8 +13,8 @@ import { jwtDecode } from 'jwt-decode';
 
 
 const MultiStepFirstLogin = () => {
-  const [step, setStep] = useState(1);
   const searchParams = useSearchParams();
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     maladieJeune: [],
     medicaments: "",
@@ -24,6 +24,7 @@ const MultiStepFirstLogin = () => {
     anneeOperation: "",
     habitudes: [], 
     tabac: "",
+    tabacSince: "", //nouveau
     alcool: "",
     tempsEcran: "",
     antecedantsFamiliaux: [],
