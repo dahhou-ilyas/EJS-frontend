@@ -458,7 +458,7 @@ const Consultation = () => {
 
 
                       {/* RADIO BOX */}
-                      <div className="col-6 col-md-6 col-xl-6 mb-4 hideInput"
+                      <div className="col-4 col-md-4 col-xl-4 mb-4 hideInput"
                         id = "type-chir-radio"
                       >
                         <div className="form-group select-gender">
@@ -528,7 +528,8 @@ const Consultation = () => {
                         id = "select-type-habitude"
                         default = {defaultOption}
                         options = {habitudesChoice}
-                        hide = {true}  
+                        hide = {true} 
+                        functions = {[]}
                       />
                       
                       
