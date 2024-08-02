@@ -78,11 +78,13 @@ const Consultation = () => {
     const autreInput = document.querySelector("div[id='type-autre-input-pers']");
     const autreInput2 = document.querySelector("div[id='type-autre-input-fam']");
     const habitudesChoicesInput = document.querySelector("div[id='type-habitude']");
+    const habitudesInput = document.querySelector("div[id='type-ant-habitudes']");
     const radioBox = document.querySelector("div[id='type-chir-radio']");
     radioBox.classList.add("hideInput");
     autreInput.classList.add("hideInput");
     autreInput2.classList.add("hideInput");
     habitudesChoicesInput.classList.add("hideInput");
+    habitudesInput.classList.add("hideInput");
     selectInput.classList.add("hideInput");
 
     if (action) {
@@ -97,6 +99,7 @@ const Consultation = () => {
   function DisplayFamilials(action) {
     const famInput = document.querySelector("div[id='type-fam']");
     const autreInput = document.querySelector("div[id='type-autre-input-fam']");
+
     autreInput.classList.add("hideInput");
 
     if (action) {
@@ -445,7 +448,7 @@ const Consultation = () => {
                       {/* SELECT OF ANTECEDANTS PERSONNELS */}
                       <SelectInput 
                         columnSize = {[12,6,4]}
-                        label = "Antécédents Personnels"
+                        label = "ant-p"
                         idDiv = "type-ant"
                         id = "ant-personnel"
                         default = {defaultOption}
@@ -554,7 +557,7 @@ const Consultation = () => {
                       {/* SELECT INPUT OF ANT FAMILIALS */}
                       <SelectInput 
                         columnSize = {[12,6,6]}
-                        label = "Antécédents Familiaux"
+                        label = "ant-f"
                         idDiv = "type-fam"
                         id = "select-ant-fam"
                         default = {defaultOption}

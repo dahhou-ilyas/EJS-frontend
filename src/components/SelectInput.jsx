@@ -7,7 +7,8 @@ export default function SelectInput(props){
       <div className={`col-${props.columnSize[0]} col-md-${props.columnSize[1]} col-xl-${props.columnSize[2]} ${props.hide?'hideInput':''}`} id={props.idDiv}>
         <div className="form-group local-forms">
           <label>
-            {props.label} <span className="login-danger">*</span>
+            {props.label=="ant-f"? <b>Antécédents Familiaux</b>:(props.label=="ant-p"?<b>Antécédents Personnels</b>:props.label)}
+            <span className="login-danger">*</span>
           </label>
           <Select
             menuPortalTarget={document.body}
