@@ -1,26 +1,32 @@
 "use client";
-import NavigationHeader from "@/components/NavigationHeader";
+
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Table } from "antd";
 import Link from "next/link";
 import Image from "next/image";
-import { pagination, Table } from "antd";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { usePathname } from 'next/navigation'
-
-// import {onShowSizeChange,itemRender} from  '@/components/Pagination.jsx'
+import { usePathname } from 'next/navigation';
+import NavigationHeader from "@/components/NavigationHeader";
 import "@/assets/css/style.css";
 import "@/assets/css/links.css";
-import { plusicon, refreshicon, imagesend,dots,edit,deleteIcon } from "@/components/imagepath";
+import { plusicon, refreshicon, imagesend, dots, edit, deleteIcon } from "@/components/imagepath";
 
 const Patients = () => {
-  const path = usePathname();
-  // console.log(path);
-
+  const [patients, setPatients] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const path = usePathname();
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/jeunes")
+      .then(response => {
+        setPatients(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the patients!", error);
+      });
+  }, []);
 
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
@@ -28,170 +34,74 @@ const Patients = () => {
     selectedRowKeys,
     onChange: onSelectChange
   };
-  const onChange = (date, dateString) => {
-    // console.log(date, dateString);
+
+  const handleRefresh = () => {
+    window.location.reload();
   };
 
-  function handleRefresh(e){
-    window.location.reload()
-  }
-  const datasource = [
-    {
-      NIP: "IN391331",
-      Name: "Hamid El Assry",
-      Sexe: "Homme",
-      NumTel: "+212 23 456890",
-      Email: "exemple@email.com",
-      Scolarise: "Oui"
-    },
-    {
-      NIP: "IN391332",
-      Name: "John Doe",
-      Sexe: "Homme",
-      NumTel: "+212 23 456891",
-      Email: "john.doe@exemple.com",
-      Scolarise: "Non"
-    },
-    {
-      NIP: "IN391333",
-      Name: "Jane Smith",
-      Sexe: "Femme",
-      NumTel: "+212 23 456892",
-      Email: "jane.smith@exemple.com",
-      Scolarise: "Oui"
-    },
-    {
-      NIP: "IN391334",
-      Name: "Alice Johnson",
-      Sexe: "Femme",
-      NumTel: "+212 23 456893",
-      Email: "alice.johnson@exemple.com",
-      Scolarise: "Non"
-    }
-  ];
   const columns = [
     {
       title: "NIP",
-      dataIndex: "NIP",
+      dataIndex: "id",
       render: (text, record) => (
-        <>
-          <h2 className="profile-image">
-            <Link href={`${path}/Patient/`}>{record.NIP}</Link>
-          </h2>
-        </>
+        <h2 className="profile-image">
+          <Link href={`${path}/${record.id}`}>{record.identifiantPatient}</Link>
+        </h2>
       ),
-      sorter: (a, b) => a.NIP.length - b.NIP.length
+      sorter: (a, b) => a.identifiantPatient - b.identifiantPatient
     },
     {
-      title: "Name",
-      dataIndex: "Name",
+      title: "Nom",
+      dataIndex: "nom",
       render: (text, record) => (
-        <>
-          <h2 className="profile-image">
-            <Link href={`${path}/Patient/`}>{record.Name}</Link>
-          </h2>
-        </>
+        <h2 className="profile-image">
+          <Link href={`${path}/${record.id}`}>{record.nom}</Link>
+        </h2>
       ),
-      sorter: (a, b) => a.Name.length - b.Name.length
+      sorter: (a, b) => a.nom.localeCompare(b.nom)
+    },
+    {
+      title: "Prénom",
+      dataIndex: "prenom",
+      render: (text, record) => (
+        <h2 className="profile-image">
+          <Link href={`${path}/${record.id}`}>{record.prenom}</Link>
+        </h2>
+      ),
+      sorter: (a, b) => a.prenom.localeCompare(b.prenom)
     },
     {
       title: "Sexe",
-      dataIndex: "Sexe",
+      dataIndex: "sexe",
       render: (text, record) => (
-        <>
-          <h2 className="profile-image">
-            <Link href={`${path}/Patient/`}>{record.Sexe}</Link>
-          </h2>
-        </>
+        <h2 className="profile-image">
+          <Link href={`${path}/${record.id}`}>{record.sexe}</Link>
+        </h2>
       ),
-      sorter: (a, b) => a.Sexe.length - b.Sexe.length
+      sorter: (a, b) => a.sexe.localeCompare(b.sexe)
     },
     {
-      title: "NumTel",
-      dataIndex: "NumTel",
+      title: "Date de Naissance",
+      dataIndex: "dateNaissance",
       render: (text, record) => (
-        <>
-          <h2 className="profile-image">
-            <Link href={`${path}/Patient/`}>{record.NumTel}</Link>
-          </h2>
-        </>
+        <h2 className="profile-image">
+          <Link href={`${path}/${record.id}`}>{record.dateNaissance}</Link>
+        </h2>
       ),
-      sorter: (a, b) => a.NumTel.length - b.NumTel.length
-    },
-    {
-      title: "Email",
-      dataIndex: "Email",
-      render: (text, record) => (
-        <>
-          <h2 className="profile-image">
-            <Link href={`${path}/Patient/`}>{record.Email}</Link>
-          </h2>
-        </>
-      ),
-      sorter: (a, b) => a.Email.length - b.Email.length
+      sorter: (a, b) => new Date(a.dateNaissance) - new Date(b.dateNaissance)
     },
     {
       title: "Scolarise",
-      dataIndex: "Scolarise",
+      dataIndex: "scolarise",
       render: (text, record) => (
-        <>
-          <h2 className="profile-image">
-            <Link href={`${path}/Patient/`}>{record.Scolarise}</Link>
-          </h2>
-        </>
+        <h2 className="profile-image">
+          <Link href={`${path}/${record.id}`}>{record.scolarise ? "Oui" : "Non"}</Link>
+        </h2>
       ),
-      sorter: (a, b) => a.Scolarise.length - b.Scolarise.length
-    },
-    {
-      title: "",
-      dataIndex: "FIELD8",
-      render: (text, record) => (
-        <>
-          <div className="text-end">
-            <div className="dropdown dropdown-action">
-              <Link
-                href="#"
-                className="action-icon dropdown-toggle"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <Image src={dots}
-                  style = {{width:'50%',height:"50%"}}
-                  alt = "more"
-                />
-              </Link>
-
-              <div className="dropdown-menu dropdown-menu-end">
-                <Link className="dropdown-item" 
-                      href={`${path}/Patient/Consultation/`} >
-                  <Image 
-                    src={edit}
-                    style = {{width:'1rem',height:"1rem"}}
-                    alt = "edit"
-                  />
-                  Modifier
-                </Link>
-                <Link
-                  className="dropdown-item"
-                  href="#"
-                  data-bs-toggle="modal"
-                  data-bs-target="#delete_patient"
-                >
-                  
-                  <Image 
-                    src={deleteIcon}
-                    style = {{width:'1rem',height:"1rem"}}
-                    alt = "supprimer"
-                  />
-                   Supprimer
-                </Link>
-              </div>
-            </div>
-          </div>
-        </>
-      )
+      sorter: (a, b) => a.scolarise - b.scolarise
     }
   ];
+
   return (
     <div id="root">
       <div className="page-wrapper">
@@ -201,7 +111,6 @@ const Patients = () => {
             <div className="col-sm-12">
               <div className="card card-table show-entire">
                 <div className="card-body">
-                  {/* Table Header */}
                   <div className="page-table-header mb-2">
                     <div className="row align-items-center">
                       <div className="col">
@@ -210,16 +119,10 @@ const Patients = () => {
                           <div className="doctor-search-blk">
                             <div className="top-nav-search table-search-blk"></div>
                             <div className="add-group">
-                              <Link
-                                href="/"
-                                className="btn btn-primary add-pluss ms-2"
-                              >
+                              <Link href="/" className="btn btn-primary add-pluss ms-2">
                                 <Image src={plusicon} alt="#" />
                               </Link>
-                              <button
-                                onClick={handleRefresh}
-                                className="btn btn-primary doctor-refresh ms-2"
-                              >
+                              <button onClick={handleRefresh} className="btn btn-primary doctor-refresh ms-2">
                                 <Image src={refreshicon} alt="#" />
                               </button>
                             </div>
@@ -228,15 +131,14 @@ const Patients = () => {
                       </div>
                     </div>
                   </div>
-                  {/* /Table Header */}
                   <div className="table-responsive doctor-list">
                     <Table
                       columns={columns}
-                      dataSource={datasource}
+                      dataSource={patients}
                       rowSelection={rowSelection}
                       rowKey={(record) => record.id}
                       style={{
-                        backgroundColor: "#f2f2f2" // Replace with your desired background color for the table
+                        backgroundColor: "#f2f2f2"
                       }}
                     />
                   </div>
@@ -245,23 +147,14 @@ const Patients = () => {
             </div>
           </div>
         </div>
-        <div
-          id="delete_patient"
-          className="modal fade delete-modal"
-          role="dialog"
-        >
+        <div id="delete_patient" className="modal fade delete-modal" role="dialog">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-body text-center">
                 <Image src={imagesend} alt="#" width={50} height={46} />
                 <h3>Are you sure want to delete this ?</h3>
                 <div className="m-t-20">
-                  {" "}
-                  <Link
-                    href="#"
-                    className="btn btn-white me-2"
-                    data-bs-dismiss="modal"
-                  >
+                  <Link href="#" className="btn btn-white me-2" data-bs-dismiss="modal">
                     Close
                   </Link>
                   <button type="submit" className="btn btn-danger">
@@ -271,36 +164,10 @@ const Patients = () => {
               </div>
             </div>
           </div>
-          <div
-            id="delete_patient"
-            className="modal fade delete-modal"
-            role="dialog"
-          >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-body text-center">
-                  <Image src={imagesend} alt="#" width={50} height={46} />
-                  <h3>Are you sure want to delete this ?</h3>
-                  <div className="m-t-20">
-                    {" "}
-                    <Link
-                      href="#"
-                      className="btn btn-white me-2"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </Link>
-                    <button type="submit" className="btn btn-danger">
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   );
 };
+
 export default Patients;

@@ -13,6 +13,7 @@ export default function TextInput(props){
         className="form-control"
         type="text"
         placeholder={props.placeholder}
+        onChange={props.onChange}
       />
     </div>
   </div>

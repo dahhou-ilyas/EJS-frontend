@@ -2,6 +2,7 @@
 import NavigationHeader from "@/components/NavigationHeader";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import "@/assets/css/style.css";
 import "@/assets/css/links.css";
 import "@/assets/css/patient.css";
@@ -30,15 +31,31 @@ export function handleGenerateDocument(){
   doc.save(`${dossier.title}.pdf`);
 }
 
-const patient = (props) => {
-  const pages = ["Patients", "Patient"];
+const patient = ({params}) => {
+  const id = params.id
+
+  const [patient, setPatient] = useState();
+
+  useEffect(() => {
+    if (id) {
+      // Remplacez l'URL par celle de votre API ou de votre backend
+      fetch(`http://localhost:8080/jeunes/` + id)
+        .then(response => response.json())
+        .then(data => setPatient(data))
+        .catch(error => console.error('Error fetching patient:', error));
+    }
+  }, [id]);
+
+  if (!patient) {
+    return <p>Loading...</p>;
+  }
   
 
   return (
     <div id="root">
       <div className="page-wrapper">
         <div className="content">
-          <NavigationHeader pages={pages} currentPage="Patient" />
+          {/* <NavigationHeader pages={pages} currentPage="Patient" /> */}
           <div className="row center-layout">
             <div className="col-sm-6 col-md-6 col-xl-5">
               <div className="blog grid-blog customized-blog">
@@ -50,9 +67,9 @@ const patient = (props) => {
                       </Link>
                       <div className="content-blk-blog ms-2 customized-subtittle">
                         <h3>
-                          <Link href="/">Jenifer Robinson</Link>
+                          <Link href="/"> {patient.nom} {patient.prenom}</Link>
                         </h3>
-                        <h5>Homme, 14 Ans</h5>
+                        <h5>{patient.sexe}, {patient.age}</h5>
                       </div>
                     </div>
                   </div>
@@ -60,15 +77,15 @@ const patient = (props) => {
                     <ul className="list-space">
                       <li>
                         <h4>NIP</h4>
-                        <span>I731727</span>
+                        <span>{patient.identifiantPatient}</span>
                       </li>
                       <li>
                         <h4>CIN</h4>
-                        <span>SB1294</span>
+                        <span>{patient.cin}</span>
                       </li>
                       <li>
                         <h4>Date de Naissance</h4>
-                        <span>21 Juin 2008</span>
+                        <span>{patient.dateNaissance}</span>
                       </li>
                       <li>
                         <h4>Adresse</h4>
@@ -76,18 +93,18 @@ const patient = (props) => {
                       </li>
                       <li>
                         <h4>Adresse Email</h4>
-                        <span>jamal.morocco@gmail.com</span>
+                        <span>patient@gmail.com</span>
                       </li>
                       <li>
-                        <h4>Numéro de Teléphone</h4>
-                        <span>06 72 20 21 33</span>
+                        <h4>Numéro de Téléphone</h4>
+                        <span>0365516161</span>
                       </li>
                       <li>
                         <h4>Scolarisation</h4>
-                        <span>Oui</span>
+                        <span>{patient.scolarise ? "Oui" : "Non"}</span>
                       </li>
                       <li>
-                        <h4>Niveau d etude</h4>
+                        <h4>Niveau d'etude</h4>
                         <span>Lycee</span>
                       </li>
                       <li>
@@ -106,7 +123,7 @@ const patient = (props) => {
                     {/* <div className="heading-detail">
                       <h4>Speciality</h4>
                     </div> */}
-                    <Link href='Patient/Consultation/Ajouter' className="personal-activity">
+                    <Link href={`${id}/Consultation/Ajouter`} className="personal-activity">
                       <div className="personal-icons status-grey">
                         <Image src={medalicon} alt="" />
                       </div>
@@ -115,7 +132,7 @@ const patient = (props) => {
                         <h5>Ajouter Une Nouvelle Consultation </h5>
                       </div>
                     </Link>
-                    <Link href='Patient/Historique' className="personal-activity">
+                    <Link href={`${id}/Historique`} className="personal-activity">
                       <div className="personal-icons status-green">
                         <Image src={medalicon02} alt="" />
                       </div>

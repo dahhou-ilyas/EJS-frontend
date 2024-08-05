@@ -12,7 +12,7 @@ import SelectInput from "@/components/SelectInput";
 import "@/assets/css/links.css";
 import "@/assets/css/consultation.css";
 import {
-  motif,
+  motifs,
   antecedants,
   medicaments,
   habitudes,
@@ -31,7 +31,8 @@ import TextAreaInput from "@/components/TextAreaInput";
 import TextInput from "@/components/TextInput";
 
 
-const Consultation = () => {
+const Consultation = ({params}) => {
+  const id = params.id
   const pages = ["Patients", "Patient", "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
@@ -54,6 +55,36 @@ const Consultation = () => {
     actionName = "Ajouter";
   }
 
+
+  const [patient, setPatient] = useState(null); // Initialisé à null
+  const [loading, setLoading] = useState(true); // Indicateur de chargement
+  const [error, setError] = useState(null); // Gestion des erreurs
+
+  useEffect(() => {
+    const fetchPatient = async () => {
+      if (id) {
+        setLoading(true); // Début du chargement
+        try {
+          const response = await fetch(`http://localhost:8080/jeunes/${id}`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          setPatient(data);
+          
+        } catch (error) {
+          console.error('Error fetching patient:', error);
+          setError(error.message); // Enregistrement de l'erreur
+        } finally {
+          setLoading(false); // Fin du chargement
+        }
+      }
+    };
+
+    fetchPatient(); // Appeler la fonction async
+  }, [id]);
+
+
   // -------STATES-------
   const [selectedOption, setSelectedOption] = useState("Choisir");//VERY IMPORTANT ALLOW US TO TRACK AND HANDLE CHANGES ON SELECT INPUT
   const [habitudesChoice, setHabitudesChoice] = useState(habitudes);
@@ -69,6 +100,8 @@ const Consultation = () => {
   const [isFamilialsChecked, setIsFamilialsChecked] = useState(false);
   const [isRadiologie, setIsRadiologie] = useState(false);
   const [isBiologie, setIsBiologie] = useState(false);
+
+  
 
   // -------FUNCTIONS-------
   //PERMET D'AFFCIHER TYPE D'ANTECEDANTS PERSONNELS
@@ -202,6 +235,7 @@ const Consultation = () => {
   }
 
   function HandleMedical(selectedOption){
+    setSpecification(selectedOption.value);
     const autreInput = document.querySelector('div[id="type-autre-input-pers"]');
     autreInput.classList.remove('hideInput');
     if(selectedOption["value"]=="AUTRE"){
@@ -214,6 +248,7 @@ const Consultation = () => {
 
   //GERER LE CAS OU LE CHOIX D'ANT PERS ET HABITUDES
   function HandleHabitudesType(selectedOption) {
+    setSpecification(selectedOption.value)
     const otherInput = document.querySelector("div[id='type-autre-input-pers']");
     const habitudesChoices = ["Alcool", "Tabac", "Temps d'écran"];
     const habitudesChoicesInput = document.querySelector("div[id='type-habitude']");
@@ -252,6 +287,7 @@ const Consultation = () => {
 
 
   function HandleAntFamilial(selectedOption) {
+    setTypeAntFam(selectedOption.value)
     const otherInput = document.querySelector('div[id="type-autre-input-fam"]');
     setOtherTitleFam("Specifier Autre Antecedants Familials");
     if (selectedOption["value"] == "AUTRE") {
@@ -292,6 +328,7 @@ const Consultation = () => {
 
   //POUR AFFICHER LE CHAMP DE TEXTE
   function handleExamenChangeBio(selectedOption) {
+    handleExamenMedicalChange(0, "specificationExamen", selectedOption.value);
     const inputOfExamen = document.querySelector("div[id='examen-autre-bio']");
     if (inputOfExamen) {
       inputOfExamen.classList.remove("hideInput");
@@ -308,6 +345,7 @@ const Consultation = () => {
   }
   //POUR AFFICHER LE CHAMP DE TEXTE
   function handleExamenChangeRad(selectedOption) {
+    handleExamenMedicalChange(1, "specificationExamen", selectedOption.value);
     const inputOfExamen = document.querySelector("div[id='examen-autre-rad']");
     if (inputOfExamen) {
       inputOfExamen.classList.remove("hideInput");
@@ -323,11 +361,96 @@ const Consultation = () => {
     }
   }
 
+  function settingOtherSpecification(selectedOption){
+    setSpecificationAutre(selectedOption.value)
+  }
+
+  function settingMotif(selectedOption){
+    setMotif(selectedOption.value)
+  }
+
+  function settingType(selectedOption){
+    setType(selectedOption.value)
+  }
+
   function handleCancel() {
     router.push("/Patients/Patient");
   }
 
+  const [motif, setMotif] = useState({ value: '', label: '' });
+  // Ant pers
+  const [type,setType] = useState({ value: '', label: '' });
+  const [specification, setSpecification] = useState("");
+  const [specificationAutre, setSpecificationAutre] = useState("");
+  const [nombreAnnee, setNombreAnnee] = useState("");
+  // ant fam
+  const [typeAntFam, setTypeAntFam] = useState("");
+  const [autre, setAutre] = useState("");
+
+  const [interrogatoire, setInterrogatoire] = useState("");
+
+  const [conseils, setConseils] = useState("");
+
+  // examen medical
+  const [examenMedicals, setExamenMedicals] = useState([
+    { typeExamen: "biologique", specificationExamen: "", autreSpecification: "" },
+    { typeExamen: "radiologique", specificationExamen: "", autreSpecification: "" }
+  ]);
+
+  const handleExamenMedicalChange = (index, key, value) => {
+    const updatedExamenMedicals = examenMedicals.map((examen, i) =>
+      i === index ? { ...examen, [key]: value } : examen
+    );
+    setExamenMedicals(updatedExamenMedicals);
+  };
+  
+ 
+
+
+
+
   // -------DATA-------
+  if (loading) {
+    return <div>Loading...</div>; // Afficher un message ou un spinner de chargement
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Afficher un message d'erreur
+  }
+
+  if (!patient) {
+    return <div>No patient data available</div>; // Afficher un message si les données ne sont pas disponibles
+  }
+
+  const currentDate = new Date(); // Crée un nouvel objet Date avec la date et l'heure actuelles
+  const year = currentDate.getFullYear(); // Récupère l'année
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Récupère le mois (ajoute 1 car les mois commencent à 0)
+  const day = String(currentDate.getDate()).padStart(2, '0'); // Récupère le jour du mois
+
+  const date = `${year}-${month}-${day}`;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const medecinId = 1;
+    const antecedentPersonnel = { type, specification, specificationAutre,nombreAnnee };
+    const antecedentFamilial = {typeAntFam, autre};
+    const consultation = {
+      date, motif, antecedentPersonnel,antecedentFamilial,interrogatoire, examenMedicals,conseils,medecinId
+    }
+    console.log("trying to fetch")
+
+    const res = await fetch (`http://localhost:8080/jeunes/${id}/consultations`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(consultation)
+    })
+
+    if (res.status === 200 ){
+      
+      router.push(`/Patients`)
+    }
+  }
+
 
   return (
     <div id="root">
@@ -338,11 +461,11 @@ const Consultation = () => {
             <div className="col-sm-12">
               <div className="card">
                 <div className="card-body">
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="row">
                       <div className="col-12 mb-4">
                         <div className="form-heading mb-7">
-                          <h3>{actionName} une consultation pour M. Yamine Lamal</h3>
+                          <h3>{actionName} une consultation pour {patient.nom} {patient.prenom}</h3>
                         </div>
                       </div>
 
@@ -357,7 +480,7 @@ const Consultation = () => {
                           <input
                             className="form-control"
                             type="text"
-                            value="I32783782"
+                            value={patient.identifiantPatient}
                             readOnly="readonly"
                           />
                         </div>
@@ -370,7 +493,7 @@ const Consultation = () => {
                           <input
                             className="form-control"
                             type="text"
-                            value="Homme"
+                            value={patient.sexe}
                             readOnly="readonly"
                           />
                         </div>
@@ -385,7 +508,7 @@ const Consultation = () => {
                             type="text"
                             placeholder=""
                             readOnly="readonly"
-                            value="17 Ans"
+                            value={patient.age}
                           />
                         </div>
                       </div>
@@ -397,11 +520,14 @@ const Consultation = () => {
                         columnSize = {[12,12,12]}
                         label = ""
                         default = {defaultOption}
-                        options = {motif}
+                        options = {motifs}
                         id = "motif"
                         hide = {false}
-                        functions = {[setSelectedOption]}   
+                        functions = {[setSelectedOption,settingMotif]}   
                       />
+                      {console.log(motif)}
+                      
+                      
 
                       <div className="form-heading">
                         <h4>3. Antécédents</h4>
@@ -454,7 +580,7 @@ const Consultation = () => {
                         default = {defaultOption}
                         options = {antecedants}
                         hide = {true}
-                        functions = {[HandleAntPersonnel]}   
+                        functions = {[HandleAntPersonnel, settingType]}   
                       />
 
 
@@ -476,7 +602,9 @@ const Consultation = () => {
                                 name="Chirirugical"
                                 className="form-check-input"
                                 onChange={() => {
-                                  handleChir(true)
+                                  handleChir(true);
+                                  setSpecification("oui");
+                                  console.log(specification)
                                 }}
                               />
                               Oui
@@ -491,6 +619,8 @@ const Consultation = () => {
                                 // checked={isFamilialsChecked}
                                 onChange={() => {
                                   handleChir(false)
+                                  setSpecification("non");
+                                  console.log(specification)
                                 }}
                               />
                               Non
@@ -532,7 +662,7 @@ const Consultation = () => {
                         default = {defaultOption}
                         options = {habitudesChoice}
                         hide = {true} 
-                        functions = {[]}
+                        functions = {[settingOtherSpecification]}
                       />
                       
                       
@@ -543,6 +673,10 @@ const Consultation = () => {
                         hide = {true}
                         idDiv = "type-ant-allergies"
                         placeholder="Saisir.."
+                        onChange = {(event) => {
+                          setSpecification(event.target.value)
+                          console.log(specification)
+                        }}
                       />      
 
                       {/* SPECIFY TEXT INPUT FOR AUTRE */}
@@ -552,6 +686,9 @@ const Consultation = () => {
                         hide = {true}
                         idDiv = "type-autre-input-pers"
                         placeholder="Saisir.."
+                        onChange = {(event) => {
+                          setSpecificationAutre(event.target.value)
+                        }}
                       /> 
 
                       {/* SELECT INPUT OF ANT FAMILIALS */}
@@ -574,6 +711,10 @@ const Consultation = () => {
                         hide = {true}
                         idDiv = "type-autre-input-fam"
                         placeholder="Saisir.."
+                        onChange = {(event) => {
+                          setAutre(event.target.value);
+                          console.log(autre);
+                        }}
                       />
 
                       <div className="form-heading">
@@ -586,6 +727,9 @@ const Consultation = () => {
                         rows={3}
                         cols={30}
                         placeholder={"Veuillez décrire brièvement l'histoire de la maladie .."}
+                        onChange = {(event) => {
+                          setInterrogatoire(event.target.value);
+                        }}
                       />
 
                       <div className="form-heading">
@@ -657,6 +801,9 @@ const Consultation = () => {
                         hide = {true}
                         idDiv = "examen-autre-bio"
                         placeholder="Saisir.."
+                        onChange = {(e) => {
+                          handleExamenMedicalChange(0, "autreSpecification", e.target.value);
+                        }}
                       />     
 
                       {/* SPECIFY TEXT INPUT FOR ANY RAD EXAMEN */}
@@ -666,6 +813,9 @@ const Consultation = () => {
                         hide = {true}
                         idDiv = "examen-autre-rad"
                         placeholder="Saisir.."
+                        onChange = {(e) => {
+                          handleExamenMedicalChange(1, "autreSpecification", e.target.value);
+                        }}
                       />        
 
                       <div className="form-heading">
@@ -679,6 +829,9 @@ const Consultation = () => {
                         placeholder={
                           "Veuillez entrer vos conseils et recommondations .."
                         }
+                        onChange = {(event) => {
+                          setConseils(event.target.value);
+                        }}
                       />
 
                       <div className="col-12">
@@ -686,15 +839,16 @@ const Consultation = () => {
                           <button
                             type="submit"
                             className="btn me-1 customizedBtn save"
-                          >
-                            <Link
+                          >Enregistrer
+                            {/* <Link
                               className="dropdown-item"
                               href="#"
                               data-bs-toggle="modal"
                               data-bs-target="#delete_patient"
                             >
                               {buttonName}
-                            </Link>
+                            </Link> */}
+                            
                           </button>
                           <button
                             type="button"

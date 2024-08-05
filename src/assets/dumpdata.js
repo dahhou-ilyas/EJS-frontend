@@ -1,4 +1,4 @@
-const motif = [
+const motifs = [
   { value: "Ophtalmique", label: "Ophtalmique" },
   { value: "Bucco-dentaire", label: "Bucco-dentaire" },
   { value: "O.R.L", label: "O.R.L" },
@@ -80,7 +80,7 @@ const dossier = {
 
 export 
 {
-motif,
+motifs,
 antecedants,
 medicaments,
 habitudes,
