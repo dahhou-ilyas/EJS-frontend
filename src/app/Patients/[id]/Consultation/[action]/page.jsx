@@ -33,7 +33,7 @@ import TextInput from "@/components/TextInput";
 
 const Consultation = ({params}) => {
   const id = params.id
-  const pages = ["Patients", "Patient", "Consultation"];
+  const pages = ["Patients", id, "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
   let pathName = usePathname();
@@ -289,7 +289,7 @@ const Consultation = ({params}) => {
   function HandleAntFamilial(selectedOption) {
     setTypeAntFam(selectedOption.value)
     const otherInput = document.querySelector('div[id="type-autre-input-fam"]');
-    setOtherTitleFam("Specifier Autre Antecedants Familials");
+    setOtherTitleFam("Specifier Autre Antecedants Familiaux");
     if (selectedOption["value"] == "AUTRE") {
       otherInput.classList.remove("hideInput");
     } else {

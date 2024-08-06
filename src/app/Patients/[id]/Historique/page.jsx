@@ -44,7 +44,7 @@ const Historique = ({ params }) => {
       <Sidebar activeClassName="patients" />
       <div className="page-wrapper">
         <div className="content">
-          <NavigationHeader pages={["Patients", "Patient", "Historique"]} currentPage="Historique" />
+          <NavigationHeader pages={["Patients", id, "Historique"]} currentPage="Historique" />
 
           <div className="row hist-row">
             <div className="col-md-12 hist-card">
