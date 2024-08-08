@@ -69,6 +69,7 @@ export default function Navbar({ user }) {
     { title: t('medicalRecord'), href: '#' },
     { title: t('healthEducation'), href: '#' },
     { title: t('psychTests'), href: '#' },
+    { title: t('chatBot'), href: '#' },
   ];
 
   const onSelectChange = (value) => {

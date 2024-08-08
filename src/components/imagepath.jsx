@@ -146,6 +146,7 @@ export { default as user05 } from "../assets/img/user-05.jpg";
 export { default as user03 } from "../assets/img/user-03.jpg";
 export { default as user04 } from "../assets/img/user-04.jpg";
 //Chat
+export { default as chatbot} from "../assets/img/profiles/computer.png";
 export { default as Avatar1 } from "../assets/img/profiles/avatar-01.jpg";
 export { default as Avatar2 } from "../assets/img/profiles/avatar-02.jpg";
 export { default as Avatar3 } from "../assets/img/profiles/avatar-03.jpg";

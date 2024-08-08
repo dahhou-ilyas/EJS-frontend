@@ -3336,6 +3336,17 @@ table.dataTable thead .sorting_desc_disabled:after {
   -webkit-justify-content: end;
   -ms-flex-pack: end;
 }
+.media.received .media-body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-content: flex-start;
+  -webkit-justify-content: start;
+  -ms-flex-pack: start;
+}
 .media.sent .message-sub-box {
   text-align: right;
 }
