@@ -97,7 +97,7 @@ const Historique = ({ params }) => {
     <div className="modal-content">
       {selectedConsultation && (
         <>
-          <div className="modal-header p-4">
+          <div className="modal-header p-3">
             <Image
               src={consultation}
               alt="#"
@@ -113,9 +113,9 @@ const Historique = ({ params }) => {
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body p-4">
+          <div className="modal-body p-3">
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-12">
                 <div className="mb-3">
                   <label htmlFor="motif" className="form-label">Motif</label>
                   <input
@@ -127,7 +127,7 @@ const Historique = ({ params }) => {
                   />
                 </div>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-12">
                 <div className="mb-3">
                   <label htmlFor="ant" className="form-label">Antecedant Personnel</label>
                   <input
@@ -139,7 +139,7 @@ const Historique = ({ params }) => {
                   />
                 </div>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-12">
                 <div className="mb-3">
                   <label htmlFor="ant" className="form-label">Antecedant Familial</label>
                   <input
