@@ -51,6 +51,7 @@
     "zod-to-json-schema": "^3.23.1"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "postcss": "^8",

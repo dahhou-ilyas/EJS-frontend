@@ -7,6 +7,9 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SelectInput from "@/components/SelectInput";
+// import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScrip
+import bootstrapBundleMin from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 // ASSETS
 import "@/assets/css/links.css";
@@ -436,6 +439,7 @@ const Consultation = ({params}) => {
   const date = `${year}-${month}-${day}`;
 
   const handleSubmit = async (e) => {
+    const submitButton = document.querySelector("button[id='submit-button']");
     e.preventDefault()
     const medecinId = 1;
     const antecedentPersonnel = { type, specification, specificationAutre,nombreAnnee };
@@ -458,7 +462,7 @@ const Consultation = ({params}) => {
     const consultation = {
       date, motif, antecedentPersonnel,antecedentFamilial,interrogatoire, examenMedicals,conseils,medecinId
     }
-    // console.log("trying to fetch")
+
     // HERE WHERE THE DATA IS BEEN SENT TO THE END POINT : /jeunes/[id]/consultations
     const res = await fetch (`http://localhost:8080/jeunes/${id}/consultations`, {
       method: "POST",
@@ -468,7 +472,15 @@ const Consultation = ({params}) => {
 
     //IF THE RESPONSE IS OK THEN THE DOCTOR IS REDIRECTED TO PATIENTS PAGE 
     if (res.status === 200 ){
-      router.push(`/Patients/${id}`)
+     // Using Bootstrap's Modal API to show the modal
+      const successModal = new bootstrapBundleMin.Modal(document.getElementById('success-alert-modal'));
+      successModal.show();
+
+      // Optional: Redirect after some delay
+      setTimeout(() => {
+        // Replace this with your router logic
+        router.push(`/Patients/${id}`);
+      }, 5000); 
     }
     else{
       //the error page
@@ -478,9 +490,28 @@ const Consultation = ({params}) => {
 
 
   return (
+    
     <div id="root">
       <div className="page-wrapper">
         <div className="content">
+
+          {/* ___________THIS MODAL IS TRIGGRED WHEN "CONSULTATION" IS SAVED SUCCESSFULLY */}
+          <div id="success-alert-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content modal-filled bg-success">
+                    <div class="modal-body p-4">
+                        <div class="text-center">
+                            <i class="dripicons-checkmark h1 text-white"></i>
+                            <h3 class="mt-2 text-white">Consultation Enregistree avec succes!</h3>
+                            {/* <p class="mt-3 text-white">Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p> */}
+                            <button type="button" class="btn btn-light my-2" data-bs-dismiss="modal">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          
           <NavigationHeader pages={pages} currentPage="Nouvelle Consultation" />
           <div className="row">
             <div className="col-sm-12">
@@ -869,8 +900,10 @@ const Consultation = ({params}) => {
                       <div className="col-12">
                         <div className="doctor-submit text-end">
                           <button
-                            type="submit"
+                            id = "submit-button"
+                            type = "submit"
                             className="btn me-1 customizedBtn save"
+                            // data-bs-toggle="modal" data-bs-target="#success-alert-modal"
                           >Enregistrer
                             {/* <Link
                               className="dropdown-item"

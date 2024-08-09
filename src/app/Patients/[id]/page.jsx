@@ -3,6 +3,7 @@ import NavigationHeader from "@/components/NavigationHeader";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter,useSearchParams } from "next/navigation";
 import "@/assets/css/style.css";
 import "@/assets/css/links.css";
 import "@/assets/css/patient.css";
@@ -35,8 +36,12 @@ const patient = ({params}) => {
   const id = params.id
 
   const [patient, setPatient] = useState();
+  const search = useSearchParams();
+  // const {from} = router.back;
+  const from = search.get('from');
 
   useEffect(() => {
+    console.log(search);
     if (id) {
       // Remplacez l'URL par celle de votre API ou de votre backend
       fetch(`http://localhost:8080/jeunes/` + id)
