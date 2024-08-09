@@ -361,6 +361,13 @@ const Consultation = ({params}) => {
     }
   }
 
+  
+  function hideAlert(){
+    const alertMessage = document.querySelector("div[id='alert-message']");
+    alertMessage.classList.add('hideInput');
+    
+  }
+
   function settingOtherSpecification(selectedOption){
     setSpecificationAutre(selectedOption.value)
   }
@@ -408,7 +415,6 @@ const Consultation = ({params}) => {
 
 
 
-
   // -------DATA-------
   if (loading) {
     return <div>Loading...</div>; // Afficher un message ou un spinner de chargement
@@ -434,23 +440,39 @@ const Consultation = ({params}) => {
     const medecinId = 1;
     const antecedentPersonnel = { type, specification, specificationAutre,nombreAnnee };
     const antecedentFamilial = {typeAntFam, autre};
+
+    // WHEN THE USER FORGET TO ENTER THE INFORMATION ON A REQUIRED INPUT AN ALERT IS TRIGGERED
+    if(
+      (motif=={ value: '', label: '' })||
+      (antecedentPersonnel.type==""&&antecedentFamilial.typeAntFam=="")||
+      (interrogatoire=="")||
+      (examenMedicals[0].specificationExamen==""&&examenMedicals[1].specificationExamen=="")||
+      (conseils)==""
+    ){
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const alertMessage = document.querySelector("div[id='alert-message']");
+      alertMessage.classList.remove('hideInput');
+      return;
+    }
+
     const consultation = {
       date, motif, antecedentPersonnel,antecedentFamilial,interrogatoire, examenMedicals,conseils,medecinId
     }
-    console.log(consultation)
-    console.log("trying to fetch")
-
+    // console.log("trying to fetch")
+    // HERE WHERE THE DATA IS BEEN SENT TO THE END POINT : /jeunes/[id]/consultations
     const res = await fetch (`http://localhost:8080/jeunes/${id}/consultations`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(consultation)
     })
 
-    console.log(res);
-
+    //IF THE RESPONSE IS OK THEN THE DOCTOR IS REDIRECTED TO PATIENTS PAGE 
     if (res.status === 200 ){
-      
-      router.push(`/Patients`)
+      router.push(`/Patients/${id}`)
+    }
+    else{
+      //the error page
+      router.push('/404')
     }
   }
 
@@ -464,6 +486,13 @@ const Consultation = ({params}) => {
             <div className="col-sm-12">
               <div className="card">
                 <div className="card-body">
+                  <div id='alert-message' className="alert alert-danger alert-dismissible fade show hideInput" role="alert">
+                    {/* <strong>Error!</strong> A <Link href="#" className="alert-link">problem</Link> has been occurred while submitting your data. */}
+                    <strong>Erreur!</strong> Merci de remplir tous les champs marqués d'un (*).
+                    <button type="button" className="btn-close" onClick={hideAlert} aria-label="Close">
+                      <span aria-hidden="true"> </span>
+                    </button>
+                  </div>
                   <form onSubmit={handleSubmit}>
                     <div className="row">
                       <div className="col-12 mb-4">
