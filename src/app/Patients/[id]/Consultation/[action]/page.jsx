@@ -379,7 +379,7 @@ const Consultation = ({params}) => {
 
   const [motif, setMotif] = useState({ value: '', label: '' });
   // Ant pers
-  const [type,setType] = useState({ value: '', label: '' });
+  const [type,setType] = useState("");
   const [specification, setSpecification] = useState("");
   const [specificationAutre, setSpecificationAutre] = useState("");
   const [nombreAnnee, setNombreAnnee] = useState("");
@@ -437,6 +437,7 @@ const Consultation = ({params}) => {
     const consultation = {
       date, motif, antecedentPersonnel,antecedentFamilial,interrogatoire, examenMedicals,conseils,medecinId
     }
+    console.log(consultation)
     console.log("trying to fetch")
 
     const res = await fetch (`http://localhost:8080/jeunes/${id}/consultations`, {
@@ -444,6 +445,8 @@ const Consultation = ({params}) => {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(consultation)
     })
+
+    console.log(res);
 
     if (res.status === 200 ){
       
