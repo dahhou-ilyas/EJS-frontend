@@ -15,6 +15,8 @@ export default function TextAreaInput(props){
             cols={props.cols}
             placeholder={props.placeholder}
             onChange={props.onChange}
+            value={props.value}
+            
           />
         </div>
       </div>

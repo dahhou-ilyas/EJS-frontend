@@ -35,8 +35,8 @@ const Historique = ({ params }) => {
     fetchConsultations();
   }, [id]);
 
-  const handleModify = () => {
-    router.push("Consultation/modifier");
+  const handleModify = (idConsultation) => {
+    router.push(`Historique/${idConsultation}`);
   };
 
   return (
@@ -233,7 +233,7 @@ const Historique = ({ params }) => {
               type="button"
               className="btn btn-info btn-modifier"
               data-bs-dismiss="modal"
-              onClick={handleModify}
+              onClick={() => handleModify(selectedConsultation.id)}
             >
               Modifier
             </button>
