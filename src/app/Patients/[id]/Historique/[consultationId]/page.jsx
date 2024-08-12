@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 //LIBRARIES
@@ -7,8 +8,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SelectInput from "@/components/SelectInput";
-// import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScrip
+
 import bootstrapBundleMin from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 // ASSETS
@@ -37,7 +37,7 @@ import TextInput from "@/components/TextInput";
 const modifierConsultation = ({params}) => {
   const id = params.id
   const consultationId = params.consultationId;
-  const pages = ["Patients", id, "Consultation", consultationId];
+  const pages = ["Patients", id, "Historique", consultationId];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
   let pathName = usePathname();
@@ -59,7 +59,7 @@ const modifierConsultation = ({params}) => {
   //   actionName = "Ajouter";
   // }
 
-  const [consultation, setConsultation] = useState("");
+  const [consultation, setConsultation] = useState({});
   const [patient, setPatient] = useState("");
   const [loading, setLoading] = useState("");
   const [error, setError] = useState("");
@@ -87,43 +87,48 @@ const modifierConsultation = ({params}) => {
   
 
   useEffect(() => {
-    const fetchConsultation = async () => {
-      if (consultationId) {
-        setLoading(true); // Début du chargement
-        try {
-          const response = await fetch(`http://localhost:8080/consultations/${consultationId}`);
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const data = await response.json();
-          setConsultation(data);
-          console.log(consultation);
-
-          setMotifM(consultation.motif)
-          setTypeM(consultation.antecedentPersonnel?.type)
-          setSpecificationM(consultation.antecedentPersonnel?.specification)
-          setSpecificationAutreM(consultation.antecedentPersonnel?.specificationAutre)
-          setNombreAnneeM(consultation.antecedentPersonnel?.nombreAnnee)
-          setTypeAntFamM(consultation.antecedentFamilial?.typeAntFam)
-          setAutreM(consultation.antecedentFamilial?.autre)
-          setInterrogatoireM(consultation.interrogatoire)
-          setConseilsM(consultation.conseils)
-          
-        } catch (error) {
-          console.error('Error fetching consulation:', error);
-          setError(error.message); // Enregistrement de l'erreur
-        } finally {
-          setLoading(false); // Fin du chargement
+  const fetchConsultation = async () => {
+    if (consultationId) {
+      setLoading(true);
+      try {
+        const response = await fetch(`http://localhost:8080/consultations/${consultationId}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
-      }
-    };
+        const data = await response.json();
+        console.log("this is the data ",data);
 
-    fetchConsultation(); // Appeler la fonction async
-  }, [consultationId]);
+        setConsultation(data); // State update scheduled
+        
+        // Use `data` directly here
+        setMotifM(data.motif);
+        setTypeM(data.antecedentPersonnel?.type);
+        setSpecificationM(data.antecedentPersonnel?.specification);
+        setSpecificationAutreM(data.antecedentPersonnel?.specificationAutre);
+        setNombreAnneeM(data.antecedentPersonnel?.nombreAnnee);
+        setTypeAntFamM(data.antecedentFamilial?.typeAntFam);
+        setAutreM(data.antecedentFamilial?.autre);
+        setInterrogatoireM(data.interrogatoire);
+        setConseilsM(data.conseils);
+
+      } catch (error) {
+        console.error('Error fetching consultation:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+        console.log("loading done");
+      }
+    }
+  };
+
+  fetchConsultation(); // Call the async function
+}, [consultationId]);
+
 
   console.log(consultation)
   console.log(consultation.motif)
   console.log("le motif est :" +motifM)
+  
 
   useEffect(() => {
     
@@ -189,7 +194,7 @@ const modifierConsultation = ({params}) => {
 
     autreInput.classList.add("hideInput");
 
-    if (action || autre != "") {
+    if (action || autreInput != "") {
       famInput.classList.remove("hideInput");
     }
     else{
@@ -470,55 +475,55 @@ const modifierConsultation = ({params}) => {
 
   const date = `${year}-${month}-${day}`;
 
-  // const handleSubmit = async (e) => {
-  //   const submitButton = document.querySelector("button[id='submit-button']");
-  //   e.preventDefault()
-  //   const medecinId = 1;
-  //   const antecedentPersonnel = { typeM, specificationM, specificationAutreM,nombreAnneeM };
-  //   const antecedentFamilial = {typeAntFamM, autreM};
+  const handleSubmit = async (e) => {
+    const submitButton = document.querySelector("button[id='submit-button']");
+    e.preventDefault()
+    const medecinId = 1;
+    const antecedentPersonnel = { typeM, specificationM, specificationAutreM,nombreAnneeM };
+    const antecedentFamilial = {typeAntFamM, autreM};
 
-  //   // WHEN THE USER FORGET TO ENTER THE INFORMATION ON A REQUIRED INPUT AN ALERT IS TRIGGERED
-  //   if(
-  //     (motif=={ value: '', label: '' })||
-  //     (antecedentPersonnel.type==""&&antecedentFamilial.typeAntFam=="")||
-  //     (interrogatoire=="")||
-  //     (examenMedicals[0].specificationExamen==""&&examenMedicals[1].specificationExamen=="")||
-  //     (conseils)==""
-  //   ){
-  //     window.scrollTo({ top: 0, behavior: 'smooth' });
-  //     const alertMessage = document.querySelector("div[id='alert-message']");
-  //     alertMessage.classList.remove('hideInput');
-  //     return;
-  //   }
+    // WHEN THE USER FORGET TO ENTER THE INFORMATION ON A REQUIRED INPUT AN ALERT IS TRIGGERED
+    if(
+      (motif=={ value: '', label: '' })||
+      (antecedentPersonnel.type==""&&antecedentFamilial.typeAntFam=="")||
+      (interrogatoire=="")||
+      (examenMedicals[0].specificationExamen==""&&examenMedicals[1].specificationExamen=="")||
+      (conseils)==""
+    ){
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const alertMessage = document.querySelector("div[id='alert-message']");
+      alertMessage.classList.remove('hideInput');
+      return;
+    }
 
-  //   const consultation = {
-  //     date, motifM, antecedentPersonnel,antecedentFamilial,interrogatoireM, examenMedicalsM,conseilsM,medecinId
-  //   }
+    const consultation = {
+      date, motifM, antecedentPersonnel,antecedentFamilial,interrogatoireM, examenMedicalsM,conseilsM,medecinId
+    }
 
-  //   // HERE WHERE THE DATA IS BEEN SENT TO THE END POINT : /jeunes/[id]/consultations
-  //   const res = await fetch (`http://localhost:8080/jeunes/${id}/consultations`, {
-  //     method: "POST",
-  //     headers: {"Content-Type": "application/json"},
-  //     body: JSON.stringify(consultation)
-  //   })
+    // HERE WHERE THE DATA IS BEEN SENT TO THE END POINT : /jeunes/[id]/consultations
+    const res = await fetch (`http://localhost:8080/jeunes/${id}/consultations`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(consultation)
+    })
 
-  //   //IF THE RESPONSE IS OK THEN THE DOCTOR IS REDIRECTED TO PATIENTS PAGE 
-  //   if (res.status === 200 ){
-  //    // Using Bootstrap's Modal API to show the modal
-  //     const successModal = new bootstrapBundleMin.Modal(document.getElementById('success-alert-modal'));
-  //     successModal.show();
+    //IF THE RESPONSE IS OK THEN THE DOCTOR IS REDIRECTED TO PATIENTS PAGE 
+    if (res.status === 200 ){
+     // Using Bootstrap's Modal API to show the modal
+      const successModal = new bootstrapBundleMin.Modal(document.getElementById('success-alert-modal'));
+      successModal.show();
 
-  //     // Optional: Redirect after some delay
-  //     setTimeout(() => {
-  //       // Replace this with your router logic
-  //       router.push(`/Patients/${id}`);
-  //     }, 5000); 
-  //   }
-  //   else{
-  //     //the error page
-  //     router.push('/404')
-  //   }
-  // }
+      // Optional: Redirect after some delay
+      setTimeout(() => {
+        // Replace this with your router logic
+        router.push(`/Patients/${id}`);
+      }, 5000); 
+    }
+    else{
+      //the error page
+      router.push('/404')
+    }
+  }
 
 
   return (
@@ -551,7 +556,7 @@ const modifierConsultation = ({params}) => {
                 <div className="card-body">
                   <div id='alert-message' className="alert alert-danger alert-dismissible fade show hideInput" role="alert">
                     {/* <strong>Error!</strong> A <Link href="#" className="alert-link">problem</Link> has been occurred while submitting your data. */}
-                    <strong>Erreur!</strong> Merci de remplir tous les champs marqués d'un (*).
+                    <strong>Erreur!</strong> Merci de remplir tous les champs marqués d&apos;un (*).
                     <button type="button" className="btn-close" onClick={hideAlert} aria-label="Close">
                       <span aria-hidden="true"> </span>
                     </button>
@@ -924,11 +929,12 @@ const modifierConsultation = ({params}) => {
                         idDiv = "conseils"
                         rows={4}
                         cols={30}
+                        value={conseilsM}
                         placeholder={
                           "Veuillez entrer vos conseils et recommondations .."
                         }
                         onChange = {(event) => {
-                          setConseils(event.target.value);
+                          setConseilsM(event.target.value);
                         }}
                       />
 
