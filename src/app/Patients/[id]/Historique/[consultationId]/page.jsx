@@ -106,6 +106,7 @@ const modifierConsultation = ({params}) => {
         setSpecificationM(data.antecedentPersonnel?.specification);
         setSpecificationAutreM(data.antecedentPersonnel?.specificationAutre);
         setNombreAnneeM(data.antecedentPersonnel?.nombreAnnee);
+        setExamenMedicalsM(data.examenMedicals)
         setTypeAntFamM(data.antecedentFamilial?.typeAntFam);
         setAutreM(data.antecedentFamilial?.autre);
         setInterrogatoireM(data.interrogatoire);
@@ -140,6 +141,13 @@ const modifierConsultation = ({params}) => {
         .catch(error => console.error('Error fetching patient:', error));
     }
   }, [consultation.jeune]);
+ 
+  useEffect(() => {
+    if (consultation.typeAntFam !== "") {
+      
+      DisplayFamilials(true); // Display familials if checked
+    }
+  }, [consultation.typeAntFam]);
 
 
   // -------STATES-------
@@ -165,7 +173,7 @@ const modifierConsultation = ({params}) => {
   // -------FUNCTIONS-------
   //PERMET D'AFFCIHER TYPE D'ANTECEDANTS PERSONNELS
   function DisplayPersonnels(action) {
-    const typeM = document.querySelector("div[id='type-ant']");
+    const type = document.querySelector("div[id='type-ant']");
     const selectInput = document.querySelector("div[id='type-ant-selected']");
     const autreInput = document.querySelector("div[id='type-autre-input-pers']");
     const autreInput2 = document.querySelector("div[id='type-autre-input-fam']");
@@ -189,7 +197,11 @@ const modifierConsultation = ({params}) => {
   
   //PERMET D'AFFCIHER TYPE D'ANTECEDANTS Familials
   function DisplayFamilials(action) {
+    console.log("displayfamilial is triggered")
+    console.log(action)
+    
     const famInput = document.querySelector("div[id='type-fam']");
+    console.log(famInput)
     const autreInput = document.querySelector("div[id='type-autre-input-fam']");
 
     autreInput.classList.add("hideInput");
@@ -294,7 +306,7 @@ const modifierConsultation = ({params}) => {
   }
 
   function HandleMedical(selectedOption){
-    setSpecification(selectedOption.value);
+    setSpecificationM(selectedOption.value);
     const autreInput = document.querySelector('div[id="type-autre-input-pers"]');
     autreInput.classList.remove('hideInput');
     if(selectedOption["value"]=="AUTRE"){
@@ -307,7 +319,7 @@ const modifierConsultation = ({params}) => {
 
   //GERER LE CAS OU LE CHOIX D'ANT PERS ET HABITUDES
   function HandleHabitudesType(selectedOption) {
-    setSpecification(selectedOption.value)
+    setSpecificationM(selectedOption.value)
     const otherInput = document.querySelector("div[id='type-autre-input-pers']");
     const habitudesChoices = ["Alcool", "Tabac", "Temps d'écran"];
     const habitudesChoicesInput = document.querySelector("div[id='type-habitude']");
@@ -346,7 +358,7 @@ const modifierConsultation = ({params}) => {
 
 
   function HandleAntFamilial(selectedOption) {
-    setTypeAntFam(selectedOption.value)
+    setTypeAntFamM(selectedOption.value)
     const otherInput = document.querySelector('div[id="type-autre-input-fam"]');
     setOtherTitleFam("Specifier Autre Antecedants Familiaux");
     if (selectedOption["value"] == "AUTRE") {
@@ -428,7 +440,7 @@ const modifierConsultation = ({params}) => {
   }
 
   function settingOtherSpecification(selectedOption){
-    setSpecificationAutre(selectedOption.value)
+    setSpecificationAutreM(selectedOption.value)
   }
 
   function settingMotif(selectedOption){
@@ -437,7 +449,7 @@ const modifierConsultation = ({params}) => {
   }
 
   function settingType(selectedOption){
-    setType(selectedOption.value)
+    setTypeM(selectedOption.value)
   }
 
   function handleCancel() {
@@ -447,10 +459,10 @@ const modifierConsultation = ({params}) => {
   
 
   const handleExamenMedicalChange = (index, key, value) => {
-    const updatedExamenMedicals = examenMedicals.map((examen, i) =>
+    const updatedExamenMedicals = examenMedicalsM.map((examen, i) =>
       i === index ? { ...examen, [key]: value } : examen
     );
-    setExamenMedicals(updatedExamenMedicals);
+    setExamenMedicalsM(updatedExamenMedicals);
   };
   
  
@@ -704,8 +716,8 @@ const modifierConsultation = ({params}) => {
                                 className="form-check-input"
                                 onChange={() => {
                                   handleChir(true);
-                                  setSpecification("oui");
-                                  console.log(specification)
+                                  setSpecificationM("oui");
+                                  console.log(specificationM)
                                 }}
                               />
                               Oui
@@ -720,8 +732,8 @@ const modifierConsultation = ({params}) => {
                                 // checked={isFamilialsChecked}
                                 onChange={() => {
                                   handleChir(false)
-                                  setSpecification("non");
-                                  console.log(specification)
+                                  setSpecificationM("non");
+                                  console.log(specificationM)
                                 }}
                               />
                               Non
@@ -775,8 +787,8 @@ const modifierConsultation = ({params}) => {
                         idDiv = "type-ant-allergies"
                         placeholder="Saisir.."
                         onChange = {(event) => {
-                          setSpecification(event.target.value)
-                          console.log(specification)
+                          setSpecificationM(event.target.value)
+                          console.log(specificationM)
                         }}
                       />      
 
@@ -788,7 +800,7 @@ const modifierConsultation = ({params}) => {
                         idDiv = "type-autre-input-pers"
                         placeholder="Saisir.."
                         onChange = {(event) => {
-                          setSpecificationAutre(event.target.value)
+                          setSpecificationAutreM(event.target.value)
                         }}
                       /> 
 
@@ -813,8 +825,8 @@ const modifierConsultation = ({params}) => {
                         idDiv = "type-autre-input-fam"
                         placeholder="Saisir.."
                         onChange = {(event) => {
-                          setAutre(event.target.value);
-                          console.log(autre);
+                          setAutreM(event.target.value);
+                          console.log(autreM);
                         }}
                       />
 
