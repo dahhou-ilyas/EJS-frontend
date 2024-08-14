@@ -1,6 +1,7 @@
 import Select from "react-select";
 
 export default function SelectInput(props){
+  console.log(props.hide);
   // columnSize,label,defaultOption,motif,id,...functions
   return (
     <>

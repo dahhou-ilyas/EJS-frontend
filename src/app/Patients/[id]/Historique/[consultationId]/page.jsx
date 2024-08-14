@@ -143,9 +143,10 @@ const modifierConsultation = ({params}) => {
   }, [consultation.jeune]);
  
   useEffect(() => {
+    if (loading) return;
     if (consultation.typeAntFam !== "") {
-      
-      DisplayFamilials(true); // Display familials if checked
+      setIsFamilialsChecked(true);
+      // DisplayFamilials(true); // Display familials if checked
     }
   }, [consultation.typeAntFam]);
 
@@ -197,20 +198,28 @@ const modifierConsultation = ({params}) => {
   
   //PERMET D'AFFCIHER TYPE D'ANTECEDANTS Familials
   function DisplayFamilials(action) {
+    const checkBox = document.querySelector("input[name='Antecedants-F']");
+    
+    console.log(checkBox.ariaChecked);
     console.log("displayfamilial is triggered")
     console.log(action)
     
     const famInput = document.querySelector("div[id='type-fam']");
-    console.log(famInput)
+
+    console.log(famInput.classList)
+
     const autreInput = document.querySelector("div[id='type-autre-input-fam']");
 
     autreInput.classList.add("hideInput");
 
     if (action || autreInput != "") {
       famInput.classList.remove("hideInput");
+      console.log('its always me');
     }
     else{
       famInput.classList.add("hideInput");
+      console.log('hhh');
+      
     }
   }
 
@@ -692,7 +701,7 @@ const modifierConsultation = ({params}) => {
                         id = "ant-personnel"
                         default = {defaultOption}
                         options = {antecedants}
-                        hide = {true}
+                        hide = {isPersonnelsChecked}
                         functions = {[HandleAntPersonnel, settingType]}   
                       />
 
@@ -812,7 +821,7 @@ const modifierConsultation = ({params}) => {
                         id = "select-ant-fam"
                         default = {defaultOption}
                         options = {antFamilial}
-                        hide = {true}
+                        hide = {!isFamilialsChecked}
                         functions = {[HandleAntFamilial]}   
                       />
 
