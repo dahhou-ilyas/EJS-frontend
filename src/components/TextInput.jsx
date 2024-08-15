@@ -14,6 +14,7 @@ export default function TextInput(props){
         type="text"
         placeholder={props.placeholder}
         onChange={props.onChange}
+        defaultValue={props.default}
       />
     </div>
   </div>

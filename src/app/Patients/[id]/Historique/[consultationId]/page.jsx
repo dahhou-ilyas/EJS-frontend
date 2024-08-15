@@ -106,7 +106,7 @@ const modifierConsultation = ({params}) => {
         setSpecificationM(data.antecedentPersonnel?.specification);
         setSpecificationAutreM(data.antecedentPersonnel?.specificationAutre);
         setNombreAnneeM(data.antecedentPersonnel?.nombreAnnee);
-        setExamenMedicalsM(data.examenMedicals)
+        setExamenMedicalsM(data.examenMedicals);
         setTypeAntFamM(data.antecedentFamilial?.typeAntFam);
         setAutreM(data.antecedentFamilial?.autre);
         setInterrogatoireM(data.interrogatoire);
@@ -127,8 +127,10 @@ const modifierConsultation = ({params}) => {
 
 
   console.log(consultation)
-  console.log(consultation.motif)
-  console.log("le motif est :" +motifM)
+  console.log(examenMedicalsM)
+  
+
+  
   
 
   useEffect(() => {
@@ -144,11 +146,56 @@ const modifierConsultation = ({params}) => {
  
   useEffect(() => {
     if (loading) return;
-    if (consultation.typeAntFam !== "") {
+    if (typeAntFamM !== "") {
       setIsFamilialsChecked(true);
-      // DisplayFamilials(true); // Display familials if checked
+      DisplayFamilials(true); // Display familials if checked
+      console.log("apres display familial")
+      console.log({value: typeAntFamM , label: typeAntFamM})
+      HandleAntFamilial({value: typeAntFamM , label: typeAntFamM})
     }
-  }, [consultation.typeAntFam]);
+  }, [typeAntFamM]);
+
+  useEffect(() => {
+    if (loading) return;
+    if (consultation.antecedentPersonnel?.type !== "") {
+      setIsPersonnelsChecked(true);
+      
+      HandleAntPersonnel({value: consultation.antecedentPersonnel?.type , label: consultation.antecedentPersonnel?.type})
+      console.log(`consultation.antecedentPersonnel?.type est ${consultation.antecedentPersonnel?.type}`)
+      if(consultation.antecedentPersonnel?.type == "Medical"){
+        HandleMedical({value: consultation.antecedentPersonnel?.specification , label: consultation.antecedentPersonnel?.specification})
+      }
+      if(consultation.antecedentPersonnel?.type == "Habitudes"){
+        HandleHabitudesType({value: consultation.antecedentPersonnel?.specification , label: consultation.antecedentPersonnel?.specification})
+      }
+      if(consultation.antecedentPersonnel?.type == "Chirurgical"){
+        if(consultation.antecedentPersonnel?.specification == "oui"){
+          handleChir(true)
+        }
+        else{
+          handleChir(false)
+        }
+      }
+    }
+  }, [consultation.antecedentPersonnel]);
+
+  useEffect(() => {
+    if (loading) return;
+    if (consultation.examenMedicals && consultation.examenMedicals.length > 0 && consultation.examenMedicals[0].specificationExamen !== "") {
+      setIsBiologie(true);
+      DisplayExamenBio(true);
+      handleExamenChangeBio({value:consultation.examenMedicals[0].specificationExamen, label:consultation.examenMedicals[0].specificationExamen})
+    }
+    if (consultation.examenMedicals && consultation.examenMedicals.length > 0 && consultation.examenMedicals[1].specificationExamen !== "") {
+      setIsRadiologie(true);
+      DisplayExamenRad(true);
+      handleExamenChangeRad({value:consultation.examenMedicals[1].specificationExamen, label:consultation.examenMedicals[1].specificationExamen})
+    }
+    
+  }, [consultation.examenMedicals]);
+  
+
+  
 
 
   // -------STATES-------
@@ -198,6 +245,8 @@ const modifierConsultation = ({params}) => {
   
   //PERMET D'AFFCIHER TYPE D'ANTECEDANTS Familials
   function DisplayFamilials(action) {
+    
+    
     const checkBox = document.querySelector("input[name='Antecedants-F']");
     
     console.log(checkBox.ariaChecked);
@@ -243,7 +292,7 @@ const modifierConsultation = ({params}) => {
     console.log(selectedOption["value"]);
     //LE CAS OU l'OPTION SELECTIONNE EST MEDICAL OU HABITUDES
     if (types.includes(selectedOption["value"])) {
-      if (selectedOption["value"]=="Medical") {
+      if (selectedOption["value"]=="Medical" || selectedOption["value"]=="medical" ) {
         medicalInput.classList.remove("hideInput");
         habitudesInput.classList.add("hideInput");
       }
@@ -289,7 +338,7 @@ const modifierConsultation = ({params}) => {
 
     chirurgicalHandle(false);
 
-    if (selectedOption["value"] == "Medical") {
+    if (selectedOption["value"] == "Medical" || selectedOption["value"] == "medical" ) {
       setAntPersonnel("Medical");
       setAntPersonnelOptions(medicaments);
     }
@@ -367,12 +416,15 @@ const modifierConsultation = ({params}) => {
 
 
   function HandleAntFamilial(selectedOption) {
+    console.log(selectedOption)
     setTypeAntFamM(selectedOption.value)
     const otherInput = document.querySelector('div[id="type-autre-input-fam"]');
     setOtherTitleFam("Specifier Autre Antecedants Familiaux");
     if (selectedOption["value"] == "AUTRE") {
+      console.log("on a autre")
       otherInput.classList.remove("hideInput");
     } else {
+      console.log("on n'a pas autre")
       otherInput.classList.add("hideInput");
     }
   }
@@ -499,17 +551,24 @@ const modifierConsultation = ({params}) => {
   const handleSubmit = async (e) => {
     const submitButton = document.querySelector("button[id='submit-button']");
     e.preventDefault()
-    const medecinId = 1;
-    const antecedentPersonnel = { typeM, specificationM, specificationAutreM,nombreAnneeM };
-    const antecedentFamilial = {typeAntFamM, autreM};
+    
+    const antecedentPersonnel = { 
+      type: typeM, 
+      specification:specificationM, 
+      specificationAutre:specificationAutreM,
+      nombreAnnee:nombreAnneeM 
+    };
+    const antecedentFamilial = {
+      typeAntFam:typeAntFamM, 
+      autre:autreM};
 
     // WHEN THE USER FORGET TO ENTER THE INFORMATION ON A REQUIRED INPUT AN ALERT IS TRIGGERED
     if(
-      (motif=={ value: '', label: '' })||
-      (antecedentPersonnel.type==""&&antecedentFamilial.typeAntFam=="")||
-      (interrogatoire=="")||
-      (examenMedicals[0].specificationExamen==""&&examenMedicals[1].specificationExamen=="")||
-      (conseils)==""
+      (motifM=={ value: '', label: '' })||
+      (antecedentPersonnel.typeM==""&&antecedentFamilial.typeAntFamM=="")||
+      (interrogatoireM=="")||
+      (examenMedicalsM[0].specificationExamen==""&&examenMedicalsM[1].specificationExamen=="")||
+      (conseilsM)==""
     ){
       window.scrollTo({ top: 0, behavior: 'smooth' });
       const alertMessage = document.querySelector("div[id='alert-message']");
@@ -517,28 +576,30 @@ const modifierConsultation = ({params}) => {
       return;
     }
 
-    const consultation = {
-      date, motifM, antecedentPersonnel,antecedentFamilial,interrogatoireM, examenMedicalsM,conseilsM,medecinId
-    }
+    const consultationM = {
+      date: date,
+      motif: motifM,
+      antecedentPersonnel: antecedentPersonnel,
+      antecedentFamilial: antecedentFamilial,
+      interrogatoire: interrogatoireM,
+      examenMedicals: examenMedicalsM,
+      conseils: conseilsM
+  };
 
-    // HERE WHERE THE DATA IS BEEN SENT TO THE END POINT : /jeunes/[id]/consultations
-    const res = await fetch (`http://localhost:8080/jeunes/${id}/consultations`, {
-      method: "POST",
+    // HERE WHERE THE DATA IS BEEN SENT TO THE END POINT : /consultations/[consultationId]
+    const res = await fetch (`http://localhost:8080/consultations/${consultationId}`, {
+      method: "PUT",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(consultation)
+      body: JSON.stringify(consultationM)
     })
 
     //IF THE RESPONSE IS OK THEN THE DOCTOR IS REDIRECTED TO PATIENTS PAGE 
     if (res.status === 200 ){
      // Using Bootstrap's Modal API to show the modal
-      const successModal = new bootstrapBundleMin.Modal(document.getElementById('success-alert-modal'));
-      successModal.show();
+      // const successModal = new bootstrapBundleMin.Modal(document.getElementById('success-alert-modal'));
+      // successModal.show();
 
-      // Optional: Redirect after some delay
-      setTimeout(() => {
-        // Replace this with your router logic
-        router.push(`/Patients/${id}`);
-      }, 5000); 
+      router.push(`/Patients/${id}/Historique`); 
     }
     else{
       //the error page
@@ -667,6 +728,7 @@ const modifierConsultation = ({params}) => {
                                 name="Antecedants-P"
                                 className="form-check-input"
                                 checked={isPersonnelsChecked}
+                                
                                 onChange={() => {
                                   DisplayPersonnels(!isPersonnelsChecked);
                                   setIsPersonnelsChecked(!isPersonnelsChecked);
@@ -699,9 +761,9 @@ const modifierConsultation = ({params}) => {
                         label = "ant-p"
                         idDiv = "type-ant"
                         id = "ant-personnel"
-                        default = {defaultOption}
+                        default = {{value:typeM,label:typeM}}
                         options = {antecedants}
-                        hide = {isPersonnelsChecked}
+                        hide = {!isPersonnelsChecked}
                         functions = {[HandleAntPersonnel, settingType]}   
                       />
 
@@ -723,6 +785,7 @@ const modifierConsultation = ({params}) => {
                                 type="radio"
                                 name="Chirirugical"
                                 className="form-check-input"
+                                checked={specificationM === "oui"}
                                 onChange={() => {
                                   handleChir(true);
                                   setSpecificationM("oui");
@@ -738,7 +801,7 @@ const modifierConsultation = ({params}) => {
                                 type="radio"
                                 name="Chirirugical"
                                 className="form-check-input"l
-                                // checked={isFamilialsChecked}
+                                checked={specificationM === "non"}
                                 onChange={() => {
                                   handleChir(false)
                                   setSpecificationM("non");
@@ -757,7 +820,7 @@ const modifierConsultation = ({params}) => {
                         label = {antPersonnelTitle}
                         idDiv = "type-ant-selected"
                         id = "type-ant-personnel"
-                        default = {defaultOption}
+                        default = {{value: specificationM,label:specificationM}}
                         options = {antPersonnelOptions}
                         hide = {true}
                         functions = {[HandleMedical]}   
@@ -769,7 +832,7 @@ const modifierConsultation = ({params}) => {
                         label = {antPersonnelTitle}
                         idDiv = "type-ant-habitudes"
                         id = "select-habitudes"
-                        default = {defaultOption}
+                        default = {{value: specificationM,label:specificationM}}
                         options = {antPersonnelOptions}
                         hide = {true}
                         functions = {[HandleHabitudesType]}   
@@ -781,7 +844,7 @@ const modifierConsultation = ({params}) => {
                         label = {choiceChirHab}
                         idDiv = "type-habitude"
                         id = "select-type-habitude"
-                        default = {defaultOption}
+                        default = {{value: specificationAutreM, label: specificationAutreM}}
                         options = {habitudesChoice}
                         hide = {true} 
                         functions = {[settingOtherSpecification]}
@@ -793,6 +856,7 @@ const modifierConsultation = ({params}) => {
                         columnSize = {[12,6,4]}
                         label = {antPersonnelTitle}
                         hide = {true}
+                        default = {specificationM}
                         idDiv = "type-ant-allergies"
                         placeholder="Saisir.."
                         onChange = {(event) => {
@@ -806,6 +870,7 @@ const modifierConsultation = ({params}) => {
                         columnSize = {[12,6,4]}
                         label = {otherTitlePer}
                         hide = {true}
+                        default= {specificationAutreM}
                         idDiv = "type-autre-input-pers"
                         placeholder="Saisir.."
                         onChange = {(event) => {
@@ -819,7 +884,7 @@ const modifierConsultation = ({params}) => {
                         label = "ant-f"
                         idDiv = "type-fam"
                         id = "select-ant-fam"
-                        default = {defaultOption}
+                        default = {{ value:typeAntFamM , label:typeAntFamM}}
                         options = {antFamilial}
                         hide = {!isFamilialsChecked}
                         functions = {[HandleAntFamilial]}   
@@ -833,6 +898,7 @@ const modifierConsultation = ({params}) => {
                         hide = {true}
                         idDiv = "type-autre-input-fam"
                         placeholder="Saisir.."
+                        default={autreM}
                         onChange = {(event) => {
                           setAutreM(event.target.value);
                           console.log(autreM);
@@ -871,6 +937,7 @@ const modifierConsultation = ({params}) => {
                                 type="checkbox"
                                 name="radiologie"
                                 className="form-check-input"
+                                checked={isBiologie}
                                 onChange={() => {
                                   DisplayExamenBio(!isBiologie);
                                   setIsBiologie(!isBiologie);
@@ -885,6 +952,7 @@ const modifierConsultation = ({params}) => {
                                 type="checkbox"
                                 name="radiologie"
                                 className="form-check-input"
+                                checked={isRadiologie}
                                 onChange={() => {
                                   DisplayExamenRad(!isRadiologie);
                                   setIsRadiologie(!isRadiologie);
@@ -899,18 +967,18 @@ const modifierConsultation = ({params}) => {
                       <SelectInput 
                         columnSize = {[12,4,4]}
                         label = "Examen Biologique"
-                        default = {defaultOption}
+                        default={examenMedicalsM[0] ? {value: examenMedicalsM[0].specificationExamen, label: examenMedicalsM[0].specificationExamen} : defaultOption}
                         options = {biologicalTests}
                         idDiv = "examen-bio"
                         id = "select-examen-bio"
-                        hide = {true}
+                        hide = {!isBiologie}
                         functions = {[setSelectedOption,handleExamenChangeBio]}   
                       />
 
                       <SelectInput 
                         columnSize = {[12,4,4]}
                         label = "Examen Radiologique"
-                        default = {defaultOption}
+                        default={examenMedicalsM[1] ? {value: examenMedicalsM[1].specificationExamen, label: examenMedicalsM[1].specificationExamen} : defaultOption}
                         options = {radiologicalTests}
                         idDiv = "examen-rad"
                         id = "select-examen-rad"
@@ -922,6 +990,7 @@ const modifierConsultation = ({params}) => {
                       <TextInput
                         columnSize = {[12,4,4]}
                         label = {examenCliniqueBio}
+                        default = {examenMedicalsM[0] ? examenMedicalsM[0].autreSpecification : ""}
                         hide = {true}
                         idDiv = "examen-autre-bio"
                         placeholder="Saisir.."
@@ -934,6 +1003,7 @@ const modifierConsultation = ({params}) => {
                       <TextInput
                         columnSize = {[12,4,4]}
                         label = {examenCliniqueRad}
+                        default = {examenMedicalsM[1] ? examenMedicalsM[1].autreSpecification : ""}
                         hide = {true}
                         idDiv = "examen-autre-rad"
                         placeholder="Saisir.."
@@ -966,7 +1036,7 @@ const modifierConsultation = ({params}) => {
                             type = "submit"
                             className="btn me-1 customizedBtn save"
                             // data-bs-toggle="modal" data-bs-target="#success-alert-modal"
-                          >Enregistrer
+                          >Modifier
                             {/* <Link
                               className="dropdown-item"
                               href="#"
