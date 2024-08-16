@@ -116,6 +116,21 @@ const Sidebar = (props) => {
                   <span>IES</span>
                 </Link>
               </li>
+              <li className="submenu" key="ies">
+                <Link
+                  href="/TeleExpertise"
+                  id="menu-item2"
+                  // onClick={(e) => handleClick(e, "menu-item2", "menu-items2")}
+                  className={
+                    props?.activeClassName === "ies" ? "active" : ""
+                  }
+                >
+                  <span>
+                    <Image src={callicon1} alt="dashboard"/>
+                  </span>
+                  <span>Tele-expertise</span>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
