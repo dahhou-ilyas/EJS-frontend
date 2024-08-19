@@ -6,7 +6,7 @@ export { default as loginicon03 } from "../assets/img/icons/login-icon-03.svg";
 export { default as logout } from "../assets/img/icons/logout.svg";
 
 export { default as logo } from "../assets/img/logo.png";
-
+export { default as logo1 } from "../assets/img/logo-SanteJeunes-GF (1).png";
 export { default as baricon } from "../assets/img/icons/bar-icon.svg";
 export { default as baricon1 } from "../assets/img/icons/bar-icon.svg";
 

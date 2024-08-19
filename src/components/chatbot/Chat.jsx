@@ -3,8 +3,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
-import Header from '../Header';
-import Navbar from '../Navbar';
+import Header from './Header';
+import Sidebar from './Sidebar';
 import Image from 'next/image';
 import Link from 'next/link';
 import './chatbot.css';
@@ -74,7 +74,7 @@ const Chat = () => {
     return (
         <>
             <Header />
-           
+           <Sidebar activeClassName='chat'></Sidebar>
             <div className="page-wrapper">
                 <div className="content">
                     {/* Page Header */}
