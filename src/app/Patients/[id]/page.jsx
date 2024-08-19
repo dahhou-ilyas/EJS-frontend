@@ -148,12 +148,12 @@ const patient = ({params}) => {
                       </div>
                     </Link>
                     <Link href="../TeleExpertise" className="personal-activity">
-                      <div className="personal-icons status-green">
+                      <div className="personal-icons status-blue">
                         <Image src={callicon1} alt="" />
                       </div>
                       <div className="views-personal">
                         <h4>TeleExpertise</h4>
-                        <h5>L&#39;historique de Consultation</h5>
+                        <h5>Se Mettre en Contact</h5>
                       </div>
                     </Link>
                     
