@@ -53,7 +53,7 @@ const ForgotPassword = () => {
       },
       body: JSON.stringify({
         token:forgetPasswordData.token,
-        newPassword:values
+        newPassword:values.password
       })
     })
     .then(data => {
