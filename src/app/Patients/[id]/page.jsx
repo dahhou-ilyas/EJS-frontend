@@ -16,7 +16,8 @@ import {
   blogimg2,
   medalicon03,
   medalicon,
-  medalicon02
+  medalicon02,
+  callicon1
 } from "@/components/imagepath";
 import {dossier} from "@/assets/dumpdata";
 import jsPDF from "jspdf";
@@ -143,6 +144,15 @@ const patient = ({params}) => {
                       </div>
                       <div className="views-personal">
                         <h4>Historique</h4>
+                        <h5>L&#39;historique de Consultation</h5>
+                      </div>
+                    </Link>
+                    <Link href="../TeleExpertise" className="personal-activity">
+                      <div className="personal-icons status-green">
+                        <Image src={callicon1} alt="" />
+                      </div>
+                      <div className="views-personal">
+                        <h4>TeleExpertise</h4>
                         <h5>L&#39;historique de Consultation</h5>
                       </div>
                     </Link>
