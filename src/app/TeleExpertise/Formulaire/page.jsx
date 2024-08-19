@@ -787,7 +787,7 @@ const Formulaire = () => {
                                         disabledDate={disabledDate}
                                         value={date}
                                         onChange={(e) =>
-                                          setBirthdate(e.target.value)
+                                          setDate(e.target.value)
                                         }
                                       />
                                     </Form.Item>
