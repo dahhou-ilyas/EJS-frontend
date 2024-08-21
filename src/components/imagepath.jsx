@@ -273,6 +273,14 @@ export { default as report_icon4 } from "../assets/img/icons/report-icon-04.svg"
 export { default as arabe } from "../assets/img/langue/arabic.png";
 export { default as francais } from "../assets/img/langue/francais.png";
 
+//historique of ppn
+export {default as bones} from "../assets/img/hist-icons/bones.svg"
+export {default as eye} from "../assets/img/hist-icons/eye.svg"
+export {default as heart} from "../assets/img/hist-icons/heart.svg"
+export {default as lungs} from "../assets/img/hist-icons/lungs.svg"
+export {default as stomach} from "../assets/img/hist-icons/stomach.svg"
+export {default as teeth} from "../assets/img/hist-icons/teeth.svg"
+export {default as consultation} from "../assets/img/hist-icons/consultation.svg"
 
 // export { default as headlogo } from "../assets/img/logo.png";
 // export { default as logo } from "../assets/img/logo.svg";
