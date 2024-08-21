@@ -70,6 +70,7 @@ export default function Navbar({ user }) {
     { title: t('healthEducation'), href: '#' },
     { title: t('psychTests'), href: '#' },
     { title: t('chatBot'), href: '#' },
+    { title: t('tele'), href: "/TeleExpertise" }
   ];
 
   const onSelectChange = (value) => {
@@ -96,7 +97,7 @@ export default function Navbar({ user }) {
             <a
               key={item.title}
               href={item.href}
-              className={`hover:font-semibold text-gray-950 ${selectedTab === item.title ? 'border-b-4 pb-2 border-blue-900 font-semibold' : ''} mx-6`}
+              className={`hover:font-semibold text-gray-950 no-underline ${selectedTab === item.title ? 'border-b-4 pb-2 border-blue-900 font-semibold' : ''} mx-6 text-sm`}
               onClick={() => handleTabClick(item.title)}
             >
               {item.title}

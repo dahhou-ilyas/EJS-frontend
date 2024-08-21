@@ -369,7 +369,9 @@
         "psychTests": "Tests Psychologiques",
         "username": "Profile",
         "languageFr": "Français",
-        "languageAr": "العربية"
+        "languageAr": "العربية",
+        "tele": "Téléexpertise",
+        "chatBot": "Chatbot"
     }
 
 
