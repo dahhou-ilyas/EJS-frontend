@@ -3,8 +3,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
-import Header from './Header';
-import Sidebar from './Sidebar';
+import Header from '@/components/TeleExpertise/Header';
 import Image from 'next/image';
 import Link from 'next/link';
 import './chatbot.css';
@@ -13,6 +12,7 @@ import FeatherIcon from 'feather-icons-react/build/FeatherIcon';
 import Message from './Message';
 import Input from './Input';
 import axios from 'axios';
+import Sidebar from '../TeleExpertise/Sidebar';
 
 const Chat = () => {
     const greetings = {
@@ -74,7 +74,7 @@ const Chat = () => {
     return (
         <>
             <Header />
-           <Sidebar activeClassName='chat'></Sidebar>
+           <Sidebar />
             <div className="page-wrapper">
                 <div className="content">
                     {/* Page Header */}

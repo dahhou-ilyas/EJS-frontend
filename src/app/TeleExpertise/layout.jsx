@@ -1,5 +1,4 @@
-import "@/assets/css/style.css";
-import "@/assets/css/bootstrap.min.css";
+
 import Header from "@/components/TeleExpertise/Header";
 
 export const metadata = {
