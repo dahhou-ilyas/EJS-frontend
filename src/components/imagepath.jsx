@@ -138,6 +138,7 @@ export { default as galleryicon } from "../assets/img/icons/gallery-icon.svg";
 export { default as replayicon } from "../assets/img/icons/replay.svg";
 export { default as replayicon01 } from "../assets/img/icons/replay-01.svg";
 export { default as printericon } from "../assets/img/icons/printer.svg";
+export { default as printer } from "../assets/img/icons/printer.svg";
 export { default as user02 } from "../assets/img/user-02.jpg";
 export { default as activity01 } from "../assets/img/activity-01.jpg";
 export { default as activity02 } from "../assets/img/activity-02.jpg";

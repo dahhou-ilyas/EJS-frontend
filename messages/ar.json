@@ -377,8 +377,12 @@
         "modifPorifl":"تعديل الملف الشخصي"
     },
     "sideBare":{
+      "psychTests": "اختبارات نفسية",
+      "logout": "تسجيل الخروج",
+      "profile": "الملف الشخصي",
       "psycho":"دعم نفسي",
-      "dossierMedical":"ملفي الطبي"
+      "dossierMedical":"ملفي الطبي",
+      "accueil":"الصفحة الرئيسية"
     }
 
 

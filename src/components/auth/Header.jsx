@@ -98,6 +98,7 @@ const Header = () => {
         <div className="header-left">
           <Link href="/" className="logo">
             <Image src={logo} width={50} height={35} alt="" />{" "}
+            <span>Espace Jeune</span>
           </Link>
         </div>
         <Link
@@ -111,7 +112,7 @@ const Header = () => {
         <Link
           href="#"
           id="mobile_btn"
-          className="mobile_btn float-start"
+          className="mobile_btn float-start mt-4"
           onClick={handlesidebarmobilemenu}
         >
           <Image src={baricon1} alt="" />

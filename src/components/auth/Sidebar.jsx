@@ -8,10 +8,14 @@ import Image from "next/image";
 import { dashboard, logout } from "@/components/imagepath";
 import Scrollbars from "react-custom-scrollbars-2";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { useLocale, useTranslations } from "next-intl";
 
 const Sidebar = (props) => {
+    const t = useTranslations('sideBare');
+  const locale = useLocale();
+  const pathname = usePathname();
   // État pour contrôler si la barre latérale est ouverte ou fermée
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Fermée par défaut
   const router = useRouter();
@@ -44,11 +48,11 @@ const Sidebar = (props) => {
 
   const handleLogout = () => {
     localStorage.removeItem('access-token');
-    router.push('/auth/medecins');
+    router.push('/auth/jeunes');
   };
 
   return (
-    <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`} id="sidebar">
+    <div className="sidebar" id="sidebar">
       <Scrollbars
         autoHide
         autoHideTimeout={1000}
@@ -70,34 +74,27 @@ const Sidebar = (props) => {
               <li className="submenu">
                 <Link
                   className={props?.activeClassName === "dashboard" ? "active" : ""}
-                  href="/TeleExpertise"
+                  href="/soutien"
                 >
                   <span className="menu-side">
                     <Image src={dashboard} alt="" />
                   </span>{" "}
-                  <span> Page d'accueil </span>
+                  <span> {t('accueil')} </span>
                 </Link>
               </li>
-{/*               
-              <li>
-                <button
-                  className={props?.activeClassName === "parametres" ? "active mx-auto" : "ml-5 p-2"}
-                  onClick={handleLogout}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "0",
-                    display: "flex",
-                    alignItems: "center"
-                  }}
+              <li className="submenu">
+                <Link
+                  className={props?.activeClassName === "dashboard" ? "active" : ""}
+                  href="/soutien"
                 >
-                  <span className="menu-side pr-3">
-                    <Image width={25} src={logout} alt="" />
+                  <span className="menu-side">
+                    <Image src={dashboard} alt="" />
                   </span>{" "}
-                  <span>Se Déconnecter</span>
-                </button>
-              </li> */}
+                  <span> {t('psychTests')} </span>
+                </Link>
+              </li>
+
+              
 
             <li onClick={handleLogout}>
                 <Link
@@ -110,7 +107,7 @@ const Sidebar = (props) => {
                   <span className="menu-side">
                     <Image src={logout} alt="" />
                   </span>{" "}
-                  <span>Se Déconnecter</span>
+                  <span>{t('logout')}</span>
                 </Link>
               </li>
             </ul>

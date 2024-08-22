@@ -376,8 +376,12 @@
         "modifPorifl":"Modifier le profil"
     },
     "sideBare":{
+      "psychTests": "Tests Psychologiques",
+      "logout": "Se déconnecter",
+      "profile": "Profile",
       "psycho":"Soutien Psychologique",
-      "dossierMedical":"Dossier Medical"
+      "dossierMedical":"Dossier Medical",
+      "accueil":"Page d'accueil"
     }
 
 
