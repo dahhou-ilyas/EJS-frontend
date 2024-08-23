@@ -327,16 +327,16 @@ const Header = () => {
             </Link>
             <div className="dropdown-menu">
               <Link href="/" className="dropdown-item">
-                My Profile
+                Mon profil
               </Link>
               <Link href="/" className="dropdown-item">
-                Edit Profile
+                Modifier le profil
               </Link>
               <Link href="/" className="dropdown-item">
-                Settings
+                Paramètres
               </Link>
               <Link href="/" className="dropdown-item">
-                Logout
+                Se Déconnecter
               </Link>
             </div>
           </li>

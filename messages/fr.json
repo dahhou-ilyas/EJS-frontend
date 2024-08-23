@@ -371,7 +371,17 @@
         "languageFr": "Français",
         "languageAr": "العربية",
         "tele": "Téléexpertise",
-        "chatBot": "Chatbot"
+        "chatBot": "Chatbot",
+        "edit":"Paramètres",
+        "modifPorifl":"Modifier le profil"
+    },
+    "sideBare":{
+      "psychTests": "Tests Psychologiques",
+      "logout": "Se déconnecter",
+      "profile": "Profile",
+      "psycho":"Soutien Psychologique",
+      "dossierMedical":"Dossier Medical",
+      "accueil":"Page d'accueil"
     }
 
 

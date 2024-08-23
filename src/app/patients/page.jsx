@@ -7,11 +7,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from 'next/navigation';
 import NavigationHeader from "@/components/ppn/NavigationHeader";
-import Header from "@/components/Header"
+import Header from "@/components/TeleExpertise/Header"
 import Navbar from "@/components/Navbar"
 import "@/assets/css/style.css";
 // import "@/assets/css/links.css";
 import { plusicon, refreshicon, imagesend, dots, edit, deleteIcon } from "@/components/imagepath";
+import Sidebar from "@/components/TeleExpertise/Sidebar";
 
 const Patients = () => {
   console.log('ht');
@@ -108,6 +109,7 @@ const Patients = () => {
   return (
     <div id="main-wrapper">
       <Header/>
+      <Sidebar />
       {/* <Navbar/> */}
       <div className="page-wrapper">
         <div className="content">

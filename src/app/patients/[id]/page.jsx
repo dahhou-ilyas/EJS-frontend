@@ -33,7 +33,7 @@ export function handleGenerateDocument(){
   doc.save(`${dossier.title}.pdf`);
 }
 
-const patient = ({params}) => {
+const Patient = ({params}) => {
   const id = params.id
 
   const [patient, setPatient] = useState();
@@ -299,4 +299,4 @@ const patient = ({params}) => {
   );
 };
 
-export default patient;
+export default Patient;

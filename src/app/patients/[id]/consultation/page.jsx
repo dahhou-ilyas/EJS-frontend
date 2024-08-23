@@ -530,7 +530,7 @@ const Consultation = ({params}) => {
                 <div className="card-body">
                   <div id='alert-message' className="alert alert-danger alert-dismissible fade show hideInput" role="alert">
                     {/* <strong>Error!</strong> A <Link href="#" className="alert-link">problem</Link> has been occurred while submitting your data. */}
-                    <strong>Erreur!</strong> Merci de remplir tous les champs marqués d'un (*).
+                    <strong>Erreur!</strong> Merci de remplir tous les champs marqués d&apos;un (*).
                     <button type="button" className="btn-close" onClick={hideAlert} aria-label="Close">
                       <span aria-hidden="true"> </span>
                     </button>

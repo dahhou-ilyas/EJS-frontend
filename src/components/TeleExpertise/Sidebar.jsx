@@ -96,6 +96,28 @@ const Sidebar = (props) => {
               </li>
               <li>
                 <Link
+                  className={props?.activeClassName === "chat" ? "active" : ""}
+                  href="/patients"
+                >
+                  <span className="menu-side">
+                    <Image src={menuicon10} alt="" />
+                  </span>{" "}
+                  <span>Mes Patients</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={props?.activeClassName === "chat" ? "active" : ""}
+                  href="/chatbot"
+                >
+                  <span className="menu-side">
+                    <Image src={menuicon10} alt="" />
+                  </span>{" "}
+                  <span>ChatBot</span>
+                </Link>
+              </li>
+              <li>
+                <Link
                   className={
                     props?.activeClassName === "calendar" ? "active" : ""
                   }
@@ -105,17 +127,17 @@ const Sidebar = (props) => {
                 </Link>
               </li>
               <li>
-                <Link
+                <button
                   className={
                     props?.activeClassName === "parametres" ? "active" : ""
                   }
                   href="/"
                 >
-                  <span className="menu-side">
-                    <Image src={logout} alt="" />
+                  <span className="menu-side pr-3">
+                    <Image width={25} src={logout} alt="" />
                   </span>{" "}
                   <span>Se Déconnecter</span>
-                </Link>
+                </button>
               </li>
             </ul>
           </div>

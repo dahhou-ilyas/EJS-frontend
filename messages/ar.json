@@ -372,7 +372,17 @@
         "languageFr": "Français",
         "languageAr": "العربية",
         "tele": "الخبرة عن بعد",
-        "chatBot": "Chatbot"
+        "chatBot": "Chatbot",
+        "edit":"إعدادات",
+        "modifPorifl":"تعديل الملف الشخصي"
+    },
+    "sideBare":{
+      "psychTests": "اختبارات نفسية",
+      "logout": "تسجيل الخروج",
+      "profile": "الملف الشخصي",
+      "psycho":"دعم نفسي",
+      "dossierMedical":"ملفي الطبي",
+      "accueil":"الصفحة الرئيسية"
     }
 
 
