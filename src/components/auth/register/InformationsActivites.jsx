@@ -1,9 +1,8 @@
-import Layout from "@/components/auth/Layout"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { Input } from "@/components/ui/input"
+import Layout from "@/components/auth/Layout";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Input } from "@/components/ui/input";
 import {
     Form,
     FormControl,
@@ -11,141 +10,115 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-  } from "@/components/ui/form"
+} from "@/components/ui/form";
+import { useTranslations } from 'next-intl';
 
-
-
-  const schema = z.object({
-    cin: z.string().min(1, "Veuillez saisir votre numéro de CIN").regex(/^[A-Za-z]{1,2}\d+$/, "Ce numéro de CIN est invalide"),
-    inpe: z.string().optional(),
-    ppr: z.string().optional(),
-  });
-
-
-  const Fields = ({ setFormData, nextStep, medecin }) => {
-    const form = useForm({
-      defaultValues: {
-        cin: "",
-        inpe: "",
-        ppr: "",
-      },
-      resolver: zodResolver(schema),
+const Fields = ({ setFormData, nextStep, medecin }) => {
+    const t = useTranslations('InformationsActivites');
+    
+    const schema = z.object({
+        cin: z.string()
+            .min(1, t('errors.cin.required'))
+            .regex(/^[A-Za-z]{1,2}\d+$/, t('errors.cin.invalid')),
+        inpe: z.string().optional(),
     });
-  
+
+    const form = useForm({
+        defaultValues: {
+            cin: "",
+            inpe: "",
+   
+        },
+        resolver: zodResolver(schema),
+    });
+
     const { handleSubmit, formState } = form;
     const { errors } = formState;
-  
+
     const onSubmit = (data) => {
-      if (data.inpe && !/^\d+$/.test(data.inpe)) {
-        form.setError("inpe", {
-          type: "manual",
-          message: "Le code INPE doit contenir uniquement des chiffres",
-        });
-        return;
-      }
-      if (data.ppr && !/^\d+$/.test(data.ppr)) {
-        form.setError("ppr", {
-          type: "manual",
-          message: "Ce champ doit contenir uniquement des chiffres",
-        });
-        return;
-      }
-        if (medecin && !data.ppr) {
-            form.setError("ppr", {
-              type: "manual",
-              message: "Veuillez saisir votre PPR",
+        if (data.inpe && !/^\d+$/.test(data.inpe)) {
+            form.setError("inpe", {
+                type: "manual",
+                message: t('errors.inpe.invalid'),
             });
             return;
-          }
+        }
         if (medecin && !data.inpe) {
             form.setError("inpe", {
-              type: "manual",
-              message: "Veuillez saisir votre INPE",
+                type: "manual",
+                message: t('errors.inpe.required'),
             });
             return;
-          }
-          setFormData((prevFormData) => ({
+        }
+        setFormData((prevFormData) => ({
             ...prevFormData,
             cin: data.cin,
             inpe: data.inpe || "",
-            ...(medecin && { ppr: data.ppr }),
         }));
-      
-      nextStep();
+
+        nextStep();
     };
-  
+
     return (
-      <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-          <div className="w-full flex flex-col justify-between gap-4">
-          
-          <FormField
-            control={form.control}
-            name="cin"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Numéro de CIN*</FormLabel>
-                <FormControl>
-                  <Input
-                    className="md:w-96 max-w-sm"
-                    placeholder="N° de CIN"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage>{errors.cin?.message}</FormMessage>
-              </FormItem>
-            )}
-          />
-  
-          <FormField
-            control={form.control}
-            name="inpe"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>INPE{medecin && "*"}</FormLabel>
-                <FormControl>
-                  <Input
-                    className="md:w-96 max-w-sm"
-                    placeholder="INPE"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage>{errors.inpe?.message}</FormMessage>
-              </FormItem>
-            )}
-          />
-        {medecin && <FormField
-            control={form.control}
-            name="ppr"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>PPR*</FormLabel>
-                <FormControl>
-                  <Input
-                    className="md:w-96 max-w-sm"
-                    placeholder="PPR"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage>{errors.ppr?.message}</FormMessage>
-              </FormItem>
-            )}
-          />}
-        <button type="submit" className="rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto bg-blue-900"> Suivant </button></div>
-        </form>
-      </Form>
+        <Form {...form}>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                <div className="w-full flex flex-col justify-between gap-4">
+                    <FormField
+                        control={form.control}
+                        name="cin"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{t('labels.cin')}</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="md:w-96 max-w-sm"
+                                        placeholder={t('placeholders.cin')}
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage>{errors.cin?.message}</FormMessage>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="inpe"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{t('labels.inpe')}{medecin && '*'}</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        className="md:w-96 max-w-sm"
+                                        placeholder={t('placeholders.inpe')}
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage>{errors.inpe?.message}</FormMessage>
+                            </FormItem>
+                        )}
+                    />
+                    
+                    <button type="submit" className="rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto bg-blue-900">
+                        {t('buttons.next')}
+                    </button>
+                </div>
+            </form>
+        </Form>
     );
-  };
+};
 
 const InformationsActivites = ({ setFormData, nextStep, prevStep, medecin }) => {
+    const t = useTranslations('InformationsActivites');
+
     return ( 
-    <Layout 
-      title={"Informations d'activités"} 
-      subtitle={"Veuillez saisir les informations suivantes"} 
-      fields={<Fields setFormData={setFormData}  nextStep={nextStep} medecin={medecin}/>}
-      prevStep= {prevStep}
-      />
-     );
-}
- 
+        <Layout 
+            title={t('title')} 
+            subtitle={t('subtitle')} 
+            fields={<Fields setFormData={setFormData} nextStep={nextStep} medecin={medecin} />}
+            prevStep={prevStep}
+        />
+    );
+};
+
 export default InformationsActivites;

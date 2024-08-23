@@ -13,8 +13,8 @@ import { jwtDecode } from 'jwt-decode';
 
 
 const MultiStepFirstLogin = () => {
-  const [step, setStep] = useState(1);
   const searchParams = useSearchParams();
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     maladieJeune: [],
     medicaments: "",
@@ -24,6 +24,7 @@ const MultiStepFirstLogin = () => {
     anneeOperation: "",
     habitudes: [], 
     tabac: "",
+    tabacSince: "", //nouveau
     alcool: "",
     tempsEcran: "",
     antecedantsFamiliaux: [],
@@ -40,7 +41,7 @@ const MultiStepFirstLogin = () => {
     
     const {formData,antecedentFamiliale}=values;
 
-    const requeteAntecedentsFamiliaux =fetch(`http://localhost:8080/jeunes/${idJeune}/antecedents/familiaux`, {
+    const requeteAntecedentsFamiliaux =fetch(`http://localhost:8080/jeunes/${idJeune}/antecedentsFamiliaux`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ const MultiStepFirstLogin = () => {
       }),
     })
 
-    const requeteAntecedentsPersonnels =fetch(`http://localhost:8080/jeunes/${idJeune}/antecedents/personnels`, {
+    const requeteAntecedentsPersonnels =fetch(`http://localhost:8080/jeunes/${idJeune}/antecedentsPersonnels`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -62,8 +63,8 @@ const MultiStepFirstLogin = () => {
       body: JSON.stringify({
         maladies:formData.maladieJeune,
         utiliseMedicaments:(formData.medicaments=="oui") ? true:false,
-        typesMedicaments:formData.typeMedicaments.split(','),
-        souffreChirurgicaux:(formData.chirurgicaux=="oui") ? true:false,
+        medicaments:formData.typeMedicaments.split(','),
+        chirurgicaux:(formData.chirurgicaux=="oui") ? true:false,
         operationsChirurgicales:{
           typeOperation:formData.typeOperation,
           anneeOperation:formData.anneeOperation
@@ -71,7 +72,8 @@ const MultiStepFirstLogin = () => {
         habitudes:formData.habitudes,
         cigarettesParJour:formData.tabac,
         consommationAlcool:formData.alcool,
-        tempsEcran:formData.tempsEcran
+        tempsEcran:formData.tempsEcran,
+        dureeFumee:formData.tabacSince
       }),
     })
     Promise.all([requeteAntecedentsFamiliaux, requeteAntecedentsPersonnels])

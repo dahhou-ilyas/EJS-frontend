@@ -18,7 +18,6 @@ const RegisterMedecinsForm = () => {
     prenom: '',
     cin: "",
     inpe: "",
-    ppr: "",
     email: '',
     tel: '',
     medecinESJ: "",
@@ -48,7 +47,7 @@ const RegisterMedecinsForm = () => {
         },
         cin:values.formData.cin,
         inpe:values.formData.inpe,
-        ppr:values.formData.ppr,
+        ppr:values.formData.ppr, //remove
         estMedcinESJ:(values.formData.medecinESJ=="oui") ? true:false,
         estGeneraliste:(values.formData.medecinGeneraliste=="oui")? true:false,
         specialite:values.formData.specialite

@@ -12,20 +12,22 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-const schema = z.object({
-  password: z
-    .string()
-    .min(8, "Le mot de passe doit contenir au moins 8 caractères")
-    .max(16, "Le mot de passe ne peut pas dépasser 16 caractères")
-    .regex(/[A-Z]/, "Le mot de passe doit contenir au moins une lettre majuscule")
-    .regex(/[!@#$%^&*(),.?":{}|<>]/, "Le mot de passe doit contenir au moins un caractère spécial"),
-  confirmerPassword: z.string()
-    .min(1, "Veuillez confirmer votre mot de passe"),
-    
-});
+import { useTranslations } from 'next-intl';
 
 const Fields = ({ setFormData, nextStep, formData }) => {
+  const t = useTranslations('PasswordForm');
+
+  const schema = z.object({
+    password: z
+      .string()
+      .min(8, t("passwordMin"))
+      .max(16, t("passwordMax"))
+      .regex(/[A-Z]/, t("passwordUppercase"))
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, t("passwordSpecial")),
+    confirmerPassword: z.string()
+      .min(1, t("confirmPasswordRequired")),
+  });
+
   const form = useForm({
     defaultValues: {
       password: "",
@@ -42,20 +44,18 @@ const Fields = ({ setFormData, nextStep, formData }) => {
 
   const onSubmit = (data) => {
     if (password !== confirmerPassword) {
-
       form.setError("confirmerPassword", {
         type: "manual",
-        message: "Les mots de passe ne correspondent pas",
+        message: t("passwordMismatch"),
       });
       return;
     }
 
-    
     setFormData((prevFormData) => ({
       ...prevFormData,
       password: data.password,
-    }));console.log(data);
-    nextStep({formData,password:data.password});
+    }));
+    nextStep({ formData, password: data.password });
   };
 
   return (
@@ -68,12 +68,12 @@ const Fields = ({ setFormData, nextStep, formData }) => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mot De Passe*</FormLabel>
+                  <FormLabel>{t("passwordLabel")}</FormLabel>
                   <FormControl>
                     <Input
                       className="md:w-96 max-w-sm"
                       type="password"
-                      placeholder="Mot De Passe"
+                      placeholder={t("passwordPlaceholder")}
                       {...field}
                     />
                   </FormControl>
@@ -87,12 +87,12 @@ const Fields = ({ setFormData, nextStep, formData }) => {
               name="confirmerPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirmer*</FormLabel>
+                  <FormLabel>{t("confirmPasswordLabel")}</FormLabel>
                   <FormControl>
                     <Input
                       className="md:w-96 max-w-sm"
                       type="password"
-                      placeholder="Confirmer Mot De Passe"
+                      placeholder={t("confirmPasswordPlaceholder")}
                       {...field}
                     />
                   </FormControl>
@@ -105,7 +105,7 @@ const Fields = ({ setFormData, nextStep, formData }) => {
               type="submit"
               className="rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto bg-blue-900"
             >
-              Valider
+              {t("submitButton")}
             </button>
           </div>
         </form>
@@ -115,15 +115,14 @@ const Fields = ({ setFormData, nextStep, formData }) => {
 };
 
 const PasswordForm = ({ setFormData, nextStep, prevStep, formData }) => {
+  const t = useTranslations('PasswordForm');
+
   return (
     <Layout
-      title={"Mot de passe sécurisé"}
-      subtitle={
-        "Créez un mot de passe sécurisé avec des lettres, des chiffres et des symboles."
-      }
-      fields={<Fields setFormData={setFormData} nextStep={nextStep} formData={formData}/>}
+      title={t("layoutTitle")}
+      subtitle={t("layoutSubtitle")}
+      fields={<Fields setFormData={setFormData} nextStep={nextStep} formData={formData} />}
       prevStep={prevStep}
-
     />
   );
 };

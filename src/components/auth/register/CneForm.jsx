@@ -1,9 +1,9 @@
-import Layout from "@/components/auth/Layout"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import Layout from "@/components/auth/Layout";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 import {
     Form,
     FormControl,
@@ -11,14 +11,19 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-
-const schema = z.object({
-    cne: z.string()
-        .regex(/^\d+$/, "Le numéro de CNE invalid"),
-});
+} from "@/components/ui/form";
+import { useTranslations } from 'next-intl';
 
 const Fields = ({ setFormData, nextStep }) => {
+    const t = useTranslations('CneForm');
+
+    const schema = z.object({
+        cne: z.string()
+            .regex(/^\d+$/, {
+                message: t('cneInvalid'),
+            }),
+    });
+
     const form = useForm({
         defaultValues: {
             cne: "",
@@ -30,12 +35,10 @@ const Fields = ({ setFormData, nextStep }) => {
     const { errors } = formState;
 
     const onSubmit = (data) => {
-        console.log(data);
-    
         setFormData((prevFormData) => ({
             ...prevFormData,
             cne: data.cne,
-          }));
+        }));
         nextStep();
     };
 
@@ -49,11 +52,11 @@ const Fields = ({ setFormData, nextStep }) => {
                         name="cne"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Numéro de CNE*</FormLabel>
+                                <FormLabel>{t("cneLabel")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         className="md:w-96 max-w-sm"
-                                        placeholder="N° CNE"
+                                        placeholder={t("cnePlaceholder")}
                                         {...field}
                                     />
                                 </FormControl>
@@ -61,19 +64,22 @@ const Fields = ({ setFormData, nextStep }) => {
                             </FormItem>
                         )}
                     />
-                    <button type="submit" className='bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'>Suivant</button>
+                    <button type="submit" className='bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'>{t("submitButton")}</button>
                 </div>
             </form>
-        </Form></div>
+        </Form>
+      </div>
     );
 };
 
 const CneForm = ({ setFormData, nextStep, prevStep }) => {
+    const t = useTranslations('CneForm');
+
     return (
         <Layout
-            title={"Informations d'activités"}
-            subtitle={"Veuillez saisir votre CNE (Code National de l'Etudiant)"}
-            fields={<Fields setFormData={setFormData} nextStep={nextStep}/>}
+            title={t("layoutTitle")}
+            subtitle={t("layoutSubtitle")}
+            fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
             prevStep={prevStep}
         />
     );

@@ -6,27 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { addYears, getYear, getMonth, isBefore, isAfter } from "date-fns";
-
+import { useTranslations } from "next-intl";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
-
-
-
-const schema = z.object({
-  dateNaissance: z.date().nullable().refine(
-    (date) => date !== null, 
-    {
-      message: "Veuillez sélectionner une date de naissance"
-    }
-  ).refine(
-    (date) => date && isBefore(date, addYears(new Date(), -10)) && isAfter(date, addYears(new Date(), -30)),
-    {
-      message: "Vous devez avoir entre 10 et 30 ans"
-    }
-  ),
-  genre: z.string().nonempty("Veuillez sélectionner votre genre"),
-});
 
 
 const range = (start, end, step) => {
@@ -37,8 +20,26 @@ const range = (start, end, step) => {
   return years;
 };
 
-
 const Fields = ({ setFormData, nextStep }) => {
+  const t = useTranslations("BirthDateForm");
+  const dir = document.documentElement.dir;
+  
+  const schema = z.object({
+    dateNaissance: z.date().nullable().refine(
+      (date) => date !== null,
+      {
+        message: t("dateNaissanceErrorRequired"),
+      }
+    ).refine(
+      (date) => date && isBefore(date, addYears(new Date(), -10)) && isAfter(date, addYears(new Date(), -30)),
+      {
+        message: t("dateNaissanceErrorInvalid"),
+      }
+    ),
+    genre: z.string().nonempty({
+      message: t("genreErrorRequired"),
+    }),
+  });
   const form = useForm({
     defaultValues: {
       dateNaissance: null,
@@ -62,21 +63,20 @@ const Fields = ({ setFormData, nextStep }) => {
 
   const years = range(getYear(new Date())-30, getYear(new Date()) + 1, 1);
   const months = [
-    "Janvier",
-    "Février",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Août",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Décembre",
+    t("month1"),
+    t("month2"),
+    t("month3"),
+    t("month4"),
+    t("month5"),
+    t("month6"),
+    t("month7"),
+    t("month8"),
+    t("month9"),
+    t("month10"),
+    t("month11"),
+    t("month12"),
   ];
   
-
   return (
     <div className="sm:mt-8">
       <Form {...form}>
@@ -87,8 +87,8 @@ const Fields = ({ setFormData, nextStep }) => {
                 control={control}
                 name="dateNaissance"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Date de Naissance</FormLabel>
+                  <FormItem className="flex flex-col z-50">
+                    <FormLabel>{t("dateNaissanceLabel")}*</FormLabel>
                     <FormControl>
                       <DatePicker
                         showIcon
@@ -99,6 +99,7 @@ const Fields = ({ setFormData, nextStep }) => {
                             width="1em"
                             height="1em"
                             viewBox="0 0 48 48"
+                            
                           >
                             <mask id="ipSApplication0">
                               <g fill="none" stroke="#fff" strokeLinejoin="round" strokeWidth="4">
@@ -132,12 +133,13 @@ const Fields = ({ setFormData, nextStep }) => {
                               justifyContent: "center",
                             }}
                           >
-                            <button className="mr-4" onClick={decreaseMonth} disabled={prevMonthButtonDisabled}> 
+                            <button className="ltr:mr-4 rtl:ml-4" onClick={decreaseMonth} disabled={prevMonthButtonDisabled}> 
                               {"< "}
                             </button>
                             <select
                               value={getYear(date)}
                               onChange={({ target: { value } }) => changeYear(value)}
+                              className='mx-2 border border-black rounded-md'
                             >
                               {years.map((option) => (
                                 <option key={option} value={option}>
@@ -151,6 +153,7 @@ const Fields = ({ setFormData, nextStep }) => {
                               onChange={({ target: { value } }) =>
                                 changeMonth(months.indexOf(value))
                               }
+                              className='border border-black rounded-md'
                             >
                               {months.map((option) => (
                                 <option key={option} value={option}>
@@ -159,7 +162,7 @@ const Fields = ({ setFormData, nextStep }) => {
                               ))}
                             </select>
 
-                            <button className="ml-4" onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+                            <button className="ltr:ml-4 rtl:mr-4" onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
                               {" >"}
                             </button>
                           </div>
@@ -167,8 +170,8 @@ const Fields = ({ setFormData, nextStep }) => {
                         selected={field.value}
                         onChange={field.onChange}
                         dateFormat="dd/MM/yyyy"
-                        placeholderText="jj/mm/aaaa"
-                        className="w-full px-3 py-2 border rounded-md ml-1"
+                        placeholderText={t("dateNaissancePlaceholder")}
+                        className="w-full px-3 py-2 border rounded-md ml-1 rtl:mr-5"
                         maxDate={addYears(new Date(), -10)}
                         minDate={addYears(new Date(), -30)}
                       />
@@ -179,21 +182,21 @@ const Fields = ({ setFormData, nextStep }) => {
               />
             </div>
             <div className="md:w-96 max-w-sm">
-              <FormField
+            <FormField
                 control={control}
                 name="genre"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Sexe*</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormLabel>{t("genreLabel")}*</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} dir={dir}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Sexe" />
+                          <SelectValue placeholder={t("genrePlaceholder")} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="FEMININ">Féminin</SelectItem>
-                        <SelectItem value="MASCULIN">Masculin</SelectItem>
+                        <SelectItem value="FEMININ">{t("genreFeminine")}</SelectItem>
+                        <SelectItem value="MASCULIN">{t("genreMasculine")}</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage>{errors.genre?.message}</FormMessage>
@@ -201,7 +204,7 @@ const Fields = ({ setFormData, nextStep }) => {
                 )}
               />
             </div>
-            <button type="submit" className='bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'> Suivant </button>
+            <button type="submit" className='bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto'>{t("submitButton")}</button>
           </div>
         </form>
       </Form>
@@ -210,10 +213,12 @@ const Fields = ({ setFormData, nextStep }) => {
 };
 
 const BirthDateForm = ({ setFormData, nextStep, prevStep }) => {
+  const t = useTranslations("BirthDateForm");
+
   return (
     <Layout
-      title={"Informations générales"}
-      subtitle={"Veuillez saisir votre date de naissance et votre genre. Remarquez que vous devez être âgé entre 10 et 30 ans pour avoir accès à e-ESJ."}
+      title={t("title")}
+      subtitle={t("subtitle")}
       fields={<Fields setFormData={setFormData} nextStep={nextStep} />}
       prevStep={prevStep}
     />

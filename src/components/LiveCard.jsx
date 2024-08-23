@@ -18,12 +18,12 @@ const LiveCard = ({ backgroundImageLink, time , doctor, title, date }) => {
                     {liveDuration}
                 </div>
             </div>
-            <div className="flex ml-4 justify-start">
+            <div className="flex ltr:ml-4 rtl:mr-4 justify-start">
                 <Avatar>
                     <AvatarImage src="https://github.com/shadcn.png" />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <div className="ml-4">
+                <div className="ltr:ml-4 rtl:mr-4">
                     <span className="font-semibold block">{doctor}</span>
                     <span className="block text-gray-800">{title}</span>
                     <IoCalendarNumberOutline color="gray" className="inline mr-2" /><span className="text-gray-500 text-sm">{date}</span>
