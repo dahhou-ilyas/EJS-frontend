@@ -7,9 +7,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { dashboard, doctor, logout, menuicon10, menuicon08 } from "./imagepath";
 import Scrollbars from "react-custom-scrollbars-2";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const Sidebar = (props) => {
+  useEffect(() => {
+    require("bootstrap/dist/js/bootstrap.bundle.min.js");
+  }, []);
   const [sidebar, setSidebar] = useState("");
 
   const expandMenu = () => {
