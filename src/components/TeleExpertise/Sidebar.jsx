@@ -7,14 +7,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { dashboard, doctor, logout, menuicon10, menuicon08 } from "./imagepath";
 import Scrollbars from "react-custom-scrollbars-2";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useRouter } from "next/navigation";
 
 const Sidebar = (props) => {
+  useEffect(() => {
+    require("bootstrap/dist/js/bootstrap.bundle.min.js");
+  }, []);
   const [sidebar, setSidebar] = useState("");
-  const router=useRouter();
-
-
+  const router = useRouter();
 
   const expandMenu = () => {
     document.body.classList.remove("expand-menu");
@@ -23,11 +23,10 @@ const Sidebar = (props) => {
   const expandMenuOpen = () => {
     document.body.classList.add("expand-menu");
   };
-
-  const handlLogout =()=>{
-    localStorage.removeItem('access-token');
-    router.push('/auth/medecins')
-  }
+  const handlLogout = () => {
+    localStorage.removeItem("access-token");
+    router.push("/auth/medecins");
+  };
 
   return (
     <div className="sidebar" id="sidebar">
@@ -136,7 +135,9 @@ const Sidebar = (props) => {
               <li>
                 <button
                   className={
-                    props?.activeClassName === "parametres" ? "active mx-auto" : "ml-5 p-2" 
+                    props?.activeClassName === "parametres"
+                      ? "active mx-auto"
+                      : "ml-5 p-2"
                   }
                   onClick={handlLogout} // Assure-toi que la fonction s'appelle `handleLogout`
                   style={{
@@ -145,7 +146,7 @@ const Sidebar = (props) => {
                     cursor: "pointer",
                     padding: "0",
                     display: "flex",
-                    alignItems: "center"
+                    alignItems: "center",
                   }}
                 >
                   <span className="menu-side pr-3">
