@@ -1,10 +1,13 @@
 "use client";
 import { React, useEffect, useState } from "react";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+//import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@/assets/css/font-awesome.min.css";
 import { useRouter } from "next/navigation";
 
 const Table = ({ columns, data }) => {
+  useEffect(() => {
+    require("bootstrap/dist/js/bootstrap.bundle.min.js");
+  }, []);
   const [currentPage, setCurrentPage] = useState(1);
   const doctorsPerPage = 12;
   const router = useRouter();

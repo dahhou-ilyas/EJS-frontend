@@ -361,4 +361,6 @@ const PrintableComponent = React.forwardRef((props, ref) => {
   );
 });
 
+PrintableComponent.displayName = 'PrintableComponent';
+
 export default PrintableComponent;
