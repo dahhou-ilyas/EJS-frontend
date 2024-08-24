@@ -48,7 +48,8 @@
     "emailErrorInvalid": "يرجى إدخال عنوان بريد إلكتروني صحيح",
     "telErrorInvalid": "يجب أن يبدأ رقم الهاتف بـ 06 أو 07 وأن يحتوي على 10 أرقام",
     "submitButton": "التالي",
-    "title": "يرجى إدخال عنوان بريدك الإلكتروني ورقم هاتفك"
+    "title": "يرجى إدخال عنوان بريدك الإلكتروني ورقم هاتفك",
+    "emailOrTelErrorExist": "هذا البريد الإلكتروني أو رقم الهاتف موجود بالفعل لحساب آخر."
   },
   "CinForm": {
     "cinLabel": "رقم CIN",
@@ -85,7 +86,8 @@
       "submitButton": "التالي",
       "layoutTitle": "معلومات النشاطات",
       "layoutSubtitle": "يرجى إدخال رمز MASSAR الخاص بك",
-      "codeMassarInvalid": "رمز MASSAR غير صالح"
+      "codeMassarInvalid": "رمز MASSAR غير صالح",
+      "codeMassarErrorExist": "هذا الرمز الخاص بـ Massar موجود بالفعل لحساب آخر."
     },
     "CneForm": {
     "cneLabel": "رقم CNE*",
@@ -93,7 +95,8 @@
     "submitButton": "التالي",
     "layoutTitle": "معلومات النشاطات",
     "layoutSubtitle": "يرجى إدخال رقم CNE (الرمز الوطني للطالب)",
-    "cneInvalid": "رقم CNE غير صالح"
+    "cneInvalid": "رقم CNE غير صالح",
+    "cneErrorExist": "هذا الرمز الخاص بـ CNE موجود بالفعل لحساب آخر."
   },
   "PasswordForm": {
     "passwordLabel": "كلمة المرور*",
@@ -133,6 +136,8 @@
     "subtitle": "يرجى التحقق من بريدك الإلكتروني لتأكيد حسابك."
   },
   "InformationsActivites": {
+    "cinErrorExist": "هذا الرمز الخاص بـ CIN موجود بالفعل لحساب آخر.",
+    "inpeErrorExist": "هذا الرمز INPE موجود بالفعل لحساب آخر.",
     "title": "معلومات الأنشطة",
     "subtitle": "يرجى إدخال المعلومات التالية",
     "labels": {
@@ -187,6 +192,10 @@
     "suivant": "التالي"
   },
   "AuthJeunes":{
+    "errors": {
+      "credentials": "اسم المستخدم أو كلمة المرور غير صحيحة.",
+      "server": "خطأ في الخادم. الرجاء المحاولة مرة أخرى لاحقًا."
+    },
     "identifierError": "يرجى إدخال اسم المستخدم",
     "passwordMinError": "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل",
     "passwordMaxError": "لا يمكن أن تتجاوز كلمة المرور 16 حرفًا",
@@ -202,6 +211,10 @@
     "mobileTooltipContent": "إذا لم تتمكن من إنشاء حساب e-ESJ الخاص بك، توجه إلى أقرب مركز صحي وسنساعدك"
 },
 "AuthMedecins":{
+  "errors": {
+    "credentials": "اسم المستخدم أو كلمة المرور غير صحيحة.",
+    "server": "خطأ في الخادم. الرجاء المحاولة مرة أخرى لاحقًا."
+  },
   "identifierError": "يرجى إدخال اسم المستخدم",
   "passwordMinError": "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل",
   "passwordMaxError": "لا يمكن أن تتجاوز كلمة المرور 16 حرفًا",
@@ -215,6 +228,10 @@
   "register": "أفتح حساب الأن"
 },
 "AuthProfessionnels":{
+  "errors": {
+    "credentials": "اسم المستخدم أو كلمة المرور غير صحيحة.",
+    "server": "خطأ في الخادم. الرجاء المحاولة مرة أخرى لاحقًا."
+  },
   "identifierError": "يرجى إدخال اسم المستخدم",
   "passwordMinError": "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل",
   "passwordMaxError": "لا يمكن أن تتجاوز كلمة المرور 16 حرفًا",

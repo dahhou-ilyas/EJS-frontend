@@ -39,13 +39,48 @@ const Fields = ({ setFormData, nextStep }) => {
   const { handleSubmit, formState } = form;
   const { errors } = formState;
 
-  const onSubmit = (data) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      email: data.email,
-      tel: data.tel,
-    }));
-    nextStep();
+  // const onSubmit = (data) => {
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     email: data.email,
+  //     tel: data.tel,
+  //   }));
+  //   nextStep();
+  // };
+  const onSubmit = async (data) => {
+    try {
+        // Fetch validation from backend
+        const response = await fetch(`http://localhost:8080/validator/infouser?mail=${data.email}&numTel=${data.tel}`);
+
+        if (!response.ok) {
+            form.setError('email', {
+                type: 'manual',
+                message: t("emailOrTelErrorExist"), // Make sure to add this translation key to your translation files
+            });
+            form.setError('tel', {
+                type: 'manual',
+                message: t("emailOrTelErrorExist"),
+            });
+            return;
+        } else {
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                email: data.email,
+                tel: data.tel,
+            }));
+            nextStep();
+        }
+    } catch (error) {
+        // Handle unexpected errors
+        form.setError('email', {
+            type: 'manual',
+            message: "Erreur: " + error.message,
+        });
+        form.setError('tel', {
+            type: 'manual',
+            message: "Erreur: " + error.message,
+        });
+    }
   };
   
   return (

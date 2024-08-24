@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 
 const Fields = ({ setFormData, nextStep }) => {
-  const t = useTranslations('CinForm'); // Ensure this is properly imported and used
+  const t = useTranslations('CinForm');
 
   const schema = z.object({
     cin: z.string()

@@ -34,12 +34,38 @@ const Fields = ({ setFormData, nextStep }) => {
     const { handleSubmit, formState } = form;
     const { errors } = formState;
 
-    const onSubmit = (data) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            cne: data.cne,
-        }));
-        nextStep();
+    // const onSubmit = (data) => {
+    //     setFormData((prevFormData) => ({
+    //         ...prevFormData,
+    //         cne: data.cne,
+    //     }));
+    //     nextStep();
+    // };
+    const onSubmit = async (data) => {
+        try {
+            // Fetch validation from backend
+            const response = await fetch(`http://localhost:8080/validator/cne?cne=${data.cne}`);
+
+            if (!response.ok) {
+                form.setError('cne', {
+                    type: 'manual',
+                    message: t("cneErrorExist"), // Make sure to add this translation key to your translation files
+                });
+                return;
+            } else {
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    cne: data.cne,
+                }));
+                nextStep();
+            }
+        } catch (error) {
+            // Handle unexpected errors
+            form.setError('cne', {
+                type: 'manual',
+                message: "Erreur: " + error.message,
+            });
+        }
     };
 
     return (

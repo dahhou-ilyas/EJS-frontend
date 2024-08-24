@@ -34,13 +34,39 @@ const Fields = ({ setFormData, nextStep }) => {
     const { handleSubmit, formState } = form;
     const { errors } = formState;
 
-    const onSubmit = (data) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            codeMassar: data.codeMassar,
-        }));
+    // const onSubmit = (data) => {
+    //     setFormData((prevFormData) => ({
+    //         ...prevFormData,
+    //         codeMassar: data.codeMassar,
+    //     }));
 
-        nextStep();
+    //     nextStep();
+    // };
+    const onSubmit = async (data) => {
+        try {
+            // Fetch validation from backend
+            const response = await fetch(`http://localhost:8080/validator/codeMassare?codeMassare=${data.codeMassar}`);
+
+            if (!response.ok) {
+                form.setError('codeMassar', {
+                    type: 'manual',
+                    message: t("codeMassarErrorExist"), // Make sure to add this translation key to your translation files
+                });
+                return;
+            } else {
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    codeMassar: data.codeMassar,
+                }));
+                nextStep();
+            }
+        } catch (error) {
+            // Handle unexpected errors
+            form.setError('codeMassar', {
+                type: 'manual',
+                message: "Erreur: " + error.message,
+            });
+        }
     };
 
     return (

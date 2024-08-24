@@ -64,7 +64,28 @@ const AuthProfessionnels = () => {
                 password:data.password
             })
           })
-          .then(response => response.json())
+          .then(response => {
+            if (!response.ok) {
+                // If the response status is not 200 OK, handle the error
+                if (response.status === 401) {
+                    form.setError("identifier", {
+                        type: "manual",
+                        message: t("errors.credentials"),
+                    });
+                    form.setError("password", {
+                        type: "manual",
+                        message: t("errors.credentials"),
+                    });
+                } else {
+                    form.setError("identifier", {
+                        type: "manual",
+                        message: t("errors.server"),
+                    });
+                }
+                throw new Error('Authentication failed');
+            }
+            return response.json();
+        })
           .then(res => {
             console.log(res);
             localStorage.setItem('access-token', res["access-token"]);

@@ -48,7 +48,8 @@
     "emailErrorInvalid": "Veuillez saisir une adresse email valide",
     "telErrorInvalid": "Le numéro de téléphone doit commencer par 06 ou 07 et contenir 10 chiffres",
     "submitButton": "Suivant",
-    "title": "Veuillez saisir votre Adresse email et Numéro de Téléphone"
+    "title": "Veuillez saisir votre Adresse email et Numéro de Téléphone",
+    "emailOrTelErrorExist": "Cet email ou numéro de téléphone existe déjà pour un autre compte."
   },
   "CinForm": {
     "cinLabel": "Numéro de CIN",
@@ -84,7 +85,8 @@
     "submitButton": "Suivant",
     "layoutTitle": "Informations d'activités",
     "layoutSubtitle": "Veuillez saisir votre code MASSAR",
-    "codeMassarInvalid": "Code MASSAR invalide"
+    "codeMassarInvalid": "Code MASSAR invalide",
+    "codeMassarErrorExist": "Ce code Massar existe déjà pour un autre compte."
   },
   "CneForm": {
     "cneLabel": "Numéro de CNE*",
@@ -92,7 +94,8 @@
     "submitButton": "Suivant",
     "layoutTitle": "Informations d'activités",
     "layoutSubtitle": "Veuillez saisir votre CNE (Code National de l'Etudiant)",
-    "cneInvalid": "Le numéro de CNE est invalide"
+    "cneInvalid": "Le numéro de CNE est invalide",
+    "cneErrorExist": "Ce code CNE existe déjà pour un autre compte."
   },
   "PasswordForm": {
     "passwordLabel": "Mot de Passe*",
@@ -132,6 +135,8 @@
     "subtitle": "Veuillez consulter votre boîte mail pour vérifier votre compte."
   },
   "InformationsActivites": {
+    "cinErrorExist": "Ce code CIN existe déjà pour un autre compte.",
+    "inpeErrorExist": "Ce code INPE existe déjà pour un autre compte.",
     "title": "Informations d'activités",
     "subtitle": "Veuillez saisir les informations suivantes",
     "labels": {
@@ -186,6 +191,10 @@
     "suivant": "Suivant"
   },
   "AuthJeunes": {
+    "errors": {
+      "credentials": "Identifiant ou mot de passe incorrect.",
+      "server": "Erreur du serveur. Veuillez réessayer plus tard."
+    },
     "identifierError": "Veuillez saisir votre identifiant",
     "passwordMinError": "Le mot de passe doit faire au moins 8 caractères",
     "passwordMaxError": "Le mot de passe ne peut pas dépasser 16 caractères",
@@ -201,6 +210,10 @@
     "mobileTooltipContent": "Si tu rencontres des difficultés pour créer ton compte e-ESJ, n'hésite pas à te rendre au centre de santé le plus proche. Nous serons ravis de t'aider !"
 },
 "AuthMedecins":{
+  "errors": {
+    "credentials": "Identifiant ou mot de passe incorrect.",
+    "server": "Erreur du serveur. Veuillez réessayer plus tard."
+  },
   "identifierError": "Veuillez saisir votre identifiant",
   "passwordMinError": "Le mot de passe doit faire au moins 8 caractères",
   "passwordMaxError": "Le mot de passe ne peut pas dépasser 16 caractères",
@@ -214,6 +227,10 @@
   "register": "Inscrivez-vous"
 },
 "AuthProfessionnels":{
+  "errors": {
+    "credentials": "Identifiant ou mot de passe incorrect.",
+    "server": "Erreur du serveur. Veuillez réessayer plus tard."
+  },
   "identifierError": "Veuillez saisir votre identifiant",
   "passwordMinError": "Le mot de passe doit faire au moins 8 caractères",
   "passwordMaxError": "Le mot de passe ne peut pas dépasser 16 caractères",
