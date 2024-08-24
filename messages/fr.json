@@ -56,7 +56,8 @@
     "cinErrorInvalid": "Ce numéro de CIN est invalide",
     "submitButton": "Suivant",
     "title": "Informations d'activités",
-    "subtitle": "Veuillez saisir votre Numéro de CIN"
+    "subtitle": "Veuillez saisir votre Numéro de CIN",
+    "cinErrorExist": "Ce code CIN existe déjà pour un autre compte."
   },
   "ScolarisationForm": {
     "scolariseLabel": "Scolarisé(e) ?",

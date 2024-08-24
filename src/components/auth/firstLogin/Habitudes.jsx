@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-const Fields = ({ setFormData, nextStep, formData }) => {
+const Fields = ({ setFormData, nextStep }) => {
   const t = useTranslations("Habitudes");
 
   const habitudes = [

@@ -32,12 +32,31 @@ const Fields = ({ setFormData, nextStep }) => {
   const { handleSubmit, formState } = form;
   const { errors } = formState;
 
-  const onSubmit = (data) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      cin: data.cin,
-    }));
-    nextStep();
+  const onSubmit = async (data) => {
+    try {
+      // Fetch validation from backend
+      const response = await fetch(`http://localhost:8080/validator/cin?cin=${data.cin}`);
+
+      if (!response.ok) {
+        form.setError('cin', {
+          type: 'manual',
+          message: t("cinErrorExist"),
+        });
+        return;
+      } else {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          cin: data.cin,
+        }));
+        nextStep();
+      }
+    } catch (error) {
+      // Handle unexpected errors
+      form.setError('cin', {
+        type: 'manual',
+        message: "Erreur: " + error.message,
+      });
+    }
   };
 
   return (

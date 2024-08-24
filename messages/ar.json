@@ -56,7 +56,8 @@
     "cinErrorInvalid": "رقم CIN هذا غير صالح",
     "submitButton": "التالي",
     "title": "معلومات الأنشطة",
-    "subtitle": "يرجى إدخال رقم CIN الخاص بك"
+    "subtitle": "يرجى إدخال رقم CIN الخاص بك",
+    "cinErrorExist": "هذا الرمز الخاص بـ CIN موجود بالفعل لحساب آخر."
   },
   "ScolarisationForm": {
     "scolariseLabel": "هل أنت مُدرَّس؟",
