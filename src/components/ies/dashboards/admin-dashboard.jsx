@@ -69,19 +69,19 @@ const Admin_Dashboard = ({ name }) => {
                             <div className="col-auto mx-auto mb-4">
                                 <div className="row gap-2 mx-auto">
                                     <Link
-                                        href="/admin/livePlanificationForm"
+                                        href="admin/livePlanificationForm"
                                         className="btn btn-primary col-md d-flex justify-content-between align-items-center custom-button-ies"
                                     >
                                         <span className='me-4' style={{ whiteSpace: 'noWrap' }}>Planifier un Live {" "} </span><i className="fa fa-video-camera" />
                                     </Link>
                                     <Link
-                                        href="/admin/listLives"
+                                        href="admin/listLives"
                                         className="btn btn-primary col-md d-flex justify-content-between align-items-center custom-button-ies"
                                     >
                                         <span className='me-4' style={{ whiteSpace: 'noWrap' }}>Voir les Lives précédents {" "} </span><i className="fa fa-list" />
                                     </Link>
                                     <Link
-                                        href="/admin/propositions"
+                                        href="admin/propositions"
                                         className="btn btn-primary col-md d-flex justify-content-between align-items-center custom-button-ies"
                                     >
                                         <span className='me-4' style={{ whiteSpace: 'noWrap' }}>Voir les propositions des thématiques {" "} </span><i className="fa fa-bar-chart" />

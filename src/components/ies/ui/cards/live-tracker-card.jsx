@@ -89,9 +89,9 @@ const Live_Tracker_Card = ({ cardkey, item, isItForAdmin, setStatus, showModifyL
                                     <div style={{ width: '100%', marginInline: 'auto', borderBottom: '2px solid rgba(50, 55, 164, 1)', marginBottom: '8px', paddingTop: '8px' }}></div>
                                 </div>
                             </div>
-                            <span style={{ marginLeft: '50px', fontSize: 'calc(0.9em + 0.08vw)', fontWeight: 'bold', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                                <i className="feather-calendar me-1"></i>{formattedDate}
-                                <h4 style={{ color: 'black' }}>{formattedTime}</h4>
+                            <span style={{ marginLeft: '50px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                                <span style={{ display: 'flex', fontSize: 'calc(1.4em + 0.08vw)', fontWeight: 'bold', justifyContent: 'center', alignItems: 'center' }}><i className="feather-calendar me-1"></i>{formattedDate}</span>
+                                <h4 style={{ color: 'black', fontSize: 'calc(1.5em + 0.08vw)', fontWeight: 'bold' }}>{formattedTime}</h4>
                             </span>
                         </div>
                         <h3 className="blog-title">Phase:

@@ -16,7 +16,7 @@ const Header = ({ name, role }) => {
     <div className="main-wrapper">
       <div className="header">
         <div className="header-left">
-          <Link href="/admin-dashboard" className="logo" style={{ fontSize: '32px' }}>
+          <Link href="/" className="logo" style={{ fontSize: '32px' }}>
             IES
             {/* <span style={{ paddingLeft: '10px' }}> IES </span> */}
           </Link>

@@ -12,7 +12,7 @@ import Loading from "@/components/ies/utility/loading";
 import Error from "@/components/ies/utility/error";
 import dayjs from 'dayjs';
 import FileUploader from "../file-uploader";
-import { getAlertifyInstance } from "@/components/utility/alertify-singleton";
+import { getAlertifyInstance } from "@/components/ies/utility/alertify-singleton";
 
 const Live_Planification_Form = ({ toDashboard }) => {
     const [alertify, setAlertify] = useState(null);
@@ -166,7 +166,7 @@ const Live_Planification_Form = ({ toDashboard }) => {
                                         <Link href={toDashboard} >Tableau de bord </Link>
                                     </li>
                                     <li className="breadcrumb-item">
-                                        <i className="feather-chevron-left"></i>
+                                        <i className="feather-chevron-right"></i>
                                     </li>
                                     <li className="breadcrumb-item active">Planification du Live</li>
                                 </ul>
@@ -294,7 +294,7 @@ const Live_Planification_Form = ({ toDashboard }) => {
                                     <div className="col-12">
                                         <div className="doctor-submit text-end">
                                             <button type="submit" className="btn btn-primary submit-form me-2" onClick={save}>Soumettre</button>
-                                            <Link href="/admin"><button type="submit" className="btn btn-primary cancel-form">Annuler</button></Link>
+                                            <Link href="/ies/admin"><button type="submit" className="btn btn-primary cancel-form">Annuler</button></Link>
                                         </div>
                                     </div>
                                 </form>

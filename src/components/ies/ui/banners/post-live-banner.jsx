@@ -1,6 +1,6 @@
 import React from 'react';
 
-import "../../../../assets/css/font-awesome.min.css";
+import "@/../public/ies/assets/css/font-awesome.min.css";
 
 const Post_Live_Banner = ({ text = "Nous venons de terminer une session en direct ! Cliquez ici pour donner votre avis." }) => {
     return (

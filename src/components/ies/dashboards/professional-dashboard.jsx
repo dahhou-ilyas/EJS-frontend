@@ -122,7 +122,7 @@ const Professional_Dashboard = ({ name }) => {
                                             <Link href="#" onClick={showDashboard}>Tableau de bord </Link>
                                         </li>
                                         <li className="breadcrumb-item">
-                                            <i className="feather-chevron-left"></i>
+                                            <i className="feather-chevron-right"></i>
                                         </li>
                                         <li className="breadcrumb-item active">Planification du Live</li>
                                     </ul>

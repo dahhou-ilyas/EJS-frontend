@@ -53,7 +53,7 @@ const Post_Live_Form = ({ showDashboard }) => {
                                         <Link href="/youth" >Tableau de bord </Link>
                                     </li>
                                     <li className="breadcrumb-item">
-                                        <i className="feather-chevron-left"></i>
+                                        <i className="feather-chevron-right"></i>
                                     </li>
                                     <li className="breadcrumb-item active">Votre avis compte</li>
                                 </ul>
@@ -152,7 +152,7 @@ const Post_Live_Form = ({ showDashboard }) => {
                                     <div className="col-12">
                                         <div className="doctor-submit text-end">
                                             <button type="submit" className="btn btn-primary submit-form me-2">Soumettre</button>
-                                            <Link href="/youth"><button type="submit" className="btn btn-primary cancel-form">Annuler</button></Link>
+                                            <Link href="/ies/youth"><button type="submit" className="btn btn-primary cancel-form">Annuler</button></Link>
                                         </div>
                                     </div>
                                 </form>
