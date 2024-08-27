@@ -93,6 +93,17 @@ const Sidebar = (props) => {
                   <span> {t('psychTests')} </span>
                 </Link>
               </li>
+              <li className="submenu">
+                <Link
+                  className={props?.activeClassName === "dashboard" ? "active" : ""}
+                  href="/ies/youth"
+                >
+                  <span className="menu-side">
+                    <Image src={dashboard} alt="" />
+                  </span>{" "}
+                  <span> {t('espaceIes')} </span>
+                </Link>
+              </li>
 
               
 

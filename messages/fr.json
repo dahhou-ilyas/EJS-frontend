@@ -376,7 +376,7 @@
         "description": "Mon e-Espace Santé Jeunes (e-ESJ) te permet de consulter ton dossier médical, de profiter de soutiens et tests psychologiques, et de trouver plein d'infos utiles sur la santé.",
         "medicalRecordButton": "Mon Dossier Medical",
         "psychTestsButton": "Tests Psychologiques",
-        "spotlightTitle": "A la une:"
+        "spotlightTitle": "Actualités"
     },
     "Navbar": {
         "profile": "Profile",
@@ -395,6 +395,7 @@
     },
     "sideBare":{
       "psychTests": "Tests Psychologiques",
+      "espaceIes": "Votre espace IES",
       "logout": "Se déconnecter",
       "profile": "Profile",
       "psycho":"Soutien Psychologique",

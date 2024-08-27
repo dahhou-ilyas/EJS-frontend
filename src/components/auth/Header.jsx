@@ -98,7 +98,7 @@ const Header = () => {
         <div className="header-left">
           <Link href="/" className="logo">
             <Image src={logo} width={50} height={35} alt="" />{" "}
-            <span>Espace Jeune</span>
+            <span className="whitespace-nowrap">Espace Jeune</span>
           </Link>
         </div>
         <Link
