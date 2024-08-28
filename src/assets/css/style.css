@@ -1029,9 +1029,12 @@ textarea.form-control {
 }
 .menu-title {
   color: #333;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 12px 20px;
+  font-size: 17px;
+  font-weight: 530;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 200px;
+  margin-left: 35px;
 }
 .menu-title > i {
   float: right;
@@ -4564,8 +4567,8 @@ a.vert-icon:hover {
   background-color: #234ce3;
 }
 .form-check-input:checked {
-  background-color: #00d3c7;
-  border-color: #00d3c7;
+  background-color: #130177;
+  border-color: #130177;
 }
 .select-gender .form-check-input:focus {
   box-shadow: none;
@@ -6688,11 +6691,11 @@ a.status-grey {
   justify-content: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
+  height : 170px;
 }
 .profile-user-img {
-  margin-right: 20px;
   position: relative;
-  top: -30px;
+  padding : 0 10px;
 }
 .profile-user-img img {
   border-radius: 50%;
@@ -6702,6 +6705,7 @@ a.status-grey {
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 3px;
+  width: 150px;
 }
 .names-profiles h5 {
   font-size: 14px;
@@ -6770,6 +6774,47 @@ a.status-grey {
   -webkit-justify-content: center;
   -ms-flex-pack: center;
 }
+
+/* TagsInputComponent.css */
+
+.react-tagsinput {
+  background-color: #f8f9fa; /* Light background for the input area */
+ 
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+}
+
+.react-tagsinput .react-tagsinput-tag {
+  background-color: rgb(33, 104, 199) !important; /* Light blue color for tags */
+  border-radius: 0.25rem;
+  color: #ffffff !important; /* White text color */
+  font-family: 'Arial', sans-serif; /* Change the font */
+  font-size: 14px;
+  margin: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.react-tagsinput .react-tagsinput-tag a {
+  color: #ffffff !important; /* Ensure the close icon is white */
+  margin-left: 0.5rem;
+  text-decoration: none;
+}
+
+.react-tagsinput input {
+  border: none;
+  outline: none;
+  font-family: 'Arial', sans-serif; /* Match the font with tags */
+  font-size: 14px;
+}
+.react-tagsinput--focused {
+  background-color: var(--bs-body-bg);
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+}
+
+
+
 .follow-btn-group .btn-info {
   /* min-width: 127px; */
   width: 109px;
@@ -11773,3 +11818,140 @@ tr.ant-table-row.ant-table-row-level-0.ant-table-row-selected,
   overflow-y: hidden;
 }
 /* TeleExpertise Additional End */
+
+/*Espace Medecin Additional */
+.menu-09 {
+  display: none;
+  opacity: 0;
+  transition: opacity 2s ease, display 2s ease;
+}
+
+.menu-09.open {
+  display: block;
+  opacity: 1;
+}
+.filte-div {
+  font-family: "Poppins", sans-serif;
+}
+.checkbox{
+  margin-left: 5px;
+  font-weight: 20px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  gap: 10px;
+  
+ }
+ .titre{
+   color:#2e37a4;
+   margin-bottom: 20px;
+   font-weight: 100px;
+   font-size: large;
+   margin-top: 20px;
+ 
+ }
+ .sous-titre{
+   color:#2e37a4;
+   margin-bottom: 15px;
+   margin-top: 20px;
+ }
+ .apply{
+     margin-Top:100px;
+     margin-Left:50px;
+     width:200px;
+     background: rgba(46, 55, 164, 0.05);
+     border-radius: 12px;
+     border: 0;
+     height: 40px;
+     color: #2e37a4; /* Set initial text color */
+     transition: all ease-in-out 0.3s;
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     padding: 10px 20px;
+     text-align: center;
+ }
+ 
+ .custom-checkbox-label input {
+   margin-right: 3px; /* Adjust space between checkbox and label */
+   margin-left: 4px;
+   margin-bottom:15px;
+ }
+ .cards{
+   width:12.5rem;
+   border-radius: 10px;
+   font-family: "Poppins";
+   height: 65px;
+   margin-right: 40px;
+ }
+ .carte-img{
+     height: 40px;
+     width: 40px;
+     margin-left: 20px;
+     margin-top: 7px;
+ 
+    
+   }
+ .card-titre{
+   padding-top: 22px;
+   font-size: 17px;
+   font-weight: 100;
+   padding-left: 10px;
+   color: #5F5F5F;
+ }
+ .cards-container{
+   flex : 1 1 ;
+ }
+ .custom-card {
+   width: 500px;
+   margin: 10px;
+ }
+ 
+ .card-bodyy {
+   background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+   padding: 20px;
+   border-radius: 8px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   font-family: "Poppins";
+ }
+ 
+ .card-title {
+   font-size: 15px;
+   margin-bottom: 15px;
+ }
+ 
+ .appointment {
+   margin-bottom: 10px;
+ }
+ 
+ .appointment-details {
+   display: flex;
+   justify-content: space-between;
+   gap: 10px;
+ }
+ 
+ .appointment-details span {
+   flex: 1;
+ }
+ .star {
+   visibility:hidden;
+   font-size:30x;
+   cursor:pointer;
+   margin-bottom: 30px;
+ }
+ .star:before {
+  content: "\2606";
+  position: absolute;
+  visibility:visible;
+  color: gray;
+ }
+ .star:checked:before {
+  content: "\2605";
+  position: absolute;
+  color: yellow;
+ }
+ 
+ nextjs-portal {
+   display: none;
+ }
+ 
+/*Espace medecin additional end */
