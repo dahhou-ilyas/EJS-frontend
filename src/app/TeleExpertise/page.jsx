@@ -8,10 +8,12 @@ import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import Sidebar from "@/components/TeleExpertise/Sidebar";
 import { morning_img_02 } from "@/components/TeleExpertise/imagepath";
 import { useRouter } from "next/navigation";
-
+import { format } from 'date-fns';
 import Discussion from "@/components/TeleExpertise/Discussion";
+import { decodeToken } from "@/utils/docodeToken";
+import { getOuverteDiscussion } from "@/services/discussionService";
 
-const discussions = [
+/* const discussions = [
   {
     id: 1,
     title: "Irritation cutanée",
@@ -56,15 +58,29 @@ const discussions = [
     date: "10/09/2024",
     time: "10:00",
   },
-];
+]; */
 
 const Home = () => {
   const router = useRouter();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [name, setName] = useState("")
+  const [discussions, setDiscussions] = useState([])
 
   const handleCreateDiscussion = () => {
     router.push("/TeleExpertise/Formulaire");
   };
+
+  useEffect(() => {
+    async function fetchData () {
+      const token = localStorage.getItem("access-token")
+      const decodedToken = decodeToken(token)
+      setName(decodedToken.claims.nom+ " " + decodedToken.claims.prenom)
+      const data = await getOuverteDiscussion(token)
+      console.log(data)
+      setDiscussions(data)
+    }
+    fetchData()
+  }, [])
 
   useEffect(() => {
     const handleResize = () => {
@@ -130,16 +146,16 @@ const Home = () => {
                 <div className="col-md-6">
                   <div className="morning-user">
                     <h2>
-                      Bonjour, <span>Dr.Ahmed Berada </span>
+                      Bonjour, <span>Dr.{name} </span>
                     </h2>
                     <p>Bonne journée au travail</p>
                   </div>
                 </div>
-                <div className="col-md-6 position-blk">
+                {/* <div className="col-md-6 position-blk">
                   <div className="morning-img z-index-0">
                     <Image src={morning_img_02} alt="" />
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             {/* Bonjour Section */}
@@ -167,16 +183,17 @@ const Home = () => {
             <h3>Pour Vous</h3>
             <div className="discussion-list mt-3">
               {discussions.map((discussion) => (
+                //discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom != name && 
                 <Discussion
                   key={discussion.id}
-                  title={discussion.title}
-                  description={discussion.description}
-                  doctor={discussion.doctor}
-                  doctorSpeciality={discussion.doctorSpeciality}
+                  title={discussion.titre}
+                  description={discussion.motifDeTeleExpertise}
+                  doctor={discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
+                  doctorSpeciality={discussion.medcinResponsable.specialite}
                   doctorPhoto={discussion.doctorPhoto}
-                  neededSpecialities={discussion.neededSpecialities}
-                  date={discussion.date}
-                  time={discussion.time}
+                  neededSpecialities={discussion.specialitesDemandees}
+                  date={format(discussion.date , 'yyyy-MM-dd')}
+                  time={discussion.heure}
                 />
               ))}
             </div>
