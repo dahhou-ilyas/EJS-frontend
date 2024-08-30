@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from "next/image";
 import { useTranslations } from 'next-intl';
-import { LanguageSelector } from '@/components/LanguageSelector';
+//import { LanguageSelector } from '@/components/LanguageSelector';
 import Logo from "../../../../public/logoJeune.png";
 import { BiArrowBack } from "react-icons/bi";
+import { LanguageSelector2 } from '@/components/LanguageSelector2';
 
 const Recapitulatif = ({ formData, handleSubmit, prevStep }) => {
   const t = useTranslations('Recapitulatif');
@@ -60,7 +61,7 @@ const Recapitulatif = ({ formData, handleSubmit, prevStep }) => {
         />
         <span className="ltr:ml-2 rtl:mr-2 mt-1">{t('back')}</span>
         <div className="ltr:ml-auto sm:ltr:mr-4 rtl:mr-auto sm:rtl:ml-4">
-          <LanguageSelector />
+          <LanguageSelector2 />
         </div>
       </div>
       <div className="w-full h-screen lg:overflow-y-scroll lg:overflow-x-hidden lg:min-h-[450px] lg:max-h-[650px] lg:max-w-7xl lg:border lg:rounded-xl lg:min-w-[900px] xl:min-w-[1000px] bg-white lg:mx-48">
@@ -116,7 +117,7 @@ const Recapitulatif = ({ formData, handleSubmit, prevStep }) => {
             {t('submitButton')}
           </button> 
           <div className="hidden lg:block">
-            <LanguageSelector />
+            <LanguageSelector2 />
           </div>
         </div>
       </div>
