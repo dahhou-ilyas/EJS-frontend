@@ -385,13 +385,18 @@
         "medicalRecord": "Dossier Medical",
         "healthEducation": "Education à la Santé",
         "psychTests": "Tests Psychologiques",
-        "username": "Profile",
+        "username": "Mon Profile",
         "languageFr": "Français",
         "languageAr": "العربية",
         "tele": "Téléexpertise",
         "chatBot": "Chatbot",
         "edit":"Paramètres",
         "modifPorifl":"Modifier le profil"
+    },
+    "CardsCaroussel": {
+      "dossier_medical": "الملف الطبي",
+      "education_sante": "التثقيف الصحي",
+      "tests_psychologiques": "الاختبارات النفسية"
     },
     "sideBare":{
       "psychTests": "Tests Psychologiques",

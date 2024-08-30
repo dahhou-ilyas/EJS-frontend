@@ -394,6 +394,11 @@
         "edit":"إعدادات",
         "modifPorifl":"تعديل الملف الشخصي"
     },
+    "CardsCaroussel": {
+      "dossier_medical": "الملف الطبي",
+      "education_sante": "التثقيف الصحي",
+      "tests_psychologiques": "الاختبارات النفسية"
+    },
     "sideBare":{
       "psychTests": "اختبارات نفسية",
       "espaceIes": "الفضاء المعرفي",
@@ -403,7 +408,4 @@
       "dossierMedical":"ملفي الطبي",
       "accueil":"الصفحة الرئيسية"
     }
-
-
-
 }

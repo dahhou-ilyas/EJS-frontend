@@ -1,7 +1,8 @@
 import React from 'react';
 import Image from "next/image";
 import { useTranslations } from 'next-intl';
-import Logo from "../../../public/logoJeune.png";
+//import { LanguageSelector } from '@/components/LanguageSelector';
+import Logo from "../../../public/e-Espace.jpeg";
 import { BiArrowBack } from "react-icons/bi";
 import { LanguageSelector2 } from '../LanguageSelector2';
 
@@ -11,17 +12,17 @@ const Layout = ({ title, subtitle, fields, prevStep }) => {
   const logoConfig = {
     default: {
       src: Logo,
-      height: 80,
-      width: 160,
+      height: 120,
+      width: 250,
       ml: '-ml-2',
-      mt: 'mt-2',
+      mt: 'mt-4',
     },
   };
 
   const selectedLogo = logoConfig.default;
 
   return (
-    <div className="min-h-screen lg:flex lg:items-center lg:justify-center lg:bg-[#6d7886a3]">
+    <div className="min-h-screen lg:flex lg:items-center lg:justify-center lg:bg-gray-400">
       <div className="ml-4 mt-1 flex justify-between lg:hidden w-full">
         {prevStep && (
           <div onClick={prevStep}>
@@ -37,7 +38,7 @@ const Layout = ({ title, subtitle, fields, prevStep }) => {
           <LanguageSelector2 />
         </div>
       </div>
-      <div className="w-full lg:min-h-[450px] lg:max-w-7xl lg:border lg:rounded-3xl lg:min-w-[900px] xl:min-w-[1000px] bg-white sm:flex lg:mx-48">
+      <div className="w-full lg:min-h-[450px] lg:max-w-7xl lg:border lg:rounded-3xl lg:min-w-[900px] xl:min-w-[1000px] bg-white sm:flex lg:mx-48 shadow-md">
         <div className="w-full sm:w-1/2 sm:ml-8 mr-8 sm:mb-2 sm:mt-8 mx-4 flex flex-col justify-between">
           <div className="">
             {prevStep && (

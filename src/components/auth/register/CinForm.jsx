@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 
 const Fields = ({ setFormData, nextStep }) => {
-  const t = useTranslations('CinForm');
+  const t = useTranslations('CinForm'); 
 
   const schema = z.object({
     cin: z.string()
@@ -32,11 +32,19 @@ const Fields = ({ setFormData, nextStep }) => {
   const { handleSubmit, formState } = form;
   const { errors } = formState;
 
+  // const onSubmit = (data) => {
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     cin: data.cin,
+  //   }));
+  //   nextStep();
+  // };
+
   const onSubmit = async (data) => {
     try {
       // Fetch validation from backend
       const response = await fetch(`http://localhost:8080/validator/cin?cin=${data.cin}`);
-
+      
       if (!response.ok) {
         form.setError('cin', {
           type: 'manual',
@@ -58,7 +66,6 @@ const Fields = ({ setFormData, nextStep }) => {
       });
     }
   };
-
   return (
     <div className="mt-4">
       <Form {...form}>
@@ -81,7 +88,18 @@ const Fields = ({ setFormData, nextStep }) => {
                 </FormItem>
               )}
             />
-            <button type="submit" className="bg-blue-900 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
+            <button type="submit" className="bg-sky-700
+    hover:bg-sky-800
+    transition
+    duration-300
+    ease-in-out
+    transform
+    hover:scale-105
+    hover:shadow-lg
+    focus:outline-none
+    focus:ring-2
+    focus:ring-offset-2
+    focus:ring-sky-600 rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto">
               {t("submitButton")}
             </button>
           </div>

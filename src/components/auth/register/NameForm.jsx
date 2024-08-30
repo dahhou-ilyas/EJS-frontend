@@ -20,10 +20,10 @@ const Fields = ({ setFormData, nextStep }) => {
   const schema = z.object({
     nom: z.string()
       .min(1, t("nomErrorRequired"))
-      .regex(/^[a-zA-ZÀ-ÿ]+$/, t("nomErrorInvalid")),
+      .regex(/^[a-zA-ZÀ-ÿ\u0600-\u06FF\s-]+$/, t("nomErrorInvalid")),
     prenom: z.string()
       .min(1, t("prenomErrorRequired"))
-      .regex(/^[a-zA-ZÀ-ÿ]+$/, t("prenomErrorInvalid")),
+      .regex(/^[a-zA-ZÀ-ÿ\u0600-\u06FF\s-]+$/, t("prenomErrorInvalid"))
   });
 
   const form = useForm({
@@ -89,7 +89,18 @@ const Fields = ({ setFormData, nextStep }) => {
           )}
         />
       
-        <button type="submit" className="rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto bg-blue-900">
+        <button type="submit" className="rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto bg-sky-700
+    hover:bg-sky-800
+    transition
+    duration-300
+    ease-in-out
+    transform
+    hover:scale-105
+    hover:shadow-lg
+    focus:outline-none
+    focus:ring-2
+    focus:ring-offset-2
+    focus:ring-sky-600">
           {t('submitButton')}
         </button>
         </div>

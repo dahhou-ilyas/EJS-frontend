@@ -19,7 +19,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 
-import Logo from "../../../public/logoMedecin.png";
+import Logo from "../../../public/e-Espace.jpeg";
 import Illustration from "../../../public/image2.png";
 import Terms from './Terms';
 import CheckVerifiedEmail from './CheckVerifiedEmail';
@@ -158,12 +158,12 @@ const AuthMedecin = () => {
             <div className="lg:min-h-[500px] lg:max-w-7xl lg:border lg:rounded-3xl xl:min-w-[1000px] lg:min-w-[900px] bg-white sm:flex xl:mx-48 ">
                 <div className="w-full md:w-1/2 flex flex-col justify-center mt-8 sm:rtl:mr-8">
                     <div className='px-4 md:px-0 md:ml-8 lg:ml-12'>
-                        <div className="flex items-center justify-center -ml-2">
+                        <div className="flex items-center justify-center -ml-4 mb-8">
                             <Image 
                                 src={Logo} 
                                 alt="Logo" 
-                                height={200} 
-                                width={250} 
+                                height={250} 
+                                width={300} 
                             />
                         </div>
                         <div className="flex flex-col items-center justify-center">
@@ -239,8 +239,7 @@ const AuthMedecin = () => {
                 <div className="hidden md:block md:w-1/2 md:animate-bounce-slow">
                     <Image 
                         src={Illustration} 
-                        alt="Illustration" 
-                        layout="responsive"
+                        alt="Illustration"
                         height={1000} 
                         width={450} 
                     />

@@ -58,20 +58,8 @@ const Fields = ({ setFormData, nextStep, medecin }) => {
 
     //     nextStep();
     // };
-
     const onSubmit = async (data) => {
         try {
-            if(data.cin){
-                const response = await fetch(`http://localhost:8080/validator/cin?cin=${data.cin}`);
-                if (!response.ok) {
-                    form.setError('cin', {
-                      type: 'manual',
-                      message: t("cinErrorExist"),
-                    });
-                    return;
-                }
-            }
-
             if (data.inpe && !/^\d+$/.test(data.inpe)) {
                 form.setError("inpe", {
                     type: "manual",
@@ -99,7 +87,6 @@ const Fields = ({ setFormData, nextStep, medecin }) => {
                     return;
                 }
             }
-
     
             setFormData((prevFormData) => ({
                 ...prevFormData,
@@ -114,14 +101,9 @@ const Fields = ({ setFormData, nextStep, medecin }) => {
                 type: "manual",
                 message: "Erreur: " + error.message,
             });
-
-            form.setError("cin", {
-                type: "manual",
-                message: "Erreur: " + error.message,
-            });
         }
     };
-
+    
     return (
         <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -162,7 +144,18 @@ const Fields = ({ setFormData, nextStep, medecin }) => {
                         )}
                     />
                     
-                    <button type="submit" className="rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto bg-blue-900">
+                    <button type="submit" className="rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto bg-sky-700
+    hover:bg-sky-800
+    transition
+    duration-300
+    ease-in-out
+    transform
+    hover:scale-105
+    hover:shadow-lg
+    focus:outline-none
+    focus:ring-2
+    focus:ring-offset-2
+    focus:ring-sky-600">
                         {t('buttons.next')}
                     </button>
                 </div>

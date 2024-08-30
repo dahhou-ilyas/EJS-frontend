@@ -1,9 +1,9 @@
 import React from 'react';
 import Image from "next/image";
 import { useTranslations } from 'next-intl';
+import { LanguageSelector } from '@/components/LanguageSelector';
 import Logo from "../../../../public/logoJeune.png";
 import { BiArrowBack } from "react-icons/bi";
-import { LanguageSelector2 } from '@/components/LanguageSelector2';
 
 const Recapitulatif = ({ formData, handleSubmit, prevStep }) => {
   const t = useTranslations('Recapitulatif');
@@ -60,7 +60,7 @@ const Recapitulatif = ({ formData, handleSubmit, prevStep }) => {
         />
         <span className="ltr:ml-2 rtl:mr-2 mt-1">{t('back')}</span>
         <div className="ltr:ml-auto sm:ltr:mr-4 rtl:mr-auto sm:rtl:ml-4">
-          <LanguageSelector2 />
+          <LanguageSelector />
         </div>
       </div>
       <div className="w-full h-screen lg:overflow-y-scroll lg:overflow-x-hidden lg:min-h-[450px] lg:max-h-[650px] lg:max-w-7xl lg:border lg:rounded-xl lg:min-w-[900px] xl:min-w-[1000px] bg-white lg:mx-48">
@@ -100,12 +100,23 @@ const Recapitulatif = ({ formData, handleSubmit, prevStep }) => {
           </div>
           <button 
             onClick={() => {handleSubmit(formData)}}
-            className='bg-blue-900 rounded-2xl mt-8 py-1 w-fit px-12 md:px-24 mr-4 lg:mr-[89px] xl:mr-24 max-w-sm text-white font-medium ml-auto'
+            className='bg-sky-700
+    hover:bg-sky-800
+    transition
+    duration-300
+    ease-in-out
+    transform
+    hover:scale-105
+    hover:shadow-lg
+    focus:outline-none
+    focus:ring-2
+    focus:ring-offset-2
+    focus:ring-sky-600 rounded-2xl mt-8 py-1 w-fit px-12 md:px-24 mr-4 lg:mr-[89px] xl:mr-24 max-w-sm text-white font-medium ml-auto'
           >
             {t('submitButton')}
           </button> 
           <div className="hidden lg:block">
-            <LanguageSelector2 />
+            <LanguageSelector />
           </div>
         </div>
       </div>
