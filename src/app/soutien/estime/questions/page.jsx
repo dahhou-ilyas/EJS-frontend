@@ -1,6 +1,6 @@
 "use client"
 import { useState, } from 'react';
-import Header from '../../../../components/Header';
+import Header from '@/components/auth/Header';
 import Link from 'next/link';
 import questions_arabe from "./Estime_arabe"
 import questions_francais from "./Estime"
@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import "../../../../assets/css/feather.css"
 import Breadcrumb from '@/components/soutien/home/breadcrumb';
 import { useLanguage } from '@/app/context/LanguageContext';
+import Csidebar from '@/components/auth/Csidebar';
 
 export default function Questions() {
   const { arabic } = useLanguage();
@@ -47,6 +48,8 @@ export default function Questions() {
 
 if(arabic){
   return (
+    <>
+    <Csidebar/>
     <div className="main-wrapper">
       <Header />
 
@@ -121,10 +124,13 @@ if(arabic){
         </div>
       </div>
     </div>
+    </>
   );
 
 }
   return (
+    <>
+    <Csidebar/>
     <div className="main-wrapper">
       <Header />
 
@@ -217,5 +223,6 @@ if(arabic){
 
     
       </div>
+      </>
   );
 }
