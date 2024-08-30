@@ -11,6 +11,7 @@ import MyFileInput from "@/components/TeleExpertise/MyFileInput";
 import DoctorSelectionForm from "@/components/TeleExpertise/DoctorSelectionForm";
 import { decodeToken } from "@/utils/docodeToken";
 import { createDiscussion } from "@/services/discussionService";
+import toast from "react-hot-toast";
 
 const Formulaire = () => {
   const [isConsentChecked, setIsConsentChecked] = useState(false);
@@ -273,8 +274,9 @@ const Formulaire = () => {
     try {
       const res = await createDiscussion(token, discussion)
       await handleUpload(res.id)
+      toast.success("La discussion est bien créé")
     } catch (error) {
-      console.log("oooops")
+      toast.error("Quelque chose s'est mal passé, veuillez réessayer")
     }
   }
 
