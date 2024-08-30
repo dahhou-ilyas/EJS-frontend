@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "@/assets/css/style.css";
 import Image from "next/image";
 import { pdficon } from "./imagepath";
+import { format } from "date-fns";
 
 const DiscussionTerminee = ({
   title,
@@ -33,7 +34,7 @@ const DiscussionTerminee = ({
           color: "#03D2C5",
         }}
       >
-        {date}
+        {format(date, 'yyyy-MM-dd')}
       </td>
       <td style={{ fontWeight: "600", color: "#03D2C5" }}>{time}</td>
       <td>

@@ -176,6 +176,47 @@ const Formulaire = () => {
 
   const age = calculateAge(birthdate);
 
+  const suivant1 = () => {
+    const antecedentsMedicaux = selectedMedicaux.map(selected => {
+      if (selected.value === 7) {
+        return autreMedicaux
+      } else {
+        return selected.label
+      }
+    })
+    
+    const antecedentsFamiliaux = selectedFamiliaux.map(selected => {
+      if (selected.value === 6) {
+        return autreFamiliaux
+      } else {
+        return selected.label
+      }
+    })
+
+    const motifDeTeleExpertise = selectedMotifTele[0].value === 8 ? autreMotifTele : selectedMotifTele[0].label
+    
+    const data = {
+      nomPatient: nom,
+      prenomPatient: prenom,
+      sexe: sexe,
+      age: age,
+      identifiantPatient: identifiant,
+      cinPatient: age <= 16 ? null : cin,
+      codeMassarPatient:  age <= 16 ? cin : null,
+      motifDeTeleExpertise: motifDeTeleExpertise,
+      antecedentsMedicaux: antecedentsMedicaux,
+      antecedentsChirurgicaux: Chirurgicaux,
+      habitudes: selectedHabitudes.map(h => h.label),
+      descriptionDesHabitudes: detailsHabitudes,
+      antecedentsFamiliaux: antecedentsFamiliaux,
+      descriptionEtatClinique: Description,
+      titre: titre,
+      motif: MotifDiscussion
+    }
+    console.log(data)
+
+  }
+
   return (
     <div id="root" style={{ backgroundColor: "white" }}>
       <Sidebar activeClassName="dashboard" />
@@ -595,12 +636,13 @@ const Formulaire = () => {
                             </div>
                           </div>
                         </div>
-                        <div id="suivant1" className="text-end">
+                        <div id={false ? "suivant1" : null} className="text-end">
                           <button
-                            id="suivant1"
+                            //id="suivant1"
                             type="button"
                             className="btn btn-primary1"
                             style={{ color: "white" }}
+                            onClick={suivant1}
                           >
                             Suivant
                           </button>

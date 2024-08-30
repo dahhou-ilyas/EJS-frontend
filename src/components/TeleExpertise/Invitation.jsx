@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React from "react";
 const Invitation = ({
   title,
@@ -32,7 +33,7 @@ const Invitation = ({
           Motif: <span style={{ color: "#2f38a3" }}>{description}</span>
         </p>
         <p>
-          Date: <span className="date">{date}</span>
+          Date: <span className="date">{format(date, 'yyyy-MM-dd')}</span>
         </p>
         <p>
           À: <span className="time">{time}</span>
