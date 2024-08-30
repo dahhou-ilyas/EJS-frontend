@@ -74,7 +74,7 @@ const Chat = () => {
     return (
         <>
             <Header />
-           <Sidebar />
+           <Sidebar activeClassName='chatbot' />
             <div className="page-wrapper">
                 <div className="content">
                     {/* Page Header */}
@@ -83,12 +83,10 @@ const Chat = () => {
                             <div className="col-sm-12">
                                 <ul className="breadcrumb">
                                     <li className="breadcrumb-item">
-                                        <Link href="/chat">App</Link>
+                                        <Link href="/">Page d&#39;accueil </Link>
                                     </li>
                                     <li className="breadcrumb-item">
-                                        <i className="feather-chevron-right">
-                                            <FeatherIcon icon="chevron-right" />
-                                        </i>
+                                        <FeatherIcon icon="chevron-right" />
                                     </li>
                                     <li className="breadcrumb-item active">Chatbot</li>
                                 </ul>
@@ -126,17 +124,6 @@ const Chat = () => {
                                                     message.role === 'user' ? 'sent' : 'received'
                                                 }`}
                                             >
-                                                {/* {message.role === 'assistant' && (
-                                                    <div className="avatar flex-shrink-0">
-                                                        <Image
-                                                            src={chatbot}
-                                                            height={40}
-                                                            width={40}
-                                                            alt="User Image"
-                                                            className="avatar-img rounded-circle"
-                                                        />
-                                                    </div>
-                                                )} */}
                                                 <Message content={message.content} />
                                             </li>
                                         ))}
