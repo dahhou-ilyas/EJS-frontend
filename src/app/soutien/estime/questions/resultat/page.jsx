@@ -3,12 +3,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
-import Header from "../../../../../components/Header";
+import Header from '@/components/auth/Header';
 import Link from "next/link";
 import Image from 'next/image'; // Make sure to import Image for Next.js image optimization
 import logo from "../../../../../assets/img/logo.png";
 import sendEmail from '../../../../api/sendEmail';
 import Breadcrumb from "@/components/soutien/home/breadcrumb";
+import Csidebar from "@/components/auth/Csidebar";
 
 export default function Resultat() {
   const searchParams = useSearchParams();
@@ -111,6 +112,8 @@ export default function Resultat() {
   };
 
   return (
+    <>
+    <Csidebar/>
     <div className="main-wrapper">
       <Header />
       <div className="page-wrapper">
@@ -159,5 +162,6 @@ export default function Resultat() {
          </div>
       </div>
     </div>
+    </>
   );
 }

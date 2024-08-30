@@ -1,13 +1,14 @@
 "use client"
 
 import React, { useState } from 'react';
-import Header from '../../../../components/Header';
+import Header from '@/components/auth/Header';
 import Link from 'next/link';
 import tests_farncais from './Sommeil';
 import tests_arabic from './Sommeil_arabic';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useRouter } from 'next/navigation';
 import Breadcrumb from '@/components/soutien/home/breadcrumb';
+import Csidebar from '@/components/auth/Csidebar';
 
 export default function Questions() {
   const {arabic}=useLanguage();
@@ -68,6 +69,8 @@ export default function Questions() {
 
   if(arabic){
     return (
+      <>
+      <Csidebar/>
       <div className="main-wrapper">
         <Header />
         <div className="page-wrapper">
@@ -156,11 +159,14 @@ export default function Questions() {
           </div>
         </div>
       </div>
+      </>
     );
     
   }
 
   return (
+    <>
+    <Csidebar/>
     <div className="main-wrapper">
       <Header />
       <div className="page-wrapper">
@@ -248,5 +254,6 @@ export default function Questions() {
         </div>
       </div>
     </div>
+    </>
   );
 }

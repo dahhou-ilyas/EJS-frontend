@@ -1,15 +1,18 @@
 "use client"
-import Header from '../../../components/Header'
+import Header from '@/components/auth/Header'
 import { useLanguage } from '@/app/context/LanguageContext';
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from '@/components/soutien/home/breadcrumb';
+import Csidebar from '@/components/auth/Csidebar';
 
 export default function Estime() {
     const { arabic } = useLanguage();
 
     if(arabic){
         return (
+            <>
+            <Csidebar/>
             <div className="main-wrapper">
                 <Header />
                 <div className="page-wrapper">
@@ -43,6 +46,7 @@ export default function Estime() {
                     </div>
                 </div>
             </div>
+            </>
         )
         
 }
@@ -50,6 +54,8 @@ export default function Estime() {
 
     return (
   
+        <>
+        <Csidebar/>
             <div className="main-wrapper">
                  <Header />
                  <div className="page-wrapper">
@@ -84,7 +90,7 @@ export default function Estime() {
             </div>
             </div>
             </div>
-            
+            </>
 
   
       )

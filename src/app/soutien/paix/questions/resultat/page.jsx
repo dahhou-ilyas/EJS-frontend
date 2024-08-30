@@ -3,12 +3,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from "next/navigation";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
-import Header from "../../../../../components/Header";
+import Header from '@/components/auth/Header';
 import Breadcrumb from '@/components/soutien/home/breadcrumb';
 import Image from 'next/image';
 import logo from "../../../../../assets/img/logo.png";
 import sendEmail from '../../../../api/sendEmail';
 import Link from 'next/link';
+import Csidebar from '@/components/auth/Csidebar';
 
 export default function Humeur_Result() {
   const searchParams = useSearchParams();
@@ -97,6 +98,8 @@ export default function Humeur_Result() {
   };
 
   return (
+    <>
+    <Csidebar/>
     <div className="main-wrapper">
       <Header />
       <div className="page-wrapper">
@@ -145,5 +148,6 @@ export default function Humeur_Result() {
          </div>
       </div>
     </div>
+    </>
   );
 }

@@ -1,9 +1,10 @@
 "use client"
 import { useLanguage } from "../context/LanguageContext"
-import Header from "@/components/Header"
+import Header from "@/components/auth/Header"
 import Breadcrumb from "@/components/soutien/home/breadcrumb"
 import Image from "next/image"
 import PostItem from "@/components/soutien/home/PostItem"
+import Csidebar from "@/components/auth/Csidebar"
 const postItems_francais = [
     {
       href: "/soutien/estime",
@@ -77,8 +78,11 @@ const {arabic}=useLanguage();
 
   if(arabic){
     return (
+      <>
+      <Csidebar/>
       <div className="main-wrapper">
           <Header />
+          
           <div className="page-wrapper">
               <div className="content">
                   <Breadcrumb title={""}  arabic={true} showbutt/>
@@ -137,10 +141,13 @@ const {arabic}=useLanguage();
               </div>
           </div>
       </div>
+      </>
   )
    
   }
   return (
+    <>
+    <Csidebar/>
     <div className="main-wrapper">
          <Header />
          <div className="page-wrapper">
@@ -207,5 +214,6 @@ const {arabic}=useLanguage();
          </div>
       
     </div>
+    </>
   )
 }
