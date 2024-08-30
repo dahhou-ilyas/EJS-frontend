@@ -21,6 +21,7 @@ const Chat = () => {
     };
     const [input, setInput] = useState('');
     const [messages, setMessages] = useState([greetings]);
+    const [token , setToken] = useState(null);
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
@@ -32,6 +33,15 @@ const Chat = () => {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
+
+    useEffect(() => {
+        // Retrieve token from localStorage
+        const token = localStorage.getItem('access-token');
+  
+        if (token) {
+            setToken(token);
+        }
+    }, []);
 
     const handleSubmit = async () => {
         if (input.trim()) {
@@ -48,6 +58,7 @@ const Chat = () => {
                 }, {
                     headers: {
                         'Content-Type': 'application/json',
+                        'acces-token': token,
                     },
                 });
 
