@@ -5,8 +5,8 @@ import pdfIcon from "@/assets/img/icons/pdf-icon.png";
 import docIcon from "@/assets/img/icons/doc-icon.png";
 import removeIcon from "@/assets/img/icons/remove-icon.png";
 
-const MyFileInput = () => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
+const MyFileInput = ({selectedFiles, setSelectedFiles}) => {
+  //const [selectedFiles, setSelectedFiles] = useState([]);
 
   const handleFileInput = (event) => {
     const uploadedFiles = event.target.files;

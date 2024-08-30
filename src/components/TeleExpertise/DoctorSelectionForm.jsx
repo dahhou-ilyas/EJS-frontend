@@ -1,58 +1,32 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "@/assets/css/style.css";
 import { Select, Input, Form, Dropdown, Menu, Button, Tag } from "antd";
 import { SearchOutlined, DownOutlined } from "@ant-design/icons";
-import {
-  blogimg2,
-  blogimg4,
-  blogimg6,
-  blogimg10,
-  blogimg12,
-  blogimg8,
-} from "@/components/TeleExpertise/imagepath";
+import { getAllMedecins } from "@/services/medecinService";
 
 const { Option } = Select;
 
-const DoctorSelectionForm = () => {
+const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors} ) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedDoctors, setSelectedDoctors] = useState([]);
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
+  const [doctors, setDoctors] = useState([])
 
-  const datasource = [
-    {
-      key: 1,
-      Img: blogimg2,
-      Name: "Andrea Lalema",
-      Department: "Pédiatre",
-    },
-    {
-      key: 2,
-      Img: blogimg4,
-      Name: "Dr. Smith Bruklin",
-      Department: "Pédiatre",
-    },
-    {
-      key: 3,
-      Img: blogimg6,
-      Name: "Dr. William Stephin",
-      Department: "Psychiatre",
-    },
-    { key: 4, Img: blogimg12, Name: "Bernardo James", Department: "Dentiste" },
-    {
-      key: 5,
-      Img: blogimg10,
-      Name: "Cristina Groves",
-      Department: "Gynécologue",
-    },
-    {
-      key: 6,
-      Img: blogimg8,
-      Name: "Mark Hay Smith",
-      Department: "Gynécologue",
-    },
-  ];
-
+  useEffect(() => {
+    async function fetchData() {
+      const token = localStorage.getItem("access-token")
+      const res = await getAllMedecins(token)
+      const data = res.map((doctor) => ({
+        ...doctor,
+        key: doctor.id,
+        Name: doctor.nom + " " + doctor.prenom,
+        Department: doctor.estGeneraliste ? "Generaliste": doctor.specialite
+      }))
+      setDoctors(data)
+    }
+    fetchData()
+  }, [])
+  
   const specialities = [
     "Pédiatre",
     "Dermatologue",
@@ -60,9 +34,10 @@ const DoctorSelectionForm = () => {
     "Médecin généraliste",
     "Ophtalmologue",
     "Psychiatre",
+    "Generaliste"
   ];
 
-  const filteredDoctors = datasource.filter(
+  const filteredDoctors = doctors.filter(
     (doctor) =>
       (doctor.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         doctor.Department.toLowerCase().includes(searchTerm.toLowerCase())) &&
@@ -74,7 +49,7 @@ const DoctorSelectionForm = () => {
   };
 
   const handleSelect = (value) => {
-    const selectedDoctor = datasource.find((doctor) => doctor.Name === value);
+    const selectedDoctor = doctors.find((doctor) => doctor.Name === value);
     if (
       selectedDoctor &&
       !selectedDoctors.some((doc) => doc.Name === selectedDoctor.Name)
@@ -112,10 +87,14 @@ const DoctorSelectionForm = () => {
     </Menu>
   );
 
+  const getInitials = (name) => {
+    return name.charAt(0);
+  };
+
   const options = filteredDoctors.map((doctor) => (
     <Option key={doctor.key} value={doctor.Name}>
       <div style={{ display: "flex", alignItems: "center" }}>
-        <img
+        {/* <img
           src={doctor.Img}
           alt="Doctor"
           style={{
@@ -124,7 +103,32 @@ const DoctorSelectionForm = () => {
             borderRadius: "50%",
             marginRight: "10px",
           }}
-        />
+        /> */}
+        {doctor.Img ? (
+          <img 
+            src={doctor.Img} 
+            alt={doctor.Name} 
+            className="initials" 
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              marginRight: "10px",
+            }}
+          />
+        ) : (
+          <div 
+            className="initials" 
+            style={{
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              marginRight: "10px",
+            }}
+          >
+            {getInitials(doctor.Name)}
+          </div>
+        )}
         <div>
           <div>{doctor.Name}</div>
           <div style={{ fontSize: "12px", color: "#888" }}>
