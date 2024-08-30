@@ -237,6 +237,7 @@ const Header = () => {
           id="mobile_btn"
           className="mobile_btn float-start"
           onClick={handlesidebarmobilemenu}
+          style={{ marginTop: "28px" }}
         >
           <Image src={baricon1} alt="" />
         </Link>

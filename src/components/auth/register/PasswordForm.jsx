@@ -103,7 +103,18 @@ const Fields = ({ setFormData, nextStep, formData }) => {
 
             <button
               type="submit"
-              className="rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto bg-blue-900"
+              className="rounded-2xl mt-8 py-1 px-6 w-fit text-white font-medium ml-auto bg-sky-700
+    hover:bg-sky-800
+    transition
+    duration-300
+    ease-in-out
+    transform
+    hover:scale-105
+    hover:shadow-lg
+    focus:outline-none
+    focus:ring-2
+    focus:ring-offset-2
+    focus:ring-sky-600"
             >
               {t("submitButton")}
             </button>

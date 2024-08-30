@@ -124,7 +124,18 @@ const Fields = ({ setFormData, nextStep }) => {
                 />
               </>
             )}
-            <button type="submit" className="bg-blue-900 rounded-2xl mt-4 py-1 px-6 w-fit text-white font-medium ml-auto">
+            <button type="submit" className="bg-sky-700
+    hover:bg-sky-800
+    transition
+    duration-300
+    ease-in-out
+    transform
+    hover:scale-105
+    hover:shadow-lg
+    focus:outline-none
+    focus:ring-2
+    focus:ring-offset-2
+    focus:ring-sky-600 rounded-2xl mt-4 py-1 px-6 w-fit text-white font-medium ml-auto">
               {t("nextButton")}
             </button>
           </div>

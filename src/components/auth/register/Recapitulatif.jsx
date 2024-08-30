@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from "next/image";
 import { useTranslations } from 'next-intl';
+//import { LanguageSelector } from '@/components/LanguageSelector';
 import Logo from "../../../../public/logoJeune.png";
 import { BiArrowBack } from "react-icons/bi";
 import { LanguageSelector2 } from '@/components/LanguageSelector2';
@@ -100,7 +101,18 @@ const Recapitulatif = ({ formData, handleSubmit, prevStep }) => {
           </div>
           <button 
             onClick={() => {handleSubmit(formData)}}
-            className='bg-blue-900 rounded-2xl mt-8 py-1 w-fit px-12 md:px-24 mr-4 lg:mr-[89px] xl:mr-24 max-w-sm text-white font-medium ml-auto'
+            className='bg-sky-700
+    hover:bg-sky-800
+    transition
+    duration-300
+    ease-in-out
+    transform
+    hover:scale-105
+    hover:shadow-lg
+    focus:outline-none
+    focus:ring-2
+    focus:ring-offset-2
+    focus:ring-sky-600 rounded-2xl mt-8 py-1 w-fit px-12 md:px-24 mr-4 lg:mr-[89px] xl:mr-24 max-w-sm text-white font-medium ml-auto'
           >
             {t('submitButton')}
           </button> 

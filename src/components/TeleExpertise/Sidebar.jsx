@@ -113,7 +113,7 @@ const Sidebar = (props) => {
               </li>
               <li>
                 <Link
-                  className={props?.activeClassName === "chat" ? "active" : ""}
+                  className={props?.activeClassName === "chatbot" ? "active" : ""}
                   href="/chatbot"
                 >
                   <span className="menu-side">
