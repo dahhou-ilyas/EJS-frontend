@@ -243,6 +243,18 @@
   "noAccount": "Vous n'avez pas de compte ?",
   "register": "Inscrivez-vous"
 },
+"AuthAdmin": {
+  "identifierError": "Veuillez saisir votre identifiant",
+  "passwordMinError": "Le mot de passe doit faire au moins 8 caractères",
+  "passwordMaxError": "Le mot de passe ne peut pas dépasser 16 caractères",
+  "identifierLabel": "Email",
+  "identifierPlaceholder": "Email",
+  "passwordLabel": "Mot de Passe",
+  "passwordPlaceholder": "Mot de Passe",
+  "forgotPassword": "Mot de passe oublié?",
+  "loginButton": "Se Connecter"
+  
+},
 "CheckVerifiedEmail":{
   "verifyEmailTitle": "Confirmez votre adresse e-mail",
   "verifyEmailDescription": "Votre adresse e-mail n'est pas encore vérifiée. Veuillez cliquer sur le bouton 'Vérifier mon e-mail' et consulter votre boîte de réception pour compléter le processus de vérification.",
