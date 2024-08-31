@@ -37,3 +37,21 @@ export const updateMedecin = async (id, medecinData) => {
     throw error;
   }
 };
+
+export const getAllMedecins = async (token) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/medecins`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Failed to fetch medecin data");
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

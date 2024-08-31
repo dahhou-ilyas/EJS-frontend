@@ -9,6 +9,9 @@ import Select from "react-select";
 import moment from "moment";
 import MyFileInput from "@/components/TeleExpertise/MyFileInput";
 import DoctorSelectionForm from "@/components/TeleExpertise/DoctorSelectionForm";
+import { decodeToken } from "@/utils/docodeToken";
+import { createDiscussion } from "@/services/discussionService";
+import toast from "react-hot-toast";
 
 const Formulaire = () => {
   const [isConsentChecked, setIsConsentChecked] = useState(false);
@@ -112,7 +115,12 @@ const Formulaire = () => {
     { value: 5, label: "Aucune" },
     { value: 6, label: "Autre (à préciser en description)" },
   ]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [genre, setGenre] = useState("PRIVEE")
+  const [selectedDoctors, setSelectedDoctors] = useState([]);
 
+  const [discussion, setDiscussion] = useState({})
+  
   useEffect(() => {
     const handleSuivant1 = () => {
       document.querySelector('[href="#bottom-justified-tab2"]').click();
@@ -175,6 +183,129 @@ const Formulaire = () => {
   };
 
   const age = calculateAge(birthdate);
+
+  const suivant1 = () => {
+    const antecedentsMedicaux = selectedMedicaux.map(selected => {
+      if (selected.value === 7) {
+        return autreMedicaux
+      } else {
+        return selected.label
+      }
+    })
+    
+    const antecedentsFamiliaux = selectedFamiliaux.map(selected => {
+      if (selected.value === 6) {
+        return autreFamiliaux
+      } else {
+        return selected.label
+      }
+    })
+
+    let motifDeTeleExpertise = null
+    if (selectedMotifTele[0]) {
+      motifDeTeleExpertise = selectedMotifTele[0].value === 8 ? autreMotifTele : selectedMotifTele[0].label
+    }
+    
+    const data = {
+      nomPatient: nom,
+      prenomPatient: prenom,
+      sexe: sexe === "Homme" ? "MASCULIN" : "FEMININ",
+      age: age,
+      identifiantPatient: identifiant,
+      cinPatient: age <= 16 ? null : cin,
+      codeMassarPatient:  age <= 16 ? cin : null,
+      motifDeTeleExpertise: motifDeTeleExpertise,
+      antecedentsMedicaux: antecedentsMedicaux,
+      antecedentsChirurgicaux: Chirurgicaux,
+      habitudes: selectedHabitudes.map(h => h.label),
+      descriptionDesHabitudes: detailsHabitudes,
+      antecedentsFamiliaux: antecedentsFamiliaux,
+      descriptionEtatClinique: Description,
+      titre: titre,
+      motif: MotifDiscussion
+    }
+    setDiscussion(data)
+  }
+
+  const suivant2 = () => {
+    const data = {
+      ...discussion,
+      commentaireFichiers: CommentaireFichiers
+    }
+    /* setDiscussion((prev) => ({
+      ...prev,
+      commentaireFichiers: CommentaireFichiers
+    })) */
+   setDiscussion(data)
+  }
+
+  const suivant3 = () => {
+    let type = null
+    if (selectedOption) {
+      type = selectedOption.value === 1 ? "APPEL_VIDEO" : "CHAT"
+    }
+    const specialitesDemandees = selectedOptions.map(op => op.label)
+    
+    const date1 = new Date(date)
+    date1.setTime(time)
+    const timeHours = (new Date(time).getHours()).toString().length === 1 ? ("0" + new Date(time).getHours()) : "" + new Date(time).getHours()
+    const timeMinutes = (new Date(time).getMinutes()).toString().length === 1 ? ("0" + new Date(time).getMinutes()) : "" + new Date(time).getMinutes()
+
+    const token = localStorage.getItem("access-token")
+    const decodedToken = decodeToken(token)
+
+    const data = {
+      ...discussion,
+      genre: genre,
+      type: type,
+      specialitesDemandees: genre === "OUVERTE" ? specialitesDemandees : [],
+      medecinsInvitesIds: genre === "PRIVEE" ? selectedDoctors.map(doc => doc.id) : [],
+      date: date1,
+      heure: timeHours + ":" + timeMinutes,
+      medcinResponsableId: decodedToken.claims.id
+    }
+
+    setDiscussion(data);
+
+  }
+
+  const handleCreateDiscussion = async () => {
+    const token = localStorage.getItem("access-token")
+    try {
+      const res = await createDiscussion(token, discussion)
+      await handleUpload(res.id)
+      toast.success("La discussion est bien créé")
+    } catch (error) {
+      toast.error("Quelque chose s'est mal passé, veuillez réessayer")
+    }
+  }
+
+  const handleUpload = async (id) => {
+    if (selectedFiles.length === 0) {
+        console.log("No files selected for upload.");
+        return;
+    }
+
+    const formData = new FormData();
+    selectedFiles.forEach((file) => {
+        formData.append("files", file);
+    });
+
+    const response = await fetch(`/api/upload?id=${id}`, {
+        method: "POST",
+        body: formData,
+    });
+
+    const result = await response.json();
+    if (result.success) {
+        console.log("Files uploaded successfully!");
+    } else {
+        console.log("Failed to upload the files.");
+    }
+  };
+
+  
+  
 
   return (
     <div id="root" style={{ backgroundColor: "white" }}>
@@ -595,12 +726,13 @@ const Formulaire = () => {
                             </div>
                           </div>
                         </div>
-                        <div id="suivant1" className="text-end">
+                        <div  className="text-end">
                           <button
                             id="suivant1"
                             type="button"
                             className="btn btn-primary1"
                             style={{ color: "white" }}
+                            onClick={suivant1}
                           >
                             Suivant
                           </button>
@@ -635,7 +767,7 @@ const Formulaire = () => {
                         </h4>
                       </div>
                       <form action="#">
-                        <MyFileInput />
+                        <MyFileInput selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
                         <div className="col-md-10 mx-auto">
                           <label className="col-form-label col-md-6">
                             Commentez Vos Fichiers Importés
@@ -662,6 +794,7 @@ const Formulaire = () => {
                             id="suivant2"
                             className="btn btn-primary1"
                             style={{ color: "white" }}
+                            onClick={suivant2}
                           >
                             Suivant
                           </button>
@@ -711,6 +844,7 @@ const Formulaire = () => {
                               <li
                                 className="nav-item"
                                 style={{ padding: "5px" }}
+                                onClick={() => setGenre("PRIVEE")}
                               >
                                 <Link
                                   className="nav-link active"
@@ -724,6 +858,7 @@ const Formulaire = () => {
                               <li
                                 className="nav-item"
                                 style={{ padding: "5px" }}
+                                onClick={() => setGenre("OUVERTE")}
                               >
                                 <Link
                                   className="nav-link"
@@ -758,7 +893,10 @@ const Formulaire = () => {
                             className="divider"
                             style={{ width: "100%" }}
                           ></hr>
-                          <DoctorSelectionForm />
+                          <DoctorSelectionForm 
+                            selectedDoctors={selectedDoctors} 
+                            setSelectedDoctors={setSelectedDoctors}
+                          />
                           <div className="col-md-12 mx-auto">
                             <label className="col-md-10 col-form-label">
                               Type de Discussion
@@ -786,8 +924,9 @@ const Formulaire = () => {
                                         className="form-control"
                                         disabledDate={disabledDate}
                                         value={date}
+                                        format="YYYY-MM-DD"
                                         onChange={(e) =>
-                                          setDate(e.target.value)
+                                          setDate(e)
                                         }
                                       />
                                     </Form.Item>
@@ -802,7 +941,7 @@ const Formulaire = () => {
                                         disabledHours={disabledHours}
                                         value={time}
                                         onChange={(e) =>
-                                          setTime(e.target.value)
+                                          setTime(e)
                                         }
                                       />
                                     </Form.Item>
@@ -880,9 +1019,10 @@ const Formulaire = () => {
                                       <DatePicker
                                         className="form-control"
                                         disabledDate={disabledDate}
+                                        format="YYYY-MM-DD"
                                         value={date}
                                         onChange={(e) =>
-                                          setDate(e.target.value)
+                                          setDate(e)
                                         }
                                       />
                                     </Form.Item>
@@ -897,7 +1037,7 @@ const Formulaire = () => {
                                         disabledHours={disabledHours}
                                         value={time}
                                         onChange={(e) =>
-                                          setTime(e.target.value)
+                                          setTime(e)
                                         }
                                       />
                                     </Form.Item>
@@ -915,6 +1055,7 @@ const Formulaire = () => {
                             type="button"
                             className="btn btn-primary1"
                             style={{ color: "white" }}
+                            onClick={suivant3}
                           >
                             Suivant
                           </button>
@@ -1035,6 +1176,7 @@ const Formulaire = () => {
                             className="btn btn-primary1"
                             disabled={!isConsentChecked}
                             style={{ marginTop: "20px", color: "white" }}
+                            onClick={handleCreateDiscussion}
                           >
                             Soumettre
                           </button>

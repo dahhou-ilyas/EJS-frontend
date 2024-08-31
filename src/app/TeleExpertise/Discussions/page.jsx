@@ -9,8 +9,10 @@ import DiscussionCree from "@/components/TeleExpertise/DiscussionCree";
 import DiscussionPlanifiee from "@/components/TeleExpertise/DiscussionPlanifiee";
 import DiscussionTerminee from "@/components/TeleExpertise/DiscussionTerminee";
 import Invitation from "@/components/TeleExpertise/Invitation";
+import { format } from 'date-fns';
+import { getInvitations, getMyCreatedDiscussions, getPlanifiedDiscussions, getTerminedDiscussions } from "@/services/discussionService";
 
-const discussionsCrees = [
+/* const discussionsCrees = [
   {
     id: 1,
     title: "Irritation cutanée",
@@ -170,8 +172,24 @@ const invitations = [
     date: "10/09/2024",
     time: "10:00",
   },
-];
+];*/
 const Discussions = () => {
+  const [discussionsCrees, setDiscussionsCrees] = useState([])
+  const [discussionsPlanifiees, setDiscussionsPlanifiees] = useState([])
+  const [discussionsTerminees, setDiscussionsTerminees] = useState([])
+  const [invitations, setInvitations] = useState([])
+
+  useEffect(() => {
+    async function fetchData() {
+      const token = localStorage.getItem("access-token")
+      setDiscussionsCrees((await getMyCreatedDiscussions(token)).content)
+      setDiscussionsPlanifiees((await getPlanifiedDiscussions(token)).content)
+      setDiscussionsTerminees((await getTerminedDiscussions(token)).content)
+      setInvitations(await getInvitations(token))
+    }
+    fetchData()
+  }, [])
+
   return (
     <div id="root">
       <Sidebar activeClassName="discussions" />
@@ -256,12 +274,22 @@ const Discussions = () => {
                         {discussionsCrees.map((discussion) => (
                           <DiscussionCree
                             key={discussion.id}
-                            title={discussion.title}
-                            neededSpecialities={discussion.neededSpecialities}
-                            acceptedInvitations={discussion.acceptedInvitations}
-                            rejectedInvitations={discussion.rejectedInvitations}
+                            id={discussion.id}
+                            title={discussion.titre}
+                            neededSpecialities={discussion.specialitesDemandees}
+                            acceptedInvitations={
+                              discussion.invitations
+                                .filter(invitation => invitation.status === 'ACCEPTE')
+                                .map(invitation => "Dr. " + invitation.medecinInvite.nom)
+                            }
+                            rejectedInvitations={
+                              discussion.invitations
+                                .filter(invitation => invitation.status === 'REFUSE')
+                                .map(invitation => "Dr. " + invitation.medecinInvite.nom)
+                            }
                             date={discussion.date}
-                            time={discussion.time}
+                            time={discussion.heure}
+                            status={discussion.status}
                           />
                         ))}
                       </tbody>
@@ -283,11 +311,11 @@ const Discussions = () => {
                         {discussionsPlanifiees.map((discussion) => (
                           <DiscussionPlanifiee
                             key={discussion.id}
-                            title={discussion.title}
-                            MainDoctor={discussion.MainDoctor}
-                            neededSpecialities={discussion.neededSpecialities}
+                            title={discussion.titre}
+                            MainDoctor={"Dr. " + discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
+                            neededSpecialities={discussion.specialitesDemandees}
                             date={discussion.date}
-                            time={discussion.time}
+                            time={discussion.heure}
                           />
                         ))}
                       </tbody>
@@ -309,11 +337,14 @@ const Discussions = () => {
                         {discussionsTerminees.map((discussion) => (
                           <DiscussionTerminee
                             key={discussion.id}
-                            title={discussion.title}
-                            MainDoctor={discussion.MainDoctor}
-                            DoctorsWhoAttended={discussion.DoctorsWhoAttended}
+                            title={discussion.titre}
+                            MainDoctor={"Dr. " + discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
+                            DoctorsWhoAttended={
+                              discussion.participants
+                                .map(participant => "Dr. " + participant.nom)
+                            }
                             date={discussion.date}
-                            time={discussion.time}
+                            time={discussion.heure}
                           />
                         ))}
                       </tbody>
@@ -326,16 +357,16 @@ const Discussions = () => {
                   >
                     <div className="discussion-section mt-5">
                       <div className="discussion-list mt-3">
-                        {invitations.map((discussion) => (
+                        {invitations.map((invitation) => (
                           <Invitation
-                            key={discussion.id}
-                            title={discussion.title}
-                            description={discussion.description}
-                            doctor={discussion.doctor}
-                            doctorSpeciality={discussion.doctorSpeciality}
-                            doctorPhoto={discussion.doctorPhoto}
-                            date={discussion.date}
-                            time={discussion.time}
+                            key={invitation.discussion.id}
+                            title={invitation.discussion.titre}
+                            description={invitation.discussion.motifDeTeleExpertise}
+                            doctor={invitation.discussion.medcinResponsable.nom + " " + invitation.discussion.medcinResponsable.nom}
+                            doctorSpeciality={invitation.discussion.medcinResponsable.specialite}
+                            //doctorPhoto={invitation.discussion.doctorPhoto}
+                            date={invitation.discussion.date}
+                            time={invitation.discussion.heure}
                           />
                         ))}
                       </div>

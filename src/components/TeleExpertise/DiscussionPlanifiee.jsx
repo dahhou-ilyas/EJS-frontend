@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import "@/assets/css/style.css";
+import { format } from "date-fns";
 const DiscussionPlanifiee = ({
   title,
   MainDoctor,
@@ -9,6 +10,10 @@ const DiscussionPlanifiee = ({
   time,
 }) => {
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  const joinDiscussion = () => {
+    
+  }
 
   return (
     <tr className="discussion-cree-item">
@@ -22,14 +27,17 @@ const DiscussionPlanifiee = ({
           color: "#03D2C5",
         }}
       >
-        {date}
+        {format(date, 'yyyy-MM-dd')}
       </td>
       <td style={{ fontWeight: "600", color: "#03D2C5" }}>{time}</td>
       <td>
         <button
           type="button"
           className="joindre-button"
-          disabled={!isButtonEnabled}
+          disabled={
+            !(new Date() >= new Date(date) && new Date() <= new Date(new Date(date).getTime() + 30 * 60000))
+          }
+          onClick={joinDiscussion}
         >
           Joindre
         </button>
