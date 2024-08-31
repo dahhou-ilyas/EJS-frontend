@@ -244,6 +244,18 @@
   "noAccount": "لا تملك حسابًا؟",
   "register": "أفتح حساب الأن"
 },
+"AuthAdmin":{
+    "identifierError": "يرجى إدخال اسم المستخدم",
+    "passwordMinError": "يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل",
+    "passwordMaxError": "لا يمكن أن تتجاوز كلمة المرور 16 حرفًا",
+    "identifierLabel":"البريد الإلكتروني ",
+    "identifierPlaceholder": "البريد الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "passwordPlaceholder": "كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "loginButton": "تسجيل الدخول"
+    
+},
 "CheckVerifiedEmail":{
   "verifyEmailTitle": "تأكيد عنوان بريدك الإلكتروني",
   "verifyEmailDescription": "لم يتم التحقق من عنوان بريدك الإلكتروني بعد. يرجى النقر على زر 'التحقق من بريدي الإلكتروني' وتفقد صندوق بريدك الإلكتروني لإكمال عملية التحقق.",
