@@ -1,4 +1,5 @@
-import Header from '@/components/ies/ui/header';
+import Csidebar from '@/components/auth/Csidebar';
+import Header from '@/components/auth/Header';
 import Post_Live_Form from "@/components/ies/ui/forms/post-live-form";
 
 export default function Home() {
@@ -7,9 +8,12 @@ export default function Home() {
 
   return (
     <>
-      <Header name={name} role={role} />
-      <div style={{ paddingTop: '70px' }}>
-        <Post_Live_Form />
+      <Header/>
+      <Csidebar/>
+      <div className='page-wrapper'>
+        <div style={{ paddingTop: '50px' }} className='content'>
+          <Post_Live_Form />
+        </div>
       </div>
     </>
   );

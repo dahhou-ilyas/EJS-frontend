@@ -1,4 +1,5 @@
-import Header from '@/components/ies/ui/header';
+import Csidebar from '@/components/auth/Csidebar';
+import Header from '@/components/auth/Header';
 import Youth_Dashboard from '@/components/ies/dashboards/youth-dashboard';
 
 export default function Home() {
@@ -7,9 +8,12 @@ export default function Home() {
 
   return (
     <>
-      <Header name={name} role={role} />
-      <div style={{ paddingTop: '70px' }}>
+      <Header />
+      <Csidebar/>
+      <div className='page-wrapper'>
+      <div style={{ paddingTop: '50px' }} className='content'>
         <Youth_Dashboard name={name} />
+      </div>
       </div>
     </>
   );
