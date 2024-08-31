@@ -2,7 +2,7 @@ import React from 'react';
 import Image from "next/image";
 import { useTranslations } from 'next-intl';
 //import { LanguageSelector } from '@/components/LanguageSelector';
-import Logo from "../../../../public/logoJeune.png";
+import Logo from "../../../../public/e-Espace.jpeg";
 import { BiArrowBack } from "react-icons/bi";
 import { LanguageSelector2 } from '@/components/LanguageSelector2';
 
