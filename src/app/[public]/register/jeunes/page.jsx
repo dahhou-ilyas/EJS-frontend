@@ -48,17 +48,18 @@ const MultiStepForm = () => {
     };
     if(values.scolarise=="oui"){
       scolaris="scolarise"
-      data.cne=values.cne
-      data.codeMassare=values.codeMassar
+      data.cne=(values.cne == "" )? null : values.cne
+      data.codeMassare=(values.codeMassar == "" )? null :values.codeMassar
       data.niveauEtudeActuel= values.niveauEtudes
     }else if(values.scolarise=="non"){
       scolaris="nonscolarise"
       data.derniereNiveauEtudes=values.niveauEtudes
       data.enActivite=(values.enActivite=="oui") ? true : false
-      data.cne=values.cne
-      data.codeMassare=values.codeMassar
+      data.cne=(values.cne == "" )? null : values.cne
+      data.codeMassare=(values.codeMassar == "" )? null :values.codeMassar
     }
 
+    console.log(data);
       fetch('http://localhost:8080/register/jeunes/'+scolaris, {
         method: 'POST',
         headers: {

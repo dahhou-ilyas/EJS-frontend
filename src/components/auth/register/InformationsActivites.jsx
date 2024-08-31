@@ -74,6 +74,18 @@ const Fields = ({ setFormData, nextStep, medecin }) => {
                 });
                 return;
             }
+
+            if (data.cin) {
+                const response = await fetch(`http://localhost:8080/validator/cin?cin=${data.cin}`);
+                
+                if (!response.ok) {
+                    form.setError("cin", {
+                        type: "manual",
+                        message: t("cinErrorExist"), // Ensure this translation key is added to your translation files
+                    });
+                    return;
+                }
+            }
     
             // Fetch validation from backend
             if (data.inpe) {
