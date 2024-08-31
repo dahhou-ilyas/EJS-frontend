@@ -1,23 +1,37 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useEffect, useState } from "react";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "../../assets/css/font-awesome.min.css";
+
+import "@/assets/css/font-awesome.min.css";
 import Link from "next/link";
 import Image from "next/image";
 import { dashboard, doctor, logout, menuicon10, menuicon08 } from "./imagepath";
 import Scrollbars from "react-custom-scrollbars-2";
-import 'boxicons';
+import { useRouter } from "next/navigation";
+import 'boxicons/css/boxicons.min.css';
+
 
 const Sidebar = (props) => {
+  useEffect(() => {
+    require("bootstrap/dist/js/bootstrap.bundle.min.js");
+  }, []);
+
   const [sidebar, setSidebar] = useState("");
-  const [subMenuOpen, setSubMenuOpen] = useState(false);
-  const toggleSubMenu = (e) => {
-    setSubMenuOpen((prev) => !prev);
-    const menuArrow = document.querySelector('#menu-item1');
-    
-      if(subMenuOpen) {menuArrow.classList.remove('subdrop') } else{ menuArrow.classList.add('subdrop');}
-      console.log(subMenuOpen)
-    
+  const [isMedecinsOpen, setIsMedecinsOpen] = useState(false); // State for toggle
+  const router = useRouter();
+
+  const useClientOnlyEffect = (effect, deps) => {
+    const [isClient, setIsClient] = useState(false);
+  
+    useEffect(() => {
+      setIsClient(true);
+    }, []);
+  
+    useEffect(() => {
+      if (isClient) {
+        effect();
+      }
+    }, [isClient, ...deps]);
   };
 
   const expandMenu = () => {
@@ -26,6 +40,15 @@ const Sidebar = (props) => {
 
   const expandMenuOpen = () => {
     document.body.classList.add("expand-menu");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("access-token");
+    router.push("/auth/medecins");
+  };
+
+  const toggleMedecinsMenu = () => {
+    setIsMedecinsOpen(!isMedecinsOpen);
   };
 
   return (
@@ -64,103 +87,101 @@ const Sidebar = (props) => {
                 </Link>
               </li>
               <li className="submenu">
-                <Link 
-                  
-            onClick={(e)=>toggleSubMenu(e)}
+                <Link
+                  onClick={toggleMedecinsMenu} // Toggle visibility
                   href="#"
-                   id="menu-item1"
                 >
-
                   <span className="menu-side">
                     <Image src={doctor} alt="" />
                   </span>{" "}
-                  <span> Médecin  </span>  <span  className="menu-arrow" />
+                  <span> Médecins </span> <span className="menu-arrow" />
                 </Link>
-      
-                  <ul style={{ display: subMenuOpen ? 'block' : 'none' }} className="menu-items1 ">
+                <ul style={{ display: isMedecinsOpen ? 'block' : 'none' }} className="menu-items1">
                   <li>
-                  <Link
-                  className={
-                    props?.activeClassName === "chat" ? "active" : ""
-                  }
-                  href="/espaceMedecin/MonProfil"
-                >Profil du Médecin</Link>
+                    <Link
+                      className={
+                        props?.activeClassName === "monProfil" ? "active" : ""
+                      }
+                      href="/espaceMedecin/MonProfil"
+                    >
+                      Mon Profil
+                    </Link>
                   </li>
                   <li>
-                  <Link
-                  className={
-                    props?.activeClassName === "chat" ? "active" : ""
-                  }
-                  href="/espaceMedecin/ModifierProfil"
-                >Modifier Mon Profil</Link>
+                    <Link
+                      className={
+                        props?.activeClassName === "modifierProfil" ? "active" : ""
+                      }
+                      href="/espaceMedecin/ModifierProfil"
+                    >
+                      Modifier Mon Profil
+                    </Link>
                   </li>
                 </ul>
-                
               </li>
-              <li className="submenu">
+              <li>
                 <Link
                   className={
-                    props?.activeClassName === "doctors" ? "active" : ""
+                    props?.activeClassName === "patients" ? "active" : ""
                   }
                   href="/espaceMedecin/MesPatients"
                 >
                   <span className="menu-side">
                     <Image src={menuicon08} alt="" />
                   </span>{" "}
-                  <span> Mes Patients </span>
-                </Link>
-              </li>
-              <li className="submenu">
-                <Link
-                  className={
-                    props?.activeClassName === "doctors" ? "active" : ""
-                  }
-                  href="https://module-ies.vercel.app/ies/professional"
-                >
-                  <span className="menu-side">
-                    <box-icon type='solid' name='info-circle' color='gray'></box-icon>
-                  </span>{" "}
-                  <span> IES</span>
-                </Link>
-              </li>
-              <li className="submenu">
-                <Link
-                  className={
-                    props?.activeClassName === "doctors" ? "active" : ""
-                  }
-                  href="/chatbot"
-                >
-                  <span className="menu-side">
-                    <box-icon type='solid' name='bot' color='gray'></box-icon>
-                  </span>{" "}
-                  <span> Chat Bot</span>
-                </Link>
-              </li>
-              <li className="submenu">
-                <Link
-                  className={
-                    props?.activeClassName === "doctors" ? "active" : ""
-                  }
-                  href="/TeleExpertise"
-                >
-                  <span className="menu-side">
-                    <box-icon name='tv' color='gray'></box-icon>
-                  </span>{" "}
-                  <span> Télé-Expértise </span>
+                  <span>Mes Patients</span>
                 </Link>
               </li>
               <li>
                 <Link
                   className={
-                    props?.activeClassName === "parametres" ? "active" : ""
+                    props?.activeClassName === "chat" ? "active" : ""
                   }
-                  href="/"
+                  href="/ies"
                 >
                   <span className="menu-side">
-                    <Image src={logout} alt="" />
+                  <i className="fa fa-info-circle" />
+                  </span>{" "}
+                  <span>IES</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={
+                    props?.activeClassName === "chatbot" ? "active" : ""
+                  }
+                  href="/chatbot"
+                >
+                  <span className="menu-side">
+                  <i className="fa fa-commenting" />
+                  </span>{" "}
+                  <span>ChatBot</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={
+                    props?.activeClassName === "chatbot" ? "active" : ""
+                  }
+                  href="/TeleExpertise"
+                >
+                  <span className="menu-side">
+                  <i className="fa fa-info-circle" />
+                  </span>{" "}
+                  <span>Télé-Expertise</span>
+                </Link>
+              </li>
+              
+              <li>
+                <button
+                  className="sidebar-btn"
+                  onClick={handleLogout} 
+                >
+                  <span className="menu-side">
+                  <i className="fa fa-sign-out" />
                   </span>{" "}
                   <span>Se Déconnecter</span>
-                </Link>
+                </button>
               </li>
             </ul>
           </div>

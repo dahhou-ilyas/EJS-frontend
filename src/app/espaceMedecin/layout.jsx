@@ -1,6 +1,8 @@
 import "../../assets/css/style.css";
 import "../../assets/css/bootstrap.min.css";
 import Header from "../../components/espaceMedecin//Header";
+import Script from 'next/script';
+
 
 export const metadata = {
   title: "Espace Médecins et Professionnelles de Santé",
@@ -20,7 +22,7 @@ const RootLayout = ({ children }) => {
         <script
           src="https://kit.fontawesome.com/a790242b27.js"
           crossOrigin="anonymous"
-        ></script>
+          async />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&display=swap"

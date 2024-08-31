@@ -146,7 +146,6 @@ const MonProfile = () => {
                   </li>
                   <li className="breadcrumb-item">
                     <i className="feather-chevron-right">
-                      <FeatherIcon icon="chevron-right" />
                     </i>
                   </li>
                   <li className="breadcrumb-item active">Profil Medecin</li>
@@ -164,13 +163,13 @@ const MonProfile = () => {
                       <div className="about-info">
                         <h4>
                           Profil du Docteur
-                          <span>
+                          {/* <span>
                             <Link href="#">
                               <i className="feather-more-vertical">
                                 <FeatherIcon icon="more-vertical" />
                               </i>
                             </Link>
-                          </span>
+                          </span> */}
                         </h4>
                       </div>
                       <div className="doctor-profile-head">
