@@ -20,6 +20,20 @@ const Sidebar = (props) => {
   const [isMedecinsOpen, setIsMedecinsOpen] = useState(false); // State for toggle
   const router = useRouter();
 
+  const useClientOnlyEffect = (effect, deps) => {
+    const [isClient, setIsClient] = useState(false);
+  
+    useEffect(() => {
+      setIsClient(true);
+    }, []);
+  
+    useEffect(() => {
+      if (isClient) {
+        effect();
+      }
+    }, [isClient, ...deps]);
+  };
+
   const expandMenu = () => {
     document.body.classList.remove("expand-menu");
   };
@@ -64,7 +78,7 @@ const Sidebar = (props) => {
                   className={
                     props?.activeClassName === "dashboard" ? "active" : ""
                   }
-                  href="/TeleExpertise"
+                  href="/espaceMedecin"
                 >
                   <span className="menu-side">
                     <Image src={dashboard} alt="" />
@@ -149,7 +163,7 @@ const Sidebar = (props) => {
                   className={
                     props?.activeClassName === "chatbot" ? "active" : ""
                   }
-                  href="/chatbot"
+                  href="/TeleExpertise"
                 >
                   <span className="menu-side">
                   <i className="fa fa-info-circle" />

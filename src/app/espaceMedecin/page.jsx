@@ -4,13 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import Sidebar from "../../components/espaceMedecin/Sidebar1";
 import { morning_img_02, bu, gp, tv, cb ,i} from "../../components/espaceMedecin/imagepath";
 import { useRouter } from "next/navigation";
 import { Card } from "antd";
-import "boxicons/css/boxicons.min.css";
-import * as bootstrap from "bootstrap";
+// import * as bootstrap from "bootstrap";
 
 const appointments = [
   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
@@ -29,16 +27,16 @@ const Home = () => {
 
   const [favoritePatients, setFavoritePatients] = useState(null);
 
-  useEffect(() => {
-    window.bootstrap = bootstrap;
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(
-      (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-    );
-    // getAllHealthNews();
-    getFavoritePatients();
-    // getMedecinEvaluation();
-  }, []);
+  // useEffect(() => {
+  //   window.bootstrap = bootstrap;
+  //   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  //   const tooltipList = [...tooltipTriggerList].map(
+  //     (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+  //   );
+  //   // getAllHealthNews();
+  //   getFavoritePatients();
+  //   // getMedecinEvaluation();
+  // }, []);
 
   // const getAllHealthNews = () => {
   //   //pub_488678f840dc44dfcd2ec89a5c7a1c935d490
@@ -113,13 +111,9 @@ const Home = () => {
               <div className="col-sm-12">
                 <ul className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <Link href="/">Page d'accueil</Link>
+                  <Link href="/espaceMedecin">Page d&apos;accueil</Link>
                   </li>
-                  <li className="breadcrumb-item">
-                    <FeatherIcon icon="chevron-right" />
-                  </li>
-                  <li className="breadcrumb-item active">Page d'accueil</li>
-                </ul>
+                  </ul>
               </div>
             </div>
           </div>
@@ -150,61 +144,61 @@ const Home = () => {
           </div>
           {/* <p style={{ fontWeight: "550" }}>Accès Rapide</p> */}
           <div className="d-flex flex-row mt-4">
-                <box-icon type='solid' name='rocket' color='#2E37A4'></box-icon>
-                <p className="mx-2" style={{ fontWeight: '550' }}>Accès Rapide</p>
+          <i className="fa fa-rocket" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
+          <p className="mx-2" style={{ fontWeight: '550' }}>Accès Rapide</p>
           </div>
           <div className="doctor-list-blk" style={{ width: "100%" }}>
-          <div class="row d-flex justify-content-center">
-          <div class="col-sm-4 col-md-2">
+          <div className="row d-flex justify-content-center">
+          <div className="col-sm-4 col-md-2">
             <div className="doctor-widget border-right-bg">
                 <div className="doctor-box-icon flex-shrink-0">
                     <img src={bu.src} alt="" />
                 </div>
                 <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/MonProfil">
+                    <Link href="/espaceMedecin/MonProfil">
                         <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Mon Profil</h4>
                     </Link>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4 col-md-2">
+        <div className="col-sm-4 col-md-2">
             <div className="doctor-widget border-right-bg">
                 <div className="doctor-box-icon flex-shrink-0">
                     <img src={gp.src} alt="" />
                 </div>
                 <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/MesPatients">
+                    <Link href="/espaceMedecin/MesPatients">
                         <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Mes Patients</h4>
                     </Link>
                 </div>
             </div>
         </div>
         
-        <div class="col-sm-4 col-md-2" >
+        <div className="col-sm-4 col-md-2" >
             <div className="doctor-widget border-right-bg">
                 <div className="doctor-box-icon flex-shrink-0">
                     <img src={cb.src} alt="" />
                 </div>
                 <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/ChatBot">
+                    <Link href="/chatbot">
                         <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Chat Bot</h4>
                     </Link>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4 col-md-2" >
+        <div className="col-sm-4 col-md-2" >
             <div className="doctor-widget border-right-bg" >
                 <div className="doctor-box-icon flex-shrink-0" >
                     <img src={tv.src} alt="" />
                 </div>
                 <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/TéléExpertise">
+                    <Link href="/TeleExpertise">
                         <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Télé-Expertise</h4>
                     </Link>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4 col-md-2" >
+        <div className="col-sm-4 col-md-2" >
             <div className="doctor-widget">
                 <div className="doctor-box-icon flex-shrink-0">
                     <img src={i.src} alt="" />
@@ -228,7 +222,7 @@ const Home = () => {
             <div className="col-sm-6">
               {/* <p style={{ fontWeight: '550' }}>Rendez-vous</p> */}
               <div className="d-flex flex-row mt-4">
-                <box-icon type='solid' name='calendar' color='#2E37A4'></box-icon>
+              <i className="fa fa-calendar" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
                 <p className="mx-2" style={{ fontWeight: '550' }}>Rendez-vous</p>
               </div>
               <Card className="custom-card" style={{ height: "600px", display: 'flex', justifyContent: 'center', alignItems: 'center' , width:"700px" }}>
@@ -260,23 +254,23 @@ const Home = () => {
                 </div>
               </Card>
               <div className="d-flex flex-row mt-4">
-                <box-icon type='solid' name='bookmark-star' color='#2E37A4'></box-icon>
+              <i className="fa fa-bookmark" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
                 <p className="mx-2" style={{ fontWeight: '550' }}>Patients épinglés</p>
               </div>
               <Card className="custom-card" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , width:"700px" }}>
                 {
                   favoritePatients && favoritePatients.map((item, index) => (
                     <div className="card-bodyy" key={index}>
-                      <div class="card">
-                        <div class="row no-gutters">
-                            <div class="col-sm-5">
-                                <img class="card-img" src={ item[5] } alt=""/>
+                      <div className="card">
+                        <div className="row no-gutters">
+                            <div className="col-sm-5">
+                                <img className="card-img" src={ item[5] } alt=""/>
                             </div>
-                            <div class="col-sm-7">
-                                <div class="card-body">
-                                    <h4 class="card-title">{ item[2] + ' ' + item[1] }</h4>
-                                    <p class="card-text" style={{ width: '300px' }}>{ item[3] }, { item[4] } ans</p>
-                                    <a href={'/MesPatients/DossierMedical/' + item[0]} class="btn btn-primary">Consulter le dossier médical</a>
+                            <div className="col-sm-7">
+                                <div className="card-body">
+                                    <h4 className="card-title">{ item[2] + ' ' + item[1] }</h4>
+                                    <p className="card-text" style={{ width: '300px' }}>{ item[3] }, { item[4] } ans</p>
+                                    <a href={'/MesPatients/DossierMedical/' + item[0]} className="btn btn-primary">Consulter le dossier médical</a>
                                 </div>
                             </div>
                         </div>
@@ -289,7 +283,7 @@ const Home = () => {
             <div className="col-sm-6" style={{ marginLeft: '-50px' }}>
               {/* <p style={{ fontWeight: "550" }}>Dernières nouvelles de santé</p> */}
               <div className="d-flex flex-row mt-4">
-                <box-icon type='solid' name='news' color='#2E37A4'></box-icon>
+              <i className="fa fa-newspaper-o" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
                 <p className="mx-2" style={{ fontWeight: '550' }}>A la une</p>
               </div>
               {news.slice(0, 10).length > 0 ? (
@@ -301,7 +295,7 @@ const Home = () => {
                       <div>
                         <h5 className="card-title">{article.title}</h5>
                         <p className="card-text">{article.description}</p>
-                        <a href={article.link} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <a href={article.link} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
                           Lire la suite
                         </a>
                       </div>
