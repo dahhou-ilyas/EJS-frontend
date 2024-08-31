@@ -394,9 +394,9 @@
         "modifPorifl":"Modifier le profil"
     },
     "CardsCaroussel": {
-      "dossier_medical": "الملف الطبي",
-      "education_sante": "التثقيف الصحي",
-      "tests_psychologiques": "الاختبارات النفسية"
+      "dossier_medical": "Dossier médical",
+      "education_sante": "Éducation à la santé",
+      "tests_psychologiques": "Tests Psychologiques"
     },
     "sideBare":{
       "psychTests": "Tests Psychologiques",

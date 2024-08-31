@@ -1,5 +1,5 @@
 import Header from '@/components/ies/ui/header';
-import Post_Live_Form from "@components/ies/ui/forms/post-live-form";
+import Post_Live_Form from "@/components/ies/ui/forms/post-live-form";
 
 export default function Home() {
   const name = "Leila Mourad";
