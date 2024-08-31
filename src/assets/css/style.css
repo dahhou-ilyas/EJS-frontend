@@ -11953,5 +11953,32 @@ tr.ant-table-row.ant-table-row-level-0.ant-table-row-selected,
  nextjs-portal {
    display: none;
  }
+ .sidebar-btn {
+  display: flex;
+  align-items: center;
+  padding: 10px 10px; /* Adjust as needed */
+  font-size: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  color: inherit; /* Ensures text color is inherited from parent */
+  margin-left: 20px;
+}
+
+.sidebar-btn .span{
+  margin-left: 20px;
+
+}
+
+.sidebar-btn .menu-side {
+  margin-right: 0px;
+}
+
+.sidebar-btn span {
+  font-size: 16px;
+}
+
  
 /*Espace medecin additional end */
