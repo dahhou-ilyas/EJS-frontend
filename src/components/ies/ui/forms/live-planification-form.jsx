@@ -107,7 +107,7 @@ const Live_Planification_Form = ({ toDashboard }) => {
             console.log(live);
 
             try {
-                await axios.post(`http://localhost:7000/admins/${1}/streams`, formData, {
+                await axios.post(`http://localhost:8080/admins/${1}/streams`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -130,7 +130,7 @@ const Live_Planification_Form = ({ toDashboard }) => {
     useEffect(() => {
         const fetchProfessionals = async () => {
             try {
-                const response = await axios.get("http://localhost:7000/responsables");
+                const response = await axios.get("http://localhost:8080/responsables");
                 setdataprofs(response.data);
             } catch (error) {
                 console.error("Error fetching professionals:", error);

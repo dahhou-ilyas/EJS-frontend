@@ -31,7 +31,7 @@ const Ask_Question_Form = ({ showDashboard, liveData }) => {
 				const question = { contenu: inputValue }
 				if (inputValue.length <= 5)
 					throw new Error('empty question');
-				await axios.post(`http://localhost:7000/jeune/${1}/streams/${id}/questions`, question);
+				await axios.post(`http://localhost:8080/jeunes/${1}/streams/${id}/questions`, question);
 
 				// Toast
 				if (alertify) {

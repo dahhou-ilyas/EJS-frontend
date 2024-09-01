@@ -35,7 +35,7 @@ const page = ({ params }) => {
   const [message, setMessage] = useState(null);
 
   const getDossierMedicalInformations = () => {
-    axios.get('http://localhost:8080/jeune/dossier-medical/' + params.id)
+    axios.get('http://localhost:8080/jeunes/dossier-medical/' + params.id)
     .then(res => {
       setPatient(res.data);
       setMessage(`"${res.data}"

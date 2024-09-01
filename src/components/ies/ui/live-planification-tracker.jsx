@@ -44,9 +44,9 @@ const Live_Planification_Tracker = ({ showModifyLivePlanification, setStatus, is
 
     const fetching = async () => {
         try {
-            const response1 = await axios(`http://localhost:7000/admins/${1}/streams?phase=notactivated`)
-            const response2 = await axios(`http://localhost:7000/admins/${1}/streams?phase=question`)
-            const response3 = await axios(`http://localhost:7000/admins/${1}/streams?phase=final`)
+            const response1 = await axios(`http://localhost:8080/admins/${1}/streams?phase=notactivated`)
+            const response2 = await axios(`http://localhost:8080/admins/${1}/streams?phase=question`)
+            const response3 = await axios(`http://localhost:8080/admins/${1}/streams?phase=final`)
             const phase1 = await response1.data;
             const phase2 = await response2.data;
             const phase3 = await response3.data;
@@ -60,8 +60,8 @@ const Live_Planification_Tracker = ({ showModifyLivePlanification, setStatus, is
     }
     const fetchingforuser = async () => {
         try {
-            const response1 = await axios(`http://localhost:7000/jeune/${1}/streams?phase=question&limit=1`)
-            const response2 = await axios(`http://localhost:7000/jeune/${1}/streams?phase=final&limit=1`)
+            const response1 = await axios(`http://localhost:8080/jeunes/${1}/streams?phase=question&limit=1`)
+            const response2 = await axios(`http://localhost:8080/jeunes/${1}/streams?phase=final&limit=1`)
             const phase1 = await response1.data;
             const phase2 = await response2.data;
             setQuestionPhase(sortByDate(phase1));

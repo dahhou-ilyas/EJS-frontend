@@ -9,8 +9,10 @@ import Live_Planification_Tracker from "@/components/ies/ui/live-planification-t
 import Post_Live_Banner from "@/components/ies/ui/banners/post-live-banner";
 
 import { carouselSlides } from "@/components/ies/utility/carousel-slides";
+import { jwtDecode } from 'jwt-decode';
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const tabNames = {
     dashboard: 0,
@@ -18,7 +20,7 @@ const tabNames = {
     modifyLivePlanification: 4
 };
 
-const Youth_Dashboard = ({ name }) => {
+const Youth_Dashboard = () => {
     const [selectedTab, setSelectedTab] = useState(tabNames.dashboard);
 
     const showDashboard = () => { setSelectedTab(tabNames.dashboard); };
@@ -34,10 +36,24 @@ const Youth_Dashboard = ({ name }) => {
     const [selectedLive, setselectedLive] = useState(null);
     const [lastLive, setLastLive] = useState(null);
 
+    const router = useRouter();
+    let [name, setName] = useState("User");
+
     useEffect(() => {
         const fetchLastLive = async () => {
+
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/jeunes");
+                return;
+            }
+
             try {
-                const response = await axios.get(`http://localhost:7000/jeune/${1}/streams/last`);
+                const decodedToken = jwtDecode(token);
+                const idJeune = decodedToken.claims.id;
+                setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
+                const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`);
                 setLastLive(response.data);
             } catch (error) {
                 console.log(error);
