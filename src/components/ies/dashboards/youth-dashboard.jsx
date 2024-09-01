@@ -25,16 +25,14 @@ const Youth_Dashboard = () => {
 
     const showDashboard = () => { setSelectedTab(tabNames.dashboard); };
     const showAskQuestion = (lives) => {
-
-
         setSelectedTab(tabNames.askQuestion);
         setselectedLive(lives)
     };
     const showModifyLivePlanification = () => { setSelectedTab(tabNames.modifyLivePlanification); };
 
     const [liveCardStatus, setLiveCardStatus] = useState(null);
-    const [selectedLive, setselectedLive] = useState(null);
     const [lastLive, setLastLive] = useState(null);
+    const [selectedLive, setselectedLive] = useState(null);
 
     const router = useRouter();
     let [name, setName] = useState("User");
@@ -53,6 +51,7 @@ const Youth_Dashboard = () => {
                 const decodedToken = jwtDecode(token);
                 const idJeune = decodedToken.claims.id;
                 setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
+
                 const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`);
                 setLastLive(response.data);
             } catch (error) {
@@ -117,7 +116,7 @@ const Youth_Dashboard = () => {
                             {/*<div style={{ paddingTop: '4px', paddingBottom: '4px' }}><Carousel slides={carouselSlides} /></div>*/}
                         </div>
 
-                        <Live_Timeline />
+                        <Live_Timeline isItForAdmin={false} />
                     </div>
                 </div>
             }

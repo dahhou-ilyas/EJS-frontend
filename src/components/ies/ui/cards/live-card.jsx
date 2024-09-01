@@ -1,33 +1,8 @@
 import React from 'react';
 import { blogimg1, profiles03 } from "@/components/ies/utility/image-path";
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 const Live_Card = ({ item }) => {
-  const router = useRouter();
-
-  useEffect(() => {
-    const fetchLastLive = async () => {
-
-      const token = localStorage.getItem("access-token");
-
-      if (!token) {
-        router.push("/auth/jeunes");
-        return;
-      }
-
-      try {
-        const decodedToken = jwtDecode(token);
-        const idJeune = decodedToken.claims.id;
-        setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchLastLive();
-  }, []);
-
   return (
     <div className="col-sm-6 col-md-6 col-xl-4">
       <div className="blog grid-blog">
