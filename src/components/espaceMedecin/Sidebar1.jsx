@@ -124,7 +124,7 @@ const Sidebar = (props) => {
                   className={
                     props?.activeClassName === "ppn" ? "active" : ""
                   }
-                  href="/patients"
+                  href="/espaceMedecin/MesPatients"
                 >
                   <span className="menu-side">
                     <Image src={menuicon08} alt="" />
