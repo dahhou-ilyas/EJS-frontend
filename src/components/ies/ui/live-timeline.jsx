@@ -38,7 +38,7 @@ const Live_Timeline = () => {
     const getLives = async () => {
         try {
             // A optimiser: deux requêtes pour la même donnée
-            const response = await axios.get('http://localhost:7000/streams?phase=outdated');
+            const response = await axios.get('http://localhost:8080/streams?phase=outdated');
             const data = response.data;
 
             const currentYearStreams = data.filter(live => {

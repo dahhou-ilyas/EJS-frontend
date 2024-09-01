@@ -52,7 +52,7 @@ const Home = () => {
   // };
 
   const getFavoritePatients = () => {
-    axios.get('http://localhost:8080/jeune/favorite-patients')
+    axios.get('http://localhost:8080/jeunes/favorite-patients')
     .then(res => {
       setFavoritePatients(res.data);
     })

@@ -27,7 +27,7 @@ const MyPatients = () => {
   const [data, setData] = useState(null);
 
   const getAllJeunes = () => {
-    axios.get('http://localhost:8080/jeune/with-user-info')
+    axios.get('http://localhost:8080/jeunes/with-user-info')
     .then(res => {
         console.log(res.data);
         setData(res.data);
@@ -38,7 +38,7 @@ const MyPatients = () => {
   }
 
   const updateFavoriteState = async (jeuneId, favorite) => {
-    await axios.put(`http://localhost:8080/jeune/favorite/${jeuneId}/${favorite}`)
+    await axios.put(`http://localhost:8080/jeunes/favorite/${jeuneId}/${favorite}`)
     .then(res => {
         getAllJeunes();
     })

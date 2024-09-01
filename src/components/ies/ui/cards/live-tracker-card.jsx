@@ -40,7 +40,7 @@ const Live_Tracker_Card = ({ cardkey, item, isItForAdmin, setStatus, showModifyL
         return null; // or a loading spinner? maybe later
     }
     const deleting = async (idd) => {
-        await axios.delete(`http://localhost:7000/streams/${idd}`)
+        await axios.delete(`http://localhost:8080/streams/${idd}`)
     }
 
     const [year, month, day, hour = 0, minute = 0, second = 0] = item.date;
@@ -63,7 +63,7 @@ const Live_Tracker_Card = ({ cardkey, item, isItForAdmin, setStatus, showModifyL
     const activedLive = async (id) => {
         const idd = Number(id)
         console.log(id)
-        await axios.patch(`http://localhost:7000/streams/${idd}`)
+        await axios.patch(`http://localhost:8080/streams/${idd}`)
     }
 
     return (
