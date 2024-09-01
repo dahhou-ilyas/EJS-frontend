@@ -115,7 +115,7 @@ const Live_Planification_Form = ({ toDashboard }) => {
             formData.append('image', file);
 
             try {
-                await axios.post(`http://localhost:8080/${idAdmin}/streams`, formData, {
+                await axios.post(`http://localhost:8080/admins/${idAdmin}/streams`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${token}`

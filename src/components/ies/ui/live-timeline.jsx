@@ -50,20 +50,19 @@ const Live_Timeline = ({isItForAdmin}) => {
             let response = null;
             const idUser = decodedToken.claims.id;
             if (!isItForAdmin) {
-                response = await axios.get(`http://localhost:8080/jeunes/${idUser}/streams?phase=outdated`, {
+                response = await axios.get(`http://localhost:8080/admins/${1}/streams?phase=outdated`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
             } else {
-                response = await axios.get(`http://localhost:8080/${idUser}/streams?phase=outdated`, {
+                response = await axios.get(`http://localhost:8080/admins/${idUser}/streams?phase=outdated`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
             }
             const data = response.data;
-            console.log(data);
             
             const currentYearStreams = data.filter(live => {
                 const year = live.date[0];
