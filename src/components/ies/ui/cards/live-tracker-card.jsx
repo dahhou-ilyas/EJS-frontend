@@ -39,8 +39,8 @@ const Live_Tracker_Card = ({ cardkey, item, isItForAdmin, setStatus, showModifyL
     if (!currentTime) {
         return null; // or a loading spinner? maybe later
     }
-    const deleting = async (idd) => {
-        await axios.delete(`http://localhost:8080/streams/${idd}`)
+    const deleting = async (id) => {
+        await axios.delete(`http://localhost:8080/streams/${id}`)
     }
 
     const [year, month, day, hour = 0, minute = 0, second = 0] = item.date;
