@@ -13,7 +13,7 @@ import {
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 
-const Header = () => {
+const Header = ({section}) => {
   const router = useRouter();
   const [user,setUser]=useState({})
 
@@ -92,6 +92,7 @@ const Header = () => {
         <div className="header-left">
           <Link href="/espaceMedecin" className="logo">
             <Image src={logo} width={80} height={80} alt="" />{" "}
+            <span>{section}</span>
           </Link>
         </div>
         <Link href="#" id="toggle_btn" onClick={handlesidebar}>

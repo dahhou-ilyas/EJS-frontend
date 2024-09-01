@@ -107,7 +107,7 @@ const Patients = () => {
 
   return (
     <div id="main-wrapper">
-      <Header/>
+      <Header section={"Mes Patients"}/>
       <Sidebar activeClassName='ppn'/>
       {/* <Navbar/> */}
       <div className="page-wrapper">

@@ -29,10 +29,11 @@ import {
 // COMPONENTS
 import { printer } from "@/components/imagepath";
 import SelectInput from "@/components/ppn/SelectInput";
-import Header from "@/components/Header";
+import Header from "@/components/espaceMedecin/Header";
 import NavigationHeader from "@/components/ppn/NavigationHeader";
 import TextAreaInput from "@/components/ppn/TextAreaInput";
 import TextInput from "@/components/ppn/TextInput";
+import Sidebar from "@/components/espaceMedecin/Sidebar1";
 
 
 const modifierConsultation = ({params}) => {
@@ -614,6 +615,8 @@ const modifierConsultation = ({params}) => {
   return (
     
     <div id="root">
+      <Header section={"Mes Patients"}/>
+      <Sidebar activeClassName='ppn'/>
       <div className="page-wrapper">
         <div className="content">
 

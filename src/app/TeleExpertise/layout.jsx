@@ -18,7 +18,7 @@ const RootLayout = ({ children }) => {
         <title>{metadata.title}</title>
       </head>
       <body>
-        <Header />
+        <Header section="TéléExpertise" />
         {children}
       </body>
     </html>

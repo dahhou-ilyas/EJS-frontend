@@ -84,7 +84,7 @@ const Chat = () => {
 
     return (
         <>
-            <Header />
+            <Header section="ChatBot" />
            <Sidebar activeClassName='chatbot' />
             <div className="page-wrapper">
                 <div className="content">

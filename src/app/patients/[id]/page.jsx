@@ -57,7 +57,7 @@ const Patient = ({params}) => {
     return (
       <div id="main-wrapper">
         <Sidebar activeClassName='ppn'/>
-      <Header/>
+      <Header section={"Mes Patients"}/>
       <div className="page-wrapper">
         <div className="content">
           <div className="row center-layout">

@@ -30,7 +30,7 @@ const RootLayout = ({ children }) => {
         <title>{metadata.title}</title>
       </head>
       <body>
-        <Header />
+        <Header section="eESJ"/>
         {children}
       </body>
     </html>
