@@ -63,7 +63,7 @@ const Live_Tracker_Card = ({ cardkey, item, isItForAdmin, setStatus, showModifyL
     const activedLive = async (id) => {
         const idd = Number(id)
         console.log(id)
-        await axios.patch(`http://localhost:8080/streams/${idd}`)
+        await axios.patch(`http://localhost:7000/streams/${idd}`)
     }
 
     return (

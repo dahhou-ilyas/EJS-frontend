@@ -3,6 +3,7 @@ import axios from "axios";
 import Loading from "../utility/loading";
 import dayjs from "dayjs";
 import { sortByDate } from "./live-planification-tracker";
+import { jwtDecode } from 'jwt-decode';
 
 function capitalizeFirstLetter(x) {
     return x.charAt(0).toUpperCase() + x.slice(1);
@@ -29,7 +30,7 @@ function getMonthName(monthRank, lang = 'en') {
     return capitalizeFirstLetter(monthName);
 }
 
-const Live_Timeline = () => {
+const Live_Timeline = ({isItForAdmin}) => {
     const [lives, setLives] = useState({});
     const [livesLoaded, setLivesLoaded] = useState(false);
 
@@ -37,17 +38,40 @@ const Live_Timeline = () => {
 
     const getLives = async () => {
         try {
-            // A optimiser: deux requêtes pour la même donnée
-            const response = await axios.get('http://localhost:8080/streams?phase=outdated');
-            const data = response.data;
+            const token = localStorage.getItem("access-token");
 
+            if (!token) {
+                router.push("/auth/administrateur");
+                return;
+            }
+
+            const decodedToken = jwtDecode(token);
+            
+            let response = null;
+            const idUser = decodedToken.claims.id;
+            if (!isItForAdmin) {
+                response = await axios.get(`http://localhost:8080/jeunes/${idUser}/streams?phase=outdated`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+            } else {
+                response = await axios.get(`http://localhost:8080/${idUser}/streams?phase=outdated`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+            }
+            const data = response.data;
+            console.log(data);
+            
             const currentYearStreams = data.filter(live => {
                 const year = live.date[0];
                 return year === currentYear || year === currentYear + 1;
             });
 
             const groupedByMonth = currentYearStreams.reduce((acc, live) => {
-                const [year, month, day] = live.date; // Assuming date is an array like [year, month, day, hour, minute]
+                const [year, month, day] = live.date;
                 const monthName = getMonthName(month, 'fr');
 
                 if (!acc[monthName]) {
