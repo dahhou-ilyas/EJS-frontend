@@ -1,5 +1,5 @@
 "use client"
-import Header from "@/components/Header";
+import Header from "@/components/espaceMedecin/Header";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -21,6 +21,7 @@ import {
 } from "@/components/imagepath";
 import {dossier} from "@/assets/json/dumpdata_ppn";
 import jsPDF from "jspdf";
+import Sidebar from "@/components/espaceMedecin/Sidebar1";
 
 export function handleGenerateDocument(){   
   const doc = new jsPDF()
@@ -55,7 +56,7 @@ const Patient = ({params}) => {
   if (!patient) {
     return (
       <div id="main-wrapper">
-        
+        <Sidebar activeClassName='ppn'/>
       <Header/>
       <div className="page-wrapper">
         <div className="content">

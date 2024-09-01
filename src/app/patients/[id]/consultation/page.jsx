@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SelectInput from "@/components/ppn/SelectInput";
-import Header from "@/components/Header";
+import Header from "@/components/espaceMedecin/Header";
 import bootstrapBundleMin from "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 // ASSETS

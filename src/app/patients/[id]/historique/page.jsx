@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 // import Sidebar from "@/components/Sidebar";
 import NavigationHeader from "@/components/ppn/NavigationHeader";
-import Header from "@/components/Header";
+import Header from "@/components/espaceMedecin/Header";
 import Image from "next/image";
 
 import "@/assets/css/ppn/links.css";
@@ -15,6 +15,7 @@ import {
 } from "@/components/imagepath";
 import { useRouter } from 'next/navigation';
 import { handleGenerateDocument } from "../page";
+import Sidebar from '@/components/espaceMedecin/Sidebar1';
 
 const Historique = ({ params }) => {
   const [consultations, setConsultations] = useState([]);
@@ -46,6 +47,7 @@ const Historique = ({ params }) => {
     return (
       <div id="main-wrapper">
         <Header/>
+        <Sidebar activeClassName='ppn'/>
         {/* <Sidebar activeClassName="patients" /> */}
         <div className="page-wrapper">
           <div className="content">

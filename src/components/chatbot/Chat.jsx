@@ -3,7 +3,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
-import Header from '@/components/TeleExpertise/Header';
 import Image from 'next/image';
 import Link from 'next/link';
 import './chatbot.css';
@@ -12,7 +11,8 @@ import FeatherIcon from 'feather-icons-react/build/FeatherIcon';
 import Message from './Message';
 import Input from './Input';
 import axios from 'axios';
-import Sidebar from '../TeleExpertise/Sidebar';
+import Header from '../espaceMedecin/Header';
+import Sidebar from '../espaceMedecin/Sidebar1';
 
 const Chat = () => {
     const greetings = {

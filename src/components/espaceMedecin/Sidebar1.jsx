@@ -122,9 +122,9 @@ const Sidebar = (props) => {
               <li>
                 <Link
                   className={
-                    props?.activeClassName === "patients" ? "active" : ""
+                    props?.activeClassName === "ppn" ? "active" : ""
                   }
-                  href="/espaceMedecin/MesPatients"
+                  href="/patients"
                 >
                   <span className="menu-side">
                     <Image src={menuicon08} alt="" />
@@ -137,7 +137,7 @@ const Sidebar = (props) => {
                   className={
                     props?.activeClassName === "chat" ? "active" : ""
                   }
-                  href="/ies"
+                  href="/ies/medecins"
                 >
                   <span className="menu-side">
                   <i className="fa fa-info-circle" />
@@ -161,7 +161,7 @@ const Sidebar = (props) => {
               <li>
                 <Link
                   className={
-                    props?.activeClassName === "chatbot" ? "active" : ""
+                    props?.activeClassName === "chatbodt" ? "active" : ""
                   }
                   href="/TeleExpertise"
                 >

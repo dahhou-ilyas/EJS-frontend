@@ -129,7 +129,7 @@ const AuthMedecin = () => {
     }
 
     const nextStep = () => {
-        router.push('/');
+        router.push('/espaceMedecin');
     }
     const envoyerEmail = () => {
         fetch('http://localhost:8080/register/resend-token?email='+token.mail, {

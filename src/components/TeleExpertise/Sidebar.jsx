@@ -55,7 +55,7 @@ const Sidebar = (props) => {
                   className={
                     props?.activeClassName === "dashboard" ? "active" : ""
                   }
-                  href="/TeleExpertise"
+                  href="/espaceMedecin"
                 >
                   <span className="menu-side">
                     <Image src={dashboard} alt="" />
@@ -100,7 +100,7 @@ const Sidebar = (props) => {
                   <span>Chat</span>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   className={props?.activeClassName === "chat" ? "active" : ""}
                   href="/patients"
@@ -110,8 +110,8 @@ const Sidebar = (props) => {
                   </span>{" "}
                   <span>Mes Patients</span>
                 </Link>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <Link
                   className={props?.activeClassName === "chatbot" ? "active" : ""}
                   href="/chatbot"
@@ -121,7 +121,7 @@ const Sidebar = (props) => {
                   </span>{" "}
                   <span>ChatBot</span>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   className={

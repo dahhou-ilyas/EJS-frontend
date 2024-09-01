@@ -1,5 +1,5 @@
 
-import Header from "@/components/TeleExpertise/Header";
+import Header from "@/components/espaceMedecin/Header";
 
 export const metadata = {
   title: "TéléExpertise",
