@@ -12,6 +12,7 @@ import { getMedecinById } from "../../../services/medecinService";
 import { Profileuser, cameraicon } from "../../../components/espaceMedecin/imagepath";
 import "../../../assets/css/style.css";
 import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
 
 const Page = () => {
   const [medecin, setMedecin] = useState(null);
@@ -24,7 +25,21 @@ const Page = () => {
     const decodedToken = jwtDecode(token);
     setUser(decodedToken);
     fetchMedecin();
-  }, [user]);
+  }, [user && user.claims.id]);
+
+  const getMedecinData = (id) => {
+    axios.get('http://localhost:8080/medecins/' + id, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      setMedecin(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -37,11 +52,9 @@ const Page = () => {
     reader.readAsDataURL(file);
   };
 
-  const fetchMedecin = async () => {
+  const fetchMedecin = () => {
     try {
-      const medecinData = await getMedecinById(user && user.claims.id);
-      setMedecin(medecinData);
-      console.log(medecinData);
+      getMedecinData(user && user.claims.id);
     } catch (error) {
       console.error("Failed to fetch medecin data", error);
     }
