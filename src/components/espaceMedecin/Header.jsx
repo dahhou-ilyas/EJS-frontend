@@ -26,6 +26,19 @@ const Header = ({section}) => {
   //   }
   //   try {
   //     const decodedToken = jwtDecode(token);
+  //     const currentTimestamp = Math.floor(Date.now() / 1000);
+
+  //     if (decodedToken.exp < currentTimestamp) {
+  //       console.error('Token has expired');
+  //       router.push('/auth/medecins');
+  //       return;
+  //     }
+
+  //     if(decodedToken.claims.role=="ROLE_JEUNE"){
+  //       router.push('/');
+  //       return;
+  //     }
+
   //     setUser(decodedToken);
   //   } catch (error) {
   //     console.error('Invalid token:', error);
@@ -34,9 +47,9 @@ const Header = ({section}) => {
   //   }
   // }, []);
 
-  // useEffect(() => {
-  //   require("bootstrap/dist/js/bootstrap.bundle.min.js");
-  // }, []);
+  useEffect(() => {
+    require("bootstrap/dist/js/bootstrap.bundle.min.js");
+  }, []);
 
   const openDrawer = () => {
     const div = document.querySelector(".main-wrapper");
