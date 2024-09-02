@@ -64,6 +64,7 @@ const Home = () => {
   const router = useRouter();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [name, setName] = useState("")
+  const [userId, setUserId] = useState()
   const [discussions, setDiscussions] = useState([])
 
   const handleCreateDiscussion = () => {
@@ -75,8 +76,8 @@ const Home = () => {
       const token = localStorage.getItem("access-token")
       const decodedToken = decodeToken(token)
       setName(decodedToken.claims.nom+ " " + decodedToken.claims.prenom)
+      setUserId(decodedToken.claims.id)
       const data = await getOuverteDiscussion(token)
-      console.log(data)
       setDiscussions(data)
     }
     fetchData()
@@ -183,9 +184,11 @@ const Home = () => {
             <h3>Pour Vous</h3>
             <div className="discussion-list mt-3">
               {discussions.map((discussion) => (
-                //discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom != name && 
+                discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom != name && 
+                !discussion.participants.some(participant => participant.id === userId) &&
                 <Discussion
                   key={discussion.id}
+                  id={discussion.id}
                   title={discussion.titre}
                   description={discussion.motifDeTeleExpertise}
                   doctor={discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
@@ -194,6 +197,7 @@ const Home = () => {
                   neededSpecialities={discussion.specialitesDemandees}
                   date={format(discussion.date , 'yyyy-MM-dd')}
                   time={discussion.heure}
+                  setDiscussions={setDiscussions}
                 />
               ))}
             </div>

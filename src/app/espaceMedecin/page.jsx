@@ -8,7 +8,7 @@ import Sidebar from "../../components/espaceMedecin/Sidebar1";
 import { morning_img_02, bu, gp, tv, cb ,i} from "../../components/espaceMedecin/imagepath";
 import { useRouter } from "next/navigation";
 import { Card } from "antd";
-// import * as bootstrap from "bootstrap";
+import * as bootstrap from "bootstrap";
 
 const appointments = [
   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
@@ -26,17 +26,18 @@ const Home = () => {
   const [news, setNews] = useState([]);
 
   const [favoritePatients, setFavoritePatients] = useState(null);
+  const token = localStorage.getItem('access-token');
 
-  // useEffect(() => {
-  //   window.bootstrap = bootstrap;
-  //   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-  //   const tooltipList = [...tooltipTriggerList].map(
-  //     (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-  //   );
-  //   // getAllHealthNews();
-  //   getFavoritePatients();
-  //   // getMedecinEvaluation();
-  // }, []);
+  useEffect(() => {
+    window.bootstrap = bootstrap;
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(
+      (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+    );
+    // getAllHealthNews();
+    getFavoritePatients();
+    // getMedecinEvaluation();
+  }, []);
 
   // const getAllHealthNews = () => {
   //   //pub_488678f840dc44dfcd2ec89a5c7a1c935d490
@@ -52,7 +53,11 @@ const Home = () => {
   // };
 
   const getFavoritePatients = () => {
-    axios.get('http://localhost:8080/jeune/favorite-patients')
+    axios.get('http://localhost:8080/jeune/favorite-patients', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       setFavoritePatients(res.data);
     })
