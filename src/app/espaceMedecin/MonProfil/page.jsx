@@ -327,12 +327,12 @@ const Page = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {medecin.experience &&
-                                medecin.experience.map((exp, index) => (
+                              {medecin.medicalExperience &&
+                                medecin.medicalExperience.map((exp, index) => (
                                   <tr key={index}>
-                                    <td>{exp.year}</td>
-                                    <td>{exp.position}</td>
-                                    <td>{exp.hospital}</td>
+                                    <td>{exp.annee}</td>
+                                    <td>{exp.hopital}</td>
+                                    <td>{exp.poste}</td>
                                   </tr>
                                 ))}
                             </tbody>
