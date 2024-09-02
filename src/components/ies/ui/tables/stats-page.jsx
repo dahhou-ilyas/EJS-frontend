@@ -1,8 +1,8 @@
 "use client"
 
-import "../../../../public/assets/css/font-awesome.min.css";
-import Bar_Chart from '@/components/utility/apex-graph';
-import Loading from '@/components/utility/loading';
+import "@/../public/ies/assets/css/font-awesome.min.css";
+import Bar_Chart from '@/components/ies/utility/apex-graph';
+import Loading from '@/components/ies/utility/loading';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
