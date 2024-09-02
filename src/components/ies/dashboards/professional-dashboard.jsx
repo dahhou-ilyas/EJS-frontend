@@ -48,8 +48,8 @@ const Professional_Dashboard = () => {
 
         setSelectedTab(tabNames.linkAndQuestions);
     };
-    const fetchQuestions = async () => {
-        const { fetch1, fetch2 } = DATA();
+    const fetchQuestions = async (token, id) => {
+        const { fetch1, fetch2 } = DATA(token, id);
         const data1 = await fetch1();
         const data2 = await fetch2();
         setDoneYetLive(data1)
@@ -72,14 +72,15 @@ const Professional_Dashboard = () => {
 
                 try {
                     const decodedToken = jwtDecode(token);
+                    const id = decodedToken.claims.id;
                     setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
+                    fetchQuestions(token, id);
                 } catch (error) {
                     console.log(error);
                 }
             };
 
             init();
-            fetchQuestions();
         }
         , [])
 
