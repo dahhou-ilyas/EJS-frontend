@@ -385,7 +385,7 @@ const Formulaire = () => {
                         <div className="row">
                           <div className="col-md-5 mx-auto">
                             <label className="col-md-6 col-form-label">
-                              Prénom du Patient
+                              Prénom du Patient*
                             </label>
                             <div
                               className="form-group row"
@@ -401,7 +401,7 @@ const Formulaire = () => {
                               </div>
                             </div>
                             <label className="col-md-3 col-form-label">
-                              Sexe
+                              Sexe*
                             </label>
                             <div
                               className="form-group row"
@@ -445,7 +445,7 @@ const Formulaire = () => {
                               </div>
                             </div>
                             <label className="col-md-6 col-form-label">
-                              Identifiant
+                              Identifiant*
                             </label>
                             <div className="form-group row">
                               <div className="col-md-9">
@@ -462,7 +462,7 @@ const Formulaire = () => {
                           </div>
                           <div className="col-md-5">
                             <label className="col-md-6 col-form-label">
-                              Nom du Patient
+                              Nom du Patient*
                             </label>
                             <div className="form-group row">
                               <div className="col-md-9">
@@ -478,7 +478,7 @@ const Formulaire = () => {
                               htmlFor="birthdate"
                               className="col-md-6 col-form-label"
                             >
-                              Date de naissance
+                              Date de naissance*
                             </label>
                             <div className="form-group row">
                               <div className="col-md-9">
@@ -492,7 +492,7 @@ const Formulaire = () => {
                               </div>
                             </div>
                             <label className="col-md-6 col-form-label">
-                              {age < 16 ? "Code Massar" : "CIN"}
+                              {age < 16 ? "Code Massar*" : "CIN*"}
                             </label>
                             <div className="form-group row">
                               <div className="col-md-9">
@@ -508,7 +508,7 @@ const Formulaire = () => {
                         </div>
                         <div className="col-md-10 mx-auto">
                           <label className="col-md-10 col-form-label">
-                            Motif de la TéléExpertise
+                            Motif de la TéléExpertise*
                           </label>
                           <div className="form-group row">
                             <div
