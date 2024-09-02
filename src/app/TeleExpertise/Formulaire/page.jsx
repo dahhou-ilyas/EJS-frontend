@@ -12,8 +12,10 @@ import DoctorSelectionForm from "@/components/TeleExpertise/DoctorSelectionForm"
 import { decodeToken } from "@/utils/docodeToken";
 import { createDiscussion } from "@/services/discussionService";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Formulaire = () => {
+  const router = useRouter()
   const [isConsentChecked, setIsConsentChecked] = useState(false);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
@@ -247,7 +249,10 @@ const Formulaire = () => {
     const specialitesDemandees = selectedOptions.map(op => op.label)
     
     const date1 = new Date(date)
-    date1.setTime(time)
+    date1.setHours(new Date(time).getHours())
+    date1.setMinutes(new Date(time).getMinutes())
+    date1.setSeconds(new Date(time).getSeconds())
+  
     const timeHours = (new Date(time).getHours()).toString().length === 1 ? ("0" + new Date(time).getHours()) : "" + new Date(time).getHours()
     const timeMinutes = (new Date(time).getMinutes()).toString().length === 1 ? ("0" + new Date(time).getMinutes()) : "" + new Date(time).getMinutes()
 
@@ -275,6 +280,7 @@ const Formulaire = () => {
       const res = await createDiscussion(token, discussion)
       await handleUpload(res.id)
       toast.success("La discussion est bien créé")
+      router.push("/TeleExpertise/Discussions")
     } catch (error) {
       toast.error("Quelque chose s'est mal passé, veuillez réessayer")
     }

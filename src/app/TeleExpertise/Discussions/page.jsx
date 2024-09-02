@@ -290,6 +290,7 @@ const Discussions = () => {
                             date={discussion.date}
                             time={discussion.heure}
                             status={discussion.status}
+                            type={discussion.type}
                           />
                         ))}
                       </tbody>
@@ -311,11 +312,13 @@ const Discussions = () => {
                         {discussionsPlanifiees.map((discussion) => (
                           <DiscussionPlanifiee
                             key={discussion.id}
+                            discussionId={discussion.id}
                             title={discussion.titre}
                             MainDoctor={"Dr. " + discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
                             neededSpecialities={discussion.specialitesDemandees}
                             date={discussion.date}
                             time={discussion.heure}
+                            type={discussion.type}
                           />
                         ))}
                       </tbody>

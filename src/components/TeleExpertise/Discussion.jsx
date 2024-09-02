@@ -1,5 +1,10 @@
+import { joinOuverteDiscussion } from "@/services/discussionService";
+import { set } from "date-fns";
 import React from "react";
+import toast from "react-hot-toast";
+
 const Discussion = ({
+  id,
   title,
   description,
   doctor,
@@ -8,10 +13,24 @@ const Discussion = ({
   neededSpecialities,
   date,
   time,
+  setDiscussions
 }) => {
   const getInitials = (name) => {
     return name.charAt(0);
   };
+
+  const handleJoinDiscussion = async () => {
+    try {
+      const token = localStorage.getItem("access-token")
+      await joinOuverteDiscussion(token, id)
+      toast.success("Vous avez rejoint la discussion")
+      setDiscussions((prevDiscussions) =>
+        prevDiscussions.filter((discussion) => discussion.id !== id)
+      );
+    } catch (error) {
+      toast.error("Quelque chose s'est mal passé, veuillez réessayer")
+    }
+  }
 
   return (
     <div className="discussion-item">
@@ -48,7 +67,7 @@ const Discussion = ({
           À: <span className="time">{time}</span>
         </p>
       </div>
-      <button type="button" className="join-button">
+      <button type="button" className="join-button" onClick={handleJoinDiscussion}>
         Joindre
       </button>
     </div>
