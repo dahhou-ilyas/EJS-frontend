@@ -122,7 +122,7 @@ const Sidebar = (props) => {
               <li>
                 <Link
                   className={
-                    props?.activeClassName === "ppn" ? "active" : ""
+                    props?.activeClassName === "patients" ? "active" : ""
                   }
                   href="/espaceMedecin/MesPatients"
                 >
@@ -137,7 +137,7 @@ const Sidebar = (props) => {
                   className={
                     props?.activeClassName === "chat" ? "active" : ""
                   }
-                  href="/ies/medecins"
+                  href="/ies"
                 >
                   <span className="menu-side">
                   <i className="fa fa-info-circle" />
@@ -161,7 +161,7 @@ const Sidebar = (props) => {
               <li>
                 <Link
                   className={
-                    props?.activeClassName === "chatbodt" ? "active" : ""
+                    props?.activeClassName === "chatbot" ? "active" : ""
                   }
                   href="/TeleExpertise"
                 >
@@ -173,15 +173,16 @@ const Sidebar = (props) => {
               </li>
               
               <li>
-                <button
-                  className="sidebar-btn"
-                  onClick={handleLogout} 
-                >
-                  <span className="menu-side">
+              <a
+                href="#"
+                onClick={handleLogout}
+                style={{ textDecoration: 'none' }}
+              >
+                <span className="menu-side">
                   <i className="fa fa-sign-out" />
-                  </span>{" "}
-                  <span>Se Déconnecter</span>
-                </button>
+                </span>{" "}
+                <span>Se Déconnecter</span>
+              </a>
               </li>
             </ul>
           </div>
