@@ -8,16 +8,17 @@ import Sidebar from "../../components/espaceMedecin/Sidebar1";
 import { morning_img_02, bu, gp, tv, cb ,i} from "../../components/espaceMedecin/imagepath";
 import { useRouter } from "next/navigation";
 import { Card } from "antd";
+import Live_list from "../../components/espaceMedecin/Live_list";
 import * as bootstrap from "bootstrap";
 
-const appointments = [
-  { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-  { day: "Wednesday", hour: "2:00 PM", patient: "Jane Smith" },
-  { day: "Friday", hour: "1:00 PM", patient: "Bob Johnson" },
-  { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-  { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-  { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-];
+// const appointments = [
+//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
+//   { day: "Wednesday", hour: "2:00 PM", patient: "Jane Smith" },
+//   { day: "Friday", hour: "1:00 PM", patient: "Bob Johnson" },
+//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
+//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
+//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
+// ];
 
 const Home = () => {
   const router = useRouter();
@@ -224,9 +225,9 @@ const Home = () => {
           </div>
           <p style={{ marginTop: "3rem", fontWeight: "550" }}></p>
           <div className="row d-flex flex-column flex-xl-row">
-            <div className="col-sm-6">
+            <div >
               {/* <p style={{ fontWeight: '550' }}>Rendez-vous</p> */}
-              <div className="d-flex flex-row mt-4">
+              {/* <div className="d-flex flex-row mt-4">
               <i className="fa fa-calendar" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
                 <p className="mx-2" style={{ fontWeight: '550' }}>Rendez-vous</p>
               </div>
@@ -257,7 +258,18 @@ const Home = () => {
                     </div>
                   ))}
                 </div>
-              </Card>
+              </Card> */}
+               <div className="row d-flex flex-column flex-xl-row">
+            <div className="top-left-content">
+              <div className="d-flex flex-row mt-4">
+                <i className="fa fa-newspaper-o" style={{ marginTop: '5px', color: '#2E37A4', type: 'solid' }} />
+                <p className="mx-2" style={{ fontWeight: '550' }}>A la une</p>
+              </div>
+              <div className="content" style={{marginRight:'150px' , marginBottom:'60px' }}>
+                <Live_list toDashborad="/espaceMdecin" />
+              </div>
+            </div>
+          </div>
               <div className="d-flex flex-row mt-4">
               <i className="fa fa-bookmark" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
                 <p className="mx-2" style={{ fontWeight: '550' }}>Patients épinglés</p>
@@ -285,8 +297,7 @@ const Home = () => {
                 }
               </Card>
             </div>
-            <div className="col-sm-6" style={{ marginLeft: '-50px' }}>
-              {/* <p style={{ fontWeight: "550" }}>Dernières nouvelles de santé</p> */}
+            {/* <div className="col-sm-6" style={{ marginLeft: '-50px' }}>
               <div className="d-flex flex-row mt-4">
               <i className="fa fa-newspaper-o" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
                 <p className="mx-2" style={{ fontWeight: '550' }}>A la une</p>
@@ -304,14 +315,14 @@ const Home = () => {
                           Lire la suite
                         </a>
                       </div>
-                    </div>
-                  </Card>
+                    </div> */}
+                  {/* </Card>
                   : null
                 ))
               ) : (
                 <p>Aucune nouvelle trouvée.</p>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
