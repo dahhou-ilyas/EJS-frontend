@@ -76,7 +76,7 @@ const Data_Table = ({ livesData, showLinkAndQuestions, defaultSorting }) => {
         }).toString();
 
         return !areStatsAvailable ? (
-          <Link href={`/professional/stats?${queryParams}`} style={{ fontSize: 'calc(1em + 0.2vw)' }}>
+          <Link href={`/ies/professional/stats?${queryParams}`} style={{ fontSize: 'calc(1em + 0.2vw)' }}>
             Disponibles
           </Link>
         ) : (
