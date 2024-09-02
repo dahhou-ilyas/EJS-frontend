@@ -82,6 +82,14 @@ const Live_Timeline = ({ isItForAdmin }) => {
                     return acc;
                 }, {});
 
+                Object.keys(groupedByMonth).forEach(month => {
+                    groupedByMonth[month].sort((a, b) => {
+                        const [yearA, monthA, dayA] = a.date;
+                        const [yearB, monthB, dayB] = b.date;
+                        return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
+                    });
+                });
+
                 const sortedGroupedByMonth = {};
                 months.fr.forEach(monthName => {
                     if (groupedByMonth[monthName]) {
