@@ -303,11 +303,11 @@ const Page = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {medecin.education &&
-                                medecin.education.map((edu, index) => (
+                              {medecin.medicalStudies &&
+                                medecin.medicalStudies.map((edu, index) => (
                                   <tr key={index}>
-                                    <td>{edu.year}</td>
-                                    <td>{edu.diploma}</td>
+                                    <td>{edu.annee}</td>
+                                    <td>{edu.diplome}</td>
                                     <td>{edu.institut}</td>
                                   </tr>
                                 ))}

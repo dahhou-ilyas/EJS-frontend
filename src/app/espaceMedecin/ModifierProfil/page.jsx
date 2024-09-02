@@ -5,21 +5,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import FeatherIcon from "feather-icons-react";
 import Sidebar from "../../../components/espaceMedecin/Sidebar1";
-import { getMedecinById, updateMedecin } from "../../../services/medecinService";
+// import { getMedecinById, updateMedecin } from "../../../services/medecinService";
 import { Profileuser, cameraicon } from "../../../components/espaceMedecin/imagepath";
 import "../../../assets/css/style.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
 
 const MonProfile = () => {
   const [medecin, setMedecin] = useState(null);
+  const [user, setUser] = useState(null);
+  const token = localStorage.getItem('access-token');
   const [formData, setFormData] = useState({
     prenom: "",
     nom: "",
     specialite: "",
     sexe: "",
     about: "",
-
     mail: "",
     password: "",
     confirmPassword: "",
@@ -32,37 +35,76 @@ const MonProfile = () => {
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-  useEffect(() => {
-    const fetchMedecin = async () => {
-      try {
-        setLoading(true);
-        const id = 46; // Get the ID dynamically
-        const medecinData = await getMedecinById(id);
-        setMedecin(medecinData);
-        setFormData({
-          prenom: medecinData.prenom,
-          nom: medecinData.nom,
-          cin: medecinData.cin,
-          inpe: medecinData.inpe,
-          ppr: medecinData.ppr,
-          specialite: medecinData.specialite,
-          mail: medecinData.mail,
-          sexe: medecinData.sexe,
-          about: medecinData.about,
-          password: medecinData.password,
-          estGeneraliste: medecinData.estGeneraliste,
-          estMedcinESJ: medecinData.estMedcinESJ,
-        });
-        setLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch medecin data", error);
-        toast.error("Failed to fetch medecin data.");
-        setLoading(false);
-      }
-    };
 
+  useEffect(() => {
+    const decodedToken = jwtDecode(token);
+    setUser(decodedToken);
     fetchMedecin();
-  }, []);
+  }, [user && user.claims.id]);
+
+  const getMedecinData = (id) => {
+    axios.get('http://localhost:8080/medecins/' + 2, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      setMedecin(res.data);
+      setFormData({
+        prenom: res.data?.prenom,
+        nom: res.data?.nom,
+        cin: res.data?.cin,
+        inpe: res.data?.inpe,
+        ppr: res.data?.ppr,
+        specialite: res.data?.specialite,
+        mail: res.data?.mail,
+        sexe: res.data?.sexe,
+        about: res.data?.about,
+        password: res.data?.password,
+        estGeneraliste: res.data?.estGeneraliste,
+        estMedcinESJ: res.data?.estMedcinESJ,
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
+  const updateMedecin = (id, medecinData) => {
+    console.log(medecinData);
+    axios.patch(
+      `http://localhost:8080/medecins/${id}`,
+      medecinData,
+      {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
+      }
+    )
+    .then(response => {
+      if (response.status === 200) {
+        console.log(response.data);
+      } else {
+        throw new Error("Failed to update medecin data");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      throw error;
+    });
+  };  
+
+  const fetchMedecin = () => {
+    try {
+      setLoading(true);
+      getMedecinData(user && user.claims.id);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch medecin data", error);
+      toast.error("Failed to fetch medecin data.");
+      setLoading(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -71,6 +113,7 @@ const MonProfile = () => {
       [name]: value,
     }));
   };
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -102,19 +145,17 @@ const MonProfile = () => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
     try {
-      const id = 46; // Get the ID dynamically
       const updateData = { ...formData };
-      // Always remove confirmPassword from the updateData
       delete updateData.confirmPassword;
       if (!formData.password) {
         delete updateData.password;
       }
-      await updateMedecin(id, updateData);
+      updateMedecin(user && user.claims.id, updateData);
+      console.log(user && user.claims.id);
       toast.success("Profile updated successfully!");
       setLoading(true);
     } catch (error) {
