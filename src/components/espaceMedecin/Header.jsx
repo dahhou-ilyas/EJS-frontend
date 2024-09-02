@@ -1,7 +1,7 @@
 "use client";
 import "../../assets/css/style.css";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 
 import {
@@ -10,46 +10,11 @@ import {
   baricon1
 
 } from "./imagepath";
-import { jwtDecode } from "jwt-decode";
-import { useRouter } from "next/navigation";
 
-const Header = ({section}) => {
-  const router = useRouter();
-  const [user,setUser]=useState({})
-
+const Header = () => {
   // useEffect(() => {
-  //   const token = localStorage.getItem('access-token');
-
-  //   if (!token) {
-  //     router.push('/auth/medecins');
-  //     return;
-  //   }
-  //   try {
-  //     const decodedToken = jwtDecode(token);
-  //     const currentTimestamp = Math.floor(Date.now() / 1000);
-
-  //     if (decodedToken.exp < currentTimestamp) {
-  //       console.error('Token has expired');
-  //       router.push('/auth/medecins');
-  //       return;
-  //     }
-
-  //     if(decodedToken.claims.role=="ROLE_JEUNE"){
-  //       router.push('/');
-  //       return;
-  //     }
-
-  //     setUser(decodedToken);
-  //   } catch (error) {
-  //     console.error('Invalid token:', error);
-  //     router.push('/auth/medecins');
-  //     return;
-  //   }
+  //   require("bootstrap/dist/js/bootstrap.bundle.min.js");
   // }, []);
-
-  useEffect(() => {
-    require("bootstrap/dist/js/bootstrap.bundle.min.js");
-  }, []);
 
   const openDrawer = () => {
     const div = document.querySelector(".main-wrapper");
@@ -90,22 +55,12 @@ const Header = ({section}) => {
       .classList.toggle("opened");*/
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("access-token");
-    router.push("/auth/medecins");
-  };
-
-  const firstName = user?.claims?.prenom
-    ? user.claims.nom.toUpperCase() +" "+ user.claims.prenom.toLowerCase()
-    : "";
-
   return (
     <div >
       <div className="header">
         <div className="header-left">
-          <Link href="/espaceMedecin" className="logo">
+          <Link href="/" className="logo">
             <Image src={logo} width={80} height={80} alt="" />{" "}
-            <span>{section}</span>
           </Link>
         </div>
         <Link href="#" id="toggle_btn" onClick={handlesidebar}>
@@ -117,7 +72,7 @@ const Header = ({section}) => {
           className="mobile_btn float-start"
           onClick={handlesidebarmobilemenu}
         >
-          <Image src={baricon1} alt="" style={{marginTop:"22px"}}/>
+          <Image src={baricon1} alt=""  />
         </Link>
         
         <ul className="nav user-menu float-end">
@@ -130,7 +85,7 @@ const Header = ({section}) => {
               data-bs-toggle="dropdown"
             >
               <div className="user-names">
-                <h5>{firstName || "Mon Profile"}</h5>
+                <h5>El Amrani Mohamed</h5>
               </div>
               <img src="https://i.postimg.cc/Kzp0N0w8/image.png" alt="Admin" className="user-img" />
             </Link>
@@ -141,8 +96,7 @@ const Header = ({section}) => {
               <Link href="/ModifierProfil" className="dropdown-item">
                 Edit Profile
               </Link>
-              <Link href="#" onClick={handleLogout}  className="dropdown-item">
-              
+              <Link href="/" className="dropdown-item">
                 Logout
               </Link>
             </div>
@@ -164,7 +118,10 @@ const Header = ({section}) => {
             <Link href="/" className="dropdown-item">
               Edit Profile
             </Link>
-            <Link href="#" onClick={handleLogout}  className="dropdown-item">
+            <Link href="/" className="dropdown-item">
+              Settings
+            </Link>
+            <Link href="/" className="dropdown-item">
               Logout
             </Link>
           </div>
