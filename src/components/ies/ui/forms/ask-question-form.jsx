@@ -31,7 +31,25 @@ const Ask_Question_Form = ({ showDashboard, liveData }) => {
 				const question = { contenu: inputValue }
 				if (inputValue.length <= 5)
 					throw new Error('empty question');
-				await axios.post(`http://localhost:8080/jeunes/${1}/streams/${id}/questions`, question);
+
+				const token = localStorage.getItem("access-token");
+
+				if (!token) {
+					router.push("/auth/jeunes");
+					return;
+				}
+
+				try {
+					const decodedToken = jwtDecode(token);
+					const idJeune = decodedToken.claims.id;
+					await axios.post(`http://localhost:8080/jeune/${idJeune}/streams/${id}/questions`, question, {
+						headers: {
+							Authorization: `Bearer ${token}`
+						}
+					});
+				} catch (error) {
+					console.log(error);
+				}
 
 				// Toast
 				if (alertify) {

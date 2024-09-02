@@ -8,6 +8,8 @@ import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import Data_Table from "@/components/ies/ui/tables/schedule-table";
 import { DATA } from "@/components/ies/ui/tables/schedule-data";
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from 'jwt-decode';
 
 /*const doneLives = livesData.filter(event => dayjs(event.Date).add(1, "hours").add(30, "minutes").isBefore(dayjs()));
 const notDoneYetLives = livesData.filter(event => dayjs(event.Date).add(1, "hours").add(30, "minutes").isAfter(dayjs()));*/
@@ -32,7 +34,7 @@ const tabNames = {
     linkAndQuestions: 1
 };
 
-const Professional_Dashboard = ({ name }) => {
+const Professional_Dashboard = () => {
     const [doneLives, setdoneLives] = useState([])
     const [notDoneYetLives, setDoneYetLive] = useState([]);
     const [selectedTab, setSelectedTab] = useState(tabNames.dashboard);
@@ -54,8 +56,29 @@ const Professional_Dashboard = ({ name }) => {
         setdoneLives(data2)
 
     }
+    const router = useRouter();
+    let [name, setName] = useState("User");
     useEffect(
         () => {
+
+            const init = async () => {
+
+                const token = localStorage.getItem("access-token");
+
+                if (!token) {
+                    router.push("/auth/professionnels");
+                    return;
+                }
+
+                try {
+                    const decodedToken = jwtDecode(token);
+                    setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+
+            init();
             fetchQuestions();
         }
         , [])

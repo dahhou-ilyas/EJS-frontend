@@ -204,7 +204,7 @@ const Home = () => {
                     <img src={i.src} alt="" />
                 </div>
                 <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/IES">
+                    <Link href="/ies/professional">
                         <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>IES</h4>
                     </Link>
                 </div>
