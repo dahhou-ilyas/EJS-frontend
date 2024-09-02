@@ -11,11 +11,20 @@ import Sidebar from "../../../components/espaceMedecin/Sidebar1";
 import { getMedecinById } from "../../../services/medecinService";
 import { Profileuser, cameraicon } from "../../../components/espaceMedecin/imagepath";
 import "../../../assets/css/style.css";
+import { jwtDecode } from "jwt-decode";
 
 const Page = () => {
   const [medecin, setMedecin] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [user, setUser]=useState(null);
+  const token = localStorage.getItem('access-token');
+
+  useEffect(() => {
+    const decodedToken = jwtDecode(token);
+    setUser(decodedToken);
+    fetchMedecin();
+  }, [user]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -28,18 +37,15 @@ const Page = () => {
     reader.readAsDataURL(file);
   };
 
-  useEffect(() => {
-    const fetchMedecin = async () => {
-      try {
-        const medecinData = await getMedecinById(46);
-        setMedecin(medecinData);
-      } catch (error) {
-        console.error("Failed to fetch medecin data", error);
-      }
-    };
-
-    fetchMedecin();
-  }, []);
+  const fetchMedecin = async () => {
+    try {
+      const medecinData = await getMedecinById(user && user.claims.id);
+      setMedecin(medecinData);
+      console.log(medecinData);
+    } catch (error) {
+      console.error("Failed to fetch medecin data", error);
+    }
+  };
 
   if (!medecin) {
     return <div>Loading...</div>;

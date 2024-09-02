@@ -1,10 +1,18 @@
 import axios from "axios";
 
 const API_BASE_URL = "http://localhost:8080"; // Make sure this matches your actual API base URL
+const token = localStorage.getItem('access-token');
 
 export const getMedecinById = async (id) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/medecins/${id}`);
+    const response = await axios.get(
+      `${API_BASE_URL}/medecins/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
     if (response.status === 200) {
       return response.data;
     } else {
@@ -15,6 +23,7 @@ export const getMedecinById = async (id) => {
     throw error;
   }
 };
+
 
 export const updateMedecin = async (id, medecinData) => {
   try {
