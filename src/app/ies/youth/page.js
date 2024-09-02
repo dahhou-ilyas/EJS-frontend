@@ -8,7 +8,7 @@ export default function Home() {
       <Header />
       <Csidebar/>
       <div className='page-wrapper'>
-      <div style={{ paddingTop: '50px' }} className='content'>
+      <div style={{ paddingTop: '0px' }} className='content'>
         <Youth_Dashboard />
       </div>
       </div>

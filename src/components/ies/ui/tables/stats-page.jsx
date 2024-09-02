@@ -5,18 +5,69 @@ import Bar_Chart from '@/components/ies/utility/apex-graph';
 import Loading from '@/components/ies/utility/loading';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Stats_Page = () => {
     const searchParams = useSearchParams();
     const [queryParams, setQueryParams] = useState({ id: '', thematique: '' });
     const [loading, setLoading] = useState(true);
+    const [liveStats, setLiveStats] = useState(null);
 
-    useEffect(() => {
-        const id = searchParams.get('id');
-        const thematique = searchParams.get('thematique');
-        setQueryParams({ id: id || '', thematique: thematique || '' });
-        setLoading(false);
-    }, [searchParams]);
+    const router = useRouter();
+    useEffect(
+        () => {
+            const init = async () => {
+                const id = searchParams.get('id');
+                const thematique = searchParams.get('thematique');
+
+                const token = localStorage.getItem("access-token");
+
+                if (!token) {
+                    router.push("/auth/professionnels");
+                    return;
+                }
+
+                const fetchLiveStats = async (id, token) => {
+                    try {
+                        const [evaluationsRes, recommendationsRes, opinionsRes] = await Promise.all([
+                            axios.get(`http://localhost:8080/streams/${id}/evaluations`, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }),
+                            axios.get(`http://localhost:8080/streams/${id}/recommendations`, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            }),
+                            axios.get(`http://localhost:8080/streams/${id}/opinions`, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            })
+                        ]);
+
+                        return {
+                            evaluations: evaluationsRes.data,
+                            recommendations: recommendationsRes.data,
+                            opinions: opinionsRes.data
+                        };
+                    } catch (error) {
+                        console.error(error);
+                    }
+                };
+
+                const stats = await fetchLiveStats(id, token);
+                setLiveStats(stats);
+
+                setQueryParams({
+                    id: id || '', thematique: thematique || ''
+                });
+                setLoading(false);
+            }
+            init();
+        }, [searchParams]);
 
     if (loading) {
         return (
@@ -24,8 +75,7 @@ const Stats_Page = () => {
         );
     }
 
-
-    const data1 = [120, 80, 45, 10, 11];
+    const data1 = [liveStats.evaluations.TresMauvais, liveStats.evaluations.Mauvais, liveStats.evaluations.Passable, liveStats.evaluations.Bon, liveStats.evaluations.Excellent];
     const categories1 = [
         '★☆☆☆☆',
         '★★☆☆☆',
@@ -35,7 +85,7 @@ const Stats_Page = () => {
     ];
     const title1 = 'Votes';
 
-    const data2 = [1200, 80];
+    const data2 = [liveStats.recommendations.true, liveStats.recommendations.false];
     const categories2 = ['Oui', 'Non'];
     const title2 = 'Votes';
 
@@ -59,9 +109,7 @@ const Stats_Page = () => {
             <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '16px', marginBottom: '16px' }}>
                 <p className="pt-0 mt-1" style={{ paddingBottom: '2px', paddingLeft: '4px' }}><strong><i className="fa fa-cog"></i> IA-IES - Résumé des avis des jeunes pour vous:</strong></p>
                 <p className="pt-0 mt-0" style={{ textIndent: '20px', paddingInline: '16px' }}>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Totam, exercitationem qui. Inventore, impedit non labore ab maxime error suscipit saepe animi deserunt, laudantium quos eum repudiandae consectetur veniam nam commodi?
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias deleniti sequi veritatis recusandae iste ipsum enim blanditiis ipsam sunt id molestiae accusantium repellat quaerat tenetur, odit sit eum laudantium asperiores.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere nam cum dolore corporis ducimus, distinctio cupiditate quibusdam consectetur, praesentium suscipit sunt, quisquam sit labore totam. Pariatur provident harum tempora voluptatem!
+                    {liveStats.opinions}
                 </p>
             </div>
         </div>

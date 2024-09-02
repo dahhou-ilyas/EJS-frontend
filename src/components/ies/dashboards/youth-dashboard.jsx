@@ -13,6 +13,7 @@ import { jwtDecode } from 'jwt-decode';
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Live_Banner from "../ui/banners/we-live-banner";
 
 const tabNames = {
     dashboard: 0,
@@ -32,6 +33,7 @@ const Youth_Dashboard = () => {
 
     const [liveCardStatus, setLiveCardStatus] = useState(null);
     const [lastLive, setLastLive] = useState(null);
+    const [ongoingLive, setOngoingLive] = useState(null);
     const [selectedLive, setselectedLive] = useState(null);
 
     const router = useRouter();
@@ -52,7 +54,11 @@ const Youth_Dashboard = () => {
                 const idJeune = decodedToken.claims.id;
                 setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
 
-                const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`);
+                const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setLastLive(response.data);
             } catch (error) {
                 console.log(error);
@@ -62,13 +68,41 @@ const Youth_Dashboard = () => {
         fetchLastLive();
     }, []);
 
+    useEffect(() => {
+        const fetchOngoingLive = async () => {
+
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/jeunes");
+                return;
+            }
+
+            try {
+                const response = await axios.get(`http://localhost:8080/streams/ongoing`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setOngoingLive(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchOngoingLive();
+    }, []);
+
     return (
         <>
-            {/*lastLive &&
-                <Link href="/youth/postLiveForm">
+            {lastLive &&
+                <Link href="/ies/youth/postLiveForm">
                     <Post_Live_Banner />
                 </Link>
-            */}
+            }
+            {ongoingLive &&
+                <Live_Banner lien={ongoingLive.lienYoutube} />
+            }
             {(selectedTab === tabNames.dashboard) &&
                 <div className="page-wrapper custom-wrapper-full-size mt-0 pt-0">
                     <div className="content d-xl-flex p-xl-0 py-0 my-0 pt-0 mt-0">

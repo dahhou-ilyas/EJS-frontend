@@ -1,10 +1,8 @@
 "use client"
 
-import React, { useState } from 'react';
+import React from 'react';
 
-const InputWithCharacterCount = ({ label, maxLength }) => {
-    const [inputValue, setInputValue] = useState('');
-
+const InputWithCharacterCount = ({ label, maxLength, inputValue, setInputValue }) => {
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
     };

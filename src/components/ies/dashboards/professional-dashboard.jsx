@@ -45,7 +45,6 @@ const Professional_Dashboard = () => {
         const questions = LiveSelected.questions;
         setLiveSelect(LiveSelected)
         setquestionreceive(questions)
-
         setSelectedTab(tabNames.linkAndQuestions);
     };
     const fetchQuestions = async (token, id) => {

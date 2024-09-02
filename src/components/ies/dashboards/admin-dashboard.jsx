@@ -60,7 +60,6 @@ const Admin_Dashboard = () => {
 
     return (
         <>
-            {/*<Live_Banner />*/}
             {(selectedTab === tabNames.dashboard) &&
                 <div className="page-wrapper custom-wrapper-full-size mt-0 pt-0">
                     <div className="content d-xl-flex p-xl-0 py-0 my-0 mt-0 pt-0">
