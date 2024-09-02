@@ -137,7 +137,7 @@ const Sidebar = (props) => {
                   className={
                     props?.activeClassName === "chat" ? "active" : ""
                   }
-                  href="/ies/medecins"
+                  href="/ies/professional"
                 >
                   <span className="menu-side">
                   <i className="fa fa-info-circle" />
