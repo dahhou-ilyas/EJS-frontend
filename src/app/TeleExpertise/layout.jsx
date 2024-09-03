@@ -1,5 +1,6 @@
 
 import Header from "@/components/espaceMedecin/Header";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "TéléExpertise",
@@ -19,6 +20,10 @@ const RootLayout = ({ children }) => {
       </head>
       <body>
         <Header section="TéléExpertise" />
+        <Toaster
+            position="top-center"
+            reverseOrder={false}
+        />
         {children}
       </body>
     </html>

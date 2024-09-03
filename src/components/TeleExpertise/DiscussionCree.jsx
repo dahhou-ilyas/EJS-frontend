@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import "@/assets/css/style.css";
 import { format } from "date-fns";
 import { startDiscussion } from "@/services/discussionService";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 const DiscussionCree = ({
   id,
   title,
@@ -11,12 +13,13 @@ const DiscussionCree = ({
   rejectedInvitations,
   date,
   time,
-  status
+  status,
+  type
 }) => {
+  const router = useRouter();
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   useEffect(() => {
-    console.log(id, status)
     const checkDateTime = () => {
       const currentDateTime = new Date();
       const discussionDateTime = new Date(`${date} ${time}`);
@@ -33,9 +36,13 @@ const DiscussionCree = ({
     try {
       const token = localStorage.getItem("access-token")
       const res = await startDiscussion(token, id)
-      
+      if(type === "CHAT") {
+        router.push("/TeleExpertise/ChatMeeting/${discussionId}")
+      } else if (type === "APPEL_VIDEO") {
+        router.push("/TeleExpertise/AppelVideo/${discussionId}")
+      }
     } catch (error) {
-      
+      toast.error("Quelque chose s'est mal passé, veuillez réessayer")
     }
   }
 

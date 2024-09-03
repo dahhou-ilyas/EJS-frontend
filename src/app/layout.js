@@ -5,7 +5,6 @@ import "../assets/css/style.css";
 import "../assets/css/bootstrap.min.css";
 import "../assets/css/feather.css";
 import "../assets/css/bootstrap.css"
-import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +18,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       
       <LanguageProvider>
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-        />
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          {children}
+        </body>
       </LanguageProvider>
     </html>
   );

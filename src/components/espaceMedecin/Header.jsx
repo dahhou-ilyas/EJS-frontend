@@ -109,7 +109,7 @@ const Header = ({section}) => {
           </Link>
         </div>
         <Link href="#" id="toggle_btn" onClick={handlesidebar}>
-          <Image src={baricon} alt=""  style={{marginLeft:"10px",marginTop:"22px"}}/>
+          <Image src={baricon} alt=""  style={{marginLeft:"25px",marginTop:"26px"}}/>
         </Link>
         <Link
           href="#"
