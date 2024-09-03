@@ -32,7 +32,8 @@ const MonProfile = () => {
     cin: "",
     inpe: "",
     ppr: "",
-    medicalStudies: [{ annee: "", diplome: "", institut: "" }]
+    medicalStudies: [{ annee: "", diplome: "", institut: "" }],
+    medicalExperience: [{ annee: "", hopital: "", poste: "" }],
   });
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -67,6 +68,7 @@ const MonProfile = () => {
         estGeneraliste: res.data?.estGeneraliste,
         estMedcinESJ: res.data?.estMedcinESJ,
         medicalStudies: res.data?.medicalStudies || [{ annee: "", diplome: "", institut: "" }],
+        medicalExperience: res.data?.medicalExperience || [{ annee: "", hopital: "", poste: "" }],
       });
     })
     .catch(err => {
@@ -81,6 +83,13 @@ const MonProfile = () => {
     setFormData({ ...formData, medicalStudies: updatedEducations });
   };
 
+  const handleExperienceChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedExperiences = [...formData.medicalExperience];
+    updatedExperiences[index][name] = value;
+    setFormData({ ...formData, medicalExperience: updatedExperiences });
+  };
+
   const addEducationField = () => {
     setFormData(prevState => ({
       ...prevState,
@@ -91,6 +100,18 @@ const MonProfile = () => {
   const removeEducationField = (index) => {
     const updatedEducations = formData.medicalStudies.filter((_, i) => i !== index);
     setFormData({ ...formData, medicalStudies: updatedEducations });
+  };
+
+  const addExperienceField = () => {
+    setFormData(prevState => ({
+      ...prevState,
+      medicalExperience: [...prevState.medicalExperience, { annee: "", hopital: "", poste: "" }]
+    }));
+  };
+  
+  const removeExperienceField = (index) => {
+    const updatedExperiences = formData.medicalExperience.filter((_, i) => i !== index);
+    setFormData({ ...formData, medicalExperience: updatedExperiences });
   };  
 
   const updateMedecin = (id, medecinData) => {
@@ -506,6 +527,51 @@ const MonProfile = () => {
                             ))}
                             <button type="button" onClick={addEducationField} className="btn btn-secondary">
                               Add Education
+                            </button>
+                          </div>
+                          <div className="col-12 mt-4">
+                            <label>Experience</label>
+                            {formData.medicalExperience.map((experience, index) => (
+                              <div key={index} className="form-group row">
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="annee"
+                                    placeholder="Année"
+                                    value={experience.annee}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="hopital"
+                                    placeholder="Hopital"
+                                    value={experience.hopital}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="poste"
+                                    placeholder="Poste"
+                                    value={experience.poste}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <button type="button" onClick={() => removeExperienceField(index)} className="btn btn-danger">
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                            <button type="button" onClick={addExperienceField} className="btn btn-secondary">
+                              Add Experience
                             </button>
                           </div>
                           <div className="col-12">
