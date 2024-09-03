@@ -82,9 +82,7 @@ const Page = () => {
                     <Link href="doctors.html">Medecins </Link>
                   </li>
                   <li className="breadcrumb-item">
-                    <i className="feather-chevron-right">
-                      <FeatherIcon icon="chevron-right" />
-                    </i>
+                    <i className="feather-chevron-right"></i>
                   </li>
                   <li className="breadcrumb-item active">Profil Medecin</li>
                 </ul>
@@ -101,13 +99,6 @@ const Page = () => {
                       <div className="about-info">
                         <h4>
                           Profil du Docteur{" "}
-                          <span>
-                            <Link href="#">
-                              <i className="feather-more-vertical">
-                                <FeatherIcon icon="more-vertical" />
-                              </i>
-                            </Link>
-                          </span>
                         </h4>
                       </div>
                       <div className="doctor-profile-head">
@@ -292,8 +283,8 @@ const Page = () => {
                             <thead>
                               <tr>
                                 <th>Année</th>
-                                <th>Poste</th>
                                 <th>Hôpital</th>
+                                <th>Poste</th>
                               </tr>
                             </thead>
                             <tbody>
