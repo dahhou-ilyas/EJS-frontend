@@ -16,7 +16,6 @@ import { useRouter } from 'next/navigation';
 
 const Page = () => {
   const router = useRouter();
-
   const [medecin, setMedecin] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);

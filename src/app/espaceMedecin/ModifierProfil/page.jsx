@@ -11,8 +11,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const MonProfile = () => {
+  const router = useRouter();
   const [medecin, setMedecin] = useState(null);
   const [user, setUser] = useState(null);
   const token = localStorage.getItem('access-token');
@@ -45,7 +47,8 @@ const MonProfile = () => {
   }, [user && user.claims.id]);
 
   const getMedecinData = (id) => {
-    axios.get('http://localhost:8080/medecins/' + 2, {
+    if (id != null) {
+      axios.get('http://localhost:8080/medecins/' + 2, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -72,7 +75,9 @@ const MonProfile = () => {
     })
     .catch(err => {
       console.log(err);
+      router.push('/auth/medecins');
     })
+    }
   }
 
   const handleEducationChange = (index, e) => {
