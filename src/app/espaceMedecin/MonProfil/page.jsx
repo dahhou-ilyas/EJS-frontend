@@ -8,14 +8,43 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import FeatherIcon from "feather-icons-react";
 import Sidebar from "../../../components/espaceMedecin/Sidebar1";
-import { getMedecinById } from "../../../services/medecinService";
 import { Profileuser, cameraicon } from "../../../components/espaceMedecin/imagepath";
 import "../../../assets/css/style.css";
+import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
+  const router = useRouter();
+
   const [medecin, setMedecin] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [user, setUser]=useState(null);
+  const token = localStorage.getItem('access-token');
+
+  useEffect(() => {
+    const decodedToken = jwtDecode(token);
+    setUser(decodedToken);
+    fetchMedecin();
+  }, [user && user.claims.id]);
+
+  const getMedecinData = (id) => {
+    if (id != null) {
+      axios.get('http://localhost:8080/medecins/' + id, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+      })
+      .then(res => {
+        setMedecin(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+        router.push('/auth/medecins');
+      })
+    }
+  }
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -28,18 +57,13 @@ const Page = () => {
     reader.readAsDataURL(file);
   };
 
-  useEffect(() => {
-    const fetchMedecin = async () => {
-      try {
-        const medecinData = await getMedecinById(46);
-        setMedecin(medecinData);
-      } catch (error) {
-        console.error("Failed to fetch medecin data", error);
-      }
-    };
-
-    fetchMedecin();
-  }, []);
+  const fetchMedecin = () => {
+    try {
+      getMedecinData(user && user.claims.id);
+    } catch (error) {
+      console.error("Failed to fetch medecin data", error);
+    }
+  };
 
   if (!medecin) {
     return <div>Loading...</div>;
@@ -63,9 +87,7 @@ const Page = () => {
                     <Link href="doctors.html">Medecins </Link>
                   </li>
                   <li className="breadcrumb-item">
-                    <i className="feather-chevron-right">
-                      <FeatherIcon icon="chevron-right" />
-                    </i>
+                    <i className="feather-chevron-right"></i>
                   </li>
                   <li className="breadcrumb-item active">Profil Medecin</li>
                 </ul>
@@ -82,13 +104,6 @@ const Page = () => {
                       <div className="about-info">
                         <h4>
                           Profil du Docteur{" "}
-                          <span>
-                            <Link href="#">
-                              <i className="feather-more-vertical">
-                                <FeatherIcon icon="more-vertical" />
-                              </i>
-                            </Link>
-                          </span>
                         </h4>
                       </div>
                       <div className="doctor-profile-head">
@@ -157,36 +172,6 @@ const Page = () => {
                                       icon={faLinkedin}
                                       style={{
                                         color: "#0077B5",
-                                        fontSize: "24px",
-                                      }}
-                                    />
-                                  </div>
-                                </a>
-                                {/* Twitter Link */}
-                                <a
-                                  className="btn"
-                                  href={medecin.twitter}
-                                  style={{
-                                    borderColor: "transparent",
-                                    color: "grey",
-                                    padding: "6px 12px",
-                                    fontSize: "14px",
-                                    backgroundColor: "transparent",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    textDecoration: "none",
-                                  }}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <div
-                                    className="personal-icons"
-                                    style={{ marginRight: "8px" }}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={faXTwitter}
-                                      style={{
-                                        color: "#000000",
                                         fontSize: "24px",
                                       }}
                                     />
@@ -284,11 +269,11 @@ const Page = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {medecin.education &&
-                                medecin.education.map((edu, index) => (
+                              {medecin.medicalStudies &&
+                                medecin.medicalStudies.map((edu, index) => (
                                   <tr key={index}>
-                                    <td>{edu.year}</td>
-                                    <td>{edu.diploma}</td>
+                                    <td>{edu.annee}</td>
+                                    <td>{edu.diplome}</td>
                                     <td>{edu.institut}</td>
                                   </tr>
                                 ))}
@@ -303,17 +288,17 @@ const Page = () => {
                             <thead>
                               <tr>
                                 <th>Année</th>
-                                <th>Poste</th>
                                 <th>Hôpital</th>
+                                <th>Poste</th>
                               </tr>
                             </thead>
                             <tbody>
-                              {medecin.experience &&
-                                medecin.experience.map((exp, index) => (
+                              {medecin.medicalExperience &&
+                                medecin.medicalExperience.map((exp, index) => (
                                   <tr key={index}>
-                                    <td>{exp.year}</td>
-                                    <td>{exp.position}</td>
-                                    <td>{exp.hospital}</td>
+                                    <td>{exp.annee}</td>
+                                    <td>{exp.hopital}</td>
+                                    <td>{exp.poste}</td>
                                   </tr>
                                 ))}
                             </tbody>
