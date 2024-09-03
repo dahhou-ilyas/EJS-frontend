@@ -33,3 +33,31 @@ export const POST = async (req) => {
 
     return NextResponse.json({ success: true });
 };
+
+export const GET = async (req) => {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+        return NextResponse.json({ success: false, message: "ID is required." });
+    }
+
+    const directoryPath = path.join(process.cwd(), 'public', 'uploads', id);
+    const files = fs.readdirSync(directoryPath);
+    
+    //const filePaths = files.map(file => `/uploads/${id}/${file}`)
+
+    const fileObjects = files.map(file => {
+        const filePath = path.join('/uploads', id, file); 
+    
+        const fileType = file.endsWith('.pdf') ? 'application/pdf' : (file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png') ? 'image/*' : 'application/octet-stream');
+    
+        return {
+          type: fileType,
+          src: filePath,
+          name: file
+        };
+      });
+
+    return NextResponse.json({ success: true , files: fileObjects });
+}

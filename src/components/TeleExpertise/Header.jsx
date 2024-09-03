@@ -228,9 +228,9 @@ const Header = () => {
           href="#"
           id="toggle_btn"
           onClick={handlesidebar}
-          style={{ marginTop: "28px" }}
+          
         >
-          <Image src={baricon} alt="" />
+          <Image src={baricon} alt="" style={{marginLeft:"30px",marginTop:"100px"}}/>
         </Link>
         <Link
           href="#"

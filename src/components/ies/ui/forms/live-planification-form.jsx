@@ -13,6 +13,7 @@ import Error from "@/components/ies/utility/error";
 import dayjs from 'dayjs';
 import FileUploader from "../file-uploader";
 import { getAlertifyInstance } from "@/components/ies/utility/alertify-singleton";
+import { jwtDecode } from 'jwt-decode';
 
 const Live_Planification_Form = ({ toDashboard }) => {
     const [alertify, setAlertify] = useState(null);
@@ -58,7 +59,6 @@ const Live_Planification_Form = ({ toDashboard }) => {
     const updateCombinedDateTime = (date, time) => {
         if (date && time) {
             const combinedDateTime = dayjs(`${date}T${time}`).format('YYYY-MM-DDTHH:mm:ss');
-            console.log("Combined DateTime: " + combinedDateTime);
             setSelectedDateTime(combinedDateTime);
         }
     };
@@ -73,6 +73,16 @@ const Live_Planification_Form = ({ toDashboard }) => {
 
     const save = async (event) => {
         try {
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/administrateur");
+                return;
+            }
+
+            const decodedToken = jwtDecode(token);
+            const idAdmin = decodedToken.claims.id;
+
             event.preventDefault();
             const title = document.getElementById("title").value;
             const theme = document.getElementById("theme").value
@@ -104,12 +114,11 @@ const Live_Planification_Form = ({ toDashboard }) => {
             formData.append('live', JSON.stringify(live));
             formData.append('image', file);
 
-            console.log(live);
-
             try {
-                await axios.post(`http://localhost:7000/admins/${1}/streams`, formData, {
+                await axios.post(`http://localhost:8080/admins/${idAdmin}/streams`, formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${token}`
                     }
                 });
 
@@ -119,7 +128,7 @@ const Live_Planification_Form = ({ toDashboard }) => {
                 console.error("Error saving the live: " + error);
 
                 // Toast
-                if (alertify) alertify.error('<strong>This is an error message:</strong> request');
+                if (alertify) alertify.error('<strong>This is an error message:</strong> request related');
             }
         } catch (error) {
             // Toast
@@ -130,7 +139,18 @@ const Live_Planification_Form = ({ toDashboard }) => {
     useEffect(() => {
         const fetchProfessionals = async () => {
             try {
-                const response = await axios.get("http://localhost:7000/responsables");
+                const token = localStorage.getItem("access-token");
+    
+                if (!token) {
+                    router.push("/auth/administrateur");
+                    return;
+                }
+    
+                const response = await axios.get("http://localhost:8080/responsables", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setdataprofs(response.data);
             } catch (error) {
                 console.error("Error fetching professionals:", error);
@@ -149,10 +169,7 @@ const Live_Planification_Form = ({ toDashboard }) => {
             label: `${item.role} ${item.infoUser.nom} ${item.infoUser.prenom}`
         }));
         setProfessionals(data);
-        console.log("responsables : ", dataprofs);
     }, [dataprofs]);
-
-    useEffect(() => { console.log(selectedDate, selectedprofessionals) }, [selectedDate])
 
     return (
         <>

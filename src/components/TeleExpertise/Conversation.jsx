@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Avatar5,
@@ -10,44 +10,45 @@ import {
 } from "./imagepath";
 import Image from "next/image";
 
-const Conversation = ({ messages, user }) => {
+const Conversation = ({ messages, value, setValue, sendMessage, targetDate }) => {
+
+  const getInitials = (name) => {
+    return name.charAt(0);
+  };
+
+  const [timeLeft, setTimeLeft] = useState({ minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const difference = targetDate - now;
+
+      if (difference > 0) {
+        const minutes = Math.floor((difference / (1000 * 60)) % 60);
+        const seconds = Math.floor((difference / 1000) % 60);
+        setTimeLeft({ minutes, seconds });
+      } else {
+        setTimeLeft({ minutes: 0, seconds: 0 });
+      }
+    };
+
+    calculateTimeLeft();
+
+    const timerId = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timerId);
+  }, [targetDate]);
+
   return (
-    <div className="col-xl-8">
-      <div className="card chat-box ">
-        <div className=" chat-search-group ">
-          <div className="chat-user-group mb-0 d-flex align-items-center">
-            <div className="img-users call-user">
-              <Link href="/">
-                <Image src={Avatar5} alt="img" />
-              </Link>
-              <span className="active-users bg-info" />
-            </div>
-            <div className="chat-users">
-              <div className="user-titles">
-                <h5>{decodeURIComponent(user)}</h5>
-              </div>
-            </div>
-          </div>
-          {/* <div className="chat-search-list">
-            <ul>
-              <li>
-                <Link href="/">
-                  <Image src={chaticon1} alt="img" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/">
-                  <Image src={chaticon2} alt="img" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/">
-                  <Image src={chaticon3} alt="img" />
-                </Link>
-              </li>
-            </ul>
-          </div> */}
-        </div>
+    <div>
+      {/* Timer */}
+      <div className="text-center">
+        <p className="h5 mb-1">
+          Temps restant: <span className="text-danger">{timeLeft.minutes} minutes et {timeLeft.seconds} seconds</span>
+        </p>
+        <p className="h4 text-danger">
+          
+        </p>
       </div>
       {/* Chat */}
       <div className="card chat-message-box">
@@ -55,7 +56,7 @@ const Conversation = ({ messages, user }) => {
           <div
             className="chat-body"
             style={{
-              height: "300px",
+              height: "270px",
               width: "100%",
               overflowY: "auto",
             }}
@@ -64,14 +65,15 @@ const Conversation = ({ messages, user }) => {
               {messages.map((msg) => (
                 <li key={msg.id} className={`media d-flex ${msg.type}`}>
                   {msg.type === "received" && (
-                    <div className="avatar flex-shrink-0">
-                      <Image
-                        src={msg.avatar}
-                        alt="User Image"
-                        className="avatar-img rounded-circle"
-                        width={40}
-                        height={40}
-                      />
+                    <div 
+                      className="initials avatar-img rounded-circle"
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        marginRight: "5px"
+                      }}
+                    >
+                      {getInitials(msg.name)}
                     </div>
                   )}
                   <div className="media-body flex-grow-1">
@@ -96,7 +98,7 @@ const Conversation = ({ messages, user }) => {
                                 <Image
                                   src={chaticon07}
                                   alt="#"
-                                  className="ms-1 ms-auto"
+                                  className="ms-auto"
                                 />
                               </li>
                             ))}
@@ -116,20 +118,26 @@ const Conversation = ({ messages, user }) => {
               <div className="row gx-2">
                 <div className="col-lg-12 ">
                   <div className="footer-discussion">
-                    <div className="inputgroups">
+                    <form 
+                      className="inputgroups" 
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        sendMessage()
+                      }}
+                    >
                       <input
                         type="text"
                         placeholder="Type your Message here..."
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
                       />
-                      <div className="micro-text position-icon">
+                      {/* <div className="micro-text position-icon">
                         <Image src={chatfooter4} alt="#" />
-                      </div>
-                      <div className="send-chat position-icon comman-flex">
-                        <Link href="/">
-                          <Image src={chatfooter3} alt="#" />
-                        </Link>
-                      </div>
-                      <div className="symple-text position-icon">
+                      </div> */}
+                      <button style={{border: "none"}} className="send-chat position-icon comman-flex">
+                        <Image src={chatfooter3} alt="#" />
+                      </button>
+                      {/* <div className="symple-text position-icon">
                         <ul>
                           <li>
                             <Link href="/">
@@ -146,8 +154,8 @@ const Conversation = ({ messages, user }) => {
                             </Link>
                           </li>
                         </ul>
-                      </div>
-                    </div>
+                      </div> */}
+                    </form>
                   </div>
                 </div>
               </div>

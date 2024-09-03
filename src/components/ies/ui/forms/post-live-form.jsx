@@ -7,13 +7,17 @@ import Select from "react-select";
 import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import InputWithCharacterCount from "../input-character-count";
 import TextAreaWithCharacterCount from "@/components/ies/ui/textarea-character-count";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+import { getAlertifyInstance } from "../../utility/alertify-singleton";
+import axios from "axios";
 
 const quality = [
-    { value: 1, label: "Très mauvais" },
-    { value: 2, label: "Mauvais" },
-    { value: 3, label: "Passable" },
-    { value: 4, label: "Bon" },
-    { value: 5, label: "Excellent" }
+    { value: 1, label: "★☆☆☆☆" },
+    { value: 2, label: "★★☆☆☆" },
+    { value: 3, label: "★★★☆☆" },
+    { value: 4, label: "★★★★☆" },
+    { value: 5, label: "★★★★★" }
 ];
 
 const yesno = [
@@ -24,7 +28,20 @@ const yesno = [
 const Post_Live_Form = ({ showDashboard }) => {
 
     {/** TODO: Please check for input size control classes etc. */ }
-    const [inputValue, setTextAreaValue] = useState('');
+    const [selectedRating, setSelectedRating] = useState(null);
+    const [selectedRecommand, setSelectedRecommand] = useState(null);
+
+    const handleChange1 = (selectedOption) => {
+        setSelectedRating(selectedOption);
+    };
+
+    // Handle change event
+    const handleChange2 = (selectedOption) => {
+        setSelectedRecommand(selectedOption);
+    };
+
+    const [inputValue1, setInputValue] = useState('');
+    const [inputValue2, setTextAreaValue] = useState('');
 
     const [alertify, setAlertify] = useState(null);
 
@@ -41,6 +58,73 @@ const Post_Live_Form = ({ showDashboard }) => {
         initializeAlertify();
     }, []);
 
+
+
+    const router = useRouter();
+    const [lastLive, setLastLive] = useState(null);
+
+    const fetchLastLive = async (token, idJeune) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            return response.data;
+        } catch (error) {
+            throw new Error('Failed to fetch last live');
+        }
+    };
+
+    const postFeedback = async (token, idJeune, lastLive, feedback) => {
+        try {
+            await axios.post(`http://localhost:8080/jeunes/${idJeune}/streams/${lastLive.id}/feedbacks`, feedback, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+        } catch (error) {
+            throw new Error('Failed to post feedback');
+        }
+    };
+
+    const handleErrors = (error) => {
+        console.error("Error: " + error);
+        if (alertify) alertify.error('<strong>This is an error message:</strong> ' + error.message);
+    };
+
+    const save = async (event) => {
+        event.preventDefault();
+        try {
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/jeunes");
+                return;
+            }
+
+            const decodedToken = jwtDecode(token);
+            const idJeune = decodedToken.claims.id;
+
+            if (!selectedRating || !selectedRecommand) throw new Error("bad form");
+
+            const evals = ["Excellent", "Bon", "Passable", "Mauvais", "TresMauvais"];
+            const feedback = {
+                evaluation: evals[5 - selectedRating.value],
+                recommended: selectedRecommand.value === 1,
+                suggestedTheme: inputValue1,
+                opinion: inputValue2
+            };
+
+            const lastLive = await fetchLastLive(token, idJeune);
+
+            if (!lastLive) throw new Error('Last live not found');
+
+            await postFeedback(token, idJeune, lastLive, feedback);
+
+            if (alertify) alertify.success('<strong>This is a success message:</strong> done');
+        } catch (error) {
+            handleErrors(error);
+        }
+    };
+
+
     return (
         <>
             <div className="page-wrapper custom-wrapper">
@@ -50,7 +134,7 @@ const Post_Live_Form = ({ showDashboard }) => {
                             <div className="col-sm-12">
                                 <ul className="breadcrumb">
                                     <li className="breadcrumb-item">
-                                        <Link href="/youth" >Tableau de bord </Link>
+                                        <Link href="/ies/youth" >Tableau de bord </Link>
                                     </li>
                                     <li className="breadcrumb-item">
                                         <i className="feather-chevron-right"></i>
@@ -75,6 +159,8 @@ const Post_Live_Form = ({ showDashboard }) => {
                                         <div className="col-md-8">
                                             <Select
                                                 options={quality}
+                                                value={selectedRating}
+                                                onChange={handleChange1}
                                                 id="search-commodity"
                                                 components={{
                                                     IndicatorSeparator: () => null
@@ -109,7 +195,9 @@ const Post_Live_Form = ({ showDashboard }) => {
                                         <div className="col-md-8">
                                             <Select
                                                 options={yesno}
+                                                value={selectedRecommand}
                                                 id="search-commodity"
+                                                onChange={handleChange2}
                                                 components={{
                                                     IndicatorSeparator: () => null
                                                 }}
@@ -139,7 +227,7 @@ const Post_Live_Form = ({ showDashboard }) => {
                                         </div>
                                     </div>
 
-                                    <InputWithCharacterCount maxLength={100} label={"Y a-t-il un sujet que vous aimeriez voir abordé en direct?"} />
+                                    <InputWithCharacterCount maxLength={100} label={"Y a-t-il un sujet que vous aimeriez voir abordé en direct?"} inputValue={inputValue1} setInputValue={setInputValue} />
 
                                     <div className="col-12">
                                         <div className="form-heading">
@@ -147,11 +235,11 @@ const Post_Live_Form = ({ showDashboard }) => {
                                         </div>
                                     </div>
 
-                                    <TextAreaWithCharacterCount maxLength={400} inputValue={inputValue} setTextAreaValue={setTextAreaValue} />
+                                    <TextAreaWithCharacterCount maxLength={400} inputValue={inputValue2} setTextAreaValue={setTextAreaValue} />
 
                                     <div className="col-12">
                                         <div className="doctor-submit text-end">
-                                            <button type="submit" className="btn btn-primary submit-form me-2">Soumettre</button>
+                                            <button type="submit" className="btn btn-primary submit-form me-2" onClick={save}>Soumettre</button>
                                             <Link href="/ies/youth"><button type="submit" className="btn btn-primary cancel-form">Annuler</button></Link>
                                         </div>
                                     </div>

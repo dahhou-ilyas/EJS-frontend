@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Carousel from "@/components/ies/ui/carousel";
 import Live_Planification_Tracker from "@/components/ies/ui/live-planification-tracker";
@@ -8,8 +8,9 @@ import Live_Planification_Form_Filled from "@/components/ies/ui/forms/live-plani
 import Live_Banner from "@/components/ies/ui/banners/we-live-banner";
 import Live_Timeline from "@/components/ies/ui/live-timeline";
 import Link from "next/link";
-
 import { carouselSlides } from "@/components/ies/utility/carousel-slides";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from 'jwt-decode';
 
 const tabNames = {
     dashboard: 0,
@@ -17,7 +18,7 @@ const tabNames = {
     //askquestion:4
 };
 
-const Admin_Dashboard = ({ name }) => {
+const Admin_Dashboard = () => {
     const [selectedTab, setSelectedTab] = useState(tabNames.dashboard);
     const [selectedLive, setselectedLive] = useState(null);
 
@@ -33,10 +34,32 @@ const Admin_Dashboard = ({ name }) => {
    }*/
 
     const [liveCardStatus, setLiveCardStatus] = useState(null);
+    const router = useRouter();
+    let [name, setName] = useState("User");
+
+    useEffect(() => {
+        const init = async () => {
+
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/administrateur");
+                return;
+            }
+
+            try {
+                const decodedToken = jwtDecode(token);
+                setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        init();
+    }, []);
 
     return (
         <>
-            {/*<Live_Banner />*/}
             {(selectedTab === tabNames.dashboard) &&
                 <div className="page-wrapper custom-wrapper-full-size mt-0 pt-0">
                     <div className="content d-xl-flex p-xl-0 py-0 my-0 mt-0 pt-0">
@@ -94,7 +117,7 @@ const Admin_Dashboard = ({ name }) => {
                             {/*<div style={{ paddingTop: '4px', paddingBottom: '4px' }}><Carousel slides={carouselSlides} /></div> */}
                         </div>
 
-                        <Live_Timeline />
+                        <Live_Timeline isItForAdmin={true} />
                     </div>
                 </div>
             }

@@ -127,3 +127,39 @@ export const createDiscussion = async (token, discussion) => {
         throw error;
     }
 }
+
+export const joinOuverteDiscussion = async (token, id) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/discussion/${id}/join`, {}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          throw new Error("Failed to join the discussion");
+        }
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}
+
+export const getDiscussion = async (token, id) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/discussion/${id}`,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+          })
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          throw new Error("Failed to join the discussion");
+        }
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}
