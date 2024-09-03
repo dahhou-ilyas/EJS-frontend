@@ -7,10 +7,11 @@ import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import Image from "next/image";
 import Conversation from "@/components/TeleExpertise/Conversation";
 import { useWebSocket } from "@/hooks/useWebSocket";
-import { getDiscussion } from "@/services/discussionService";
+import { endDiscussion, getDiscussion } from "@/services/discussionService";
 import { decodeToken } from "@/utils/docodeToken";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import toast from "react-hot-toast";
 
 const ChatMeeting = ({ params }) => {
   const router = useRouter()
@@ -92,6 +93,32 @@ const ChatMeeting = ({ params }) => {
     }
   };
 
+  const terminerDiscussion = async () => {
+    try {
+        const token = localStorage.getItem("access-token");
+
+        await endDiscussion(token, params.discussionId);
+
+        const deleteResponse = await fetch(`/api/upload?id=${params.discussionId}`, {
+            method: 'DELETE',
+        });
+
+        const deleteResult = await deleteResponse.json();
+
+        if (deleteResponse.ok) {
+            console.log("Files deleted successfully:", deleteResult);
+            toast.success("Discussion terminée");
+            router.push("/TeleExpertise")
+        } else {
+            console.error("Failed to delete files:", deleteResult.message);
+            throw new Error(deleteResult.message);
+        }
+    } catch (error) {
+        console.log(error.message);
+        toast.error("Quelque chose s'est mal passé, veuillez réessayer");
+    }
+  };
+
   const leaveDiscussion = () => {
     
   }
@@ -99,7 +126,7 @@ const ChatMeeting = ({ params }) => {
   if(
     (discussion && userId) && 
     ((!discussion.participants.some(participant => participant.id === userId) && !(discussion.medcinResponsable.id === userId)) ||
-    //discussion.status !== "EN_COURS" ||
+    discussion.status !== "EN_COURS" ||
     discussion.type !== "CHAT")
   ) {
     router.push("/TeleExpertise")
@@ -248,6 +275,7 @@ const ChatMeeting = ({ params }) => {
                   discussion.medcinResponsable.id === userId ?
                   <button 
                     className="btn btn-danger d-block mx-auto"
+                    onClick={terminerDiscussion}
                   >
                     Terminer la discussion
                   </button>

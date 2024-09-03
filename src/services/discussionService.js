@@ -110,6 +110,24 @@ export const startDiscussion = async (token, id) => {
     }
 }
 
+export const endDiscussion = async (token, id) => {
+    try {
+        const response = await axios.put(`${API_BASE_URL}/discussion/${id}/end`,{}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          throw new Error("Failed to end the discussion");
+        }
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}
+
 export const createDiscussion = async (token, discussion) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/discussion`, discussion, {

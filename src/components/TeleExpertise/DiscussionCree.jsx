@@ -37,12 +37,20 @@ const DiscussionCree = ({
       const token = localStorage.getItem("access-token")
       const res = await startDiscussion(token, id)
       if(type === "CHAT") {
-        router.push("/TeleExpertise/ChatMeeting/${discussionId}")
+        router.push(`/TeleExpertise/ChatMeeting/${id}`)
       } else if (type === "APPEL_VIDEO") {
-        router.push("/TeleExpertise/AppelVideo/${discussionId}")
+        router.push(`/TeleExpertise/AppelVideo/${id}`)
       }
     } catch (error) {
       toast.error("Quelque chose s'est mal passé, veuillez réessayer")
+    }
+  }
+
+  const accessToDiscussion = async () => {
+    if(type === "CHAT") {
+      router.push(`/TeleExpertise/ChatMeeting/${id}`)
+    } else if (type === "APPEL_VIDEO") {
+      router.push(`/TeleExpertise/AppelVideo/${id}`)
     }
   }
 
@@ -68,15 +76,16 @@ const DiscussionCree = ({
           status === "EN_COURS"?
           <button
             className="joindre-button"
+            onClick={accessToDiscussion}
           >
             En cours {"->"}
           </button>:
           <button
             type="button"
             className="launch-button"
-            disabled={
+            /* disabled={
               !(new Date() >= new Date(date) && new Date() <= new Date(new Date(date).getTime() + 30 * 60000))
-            }
+            } */
             onClick={launchDiscussion}
           >
           Lancer
