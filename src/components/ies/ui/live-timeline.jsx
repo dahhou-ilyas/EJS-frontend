@@ -3,6 +3,7 @@ import axios from "axios";
 import Loading from "../utility/loading";
 import dayjs from "dayjs";
 import { sortByDate } from "./live-planification-tracker";
+import { jwtDecode } from 'jwt-decode';
 
 function capitalizeFirstLetter(x) {
     return x.charAt(0).toUpperCase() + x.slice(1);
@@ -29,47 +30,80 @@ function getMonthName(monthRank, lang = 'en') {
     return capitalizeFirstLetter(monthName);
 }
 
-const Live_Timeline = () => {
+const Live_Timeline = ({ isItForAdmin }) => {
     const [lives, setLives] = useState({});
     const [livesLoaded, setLivesLoaded] = useState(false);
 
     const currentYear = dayjs().year();
 
-    const getLives = async () => {
-        try {
-            // A optimiser: deux requêtes pour la même donnée
-            const response = await axios.get('http://localhost:7000/streams?phase=outdated');
-            const data = response.data;
-
-            const currentYearStreams = data.filter(live => {
-                const year = live.date[0];
-                return year === currentYear || year === currentYear + 1;
-            });
-
-            const groupedByMonth = currentYearStreams.reduce((acc, live) => {
-                const [year, month, day] = live.date; // Assuming date is an array like [year, month, day, hour, minute]
-                const monthName = getMonthName(month, 'fr');
-
-                if (!acc[monthName]) {
-                    acc[monthName] = [];
-                }
-                acc[monthName].push(live);
-
-                return acc;
-            }, {});
-
-            for (const month in groupedByMonth) {
-                sortByDate(groupedByMonth[month]);
-            }
-
-            setLives(groupedByMonth);
-            setLivesLoaded(true);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
     useEffect(() => {
+        const getLives = async () => {
+            try {
+                const token = localStorage.getItem("access-token");
+
+                if (!token) {
+                    router.push("/auth/administrateur");
+                    return;
+                }
+
+                const decodedToken = jwtDecode(token);
+
+                let response = null;
+                const idUser = decodedToken.claims.id;
+                if (!isItForAdmin) {
+                    response = await axios.get(`http://localhost:8080/admins/${1}/streams?phase=outdated`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+                } else {
+                    response = await axios.get(`http://localhost:8080/admins/${idUser}/streams?phase=outdated`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+                }
+                const data = response.data;
+
+                const currentYearStreams = data.filter(live => {
+                    const year = live.date[0];
+                    return year === currentYear;
+                });
+
+                const groupedByMonth = currentYearStreams.reduce((acc, live) => {
+                    const [year, month, day] = live.date;
+                    const monthName = getMonthName(month, 'fr');
+
+                    if (!acc[monthName]) {
+                        acc[monthName] = [];
+                    }
+                    acc[monthName].push(live);
+
+                    return acc;
+                }, {});
+
+                Object.keys(groupedByMonth).forEach(month => {
+                    groupedByMonth[month].sort((a, b) => {
+                        const [yearA, monthA, dayA] = a.date;
+                        const [yearB, monthB, dayB] = b.date;
+                        return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
+                    });
+                });
+
+                const sortedGroupedByMonth = {};
+                months.fr.forEach(monthName => {
+                    if (groupedByMonth[monthName]) {
+                        sortedGroupedByMonth[monthName] = groupedByMonth[monthName];
+                    }
+                });
+
+                setLives(groupedByMonth);
+                setLivesLoaded(true);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
         getLives();
     }, []);
 
@@ -86,7 +120,7 @@ const Live_Timeline = () => {
                         <ul className="custom-activity-feed w-100">
                             {livesLoaded ? (
                                 Object.keys(lives).length > 0 ? (
-                                    Object.keys(lives).reverse().map((month, index) => (
+                                    Object.keys(lives).map((month, index) => (
                                         <li key={index} className="feed-item custom-feed-item align-items-center">
                                             <h4 className="mb-4">{month}</h4>
                                             <div className="dolor-activity d-flex">
