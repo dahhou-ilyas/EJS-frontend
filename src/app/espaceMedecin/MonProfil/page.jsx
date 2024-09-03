@@ -181,36 +181,6 @@ const Page = () => {
                                     />
                                   </div>
                                 </a>
-                                {/* Twitter Link */}
-                                <a
-                                  className="btn"
-                                  href={medecin.twitter}
-                                  style={{
-                                    borderColor: "transparent",
-                                    color: "grey",
-                                    padding: "6px 12px",
-                                    fontSize: "14px",
-                                    backgroundColor: "transparent",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    textDecoration: "none",
-                                  }}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <div
-                                    className="personal-icons"
-                                    style={{ marginRight: "8px" }}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={faXTwitter}
-                                      style={{
-                                        color: "#000000",
-                                        fontSize: "24px",
-                                      }}
-                                    />
-                                  </div>
-                                </a>
                               </div>
                             </div>
                           </div>

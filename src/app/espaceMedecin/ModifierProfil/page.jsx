@@ -28,9 +28,11 @@ const MonProfile = () => {
     confirmPassword: "",
     estGeneraliste: false,
     estMedcinESJ: false,
+    linkedin: "",
     cin: "",
     inpe: "",
     ppr: "",
+    medicalStudies: [{ annee: "", diplome: "", institut: "" }]
   });
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -59,16 +61,37 @@ const MonProfile = () => {
         specialite: res.data?.specialite,
         mail: res.data?.mail,
         sexe: res.data?.sexe,
+        linkedin: res.data?.linkedin,
         about: res.data?.about,
         password: res.data?.password,
         estGeneraliste: res.data?.estGeneraliste,
         estMedcinESJ: res.data?.estMedcinESJ,
+        medicalStudies: res.data?.medicalStudies || [{ annee: "", diplome: "", institut: "" }],
       });
     })
     .catch(err => {
       console.log(err);
     })
   }
+
+  const handleEducationChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedEducations = [...formData.medicalStudies];
+    updatedEducations[index][name] = value;
+    setFormData({ ...formData, medicalStudies: updatedEducations });
+  };
+
+  const addEducationField = () => {
+    setFormData(prevState => ({
+      ...prevState,
+      medicalStudies: [...prevState.medicalStudies, { annee: "", diplome: "", institut: "" }]
+    }));
+  };
+  
+  const removeEducationField = (index) => {
+    const updatedEducations = formData.medicalStudies.filter((_, i) => i !== index);
+    setFormData({ ...formData, medicalStudies: updatedEducations });
+  };  
 
   const updateMedecin = (id, medecinData) => {
     console.log(medecinData);
@@ -155,7 +178,6 @@ const MonProfile = () => {
         delete updateData.password;
       }
       updateMedecin(user && user.claims.id, updateData);
-      console.log(user && user.claims.id);
       toast.success("Profile updated successfully!");
       setLoading(true);
     } catch (error) {
@@ -279,36 +301,6 @@ const MonProfile = () => {
                                       icon={faLinkedin}
                                       style={{
                                         color: "#0077B5",
-                                        fontSize: "24px",
-                                      }}
-                                    />
-                                  </div>
-                                </a>
-                                {/* Twitter Link */}
-                                <a
-                                  className="btn"
-                                  href={formData.twitter}
-                                  style={{
-                                    borderColor: "transparent",
-                                    color: "grey",
-                                    padding: "6px 12px",
-                                    fontSize: "14px",
-                                    backgroundColor: "transparent",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    textDecoration: "none",
-                                  }}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <div
-                                    className="personal-icons"
-                                    style={{ marginRight: "8px" }}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={faXTwitter}
-                                      style={{
-                                        color: "#000000",
                                         fontSize: "24px",
                                       }}
                                     />
@@ -461,27 +453,60 @@ const MonProfile = () => {
                           </div>
                           <div className="col-12">
                             <div className="form-group">
-                              <label>Linkedin</label>
+                              <label>LinkedIn</label>
                               <input
                                 type="text"
                                 className="form-control"
-                                name="inpe"
+                                name="linkedin"
                                 value={formData.linkedin || ""}
                                 onChange={handleInputChange}
                               />
                             </div>
                           </div>
-                          <div className="col-12">
-                            <div className="form-group">
-                              <label>Twitter</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="inpe"
-                                value={formData.twitter || ""}
-                                onChange={handleInputChange}
-                              />
-                            </div>
+                          <div className="col-12 mt-4">
+                            <label>Education</label>
+                            {formData.medicalStudies.map((education, index) => (
+                              <div key={index} className="form-group row">
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="annee"
+                                    placeholder="Année"
+                                    value={education.annee}
+                                    onChange={(e) => handleEducationChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="diplome"
+                                    placeholder="Diplôme"
+                                    value={education.diplome}
+                                    onChange={(e) => handleEducationChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="institut"
+                                    placeholder="Institut"
+                                    value={education.institut}
+                                    onChange={(e) => handleEducationChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <button type="button" onClick={() => removeEducationField(index)} className="btn btn-danger">
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                            <button type="button" onClick={addEducationField} className="btn btn-secondary">
+                              Add Education
+                            </button>
                           </div>
                           <div className="col-12">
                             <div className="form-group form-check">
