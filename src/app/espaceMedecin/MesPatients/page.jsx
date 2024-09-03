@@ -12,6 +12,7 @@ import {
   searchnormal,
 } from '../../../components/espaceMedecin/imagepath';
 import { useRouter } from 'next/navigation';
+import { jwtDecode } from "jwt-decode";
 
 const MesPatients = () => {
     const router = useRouter();
@@ -29,7 +30,6 @@ const MesPatients = () => {
         setData(response.data);
       } catch (error) {
         console.error(error);
-        router.push('/auth/medecins');
       }
     };
   
@@ -49,6 +49,24 @@ const MesPatients = () => {
           console.error(error);
       }
     };
+
+    function isTokenInvalidOrNotExist(token) {
+      if (typeof token !== 'string' || token.trim() === '') {
+        console.error('Token is invalid or does not exist');
+        return true; 
+      }
+      try {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+        if (decodedToken.exp && decodedToken.exp < currentTime) {
+          return true; 
+        }
+        return false; 
+      } catch (error) {
+        console.error("Error decoding token:", error);
+        return true; 
+      }
+    }
   
     const handleCheckboxChange = async (event, jeuneId) => {
       const favorite = event.target.checked;
@@ -147,7 +165,11 @@ const MesPatients = () => {
     };
   
     useEffect(() => {
-      getAllJeunes();
+      if (isTokenInvalidOrNotExist(token)) {
+        router.push('/auth/medecins');
+      } else {
+        getAllJeunes();
+      }
     }, []);
   
     return (
