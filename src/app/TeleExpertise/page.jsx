@@ -108,12 +108,12 @@ const Home = () => {
               <div className="col-sm-12">
                 <ul className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <Link href="/TeleExpertise">Page d'accueil </Link>
+                    <Link href="/TeleExpertise">Télé Expertise </Link>
                   </li>
                   <li className="breadcrumb-item">
                     <FeatherIcon icon="chevron-right" />
                   </li>
-                  <li className="breadcrumb-item active">tableau de bord</li>
+                  <li className="breadcrumb-item active">Tableau de bord</li>
                 </ul>
               </div>
             </div>
