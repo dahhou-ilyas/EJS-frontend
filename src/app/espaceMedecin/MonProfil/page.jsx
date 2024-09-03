@@ -8,13 +8,15 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import FeatherIcon from "feather-icons-react";
 import Sidebar from "../../../components/espaceMedecin/Sidebar1";
-import { getMedecinById } from "../../../services/medecinService";
 import { Profileuser, cameraicon } from "../../../components/espaceMedecin/imagepath";
 import "../../../assets/css/style.css";
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
+  const router = useRouter();
+
   const [medecin, setMedecin] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -28,17 +30,20 @@ const Page = () => {
   }, [user && user.claims.id]);
 
   const getMedecinData = (id) => {
-    axios.get('http://localhost:8080/medecins/' + id, {
+    if (id != null) {
+      axios.get('http://localhost:8080/medecins/' + id, {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    })
-    .then(res => {
-      setMedecin(res.data);
-    })
-    .catch(err => {
-      console.log(err);
-    })
+      })
+      .then(res => {
+        setMedecin(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+        router.push('/auth/medecins');
+      })
+    }
   }
 
   const handleFileChange = (event) => {

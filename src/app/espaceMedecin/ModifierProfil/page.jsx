@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import FeatherIcon from "feather-icons-react";
 import Sidebar from "../../../components/espaceMedecin/Sidebar1";
-// import { getMedecinById, updateMedecin } from "../../../services/medecinService";
 import { Profileuser, cameraicon } from "../../../components/espaceMedecin/imagepath";
 import "../../../assets/css/style.css";
 import { ToastContainer, toast } from "react-toastify";
