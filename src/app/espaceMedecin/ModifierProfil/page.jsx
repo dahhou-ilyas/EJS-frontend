@@ -11,8 +11,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const MonProfile = () => {
+  const router = useRouter();
   const [medecin, setMedecin] = useState(null);
   const [user, setUser] = useState(null);
   const token = localStorage.getItem('access-token');
@@ -39,13 +41,18 @@ const MonProfile = () => {
   const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
-    const decodedToken = jwtDecode(token);
-    setUser(decodedToken);
-    fetchMedecin();
+    if (isTokenInvalidOrNotExist(token)) {
+      router.push('/auth/medecins');
+    } else {
+      const decodedToken = jwtDecode(token);
+      setUser(decodedToken);
+      fetchMedecin();
+    }
   }, [user && user.claims.id]);
 
   const getMedecinData = (id) => {
-    axios.get('http://localhost:8080/medecins/' + 2, {
+    if (id != null) {
+      axios.get('http://localhost:8080/medecins/' + 2, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -72,7 +79,27 @@ const MonProfile = () => {
     })
     .catch(err => {
       console.log(err);
+      router.push('/auth/medecins');
     })
+    }
+  }
+
+  function isTokenInvalidOrNotExist(token) {
+    if (typeof token !== 'string' || token.trim() === '') {
+      console.error('Token is invalid or does not exist');
+      return true; 
+    }
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp && decodedToken.exp < currentTime) {
+        return true; 
+      }
+      return false; 
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return true; 
+    }
   }
 
   const handleEducationChange = (index, e) => {
