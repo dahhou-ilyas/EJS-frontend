@@ -15,7 +15,7 @@ const List_Lives = ({ toDashboard }) => {
 
   const fetcholdlives = async () => {
     // A optimiser: encore même problème
-    const datalive = await axios(`http://localhost:7000/streams?phase=outdated`)
+    const datalive = await axios(`http://localhost:8080/streams?phase=outdated`)
     setlivePrecedents(datalive.data)
     setLivesLoaded(true);
   }

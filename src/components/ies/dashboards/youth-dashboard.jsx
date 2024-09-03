@@ -9,8 +9,11 @@ import Live_Planification_Tracker from "@/components/ies/ui/live-planification-t
 import Post_Live_Banner from "@/components/ies/ui/banners/post-live-banner";
 
 import { carouselSlides } from "@/components/ies/utility/carousel-slides";
+import { jwtDecode } from 'jwt-decode';
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import Live_Banner from "../ui/banners/we-live-banner";
 
 const tabNames = {
     dashboard: 0,
@@ -18,26 +21,44 @@ const tabNames = {
     modifyLivePlanification: 4
 };
 
-const Youth_Dashboard = ({ name }) => {
+const Youth_Dashboard = () => {
     const [selectedTab, setSelectedTab] = useState(tabNames.dashboard);
 
     const showDashboard = () => { setSelectedTab(tabNames.dashboard); };
     const showAskQuestion = (lives) => {
-
-
         setSelectedTab(tabNames.askQuestion);
         setselectedLive(lives)
     };
     const showModifyLivePlanification = () => { setSelectedTab(tabNames.modifyLivePlanification); };
 
     const [liveCardStatus, setLiveCardStatus] = useState(null);
-    const [selectedLive, setselectedLive] = useState(null);
     const [lastLive, setLastLive] = useState(null);
+    const [ongoingLive, setOngoingLive] = useState(null);
+    const [selectedLive, setselectedLive] = useState(null);
+
+    const router = useRouter();
+    let [name, setName] = useState("User");
 
     useEffect(() => {
         const fetchLastLive = async () => {
+
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/jeunes");
+                return;
+            }
+
             try {
-                const response = await axios.get(`http://localhost:7000/jeune/${1}/streams/last`);
+                const decodedToken = jwtDecode(token);
+                const idJeune = decodedToken.claims.id;
+                setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
+
+                const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setLastLive(response.data);
             } catch (error) {
                 console.log(error);
@@ -47,13 +68,41 @@ const Youth_Dashboard = ({ name }) => {
         fetchLastLive();
     }, []);
 
+    useEffect(() => {
+        const fetchOngoingLive = async () => {
+
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/jeunes");
+                return;
+            }
+
+            try {
+                const response = await axios.get(`http://localhost:8080/streams/ongoing`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setOngoingLive(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchOngoingLive();
+    }, []);
+
     return (
         <>
-            {/*lastLive &&
-                <Link href="/youth/postLiveForm">
+            {lastLive &&
+                <Link href="/ies/youth/postLiveForm">
                     <Post_Live_Banner />
                 </Link>
-            */}
+            }
+            {ongoingLive &&
+                <Live_Banner lien={ongoingLive.lienYoutube} />
+            }
             {(selectedTab === tabNames.dashboard) &&
                 <div className="page-wrapper custom-wrapper-full-size mt-0 pt-0">
                     <div className="content d-xl-flex p-xl-0 py-0 my-0 pt-0 mt-0">
@@ -101,7 +150,7 @@ const Youth_Dashboard = ({ name }) => {
                             {/*<div style={{ paddingTop: '4px', paddingBottom: '4px' }}><Carousel slides={carouselSlides} /></div>*/}
                         </div>
 
-                        <Live_Timeline />
+                        <Live_Timeline isItForAdmin={false} />
                     </div>
                 </div>
             }
