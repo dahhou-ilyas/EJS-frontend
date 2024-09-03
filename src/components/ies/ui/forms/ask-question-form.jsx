@@ -6,6 +6,8 @@ import Link from 'next/link';
 import FeatherIcon from 'feather-icons-react/build/FeatherIcon';
 import TextAreaWithCharacterCount from '@/components/ies/ui/textarea-character-count';
 import { getAlertifyInstance } from '@/components/ies/utility/alertify-singleton';
+import { jwtDecode } from 'jwt-decode';
+import { useRouter } from 'next/navigation';
 
 const Ask_Question_Form = ({ showDashboard, liveData }) => {
 	const [alertify, setAlertify] = useState(null);
@@ -24,18 +26,41 @@ const Ask_Question_Form = ({ showDashboard, liveData }) => {
 		initializeAlertify();
 	}, []);
 
+	const router = useRouter();
+
 	const save = async (id, event) => {
 		try {
 			try {
-				event.preventDefault()
-				const question = { contenu: inputValue }
+				event.preventDefault();
 				if (inputValue.length <= 5)
 					throw new Error('empty question');
-				await axios.post(`http://localhost:7000/jeune/${1}/streams/${id}/questions`, question);
 
-				// Toast
-				if (alertify) {
-					alertify.success('<strong>This is a success message:</strong> done');
+				const token = localStorage.getItem("access-token");
+
+				if (!token) {
+					router.push("/auth/jeunes");
+					return;
+				}
+
+				try {
+					const decodedToken = jwtDecode(token);
+					const idJeune = decodedToken.claims.id;
+					const question = { contenu: inputValue };
+					await axios.post(`http://localhost:8080/jeune/${idJeune}/streams/${id}/questions`, question, {
+						headers: {
+							Authorization: `Bearer ${token}`
+						}
+					});
+
+					// Toast
+					if (alertify) {
+						alertify.success('<strong>This is a success message:</strong> done');
+					}
+				} catch (error) {
+					console.log(error);
+
+					// Toast
+					if (alertify) alertify.error(`<strong>This is an error message:</strong> ${error}`);
 				}
 			} catch (error) {
 				console.error("Error saving the live: " + error);

@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Live_Tracker_Card from '@/components/ies/ui/cards/live-tracker-card';
 import axios from 'axios';
 import Loading from '../utility/loading';
+import { jwtDecode } from 'jwt-decode';
+import { useRouter } from 'next/navigation';
 
 const liveItems = [
     { title: 'Introduction à la Télémédecine 3', planificationDate: '2024-12-15T10:00:00' },
@@ -28,7 +30,7 @@ export function sortByDate(list, reverse = false) {
     return list.sort((a, b) => {
         for (let i = 0; i < a.date.length; i++) {
             if (a.date[i] !== b.date[i]) {
-                return reverse? b.date[i] - a.date[i] : a.date[i] - b.date[i];
+                return reverse ? b.date[i] - a.date[i] : a.date[i] - b.date[i];
             }
         }
         return 0;
@@ -42,11 +44,36 @@ const Live_Planification_Tracker = ({ showModifyLivePlanification, setStatus, is
     const [finalPhase, setFinalPhase] = useState([])
 
 
+    const router = useRouter();
+    const [id, setId] = useState(1);
+
+    useEffect(() => {
+        const fetchLastLive = async () => {
+
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/jeunes");
+                return;
+            }
+
+            try {
+                const decodedToken = jwtDecode(token);
+                setId(decodedToken.claims.id);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchLastLive();
+    }, []);
+
+
     const fetching = async () => {
         try {
-            const response1 = await axios(`http://localhost:7000/admins/${1}/streams?phase=notactivated`)
-            const response2 = await axios(`http://localhost:7000/admins/${1}/streams?phase=question`)
-            const response3 = await axios(`http://localhost:7000/admins/${1}/streams?phase=final`)
+            const response1 = await axios(`http://localhost:8080/admins/${id}/streams?phase=notactivated`)
+            const response2 = await axios(`http://localhost:8080/admins/${id}/streams?phase=question`)
+            const response3 = await axios(`http://localhost:8080/admins/${id}/streams?phase=final`)
             const phase1 = await response1.data;
             const phase2 = await response2.data;
             const phase3 = await response3.data;
@@ -60,8 +87,8 @@ const Live_Planification_Tracker = ({ showModifyLivePlanification, setStatus, is
     }
     const fetchingforuser = async () => {
         try {
-            const response1 = await axios(`http://localhost:7000/jeune/${1}/streams?phase=question&limit=1`)
-            const response2 = await axios(`http://localhost:7000/jeune/${1}/streams?phase=final&limit=1`)
+            const response1 = await axios(`http://localhost:8080/jeunes/${id}/streams?phase=question&limit=1`)
+            const response2 = await axios(`http://localhost:8080/jeunes/${id}/streams?phase=final&limit=1`)
             const phase1 = await response1.data;
             const phase2 = await response2.data;
             setQuestionPhase(sortByDate(phase1));

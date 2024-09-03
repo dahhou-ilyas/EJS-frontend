@@ -12,8 +12,10 @@ import DoctorSelectionForm from "@/components/TeleExpertise/DoctorSelectionForm"
 import { decodeToken } from "@/utils/docodeToken";
 import { createDiscussion } from "@/services/discussionService";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Formulaire = () => {
+  const router = useRouter()
   const [isConsentChecked, setIsConsentChecked] = useState(false);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
@@ -247,7 +249,10 @@ const Formulaire = () => {
     const specialitesDemandees = selectedOptions.map(op => op.label)
     
     const date1 = new Date(date)
-    date1.setTime(time)
+    date1.setHours(new Date(time).getHours())
+    date1.setMinutes(new Date(time).getMinutes())
+    date1.setSeconds(new Date(time).getSeconds())
+  
     const timeHours = (new Date(time).getHours()).toString().length === 1 ? ("0" + new Date(time).getHours()) : "" + new Date(time).getHours()
     const timeMinutes = (new Date(time).getMinutes()).toString().length === 1 ? ("0" + new Date(time).getMinutes()) : "" + new Date(time).getMinutes()
 
@@ -275,6 +280,7 @@ const Formulaire = () => {
       const res = await createDiscussion(token, discussion)
       await handleUpload(res.id)
       toast.success("La discussion est bien créé")
+      router.push("/TeleExpertise/Discussions")
     } catch (error) {
       toast.error("Quelque chose s'est mal passé, veuillez réessayer")
     }
@@ -385,7 +391,7 @@ const Formulaire = () => {
                         <div className="row">
                           <div className="col-md-5 mx-auto">
                             <label className="col-md-6 col-form-label">
-                              Prénom du Patient
+                              Prénom du Patient*
                             </label>
                             <div
                               className="form-group row"
@@ -401,7 +407,7 @@ const Formulaire = () => {
                               </div>
                             </div>
                             <label className="col-md-3 col-form-label">
-                              Sexe
+                              Sexe*
                             </label>
                             <div
                               className="form-group row"
@@ -445,7 +451,7 @@ const Formulaire = () => {
                               </div>
                             </div>
                             <label className="col-md-6 col-form-label">
-                              Identifiant
+                              Identifiant*
                             </label>
                             <div className="form-group row">
                               <div className="col-md-9">
@@ -462,7 +468,7 @@ const Formulaire = () => {
                           </div>
                           <div className="col-md-5">
                             <label className="col-md-6 col-form-label">
-                              Nom du Patient
+                              Nom du Patient*
                             </label>
                             <div className="form-group row">
                               <div className="col-md-9">
@@ -478,7 +484,7 @@ const Formulaire = () => {
                               htmlFor="birthdate"
                               className="col-md-6 col-form-label"
                             >
-                              Date de naissance
+                              Date de naissance*
                             </label>
                             <div className="form-group row">
                               <div className="col-md-9">
@@ -492,7 +498,7 @@ const Formulaire = () => {
                               </div>
                             </div>
                             <label className="col-md-6 col-form-label">
-                              {age < 16 ? "Code Massar" : "CIN"}
+                              {age < 16 ? "Code Massar*" : "CIN*"}
                             </label>
                             <div className="form-group row">
                               <div className="col-md-9">
@@ -508,7 +514,7 @@ const Formulaire = () => {
                         </div>
                         <div className="col-md-10 mx-auto">
                           <label className="col-md-10 col-form-label">
-                            Motif de la TéléExpertise
+                            Motif de la TéléExpertise*
                           </label>
                           <div className="form-group row">
                             <div

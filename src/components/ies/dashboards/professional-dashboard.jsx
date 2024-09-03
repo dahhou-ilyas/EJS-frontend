@@ -8,6 +8,8 @@ import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import Data_Table from "@/components/ies/ui/tables/schedule-table";
 import { DATA } from "@/components/ies/ui/tables/schedule-data";
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from 'jwt-decode';
 
 /*const doneLives = livesData.filter(event => dayjs(event.Date).add(1, "hours").add(30, "minutes").isBefore(dayjs()));
 const notDoneYetLives = livesData.filter(event => dayjs(event.Date).add(1, "hours").add(30, "minutes").isAfter(dayjs()));*/
@@ -32,7 +34,7 @@ const tabNames = {
     linkAndQuestions: 1
 };
 
-const Professional_Dashboard = ({ name }) => {
+const Professional_Dashboard = () => {
     const [doneLives, setdoneLives] = useState([])
     const [notDoneYetLives, setDoneYetLive] = useState([]);
     const [selectedTab, setSelectedTab] = useState(tabNames.dashboard);
@@ -43,23 +45,49 @@ const Professional_Dashboard = ({ name }) => {
         const questions = LiveSelected.questions;
         setLiveSelect(LiveSelected)
         setquestionreceive(questions)
-
         setSelectedTab(tabNames.linkAndQuestions);
     };
-    const fetchQuestions = async () => {
-        const { fetch1, fetch2 } = DATA();
+    const fetchQuestions = async (token, id) => {
+        const { fetch1, fetch2 } = DATA(token, id);
         const data1 = await fetch1();
         const data2 = await fetch2();
         setDoneYetLive(data1)
         setdoneLives(data2)
 
     }
+    const router = useRouter();
+    let [name, setName] = useState("User");
     useEffect(
         () => {
-            fetchQuestions();
+
+            const init = async () => {
+
+                const token = localStorage.getItem("access-token");
+
+                if (!token) {
+                    router.push("/auth/professionnels");
+                    return;
+                }
+
+                try {
+                    const decodedToken = jwtDecode(token);
+                    const id = decodedToken.claims.id;
+                    setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
+                    fetchQuestions(token, id);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+
+            init();
         }
         , [])
 
+
+    const handleRedirect = (lienStreamYard) => {
+        const url = lienStreamYard.startsWith('http') ? lienStreamYard : `https://${lienStreamYard}`;
+        window.location.href = url;
+    };
 
     return (
         <>
@@ -136,7 +164,7 @@ const Professional_Dashboard = ({ name }) => {
                                     <div className="col-12 p-4 pb-0">
                                         <div className="form-heading mb-4 pb-4">
                                             <h4 className="mb-4">Lien StreamYard</h4>
-                                            <a href={LiveSelect.lienStreamYard}>Veuillez cliquer ici pour joindre le Live quand c'est le moment.</a>
+                                            <a href="#" onClick={(e) => { e.preventDefault(); handleRedirect(LiveSelect.lienStreamYard); }}>Veuillez cliquer ici pour joindre le Live quand c'est le moment.</a>
                                         </div>
                                         <div className="form-heading">
                                             <h4 className="mb-4">Questions des jeunes (résumés par l'IA e-ESJ)</h4>

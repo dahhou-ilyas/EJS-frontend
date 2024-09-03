@@ -2,17 +2,26 @@
 import { useState, useEffect } from "react";
 import "@/assets/css/style.css";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
+
 const DiscussionPlanifiee = ({
+  discussionId,
   title,
   MainDoctor,
   neededSpecialities,
   date,
   time,
+  type,
 }) => {
+  const router = useRouter();
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   const joinDiscussion = () => {
-    
+    if(type === "CHAT") {
+      router.push("/TeleExpertise/ChatMeeting/${discussionId}")
+    } else if (type === "APPEL_VIDEO") {
+      router.push("/TeleExpertise/AppelVideo/${discussionId}")
+    }
   }
 
   return (

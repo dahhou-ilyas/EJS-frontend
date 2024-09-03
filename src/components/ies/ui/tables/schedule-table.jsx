@@ -34,7 +34,7 @@ const Data_Table = ({ livesData, showLinkAndQuestions, defaultSorting }) => {
       render: (dateTime) => {
         const dateTimeString = convertDateArrayToString(dateTime);
 
-        const formattedDateP1 = dayjs(dateTimeString).format('YYYY-MM-DD');
+        const formattedDateP1 = dayjs(dateTimeString).format('DD-MM-YYYY');
         const formattedDateP2 = dayjs(dateTimeString).format('HH:mm');
         return (
           <span style={{ display: 'flex', justifyContent: 'flex-start', fontSize: 'calc(1em + 0.2vw)' }}>
@@ -76,8 +76,8 @@ const Data_Table = ({ livesData, showLinkAndQuestions, defaultSorting }) => {
         }).toString();
 
         return !areStatsAvailable ? (
-          <Link href={`/professional/stats?${queryParams}`} style={{ fontSize: 'calc(1em + 0.2vw)' }}>
-            Disponibles
+          <Link href={`/ies/professional/stats?${queryParams}`} style={{ fontSize: 'calc(1em + 0.2vw)' }}>
+            Cliquez ici
           </Link>
         ) : (
           <p style={{ fontSize: 'calc(1em + 0.2vw)' }}>Non disponibles</p>
