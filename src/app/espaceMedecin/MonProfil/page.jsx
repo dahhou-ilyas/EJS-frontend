@@ -16,7 +16,6 @@ import { useRouter } from 'next/navigation';
 
 const Page = () => {
   const router = useRouter();
-
   const [medecin, setMedecin] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -24,9 +23,13 @@ const Page = () => {
   const token = localStorage.getItem('access-token');
 
   useEffect(() => {
-    const decodedToken = jwtDecode(token);
-    setUser(decodedToken);
-    fetchMedecin();
+    if (isTokenInvalidOrNotExist(token)) {
+      router.push('/auth/medecins');
+    } else {
+      const decodedToken = jwtDecode(token);
+      setUser(decodedToken);
+      fetchMedecin();
+    }
   }, [user && user.claims.id]);
 
   const getMedecinData = (id) => {
@@ -43,6 +46,24 @@ const Page = () => {
         console.log(err);
         router.push('/auth/medecins');
       })
+    }
+  }
+
+  function isTokenInvalidOrNotExist(token) {
+    if (typeof token !== 'string' || token.trim() === '') {
+      console.error('Token is invalid or does not exist');
+      return true; 
+    }
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp && decodedToken.exp < currentTime) {
+        return true; 
+      }
+      return false; 
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return true; 
     }
   }
 
