@@ -7,6 +7,8 @@ import { useSearchParams } from "next/navigation";
 import "@/assets/css/style.css";
 // import "@/assets/css/links.css";
 // import "@/assets/css/patient.css";
+import {jwtDecode} from 'jwt-decode';
+import axios from "axios";
 
 import FeatherIcon from "feather-icons-react";
 
@@ -44,9 +46,17 @@ const Patient = ({params}) => {
 
   useEffect(() => {
     console.log(search);
+    console.log('params \n'+params);
+    console.log(`id from params is ${id}`);
     if (id) {
-      // Remplacez l'URL par celle de votre API ou de votre backend
-      fetch(`http://localhost:8080/jeunes/` + id)
+    const accessToken = localStorage.getItem('access-token');
+    const decodedAccessToken = jwtDecode(accessToken);
+    // console.log(`decoded token `,decodedAccessToken);
+    axios.get("http://localhost:8080/jeunes/"+id, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
         .then(response => response.json())
         .then(data => setPatient(data))
         .catch(error => console.error('Error fetching patient:', error));
