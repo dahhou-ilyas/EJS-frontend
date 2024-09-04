@@ -51,14 +51,14 @@ const Patient = ({params}) => {
     if (id) {
     const accessToken = localStorage.getItem('access-token');
     const decodedAccessToken = jwtDecode(accessToken);
-    // console.log(`decoded token `,decodedAccessToken);
+    console.log(`decoded token `,decodedAccessToken);
     axios.get("http://localhost:8080/jeunes/"+id, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-        .then(response => response.json())
-        .then(data => setPatient(data))
+        // .then(response => response.json()) pas besoin de conversion json pour axios ;)
+        .then(data => {setPatient(data);console.log(data)})
         .catch(error => console.error('Error fetching patient:', error));
     }
   }, [id]);
