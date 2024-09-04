@@ -2,24 +2,13 @@
 import "../../assets/css/style.css";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import axios from "axios";
 import Sidebar from "../../components/espaceMedecin/Sidebar1";
-import { morning_img_02, bu, gp, tv, cb ,i} from "../../components/espaceMedecin/imagepath";
+import { bu, gp, tv, cb ,i} from "../../components/espaceMedecin/imagepath";
 import { useRouter } from 'next/navigation';
 import { Card } from "antd";
 import Live_list from "../../components/espaceMedecin/Live_list";
-import * as bootstrap from "bootstrap";
 import { jwtDecode } from "jwt-decode";
-
-// const appointments = [
-//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-//   { day: "Wednesday", hour: "2:00 PM", patient: "Jane Smith" },
-//   { day: "Friday", hour: "1:00 PM", patient: "Bob Johnson" },
-//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-// ];
 
 const Home = () => {
   const router = useRouter();
@@ -34,11 +23,6 @@ const Home = () => {
     if (isTokenInvalidOrNotExist(token)) {
       router.push('/auth/medecins');
     } else {
-      window.bootstrap = bootstrap;
-      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-      const tooltipList = [...tooltipTriggerList].map(
-        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-      );
       getFavoritePatients();
       const decodedToken = jwtDecode(token);
       setUser(decodedToken);
@@ -208,52 +192,12 @@ const Home = () => {
                       </div>
                   </div>
               </div>
+            </div>
           </div>
-      </div>
-   <div></div>
-            <div></div>
-          </div>
-
-          <div>
-            <div></div>
-            <div></div>
           </div>
           <p style={{ marginTop: "3rem", fontWeight: "550" }}></p>
           <div className="row d-flex flex-column flex-xl-row">
             <div >
-              {/* <p style={{ fontWeight: '550' }}>Rendez-vous</p> */}
-              {/* <div className="d-flex flex-row mt-4">
-              <i className="fa fa-calendar" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
-                <p className="mx-2" style={{ fontWeight: '550' }}>Rendez-vous</p>
-              </div>
-              <Card className="custom-card" style={{ height: "600px", display: 'flex', justifyContent: 'center', alignItems: 'center' , width:"700px" }}>
-                <div className="card-bodyy" >
-                  <h5 className="card-title">À venir</h5>
-                  {appointments.map((appointment, index) => (
-                    <div key={index} className="appointment">
-                      <p className="appointment-details">
-                        <span><strong>Jour:</strong> {appointment.day}</span>
-                        <span><strong>Heure:</strong> {appointment.hour}</span>
-                        <span><strong>Nom du patient:</strong> {appointment.patient}</span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-              <Card className="custom-card" style={{ height: "600px", display: 'flex', justifyContent: 'center', alignItems: 'center', width:"700px" }}>
-                <div className="card-bodyy">
-                  <h5 className="card-title">Dernières consultations</h5>
-                  {appointments.map((appointment, index) => (
-                    <div key={index} className="appointment">
-                      <p className="appointment-details">
-                        <span><strong>Jour:</strong> {appointment.day}</span>
-                        <span><strong>Heure:</strong> {appointment.hour}</span>
-                        <span><strong>Nom du patient:</strong> {appointment.patient}</span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Card> */}
                <div className="row d-flex flex-column flex-xl-row">
             <div className="top-left-content">
               <div className="d-flex flex-row mt-4">
