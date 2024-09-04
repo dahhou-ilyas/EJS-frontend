@@ -523,7 +523,7 @@ const MonProfile = () => {
                                       <p style={{ fontSize: '15px' }}>Année
                                       <span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}></span></p>
+                                       userSelect: 'none',}}>ettFormation</span></p>
                                     </label>
                                   )}
                                   <input
@@ -555,7 +555,7 @@ const MonProfile = () => {
                                     <label className="gen-label">
                                       <p style={{ fontSize: '15px' }}>Institut<span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}></span></p>
+                                       userSelect: 'none',}}>etFormation</span></p>
                                     </label>
                                   )}
                                   <input
@@ -572,7 +572,7 @@ const MonProfile = () => {
                                     <label className="gen-label">
                                     <span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}>Institut</span>
+                                       userSelect: 'none',}}>etFormationnnnn</span>
                                     </label>
                                   )}
                                   <button
@@ -638,7 +638,7 @@ const MonProfile = () => {
                                       <p style={{ fontSize: '15px' }}>Année
                                       <span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}></span></p>
+                                       userSelect: 'none',}}>etFormationn</span></p>
                                     </label>
                                   )}
                                   <input
@@ -656,7 +656,7 @@ const MonProfile = () => {
                                       <p style={{ fontSize: '15px' }}>Poste
                                       <span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}></span>
+                                       userSelect: 'none',}}>etFormationn</span>
                                       </p>
                                     </label>
                                   )}
@@ -675,7 +675,7 @@ const MonProfile = () => {
                                       <p style={{ fontSize: '15px' }}>Lieu de travail
                                       <span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}>//....</span>
+                                       userSelect: 'none',}}>etFn</span>
                                       </p>
                                     </label>
                                   )}
@@ -694,7 +694,7 @@ const MonProfile = () => {
                                     <span style={{color:'white',
                                        visibility: 'hidden',
                                        userSelect: 'none',
-                                       marginRight:'1px'}}>Institut</span>
+                                       marginRight:'1px'}}>etFormationnnnn</span>
                                     </label>
                                   )}
                                   <button
