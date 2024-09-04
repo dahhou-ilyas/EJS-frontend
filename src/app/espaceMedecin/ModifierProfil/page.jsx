@@ -570,30 +570,30 @@ const MonProfile = () => {
                                     </label>
                                   )}
                                   <button
-  type="button"
-  onClick={() => removeEducationField(index)}
-  style={{
-    backgroundColor: '#e74c3c', // Red color
-    color: '#fff',
-    border: 'none',
-    padding: '8px 16px',
-    borderRadius: '5px',
-    fontSize: '15px',
-    boxShadow: '0 4px #c0392b', // 3D effect with shadow
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-  }}
-  onMouseDown={(e) => {
-    e.currentTarget.style.boxShadow = '0 2px #c0392b';
-    e.currentTarget.style.transform = 'translateY(2px)';
-  }}
-  onMouseUp={(e) => {
-    e.currentTarget.style.boxShadow = '0 4px #c0392b';
-    e.currentTarget.style.transform = 'translateY(0)';
-  }}
->
-  Remove
-</button>
+                                    type="button"
+                                    onClick={() => removeEducationField(index)}
+                                    style={{
+                                      backgroundColor: '#e74c3c', // Red color
+                                      color: '#fff',
+                                      border: 'none',
+                                      padding: '8px 16px',
+                                      borderRadius: '5px',
+                                      fontSize: '15px',
+                                      boxShadow: '0 4px #c0392b', // 3D effect with shadow
+                                      cursor: 'pointer',
+                                      transition: 'all 0.3s ease',
+                                    }}
+                                    onMouseDown={(e) => {
+                                      e.currentTarget.style.boxShadow = '0 2px #c0392b';
+                                      e.currentTarget.style.transform = 'translateY(2px)';
+                                    }}
+                                    onMouseUp={(e) => {
+                                      e.currentTarget.style.boxShadow = '0 4px #c0392b';
+                                      e.currentTarget.style.transform = 'translateY(0)';
+                                    }}
+                                  >
+                                    Remove
+                                  </button>
 
                                 </div>
                               </div>
@@ -611,8 +611,8 @@ const MonProfile = () => {
                                   paddingRight: '120px',
                                   borderRadius: '10px',
                                   fontSize: '15px',
-                                  marginTop:'10px',
-                                  marginBottom :'20px'
+                                  marginTop: '10px',
+                                  marginBottom: '20px'
                                 }}
                               >
                                 + Diplôme
@@ -622,112 +622,112 @@ const MonProfile = () => {
 
 
                           <div className="col-12 col-md-6 col-xxl-9">
-  <label className="gen-label">
-    <b>Expérience :</b>
-  </label>
-  {formData.medicalExperience.map((experience, index) => (
-    <div key={index} className="form-group row">
-      <div className="col-md-3">
-        {index === 0 && (
-          <label className="gen-label">
-            <p style={{ fontSize: '15px' }}>Année</p>
-          </label>
-        )}
-        <input
-          type="text"
-          className="form-control"
-          name="annee"
-          placeholder="Année"
-          value={experience.annee}
-          onChange={(e) => handleExperienceChange(index, e)}
-        />
-      </div>
-      <div className="col-md-3">
-        {index === 0 && (
-          <label className="gen-label">
-            <p style={{ fontSize: '15px' }}>Poste</p>
-          </label>
-        )}
-        <input
-          type="text"
-          className="form-control"
-          name="poste"
-          placeholder="Poste"
-          value={experience.poste}
-          onChange={(e) => handleExperienceChange(index, e)}
-        />
-      </div>
-      <div className="col-md-3">
-        {index === 0 && (
-          <label className="gen-label">
-            <p style={{ fontSize: '15px' }}>Lieu de travail</p>
-          </label>
-        )}
-        <input
-          type="text"
-          className="form-control"
-          name="lieu"
-          placeholder="Lieu de travail"
-          value={experience.lieu}
-          onChange={(e) => handleExperienceChange(index, e)}
-        />
-      </div>
-      <div className="col-md-3">
-        {index === 0 && (
-          <label className="gen-label">
-            <p style={{ fontSize: '15px' }}>&nbsp;</p> {/* Empty label space */}
-          </label>
-        )}
-        <button
-          type="button"
-          onClick={() => removeExperienceField(index)}
-          style={{
-            backgroundColor: '#e74c3c', // Red color
-            color: '#fff',
-            border: 'none',
-            padding: '8px 16px',
-            borderRadius: '5px',
-            fontSize: '15px',
-            boxShadow: '0 4px #c0392b', // 3D effect with shadow
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-          }}
-          onMouseDown={(e) => {
-            e.currentTarget.style.boxShadow = '0 2px #c0392b';
-            e.currentTarget.style.transform = 'translateY(2px)';
-          }}
-          onMouseUp={(e) => {
-            e.currentTarget.style.boxShadow = '0 4px #c0392b';
-            e.currentTarget.style.transform = 'translateY(0)';
-          }}
-        >
-          Remove
-        </button>
-      </div>
-    </div>
-  ))}
-  <div className="col-md-4">
-    <button
-      type="button"
-      onClick={addExperienceField}
-      style={{
-        border: '2px dashed black',
-        paddingTop: '6px',
-        paddingBottom: '6px',
-        paddingLeft: '120px',
-        paddingRight: '120px',
-        borderRadius: '10px',
-        fontSize: '15px',
-        marginTop:'10px',
-        marginBottom :'30px'
-      }}
-    >
-      +Expérience
-    </button>
-  </div>
-</div>
-<h4 style={{ marginBottom: '40px' }}>Paramètres de sécurité </h4>
-<div className="col-12">
+                            <label className="gen-label">
+                              <b>Expérience :</b>
+                            </label>
+                            {formData.medicalExperience.map((experience, index) => (
+                              <div key={index} className="form-group row">
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                      <p style={{ fontSize: '15px' }}>Année</p>
+                                    </label>
+                                  )}
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="annee"
+                                    placeholder="Année"
+                                    value={experience.annee}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                      <p style={{ fontSize: '15px' }}>Poste</p>
+                                    </label>
+                                  )}
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="poste"
+                                    placeholder="Poste"
+                                    value={experience.poste}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                      <p style={{ fontSize: '15px' }}>Lieu de travail</p>
+                                    </label>
+                                  )}
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="lieu"
+                                    placeholder="Lieu de travail"
+                                    value={experience.lieu}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                      <p style={{ fontSize: '15px' }}>&nbsp;</p> {/* Empty label space */}
+                                    </label>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={() => removeExperienceField(index)}
+                                    style={{
+                                      backgroundColor: '#e74c3c', // Red color
+                                      color: '#fff',
+                                      border: 'none',
+                                      padding: '8px 16px',
+                                      borderRadius: '5px',
+                                      fontSize: '15px',
+                                      boxShadow: '0 4px #c0392b', // 3D effect with shadow
+                                      cursor: 'pointer',
+                                      transition: 'all 0.3s ease',
+                                    }}
+                                    onMouseDown={(e) => {
+                                      e.currentTarget.style.boxShadow = '0 2px #c0392b';
+                                      e.currentTarget.style.transform = 'translateY(2px)';
+                                    }}
+                                    onMouseUp={(e) => {
+                                      e.currentTarget.style.boxShadow = '0 4px #c0392b';
+                                      e.currentTarget.style.transform = 'translateY(0)';
+                                    }}
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                            <div className="col-md-4">
+                              <button
+                                type="button"
+                                onClick={addExperienceField}
+                                style={{
+                                  border: '2px dashed black',
+                                  paddingTop: '6px',
+                                  paddingBottom: '6px',
+                                  paddingLeft: '120px',
+                                  paddingRight: '120px',
+                                  borderRadius: '10px',
+                                  fontSize: '15px',
+                                  marginTop: '10px',
+                                  marginBottom: '30px'
+                                }}
+                              >
+                                +Expérience
+                              </button>
+                            </div>
+                          </div>
+                          <h4 style={{ marginBottom: '40px' }}>Paramètres de sécurité </h4>
+                          <div className="col-12">
                             <div className="form-group">
                               <label>Mot de passe</label>
                               <input

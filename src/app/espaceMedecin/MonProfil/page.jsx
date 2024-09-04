@@ -248,13 +248,13 @@ const Page = () => {
                           </div>
                           <div className="col-xl-3 col-md-6 mt-3">
                             <div className="detail-personal">
-                              <h2>Généraliste ?</h2>
+                              <h2>Généraliste </h2>
                               <h3>{medecin.estGeneraliste ? "Oui" : "Non"}</h3>
                             </div>
                           </div>
                           <div className="col-xl-3 col-md-6 mt-3">
                             <div className="detail-personal">
-                              <h2>Médecin ESJ ?</h2>
+                              <h2>Médecin ESJ </h2>
                               <h3>{medecin.estMedcinESJ ? "Oui" : "Non"}</h3>
                             </div>
                           </div>
@@ -309,7 +309,7 @@ const Page = () => {
                             <thead>
                               <tr>
                                 <th>Année</th>
-                                <th>Hôpital</th>
+                                <th>Lieu de travail</th>
                                 <th>Poste</th>
                               </tr>
                             </thead>
