@@ -182,6 +182,7 @@ const Discussions = () => {
                         {discussionsTerminees.map((discussion) => (
                           <DiscussionTerminee
                             key={discussion.id}
+                            discussionId={discussion.id}
                             title={discussion.titre}
                             MainDoctor={"Dr. " + discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
                             DoctorsWhoAttended={

@@ -12,6 +12,8 @@ import { decodeToken } from "@/utils/docodeToken";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
+import pdfIcon from "@/assets/img/icons/pdf-icon.png";
+import docIcon from "@/assets/img/icons/doc-icon.png";
 
 const ChatMeeting = ({ params }) => {
   const router = useRouter()
@@ -44,7 +46,8 @@ const ChatMeeting = ({ params }) => {
       const subscription2 = stompClient.subscribe(
         `/topic/discussion/${params.discussionId}/ended`,
         (message) => {
-          if (userId === discussion.medcinConsulte.id) {
+          const messageBody = JSON.parse(message.body);
+          if (userId === messageBody.medcinConsulteId) {
             toast.success("La discussion est terminée.")
             router.push(`/TeleExpertise/Report/${params.discussionId}`)
           } else {
@@ -61,6 +64,12 @@ const ChatMeeting = ({ params }) => {
     }
   }, [isConnected, stompClient]);
 
+  const fetchFiles = async () => {
+    const response = await fetch(`/api/upload?id=${params.discussionId}`);
+    const data = await response.json();
+    setFileList(data.files);
+  };
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -70,6 +79,11 @@ const ChatMeeting = ({ params }) => {
         await connect(token);
         const res = await getDiscussion(token, params.discussionId);
         setDiscussion(res)
+        if (res.status !== "EN_COURS") {
+          router.push("/TeleExpertise")
+        } else {
+          fetchFiles()
+        }
       } catch (error) {
         router.push("/TeleExpertise")
         console.log(error.message)
@@ -77,17 +91,6 @@ const ChatMeeting = ({ params }) => {
     }
     fetchData()
   }, [])
-
-
-  useEffect(() => {
-    const fetchFiles = async () => {
-      const response = await fetch(`/api/upload?id=${params.discussionId}`);
-      const data = await response.json();
-      setFileList(data.files);
-    };
-
-    fetchFiles();
-  }, []);
 
   const sendMessage = () => {
     if (stompClient && isConnected) {
@@ -172,7 +175,7 @@ const ChatMeeting = ({ params }) => {
               <div className="row">
                 <div className="col-sm-12">
                   <ul className="breadcrumb">
-                  <li className="breadcrumb-item">
+                    <li className="breadcrumb-item">
                       <Link href="/TeleExpertise">Télé Expertise </Link>
                     </li>
                     <li className="breadcrumb-item">
@@ -246,7 +249,6 @@ const ChatMeeting = ({ params }) => {
                   ))}
                 </div>
               )}
-              <div className="DiscussionTraitement">{discussion.Traitement}</div>
               {fileList.length > 0 && (
                 <div>
                   <div className="Fichiers">Fichiers Attachés</div>
@@ -284,6 +286,14 @@ const ChatMeeting = ({ params }) => {
                         )}
                       </div>
                     ))}
+                    {discussion.commentaireFichiers != "" && (
+                      <div>
+                        <div className="Traitements">Commentaire Fichiers</div>
+                        <div className="DiscussionMotif">
+                          {discussion.commentaireFichiers}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}

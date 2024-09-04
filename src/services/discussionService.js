@@ -225,7 +225,7 @@ export const createCompteRendu = async (token, compterendu) => {
                 Authorization: `Bearer ${token}`
             }
           })
-        if (response.status === 200) {
+        if (response.status === 201) {
           return response.data;
         } else {
           throw new Error("Failed to create the report");

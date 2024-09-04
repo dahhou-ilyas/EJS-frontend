@@ -57,9 +57,9 @@ const DiscussionCree = ({
   return (
     <tr className="discussion-cree-item">
       <td style={{ fontWeight: "800", color: "#2f38a3" }}>{title}</td>
-      <td>{neededSpecialities.join(", ")}</td>
-      <td>{acceptedInvitations.join(", ")}</td>
-      <td>{rejectedInvitations.join(", ")}</td>
+      <td>{neededSpecialities.length > 0 ? neededSpecialities.join(", "): "__"}</td>
+      <td>{acceptedInvitations.length > 0 ? acceptedInvitations.join(", "): "__"}</td>
+      <td>{rejectedInvitations.length > 0 ? rejectedInvitations.join(", "): "__"}</td>
       <td
         style={{
           fontWeight: "600",

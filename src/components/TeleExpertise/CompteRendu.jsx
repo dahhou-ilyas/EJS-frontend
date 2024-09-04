@@ -22,9 +22,9 @@ const PrintableComponent = React.forwardRef((props, ref) => {
       ref={ref}
       style={{
         padding: "20mm",
-        background: "white",
-        width: "210mm",
-        minHeight: "297mm",
+        //background: "white",
+        //width: "210mm",
+        //minHeight: "297mm",
         boxSizing: "border-box",
         fontFamily: "Arial, sans-serif",
         fontSize: "12pt",

@@ -2,6 +2,8 @@
 import "@/assets/css/style.css";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { pdficon } from "./imagepath";
 
 const DiscussionPlanifiee = ({
   discussionId,
@@ -23,11 +25,15 @@ const DiscussionPlanifiee = ({
     }
   }
 
+  const handleDownload = () => {
+    router.push(`/TeleExpertise/Report/${discussionId}`)
+  };
+
   return (
     <tr className="discussion-cree-item">
       <td style={{ fontWeight: "800", color: "#2f38a3" }}>{title}</td>
       <td style={{ fontWeight: "500" }}>{MainDoctor}</td>
-      <td>{neededSpecialities.join(", ")}</td>
+      <td>{neededSpecialities.length > 0 ? neededSpecialities.join(", "): "__"}</td>
 
       <td
         style={{
@@ -40,7 +46,20 @@ const DiscussionPlanifiee = ({
       <td style={{ fontWeight: "600", color: "#03D2C5" }}>{time}</td>
       <td>
         {
-          status === "TERMINEE" || status === "ANNULEE"? 
+          status === "TERMINEE"? 
+          <button
+            type="button"
+            className="download-button"
+            onClick={handleDownload}
+          >
+            <Image
+              src={pdficon}
+              alt="Download"
+              style={{ height: "20px", width: "20px", margin: "0 auto" }}
+            />
+            <p style={{margin: "0"}}>{status}</p>
+          </button>:
+          status === "ANNULEE" ?
           status:
           status === "EN_COURS"?
           <button

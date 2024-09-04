@@ -28,14 +28,18 @@ const Report = ({ params }) => {
         const decodedToken = decodeToken(token)
         const userId = decodedToken.claims.id
         const res = await getDiscussion(token, params.discussionId);
-        console.log(res.compteRendu)
-
+        
         if(res.status !== "TERMINEE" ) {
           router.push("/TeleExpertise")
         }
 
+        if(res.compteRendu) {
+          setIsReportReady(true)
+          setConclusion(res.compteRendu.conclusion)
+        }
+
         if(res.medcinConsulte.id !== userId) {
-          if(res.participants.map(p => p.id).contains(userId) || res.medcinResponsable.id === userId) {
+          if(res.participants.map(p => p.id).includes(userId) || res.medcinResponsable.id === userId) {
             setIsReportReady(true)
           } else {
             router.push("/TeleExpertise")
@@ -99,6 +103,12 @@ const Report = ({ params }) => {
                 <div className="col-sm-12">
                   <ul className="breadcrumb">
                     <li className="breadcrumb-item">
+                      <Link href="/TeleExpertise">Télé Expertise </Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                      <FeatherIcon icon="chevron-right" />
+                    </li>
+                    <li className="breadcrumb-item">
                       <Link href="/TeleExpertise/Discussions">Disscusions</Link>
                     </li>
                     <li className="breadcrumb-item">
@@ -153,19 +163,29 @@ const Report = ({ params }) => {
                           //discussion={discussion}
                           conclusion={conclusion}
                         />
-                        <div className="mt-3 text-center">
-                          <button
-                            onClick={handleExport}
-                            type="button"
-                            className="btn btn-primary"
-                          >
-                            Télécharger le rapport
-                          </button>
-                        </div>
+                        
                       </>
                     )}
                   </div>
                 </div>
+                {
+                  isReportReady ?
+                  <div className="text-center">
+                    <button
+                      onClick={handleExport}
+                      type="button"
+                      className="btn btn-primary"
+                      style={{
+                        width: "180px",
+                        borderRadius: "5px",
+                        marginBottom: "10px"
+                      }}
+                    >
+                      Télécharger le rapport
+                    </button>
+                  </div>
+                  : null
+                }
               </div>
             </div>
           </div>
