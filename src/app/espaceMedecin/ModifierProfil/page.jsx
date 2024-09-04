@@ -514,7 +514,7 @@ const MonProfile = () => {
                           </div>
                           <div className="col-12 col-md-6 col-xxl-9">
                             <label className="gen-label">
-                              <b>Éducation :</b>
+                              <label>Éducation</label>
                             </label>
                             {formData.medicalStudies.map((education, index) => (
                               <div key={index} className="form-group row align-items-center">
@@ -629,7 +629,7 @@ const MonProfile = () => {
 
                           <div className="col-12 col-md-6 col-xxl-9">
                             <label className="gen-label">
-                              <b>Expérience :</b>
+                              <label>Expérience</label>
                             </label>
                             {formData.medicalExperience.map((experience, index) => (
                               <div key={index} className="form-group row">
@@ -685,7 +685,7 @@ const MonProfile = () => {
                                     className="form-control"
                                     name="lieu"
                                     placeholder="Lieu de travail"
-                                    value={experience.lieu}
+                                    value={experience.hopital}
                                     onChange={(e) => handleExperienceChange(index, e)}
                                   />
                                 </div>
