@@ -37,21 +37,29 @@ const DiscussionCree = ({
       const token = localStorage.getItem("access-token")
       const res = await startDiscussion(token, id)
       if(type === "CHAT") {
-        router.push("/TeleExpertise/ChatMeeting/${discussionId}")
+        router.push(`/TeleExpertise/ChatMeeting/${id}`)
       } else if (type === "APPEL_VIDEO") {
-        router.push("/TeleExpertise/AppelVideo/${discussionId}")
+        router.push(`/TeleExpertise/AppelVideo/${id}`)
       }
     } catch (error) {
       toast.error("Quelque chose s'est mal passé, veuillez réessayer")
     }
   }
 
+  const accessToDiscussion = async () => {
+    if(type === "CHAT") {
+      router.push(`/TeleExpertise/ChatMeeting/${id}`)
+    } else if (type === "APPEL_VIDEO") {
+      router.push(`/TeleExpertise/AppelVideo/${id}`)
+    }
+  }
+
   return (
     <tr className="discussion-cree-item">
       <td style={{ fontWeight: "800", color: "#2f38a3" }}>{title}</td>
-      <td>{neededSpecialities.join(", ")}</td>
-      <td>{acceptedInvitations.join(", ")}</td>
-      <td>{rejectedInvitations.join(", ")}</td>
+      <td>{neededSpecialities.length > 0 ? neededSpecialities.join(", "): "__"}</td>
+      <td>{acceptedInvitations.length > 0 ? acceptedInvitations.join(", "): "__"}</td>
+      <td>{rejectedInvitations.length > 0 ? rejectedInvitations.join(", "): "__"}</td>
       <td
         style={{
           fontWeight: "600",
@@ -68,19 +76,20 @@ const DiscussionCree = ({
           status === "EN_COURS"?
           <button
             className="joindre-button"
+            onClick={accessToDiscussion}
           >
             En cours {"->"}
           </button>:
           <button
             type="button"
             className="launch-button"
-            disabled={
+            /* disabled={
               !(new Date() >= new Date(date) && new Date() <= new Date(new Date(date).getTime() + 30 * 60000))
-            }
+            } */
             onClick={launchDiscussion}
           >
-          Lancer
-        </button>
+            Lancer
+          </button>
         }
       </td>
     </tr>

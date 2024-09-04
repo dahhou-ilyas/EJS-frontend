@@ -61,3 +61,31 @@ export const GET = async (req) => {
 
     return NextResponse.json({ success: true , files: fileObjects });
 }
+
+export const DELETE = async (req) => {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+        return NextResponse.json({ success: false, message: "ID is required." });
+    }
+
+    const directoryPath = path.resolve(process.env.ROOT_PATH ?? "", `public/uploads/${id}`);
+
+    if (!fs.existsSync(directoryPath)) {
+        return NextResponse.json({ success: false, message: "Directory not found." });
+    }
+
+    try {
+        fs.readdirSync(directoryPath).forEach((file) => {
+            const filePath = path.join(directoryPath, file);
+            fs.unlinkSync(filePath);
+        });
+
+        fs.rmdirSync(directoryPath);
+
+        return NextResponse.json({ success: true, message: "Files deleted successfully." });
+    } catch (error) {
+        return NextResponse.json({ success: false, message: "Error deleting files.", error: error.message });
+    }
+};
