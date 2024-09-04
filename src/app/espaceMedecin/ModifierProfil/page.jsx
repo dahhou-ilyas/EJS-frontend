@@ -185,22 +185,29 @@ const MonProfile = () => {
     }));
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: checked,
-    }));
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const response = await axios.post('http://localhost:8080/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const imageUrl = response.data.url;
+      setFormData((prevState) => ({
+        ...prevState,
+        image_url: imageUrl,
+      }));
+      setPreviewUrl(imageUrl);
+      toast.success("Image uploaded successfully!");
+    } catch (error) {
+      console.error("Failed to upload image", error);
+      toast.error("Failed to upload image.");
+    }
   };
 
   const validateForm = () => {
@@ -274,13 +281,6 @@ const MonProfile = () => {
                       <div className="about-info">
                         <h4>
                           Profil du Docteur
-                          {/* <span>
-                            <Link href="#">
-                              <i className="feather-more-vertical">
-                                <FeatherIcon icon="more-vertical" />
-                              </i>
-                            </Link>
-                          </span> */}
                         </h4>
                       </div>
                       <div className="doctor-profile-head">
@@ -288,7 +288,7 @@ const MonProfile = () => {
                           <div className="profile-user-box">
                             <div className="profile-user-img">
                               <img
-                                src={previewUrl || Profileuser.src}
+                                src={previewUrl || medecin?.image_url || Profileuser.src}
                                 alt="Profile"
                               />{" "}
                               <div className="form-group doctor-up-files profile-edit-icon mb-0">
@@ -324,7 +324,6 @@ const MonProfile = () => {
                                   justifyContent: "flex-end",
                                 }}
                               >
-                                {/* LinkedIn Link */}
                                 <a
                                   className="btn"
                                   href={formData.linkedin}
@@ -524,7 +523,7 @@ const MonProfile = () => {
                                       <p style={{ fontSize: '15px' }}>Année
                                       <span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}>///////Année</span></p>
+                                       userSelect: 'none',}}></span></p>
                                     </label>
                                   )}
                                   <input
@@ -556,7 +555,7 @@ const MonProfile = () => {
                                     <label className="gen-label">
                                       <p style={{ fontSize: '15px' }}>Institut<span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}>////////////</span></p>
+                                       userSelect: 'none',}}></span></p>
                                     </label>
                                   )}
                                   <input
@@ -573,7 +572,7 @@ const MonProfile = () => {
                                     <label className="gen-label">
                                     <span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}>Institut////////////</span>
+                                       userSelect: 'none',}}>Institut</span>
                                     </label>
                                   )}
                                   <button
@@ -639,7 +638,7 @@ const MonProfile = () => {
                                       <p style={{ fontSize: '15px' }}>Année
                                       <span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}>/////////////</span></p>
+                                       userSelect: 'none',}}></span></p>
                                     </label>
                                   )}
                                   <input
@@ -657,7 +656,7 @@ const MonProfile = () => {
                                       <p style={{ fontSize: '15px' }}>Poste
                                       <span style={{color:'white',
                                        visibility: 'hidden',
-                                       userSelect: 'none',}}>//////////////</span>
+                                       userSelect: 'none',}}></span>
                                       </p>
                                     </label>
                                   )}
@@ -695,7 +694,7 @@ const MonProfile = () => {
                                     <span style={{color:'white',
                                        visibility: 'hidden',
                                        userSelect: 'none',
-                                       marginRight:'1px'}}>Institut////////////</span>
+                                       marginRight:'1px'}}>Institut</span>
                                     </label>
                                   )}
                                   <button
@@ -772,8 +771,6 @@ const MonProfile = () => {
                               />
                             </div>
                           </div>
-
-
                           {/* <div className="col-12">
                             <div className="form-group form-check">
                               <input
