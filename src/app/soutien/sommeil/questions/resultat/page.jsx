@@ -5,7 +5,7 @@ import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import Header from '@/components/auth/Header';
 import Breadcrumb from "@/components/soutien/home/breadcrumb";
-import Image from 'next/image'; // Make sure to import Image for Next.js image optimization
+import Image from 'next/image'; 
 import logo from "../../../../../assets/img/logo.png";
 import sendEmail from '../../../../api/sendEmail';
 import Link from "next/link";
@@ -41,11 +41,11 @@ export default function SommeilResult() {
   const generatePDF = async () => {
     const element = pdfRef.current;
     const canvas = await html2canvas(element, {
-      scale: 1, // Reduces the scale, which can significantly reduce file size
+      scale: 1, 
       logging: false,
       useCORS: true
     });
-    const imgData = canvas.toDataURL("image/jpeg", 0.7); // 0.7 is the quality of the image
+    const imgData = canvas.toDataURL("image/jpeg", 0.7); 
     const pdf = new jsPDF({
       unit: 'px',
       format: 'a4',
