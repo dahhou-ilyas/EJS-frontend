@@ -7,38 +7,49 @@ import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import PrintableComponent from "@/components/TeleExpertise/CompteRendu";
-import Select from "react-select";
+import { createCompteRendu, getDiscussion } from "@/services/discussionService";
+import { useRouter } from "next/navigation";
+import { decodeToken } from "@/utils/docodeToken";
+import toast from "react-hot-toast";
 
-const Report = () => {
+const Report = ({ params }) => {
   const componentRef = useRef();
-  const [title, setTitle] = useState("Rapport de Télé-expertise");
-  const [description, setDescription] = useState("lorem ipsum");
-  const [patientName, setPatientName] = useState("lorem ipsum");
-  const [patientLastName, setPatientLastName] = useState("lorem ipsum");
-  const [patientDOB, setPatientDOB] = useState("lorem ipsum");
-  const [patientID, setPatientID] = useState("lorem ipsum");
-  const [patientCIN, setPatientCIN] = useState("lorem ipsum");
-  const [patientMassar, setPatientMassar] = useState("lorem ipsum");
   const [caseCreation, setCaseCreation] = useState("lorem ipsum");
   const [caseClosure, setCaseClosure] = useState("lorem ipsum");
-  const [requestingDoctorName, setRequestingDoctorName] =
-    useState("lorem ipsum");
-  const [requestingDoctorLastName, setRequestingDoctorLastName] =
-    useState("lorem ipsum");
-  const [requestingDoctorWorkplace, setRequestingDoctorWorkplace] =
-    useState("lorem ipsum");
-  const [requestingDoctorSpecialty, setRequestingDoctorSpecialty] =
-    useState("lorem ipsum");
-  const [consultedDoctorName, setConsultedDoctorName] = useState("lorem ipsum");
-  const [consultedDoctorLastName, setConsultedDoctorLastName] =
-    useState("lorem ipsum");
-  const [consultedDoctorWorkplace, setConsultedDoctorWorkplace] =
-    useState("lorem ipsum");
-  const [consultedDoctorSpecialty, setConsultedDoctorSpecialty] =
-    useState("lorem ipsum");
-  const [discussion, setDiscussion] = useState("lorem ipsum");
-  const [conclusion, setConclusion] = useState("lorem ipsum");
+  const [discussion, setDiscussion] = useState(null);
+  const [conclusion, setConclusion] = useState("");
   const [isReportReady, setIsReportReady] = useState(false);
+  const router = useRouter()
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const token = localStorage.getItem("access-token")
+        const decodedToken = decodeToken(token)
+        const userId = decodedToken.claims.id
+        const res = await getDiscussion(token, params.discussionId);
+        console.log(res.compteRendu)
+
+        if(res.status !== "TERMINEE" ) {
+          router.push("/TeleExpertise")
+        }
+
+        if(res.medcinConsulte.id !== userId) {
+          if(res.participants.map(p => p.id).contains(userId) || res.medcinResponsable.id === userId) {
+            setIsReportReady(true)
+          } else {
+            router.push("/TeleExpertise")
+          }
+        }
+        
+        setDiscussion(res)
+      } catch (error) {
+        router.push("/TeleExpertise")
+        console.log(error.message)
+      }
+    }
+    fetchData()
+  }, [])
 
   const handleExport = async () => {
     const element = componentRef.current;
@@ -60,8 +71,20 @@ const Report = () => {
     pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
     pdf.save("tele_expertise_report.pdf");
   };
-  const handleConfirm = () => {
-    setIsReportReady(true);
+
+  const handleConfirm = async  () => {
+    const token = localStorage.getItem("access-token")
+    const compteRendu = {
+      conclusion: conclusion,
+      discussionId: params.discussionId
+    }
+    try {
+      await createCompteRendu(token, compteRendu)
+      toast.success("Le compte rendu est crée")
+      setIsReportReady(true); 
+    } catch (error) {
+      toast.error("Quelque chose s'est mal passé, veuillez réessayer")
+    }
   };
 
   return (
@@ -116,25 +139,18 @@ const Report = () => {
                       <>
                         <PrintableComponent
                           ref={componentRef}
-                          title={title}
-                          description={description}
-                          patientName={patientName}
-                          patientLastName={patientLastName}
-                          patientDOB={patientDOB}
-                          patientID={patientID}
-                          patientCIN={patientCIN}
-                          patientMassar={patientMassar}
+                          description={discussion.descriptionEtatClinique}
+                          patientName={discussion.prenomPatient}
+                          patientLastName={discussion.nomPatient}
+                          age={discussion.age}
+                          patientID={discussion.identifiantPatient}
+                          patientCIN={discussion.cinPatient}
+                          patientMassar={discussion.codeMassarPatient}
                           caseCreation={caseCreation}
                           caseClosure={caseClosure}
-                          requestingDoctorName={requestingDoctorName}
-                          requestingDoctorLastName={requestingDoctorLastName}
-                          requestingDoctorWorkplace={requestingDoctorWorkplace}
-                          requestingDoctorSpecialty={requestingDoctorSpecialty}
-                          consultedDoctorName={consultedDoctorName}
-                          consultedDoctorLastName={consultedDoctorLastName}
-                          consultedDoctorWorkplace={consultedDoctorWorkplace}
-                          consultedDoctorSpecialty={consultedDoctorSpecialty}
-                          discussion={discussion}
+                          requestingDoctor={discussion.medcinResponsable}
+                          consultedDoctor={discussion.medcinConsulte}
+                          //discussion={discussion}
                           conclusion={conclusion}
                         />
                         <div className="mt-3 text-center">

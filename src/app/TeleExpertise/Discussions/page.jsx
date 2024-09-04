@@ -9,7 +9,6 @@ import DiscussionCree from "@/components/TeleExpertise/DiscussionCree";
 import DiscussionPlanifiee from "@/components/TeleExpertise/DiscussionPlanifiee";
 import DiscussionTerminee from "@/components/TeleExpertise/DiscussionTerminee";
 import Invitation from "@/components/TeleExpertise/Invitation";
-import { format } from 'date-fns';
 import { getInvitations, getMyCreatedDiscussions, getPlanifiedDiscussions, getTerminedDiscussions } from "@/services/discussionService";
 
 const Discussions = () => {
@@ -89,6 +88,9 @@ const Discussions = () => {
                       data-bs-toggle="tab"
                     >
                       Invitations
+                      {invitations.length !== 0 ? (
+                        <span className="badge bg-danger rounded-pill ms-2">{invitations.length}</span>
+                      ) : null}
                     </Link>
                   </li>
                 </ul>
@@ -158,6 +160,7 @@ const Discussions = () => {
                             date={discussion.date}
                             time={discussion.heure}
                             type={discussion.type}
+                            status={discussion.status}
                           />
                         ))}
                       </tbody>
@@ -202,13 +205,15 @@ const Discussions = () => {
                         {invitations.map((invitation) => (
                           <Invitation
                             key={invitation.discussion.id}
+                            invitationId={invitation.discussion.id}
                             title={invitation.discussion.titre}
                             description={invitation.discussion.motifDeTeleExpertise}
-                            doctor={invitation.discussion.medcinResponsable.nom + " " + invitation.discussion.medcinResponsable.nom}
+                            doctor={invitation.discussion.medcinResponsable.nom + " " + invitation.discussion.medcinResponsable.prenom}
                             doctorSpeciality={invitation.discussion.medcinResponsable.specialite}
                             //doctorPhoto={invitation.discussion.doctorPhoto}
                             date={invitation.discussion.date}
                             time={invitation.discussion.heure}
+                            setInvitations={setInvitations}
                           />
                         ))}
                       </div>

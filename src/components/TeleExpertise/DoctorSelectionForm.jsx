@@ -4,28 +4,40 @@ import "@/assets/css/style.css";
 import { Select, Input, Form, Dropdown, Menu, Button, Tag } from "antd";
 import { SearchOutlined, DownOutlined } from "@ant-design/icons";
 import { getAllMedecins } from "@/services/medecinService";
+import { decodeToken } from "@/utils/docodeToken";
 
 const { Option } = Select;
 
-const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors} ) => {
+const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors, selectedConsultedDoctor, setSelectedConsultedDoctor} ) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
+  const [searchTermConsulted, setSearchTermConsulted] = useState("");
+  const [selectedSpecialityConsulted, setSelectedSpecialityConsulted] = useState("");
+  
   const [doctors, setDoctors] = useState([])
 
   useEffect(() => {
     async function fetchData() {
-      const token = localStorage.getItem("access-token")
-      const res = await getAllMedecins(token)
-      const data = res.map((doctor) => ({
-        ...doctor,
-        key: doctor.id,
-        Name: doctor.nom + " " + doctor.prenom,
-        Department: doctor.estGeneraliste ? "Generaliste": doctor.specialite
-      }))
-      setDoctors(data)
+        const token = localStorage.getItem("access-token");
+        const decodedToken = decodeToken(token);
+        const userId = decodedToken.claims.id;
+
+        const res = await getAllMedecins(token);
+        const data = res
+            .filter((doctor) => doctor.id !== userId)
+            .map((doctor) => ({
+                ...doctor,
+                key: doctor.id,
+                Name: doctor.nom + " " + doctor.prenom,
+                Department: doctor.estGeneraliste ? "Generaliste" : doctor.specialite,
+            }));
+
+        setDoctors(data);
     }
-    fetchData()
-  }, [])
+
+    fetchData();
+}, []);
+
   
   const specialities = [
     "Pédiatre",
@@ -48,6 +60,10 @@ const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors} ) => {
     setSearchTerm(value);
   };
 
+  const handleSearchConsulted = (value) => {
+    setSearchTermConsulted(value);
+  };
+  
   const handleSelect = (value) => {
     const selectedDoctor = doctors.find((doctor) => doctor.Name === value);
     if (
@@ -58,14 +74,29 @@ const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors} ) => {
     }
   };
 
+  const handleSelectConsulted = (value) => {
+    const selectedDoctor = doctors.find((doctor) => doctor.Name === value);
+    if (selectedDoctor) {
+      setSelectedConsultedDoctor(selectedDoctor);
+    }
+  };
+
   const handleDeselect = (value) => {
     setSelectedDoctors(
       selectedDoctors.filter((doctor) => doctor.Name !== value)
     );
   };
 
+  const handleDeselectConsulted = (value) => {
+    setSelectedDoctors(null);
+  };
+
   const handleSpecialitySelect = ({ key }) => {
     setSelectedSpeciality(selectedSpeciality === key ? "" : key);
+  };
+
+  const handleSpecialitySelectConsulted = ({ key }) => {
+    setSelectedSpecialityConsulted(selectedSpecialityConsulted === key ? "" : key);
   };
 
   const specialityMenu = (
@@ -91,7 +122,23 @@ const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors} ) => {
     return name.charAt(0);
   };
 
-  const options = filteredDoctors.map((doctor) => (
+  const options1 =  filteredDoctors.map(doctor => (
+    <Option key={doctor.key} value={doctor.Name}>
+      <div style={{
+        display: "flex",
+        gap: "3px",
+        alignItems: "center"
+      }}>
+        <div>{doctor.Name}</div>
+        <div style={{ fontSize: "12px", color: "#888" }}>
+          {"(" + doctor.Department + ")"}
+        </div>
+      </div>
+    </Option>
+  ))
+
+  const options = filteredDoctors
+  .map((doctor) => (
     <Option key={doctor.key} value={doctor.Name}>
       <div style={{ display: "flex", alignItems: "center" }}>
         {/* <img
@@ -167,7 +214,56 @@ const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors} ) => {
               fontFamily: "Poppins",
             }}
           >
-            Choisissez vos Médecins :
+            Choisissez le Médecin à consulter:
+          </h4>
+        }
+      >
+        <Select
+          showSearch
+          placeholder="Chercher un Médecin"
+          onSearch={handleSearchConsulted}
+          onSelect={handleSelectConsulted}
+          onDeselect={handleDeselectConsulted}
+          filterOption={false}
+          style={{ width: "100%" }}
+          dropdownRender={(menu) => (
+            <div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Input
+                  placeholder="Chercher un Médecin"
+                  prefix={<SearchOutlined />}
+                  value={searchTermConsulted}
+                  onChange={(e) => handleSearchConsulted(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+
+                <Dropdown overlay={specialityMenu} trigger={["click"]}>
+                  <Button style={{ border: "none", padding: "0 8px" }}>
+                    Spécialités <DownOutlined />
+                  </Button>
+                </Dropdown>
+              </div>
+              {menu}
+            </div>
+          )}
+          //tagRender={tagRender}
+        >
+          {options1}
+        </Select>
+      </Form.Item>
+      <hr
+        className="divider"
+        style={{ width: "100%" }}
+      ></hr>
+      <Form.Item
+        label={
+          <h4
+            style={{
+              fontSize: "16px",
+              fontFamily: "Poppins",
+            }}
+          >
+            Choisissez d'autre Médecins :
           </h4>
         }
       >

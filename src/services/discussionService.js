@@ -166,7 +166,7 @@ export const joinOuverteDiscussion = async (token, id) => {
 
 export const getDiscussion = async (token, id) => {
     try {
-        const response = await axios.get(`http://localhost:8080/discussion/${id}`,{
+        const response = await axios.get(`${API_BASE_URL}/discussion/${id}`,{
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -175,6 +175,60 @@ export const getDiscussion = async (token, id) => {
           return response.data;
         } else {
           throw new Error("Failed to join the discussion");
+        }
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}
+
+export const acceptInvitation = async (token, id) => {
+    try {
+        const response = await axios.put(`${API_BASE_URL}/invitation/${id}/accept`, {}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+          })
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          throw new Error("Failed to accept the invitation");
+        }
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}
+
+export const declineInvitation = async (token, id) => {
+    try {
+        const response = await axios.put(`${API_BASE_URL}/invitation/${id}/decline`, {}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+          })
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          throw new Error("Failed to decline the invitation");
+        }
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}
+
+export const createCompteRendu = async (token, compterendu) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/compterendu`, compterendu, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+          })
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          throw new Error("Failed to create the report");
         }
     } catch (error) {
         console.error(error.message);

@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 
 const ChatMeeting = ({ params }) => {
   const router = useRouter()
-  const { connect,isConnected, stompClient } = useWebSocket()
+  const { connect, isConnected, stompClient } = useWebSocket()
   const [userId, setUserId] = useState()
   const [discussion, setDiscussion] = useState()
   const [messages, setMessages] = useState([])
@@ -24,7 +24,7 @@ const ChatMeeting = ({ params }) => {
 
   useEffect(() => {
     if (isConnected && stompClient) {
-      const subscription = stompClient.subscribe(
+      const subscription1 = stompClient.subscribe(
         `/topic/discussion/${params.discussionId}`,
         (message) => {
           const messageBody = JSON.parse(message.body);
@@ -41,8 +41,22 @@ const ChatMeeting = ({ params }) => {
         }
       );
 
+      const subscription2 = stompClient.subscribe(
+        `/topic/discussion/${params.discussionId}/ended`,
+        (message) => {
+          if (userId === discussion.medcinConsulte.id) {
+            toast.success("La discussion est terminée.")
+            router.push(`/TeleExpertise/Report/${params.discussionId}`)
+          } else {
+            toast.success("La discussion est terminée. Veuillez patienter quelques minutes pour que le médecin consulté termine le rapport.")
+            router.push("/TeleExpertise/Discussions")
+          }
+        }
+      );
+
       return () => {
-        subscription.unsubscribe();
+        subscription1.unsubscribe();
+        subscription2.unsubscribe();
       };
     }
   }, [isConnected, stompClient]);
@@ -93,11 +107,24 @@ const ChatMeeting = ({ params }) => {
     }
   };
 
+  const sendEndedDiscussionMessage = () => {
+    if (stompClient && isConnected) {
+      stompClient.publish({
+        destination: "/app/chat.endDiscussion",
+        body: JSON.stringify(params.discussionId),
+      });
+    } else {
+      console.error("Cannot send message: STOMP client is not connected.");
+    }
+  }
+
   const terminerDiscussion = async () => {
     try {
         const token = localStorage.getItem("access-token");
 
         await endDiscussion(token, params.discussionId);
+
+        sendEndedDiscussionMessage()
 
         const deleteResponse = await fetch(`/api/upload?id=${params.discussionId}`, {
             method: 'DELETE',
@@ -120,7 +147,7 @@ const ChatMeeting = ({ params }) => {
   };
 
   const leaveDiscussion = () => {
-    
+    router.push("/TeleExpertise")
   }
 
   if(

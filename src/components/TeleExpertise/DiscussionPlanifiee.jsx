@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
 import "@/assets/css/style.css";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -12,15 +11,15 @@ const DiscussionPlanifiee = ({
   date,
   time,
   type,
+  status
 }) => {
   const router = useRouter();
-  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   const joinDiscussion = () => {
     if(type === "CHAT") {
-      router.push("/TeleExpertise/ChatMeeting/${discussionId}")
+      router.push(`/TeleExpertise/ChatMeeting/${discussionId}`)
     } else if (type === "APPEL_VIDEO") {
-      router.push("/TeleExpertise/AppelVideo/${discussionId}")
+      router.push(`/TeleExpertise/AppelVideo/${discussionId}`)
     }
   }
 
@@ -40,16 +39,24 @@ const DiscussionPlanifiee = ({
       </td>
       <td style={{ fontWeight: "600", color: "#03D2C5" }}>{time}</td>
       <td>
-        <button
-          type="button"
-          className="joindre-button"
-          disabled={
-            !(new Date() >= new Date(date) && new Date() <= new Date(new Date(date).getTime() + 30 * 60000))
-          }
-          onClick={joinDiscussion}
-        >
-          Joindre
-        </button>
+        {
+          status === "TERMINEE" || status === "ANNULEE"? 
+          status:
+          status === "EN_COURS"?
+          <button
+            className="joindre-button"
+            onClick={joinDiscussion}
+          >
+            Joindre
+          </button>:
+          <button
+            type="button"
+            className="launch-button"
+            disabled
+          >
+            Joindre
+          </button>
+        }
       </td>
     </tr>
   );
