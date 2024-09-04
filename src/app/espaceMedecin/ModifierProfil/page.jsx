@@ -573,7 +573,7 @@ const MonProfile = () => {
                                     type="button"
                                     onClick={() => removeEducationField(index)}
                                     style={{
-                                      backgroundColor: '#e74c3c', // Red color
+                                      backgroundColor: '#f0941f', // Orange color
                                       color: '#fff',
                                       border: 'none',
                                       padding: '8px 16px',
@@ -682,7 +682,7 @@ const MonProfile = () => {
                                     type="button"
                                     onClick={() => removeExperienceField(index)}
                                     style={{
-                                      backgroundColor: '#e74c3c', // Red color
+                                      backgroundColor: '#f0941f', // Orange color
                                       color: '#fff',
                                       border: 'none',
                                       padding: '8px 16px',
