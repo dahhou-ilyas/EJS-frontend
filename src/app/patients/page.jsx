@@ -12,6 +12,8 @@ import "@/assets/css/style.css";
 // import "@/assets/css/links.css";
 import { plusicon, refreshicon, imagesend, dots, edit, deleteIcon } from "@/components/imagepath";
 import Sidebar from "@/components/espaceMedecin/Sidebar1";
+import { jwtDecode } from 'jwt-decode';
+
 
 const Patients = () => {
   console.log('ht');
@@ -20,7 +22,14 @@ const Patients = () => {
   const path = usePathname();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/jeunes")
+    const accessToken = localStorage.getItem('access-token');
+    const decodedAccessToken = jwtDecode(accessToken);
+    // console.log(`decoded token `,decodedAccessToken);
+    axios.get("http://localhost:8080/jeunes", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
       .then(response => {
         setPatients(response.data);
       })
