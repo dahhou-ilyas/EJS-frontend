@@ -269,7 +269,7 @@ const Home = () => {
                                 <div className="card-body">
                                     <h4 className="card-title">{ item[2] + ' ' + item[1] }</h4>
                                     <p className="card-text" style={{ width: '300px' }}>{ item[3] }, { item[4] } ans</p>
-                                    <a href={'/MesPatients/DossierMedical/' + item[0]} className="btn btn-primary">Consulter le dossier médical</a>
+                                    <a href={'/MesPatients/DossierMedical/' + item[0]} className="btn btn-primary" style={{ maxWidth: '150px', display: 'inline-block', whiteSpace: 'nowrap' }}>Dossier médical</a>
                                 </div>
                             </div>
                         </div>
