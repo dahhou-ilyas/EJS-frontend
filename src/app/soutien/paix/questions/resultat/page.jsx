@@ -10,6 +10,9 @@ import logo from "../../../../../assets/img/logo.png";
 import sendEmail from '../../../../api/sendEmail';
 import Link from 'next/link';
 import Csidebar from '@/components/auth/Csidebar';
+import jwtDecode from "jwt-decode";
+import { useRouter } from 'next/navigation';
+
 
 export default function Humeur_Result() {
   const searchParams = useSearchParams();
@@ -17,14 +20,48 @@ export default function Humeur_Result() {
   const [currentDate, setCurrentDate] = useState('');
   const [interpretation, setInterpretation] = useState('');
   const pdfRef = useRef(null);
+  const [user, setUser] = useState({});
+  const router = useRouter();
+
+
+  useEffect(() => {
+    const token = localStorage.getItem('access-token');
+  
+    if (!token) {
+      router.push('/auth/jeunes'); 
+      return;
+    }
+  
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+  
+      if (decodedToken.exp < currentTimestamp) {
+        console.error('Token has expired');
+        router.push('/auth/jeunes'); 
+        return;
+      }
+  
+      setUser(decodedToken); 
+    } catch (error) {
+      console.error('Invalid token:', error);
+      router.push('/auth/jeunes'); 
+      return;
+    }
+  }, []);
+
+  const userId = user?.claims?.id;
+  const userNom = user?.claims?.nom;
+  const userPrenom = user?.claims?.prenom;
+  
 
   useEffect(() => {
     if (Score < 8) {
       setInterpretation("Votre évaluation indique que vous êtes en paix avec vous-même. Continuez à pratiquer des activités qui favorisent votre tranquillité et bien-être. Restez attentif à votre sérénité et n'hésitez pas à consulter nos ressources pour maintenir cet équilibre.");
     } else if (Score >= 8 && Score <= 10) {
-      setInterpretation("Votre évaluation suggère que vous traversez peut-être une période de stress ou d'inquiétude. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance pour gérer les moments d'anxiété.");
+      setInterpretation("Votre évaluation suggère que vous traversez peut-être une période de stress. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance pour gérer les moments d'anxiété.");
     } else {
-      setInterpretation("Votre évaluation suggère que vous traversez peut-être une période d'anxiété. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance pour gérer les moments d'anxiété.");
+      setInterpretation("Votre évaluation suggère que vous traversez peut-être une période difficile. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance pour gérer les moments d'anxiété.");
     }
   }, [Score]);
 
@@ -104,20 +141,20 @@ export default function Humeur_Result() {
       <Header />
       <div className="page-wrapper">
         <div className="content">
-          <Breadcrumb title={"Paix"} />
+          <Breadcrumb title={"Humeur"} />
           <div className="container">
           <div ref={pdfRef} style={{ fontSize: '20px' }}>
           
-            <div className="top soutien-container-title flex items-center space-x-4">
-            <Image src={logo} alt="Logo" width={100} height={100} />
-              <p className='text-center' style={{ fontSize: '30px' }}>Résultat du test de la Paix Intérieure</p>
+            <div className="top soutien-container-title flex flex-row space-x-4">
+            <Image src={logo} alt="Logo" width={150} height={150} />
+              <p className='text-center' style={{ fontSize: '25px' }}>Résultat du test de la Paix Intérieure</p>
             </div>
             
               <div className="middle soutien-blog blog-single-post">
                 
                 <h5 className="relat-head" style={{ fontSize: '28px' }}>Vos informations</h5>
-                <p className="my-2"><strong>Identifiant:</strong> 01</p>
-                <p className="my-2"><strong>Nom et Prénom:</strong> nom prenom</p>
+                <p className="my-2"><strong>Identifiant:</strong> {userId}</p>
+                <p className="my-2"><strong>Nom et Prénom:</strong> {userNom} { userPrenom}</p>
                 <p className="my-2"><strong>Date du test:</strong> {currentDate}</p>
                 <p className="my-2"><strong>Score:</strong> {Score}</p>
               </div>

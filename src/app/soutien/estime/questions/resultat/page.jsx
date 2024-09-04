@@ -10,6 +10,8 @@ import logo from "../../../../../assets/img/logo.png";
 import sendEmail from '../../../../api/sendEmail';
 import Breadcrumb from "@/components/soutien/home/breadcrumb";
 import Csidebar from "@/components/auth/Csidebar";
+import jwtDecode from "jwt-decode";
+import { useRouter } from 'next/navigation';
 
 export default function Resultat() {
   const searchParams = useSearchParams();
@@ -17,16 +19,46 @@ export default function Resultat() {
   const [currentDate, setCurrentDate] = useState("");
   const [interpretation, setInterpretation] = useState("");
   const pdfRef = useRef(null);
+  const [user, setUser] = useState({});
+  const router = useRouter();
 
   useEffect(() => {
-    if (Score < 25) {
+    const token = localStorage.getItem('access-token');
+  
+    if (!token) {
+      router.push('/auth/jeunes'); 
+      return;
+    }
+  
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+  
+      if (decodedToken.exp < currentTimestamp) {
+        console.error('Token has expired');
+        router.push('/auth/jeunes'); 
+        return;
+      }
+  
+      setUser(decodedToken); 
+    } catch (error) {
+      console.error('Invalid token:', error);
+      router.push('/auth/jeunes'); 
+      return;
+    }
+  }, []);
+
+  const userId = user?.claims?.id;
+  const userNom = user?.claims?.nom;
+  const userPrenom = user?.claims?.prenom;
+
+
+  useEffect(() => {
+    if (Score < 31) {
       setInterpretation(
         "Vos résultats montrent quelques défis avec votre estime de soi. Il est important de se rappeler que ce test n'est qu'un instantané et ne définit pas votre valeur. Parler avec un professionnel peut vous aider à explorer des moyens pour renforcer votre confiance en vous."
       );
-    } else if (Score >= 25 && Score < 31) {
-      setInterpretation(
-        "Votre estime de soi est faible. Un travail dans ce domaine serait bénéfique."
-      );
+   
     } else if (Score >= 31 && Score < 34) {
       setInterpretation(
         "Félicite-toi pour tous tes petits succès, vous devrez développer davantage votre bonne estime de soi. Nous vous conseillons de prendre contact avec l’établissement de soins publique le plus proche pour des séances d’écoute et de soutien."
@@ -130,8 +162,8 @@ export default function Resultat() {
               <div className="middle soutien-blog blog-single-post">
                 
                 <h5 className="relat-head" style={{ fontSize: '28px' }}>Vos informations</h5>
-                <p className="my-2"><strong>Identifiant:</strong> 01</p>
-                <p className="my-2"><strong>Nom et Prénom:</strong> nom prenom</p>
+                <p className="my-2"><strong>Identifiant:</strong> {userId}</p>
+                <p className="my-2"><strong>Nom et Prénom:</strong> {userNom} { userPrenom}</p>
                 <p className="my-2"><strong>Date du test:</strong> {currentDate}</p>
                 <p className="my-2"><strong>Score:</strong> {Score}</p>
               </div>

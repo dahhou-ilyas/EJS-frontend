@@ -30,7 +30,7 @@ if (arabic){
                                 <div className='d-flex flex-column align-items-center'>
                                     <Image
                                         alt="#"
-                                        src="https://resize.elle.fr/article/var/plain_site/storage/images/love-sexe/news/stress-inquietude-ou-anxiete-voici-comment-les-differencier-4043472/97177063-1-fre-FR/Stress-inquietude-ou-anxiete-Voici-comment-les-differencier-!.jpg"
+                                        src="https://img.freepik.com/free-vector/post-traumatic-stress-disorder-concept-illustration_114360-3564.jpg?t=st=1725465381~exp=1725468981~hmac=16689482db9ca5ae29c39d1adf8da95ede895a195cc283ac81c94b7feca4ce8e&w=740"
                                         className=" img-fluid my-5 "
                                         width= {350} height= {350}
                                         />
@@ -70,7 +70,7 @@ if (arabic){
                                 <div className='d-flex flex-column align-items-center'>
                                     <Image
                                         alt="#"
-                                        src="https://resize.elle.fr/article/var/plain_site/storage/images/love-sexe/news/stress-inquietude-ou-anxiete-voici-comment-les-differencier-4043472/97177063-1-fre-FR/Stress-inquietude-ou-anxiete-Voici-comment-les-differencier-!.jpg"
+                                        src="https://img.freepik.com/free-vector/post-traumatic-stress-disorder-concept-illustration_114360-3564.jpg?t=st=1725465381~exp=1725468981~hmac=16689482db9ca5ae29c39d1adf8da95ede895a195cc283ac81c94b7feca4ce8e&w=740"
                                         className=" img-fluid my-5 "
                                         width= {350} height= {350}
                                         />

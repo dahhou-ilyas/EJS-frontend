@@ -10,6 +10,8 @@ import logo from "../../../../../assets/img/logo.png";
 import sendEmail from '../../../../api/sendEmail';
 import Link from "next/link";
 import Csidebar from "@/components/auth/Csidebar";
+import jwtDecode from "jwt-decode";
+import { useRouter } from 'next/navigation';
 
 export default function HumeurResult() {
   const searchParams = useSearchParams();
@@ -17,22 +19,54 @@ export default function HumeurResult() {
   const [currentDate, setCurrentDate] = useState("");
   const [interpretation, setInterpretation] = useState("");
   const pdfRef = useRef(null);
+  const [user, setUser] = useState({});
+  const router = useRouter();
 
   useEffect(() => {
-    if (Score < 8) {
-      setInterpretation(
-        "Votre évaluation indique que vous avez un bon état émotionnel. Continuez à prendre soin de vous et à pratiquer des activités qui vous apportent joie et satisfaction. Restez attentif à votre bien-être et n'hésitez pas à consulter nos ressources pour maintenir cet équilibre."
-      );
-    } else if (Score >= 8 && Score <= 10) {
-      setInterpretation(
-        "Votre évaluation suggère que vous traversez peut-être une période de changements émotionnels. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse."
-      );
-    } else {
-      setInterpretation(
-        "Votre évaluation suggère que vous traversez peut-être une période de préoccupations émotionnelles. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse."
-      );
+    const token = localStorage.getItem('access-token');
+  
+    if (!token) {
+      router.push('/auth/jeunes'); 
+      return;
     }
-  }, [Score]);
+  
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+  
+      if (decodedToken.exp < currentTimestamp) {
+        console.error('Token has expired');
+        router.push('/auth/jeunes'); 
+        return;
+      }
+  
+      setUser(decodedToken); 
+    } catch (error) {
+      console.error('Invalid token:', error);
+      router.push('/auth/jeunes'); 
+      return;
+    }
+  }, []);
+
+  const userId = user?.claims?.id;
+  const userNom = user?.claims?.nom;
+  const userPrenom = user?.claims?.prenom;
+
+    useEffect(() => {
+      if (Score < 8) {
+        setInterpretation(
+          "Votre évaluation indique que vous avez un bon état émotionnel. Continuez à prendre soin de vous et à pratiquer des activités qui vous apportent joie et satisfaction. Restez attentif à votre bien-être et n'hésitez pas à consulter nos ressources pour maintenir cet équilibre."
+        );
+      } else if (Score >= 8 && Score <= 10) {
+        setInterpretation(
+          "Votre évaluation suggère que vous traversez peut-être une période de changements émotionnels. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse."
+        );
+      } else {
+        setInterpretation(
+          "Votre évaluation suggère que vous traversez une période de préoccupations émotionnelles. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse."
+        );
+      }
+    }, [Score]);
 
   useEffect(() => {
     const date = new Date();
@@ -124,8 +158,8 @@ export default function HumeurResult() {
               <div className="middle soutien-blog blog-single-post">
                 
                 <h5 className="relat-head" style={{ fontSize: '28px' }}>Vos informations</h5>
-                <p className="my-2"><strong>Identifiant:</strong> 01</p>
-                <p className="my-2"><strong>Nom et Prénom:</strong> nom prenom</p>
+                <p className="my-2"><strong>Identifiant:</strong> {userId}</p>
+                <p className="my-2"><strong>Nom et Prénom:</strong> {userNom} { userPrenom}</p>
                 <p className="my-2"><strong>Date du test:</strong> {currentDate}</p>
                 <p className="my-2"><strong>Score:</strong> {Score}</p>
               </div>
