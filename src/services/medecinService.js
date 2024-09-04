@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080"; // Make sure this matches your actual API base URL
+const API_BASE_URL = "http://localhost:8080";
 
 export const getMedecinById = async (id) => {
   try {

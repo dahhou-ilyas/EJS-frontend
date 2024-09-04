@@ -1,23 +1,19 @@
 "use client";
 import "@/assets/css/style.css";
 import Sidebar from "@/components/espaceMedecin/Sidebar1";
-
-
 import { useEffect, useState } from "react";
 import axios from 'axios';
-
 import 'boxicons';
-
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-
 import html2pdf from 'html2pdf.js';
 
 const page = ({ params }) => {
   const { GoogleGenerativeAI } = require("@google/generative-ai");
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const token = localStorage.getItem('access-token');
 
   const [patient, setPatient] = useState(null);
   
@@ -35,7 +31,11 @@ const page = ({ params }) => {
   const [message, setMessage] = useState(null);
 
   const getDossierMedicalInformations = () => {
-    axios.get('http://localhost:8080/jeune/dossier-medical/' + params.id)
+    axios.get('http://localhost:8080/jeune/dossier-medical/' + params.id, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       setPatient(res.data);
       setMessage(`"${res.data}"

@@ -5,64 +5,176 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import FeatherIcon from "feather-icons-react";
 import Sidebar from "../../../components/espaceMedecin/Sidebar1";
-import { getMedecinById, updateMedecin } from "../../../services/medecinService";
 import { Profileuser, cameraicon } from "../../../components/espaceMedecin/imagepath";
 import "../../../assets/css/style.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const MonProfile = () => {
+  const router = useRouter();
   const [medecin, setMedecin] = useState(null);
+  const [user, setUser] = useState(null);
+  const token = localStorage.getItem('access-token');
   const [formData, setFormData] = useState({
     prenom: "",
     nom: "",
     specialite: "",
     sexe: "",
     about: "",
-
     mail: "",
     password: "",
     confirmPassword: "",
     estGeneraliste: false,
     estMedcinESJ: false,
+    linkedin: "",
     cin: "",
     inpe: "",
     ppr: "",
+    medicalStudies: [{ annee: "", diplome: "", institut: "" }],
+    medicalExperience: [{ annee: "", hopital: "", poste: "" }],
   });
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-  useEffect(() => {
-    const fetchMedecin = async () => {
-      try {
-        setLoading(true);
-        const id = 46; // Get the ID dynamically
-        const medecinData = await getMedecinById(id);
-        setMedecin(medecinData);
-        setFormData({
-          prenom: medecinData.prenom,
-          nom: medecinData.nom,
-          cin: medecinData.cin,
-          inpe: medecinData.inpe,
-          ppr: medecinData.ppr,
-          specialite: medecinData.specialite,
-          mail: medecinData.mail,
-          sexe: medecinData.sexe,
-          about: medecinData.about,
-          password: medecinData.password,
-          estGeneraliste: medecinData.estGeneraliste,
-          estMedcinESJ: medecinData.estMedcinESJ,
-        });
-        setLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch medecin data", error);
-        toast.error("Failed to fetch medecin data.");
-        setLoading(false);
-      }
-    };
 
-    fetchMedecin();
-  }, []);
+  useEffect(() => {
+    if (isTokenInvalidOrNotExist(token)) {
+      router.push('/auth/medecins');
+    } else {
+      const decodedToken = jwtDecode(token);
+      setUser(decodedToken);
+      fetchMedecin();
+    }
+  }, [user && user.claims.id]);
+
+  const getMedecinData = (id) => {
+    if (id != null) {
+      axios.get('http://localhost:8080/medecins/' + 2, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      setMedecin(res.data);
+      setFormData({
+        prenom: res.data?.prenom,
+        nom: res.data?.nom,
+        cin: res.data?.cin,
+        inpe: res.data?.inpe,
+        ppr: res.data?.ppr,
+        specialite: res.data?.specialite,
+        mail: res.data?.mail,
+        sexe: res.data?.sexe,
+        linkedin: res.data?.linkedin,
+        about: res.data?.about,
+        password: res.data?.password,
+        estGeneraliste: res.data?.estGeneraliste,
+        estMedcinESJ: res.data?.estMedcinESJ,
+        medicalStudies: res.data?.medicalStudies || [{ annee: "", diplome: "", institut: "" }],
+        medicalExperience: res.data?.medicalExperience || [{ annee: "", hopital: "", poste: "" }],
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      router.push('/auth/medecins');
+    })
+    }
+  }
+
+  function isTokenInvalidOrNotExist(token) {
+    if (typeof token !== 'string' || token.trim() === '') {
+      console.error('Token is invalid or does not exist');
+      return true; 
+    }
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp && decodedToken.exp < currentTime) {
+        return true; 
+      }
+      return false; 
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return true; 
+    }
+  }
+
+  const handleEducationChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedEducations = [...formData.medicalStudies];
+    updatedEducations[index][name] = value;
+    setFormData({ ...formData, medicalStudies: updatedEducations });
+  };
+
+  const handleExperienceChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedExperiences = [...formData.medicalExperience];
+    updatedExperiences[index][name] = value;
+    setFormData({ ...formData, medicalExperience: updatedExperiences });
+  };
+
+  const addEducationField = () => {
+    setFormData(prevState => ({
+      ...prevState,
+      medicalStudies: [...prevState.medicalStudies, { annee: "", diplome: "", institut: "" }]
+    }));
+  };
+  
+  const removeEducationField = (index) => {
+    const updatedEducations = formData.medicalStudies.filter((_, i) => i !== index);
+    setFormData({ ...formData, medicalStudies: updatedEducations });
+  };
+
+  const addExperienceField = () => {
+    setFormData(prevState => ({
+      ...prevState,
+      medicalExperience: [...prevState.medicalExperience, { annee: "", hopital: "", poste: "" }]
+    }));
+  };
+  
+  const removeExperienceField = (index) => {
+    const updatedExperiences = formData.medicalExperience.filter((_, i) => i !== index);
+    setFormData({ ...formData, medicalExperience: updatedExperiences });
+  };  
+
+  const updateMedecin = (id, medecinData) => {
+    console.log(medecinData);
+    axios.patch(
+      `http://localhost:8080/medecins/${id}`,
+      medecinData,
+      {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
+      }
+    )
+    .then(response => {
+      if (response.status === 200) {
+        console.log(response.data);
+      } else {
+        throw new Error("Failed to update medecin data");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      throw error;
+    });
+  };  
+
+  const fetchMedecin = () => {
+    try {
+      setLoading(true);
+      getMedecinData(user && user.claims.id);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch medecin data", error);
+      toast.error("Failed to fetch medecin data.");
+      setLoading(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -71,6 +183,7 @@ const MonProfile = () => {
       [name]: value,
     }));
   };
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -102,19 +215,16 @@ const MonProfile = () => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
     try {
-      const id = 46; // Get the ID dynamically
       const updateData = { ...formData };
-      // Always remove confirmPassword from the updateData
       delete updateData.confirmPassword;
       if (!formData.password) {
         delete updateData.password;
       }
-      await updateMedecin(id, updateData);
+      updateMedecin(user && user.claims.id, updateData);
       toast.success("Profile updated successfully!");
       setLoading(true);
     } catch (error) {
@@ -238,36 +348,6 @@ const MonProfile = () => {
                                       icon={faLinkedin}
                                       style={{
                                         color: "#0077B5",
-                                        fontSize: "24px",
-                                      }}
-                                    />
-                                  </div>
-                                </a>
-                                {/* Twitter Link */}
-                                <a
-                                  className="btn"
-                                  href={formData.twitter}
-                                  style={{
-                                    borderColor: "transparent",
-                                    color: "grey",
-                                    padding: "6px 12px",
-                                    fontSize: "14px",
-                                    backgroundColor: "transparent",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    textDecoration: "none",
-                                  }}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <div
-                                    className="personal-icons"
-                                    style={{ marginRight: "8px" }}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={faXTwitter}
-                                      style={{
-                                        color: "#000000",
                                         fontSize: "24px",
                                       }}
                                     />
@@ -420,27 +500,105 @@ const MonProfile = () => {
                           </div>
                           <div className="col-12">
                             <div className="form-group">
-                              <label>Linkedin</label>
+                              <label>LinkedIn</label>
                               <input
                                 type="text"
                                 className="form-control"
-                                name="inpe"
+                                name="linkedin"
                                 value={formData.linkedin || ""}
                                 onChange={handleInputChange}
                               />
                             </div>
                           </div>
-                          <div className="col-12">
-                            <div className="form-group">
-                              <label>Twitter</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="inpe"
-                                value={formData.twitter || ""}
-                                onChange={handleInputChange}
-                              />
-                            </div>
+                          <div className="col-12 mt-4">
+                            <label>Education</label>
+                            {formData.medicalStudies.map((education, index) => (
+                              <div key={index} className="form-group row">
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="annee"
+                                    placeholder="Année"
+                                    value={education.annee}
+                                    onChange={(e) => handleEducationChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="diplome"
+                                    placeholder="Diplôme"
+                                    value={education.diplome}
+                                    onChange={(e) => handleEducationChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="institut"
+                                    placeholder="Institut"
+                                    value={education.institut}
+                                    onChange={(e) => handleEducationChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <button type="button" onClick={() => removeEducationField(index)} className="btn btn-danger">
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                            <button type="button" onClick={addEducationField} className="btn btn-secondary">
+                              Add Education
+                            </button>
+                          </div>
+                          <div className="col-12 mt-4">
+                            <label>Experience</label>
+                            {formData.medicalExperience.map((experience, index) => (
+                              <div key={index} className="form-group row">
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="annee"
+                                    placeholder="Année"
+                                    value={experience.annee}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="hopital"
+                                    placeholder="Hopital"
+                                    value={experience.hopital}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="poste"
+                                    placeholder="Poste"
+                                    value={experience.poste}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <button type="button" onClick={() => removeExperienceField(index)} className="btn btn-danger">
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                            <button type="button" onClick={addExperienceField} className="btn btn-secondary">
+                              Add Experience
+                            </button>
                           </div>
                           <div className="col-12">
                             <div className="form-group form-check">

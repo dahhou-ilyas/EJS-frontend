@@ -6,51 +6,44 @@ import Image from "next/image";
 import axios from "axios";
 import Sidebar from "../../components/espaceMedecin/Sidebar1";
 import { morning_img_02, bu, gp, tv, cb ,i} from "../../components/espaceMedecin/imagepath";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 import { Card } from "antd";
+import Live_list from "../../components/espaceMedecin/Live_list";
 import * as bootstrap from "bootstrap";
+import { jwtDecode } from "jwt-decode";
 
-const appointments = [
-  { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-  { day: "Wednesday", hour: "2:00 PM", patient: "Jane Smith" },
-  { day: "Friday", hour: "1:00 PM", patient: "Bob Johnson" },
-  { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-  { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-  { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-];
+// const appointments = [
+//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
+//   { day: "Wednesday", hour: "2:00 PM", patient: "Jane Smith" },
+//   { day: "Friday", hour: "1:00 PM", patient: "Bob Johnson" },
+//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
+//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
+//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
+// ];
 
 const Home = () => {
   const router = useRouter();
   const [rating, setRating] = useState(0);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [news, setNews] = useState([]);
-
-  const [favoritePatients, setFavoritePatients] = useState(null);
   const token = localStorage.getItem('access-token');
+  const [favoritePatients, setFavoritePatients] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    window.bootstrap = bootstrap;
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(
-      (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-    );
-    // getAllHealthNews();
-    getFavoritePatients();
-    // getMedecinEvaluation();
+    if (isTokenInvalidOrNotExist(token)) {
+      router.push('/auth/medecins');
+    } else {
+      window.bootstrap = bootstrap;
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      const tooltipList = [...tooltipTriggerList].map(
+        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+      );
+      getFavoritePatients();
+      const decodedToken = jwtDecode(token);
+      setUser(decodedToken);
+    }
   }, []);
-
-  // const getAllHealthNews = () => {
-  //   //pub_488678f840dc44dfcd2ec89a5c7a1c935d490
-  //   // pub_49337535ef755132b13ece3e4b4f7ccf6a335
-  //   axios
-  //     .get("https://newsdata.io/api/1/news?apikey=pub_49337535ef755132b13ece3e4b4f7ccf6a335&q=health&country=fr,ma&language=en,fr&category=health ")
-  //     .then((res) => {
-  //       setNews(res.data.results);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 
   const getFavoritePatients = () => {
     axios.get('http://localhost:8080/jeune/favorite-patients', {
@@ -66,21 +59,23 @@ const Home = () => {
     })
   }
 
-  // const getMedecinEvaluation = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:8080/medecin/evaluation');
-  //     const data = response.data;
-  //     let newRating = 0;
-  //     for (let i = 1; i <= 5; i++) {
-  //       if (data[i] !== null && data[i] !== "") {
-  //         newRating++;
-  //       }
-  //     }
-  //     setRating(newRating);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  function isTokenInvalidOrNotExist(token) {
+    if (typeof token !== 'string' || token.trim() === '') {
+      console.error('Token is invalid or does not exist');
+      return true; 
+    }
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp && decodedToken.exp < currentTime) {
+        return true; 
+      }
+      return false; 
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return true; 
+    }
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -92,18 +87,6 @@ const Home = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // const renderStars = (rating) => {
-  //   const stars = [];
-  //   for (let i = 0; i < 5; i++) {
-  //     if (i < rating) {
-  //       stars.push(<i key={i} className="bx bxs-star" style={{ color: "yellow", fontSize: "24px", marginTop: "20px" }}></i>);
-  //     } else {
-  //       stars.push(<i key={i} className="bx bxs-star" style={{ color: "grey", fontSize: "24px" }}></i>);
-  //     }
-  //   }
-  //   return stars;
-  // };
 
   return (
     <div id="root">
@@ -131,7 +114,7 @@ const Home = () => {
                 <div className="col-md-6">
                   <div className="morning-user">
                     <h2>
-                      Bonjour, <span>Dr. El Amrani Mohamed </span>
+                      Bonjour, <span>Dr. {user?.claims?.nom ? `${user.claims.nom} ` : ''}{user?.claims?.prenom || ''}</span>
                     </h2>
                     <p>Bonne journée au travail</p>
                     <div style={{ display: "inline-block", marginTop: "-4px" }}>
@@ -224,9 +207,9 @@ const Home = () => {
           </div>
           <p style={{ marginTop: "3rem", fontWeight: "550" }}></p>
           <div className="row d-flex flex-column flex-xl-row">
-            <div className="col-sm-6">
+            <div >
               {/* <p style={{ fontWeight: '550' }}>Rendez-vous</p> */}
-              <div className="d-flex flex-row mt-4">
+              {/* <div className="d-flex flex-row mt-4">
               <i className="fa fa-calendar" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
                 <p className="mx-2" style={{ fontWeight: '550' }}>Rendez-vous</p>
               </div>
@@ -257,7 +240,18 @@ const Home = () => {
                     </div>
                   ))}
                 </div>
-              </Card>
+              </Card> */}
+               <div className="row d-flex flex-column flex-xl-row">
+            <div className="top-left-content">
+              <div className="d-flex flex-row mt-4">
+                <i className="fa fa-newspaper-o" style={{ marginTop: '5px', color: '#2E37A4', type: 'solid' }} />
+                <p className="mx-2" style={{ fontWeight: '550' }}>A la une</p>
+              </div>
+              <div className="content" style={{marginRight:'150px' , marginBottom:'60px' }}>
+                <Live_list toDashborad="/espaceMdecin" />
+              </div>
+            </div>
+          </div>
               <div className="d-flex flex-row mt-4">
               <i className="fa fa-bookmark" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
                 <p className="mx-2" style={{ fontWeight: '550' }}>Patients épinglés</p>
@@ -284,33 +278,6 @@ const Home = () => {
                   ))
                 }
               </Card>
-            </div>
-            <div className="col-sm-6" style={{ marginLeft: '-50px' }}>
-              {/* <p style={{ fontWeight: "550" }}>Dernières nouvelles de santé</p> */}
-              <div className="d-flex flex-row mt-4">
-              <i className="fa fa-newspaper-o" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
-                <p className="mx-2" style={{ fontWeight: '550' }}>A la une</p>
-              </div>
-              {news.slice(0, 10).length > 0 ? (
-                news.slice(0, 10).map((article, index) => (
-                  (article.image_url != null) ?
-                  <Card key={index} className="custom-card " style={{ height: "400px", display: 'flex', justifyContent: 'center', alignItems: 'center', width:"800px" }}>
-                    <div className="card-bodyy" style={{ display: 'flex', flexDirection: 'row' }}>
-                      <div><img style={{ width: '350px', paddingRight: '10px' }} src={ article.image_url } alt="" /></div>
-                      <div>
-                        <h5 className="card-title">{article.title}</h5>
-                        <p className="card-text">{article.description}</p>
-                        <a href={article.link} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                          Lire la suite
-                        </a>
-                      </div>
-                    </div>
-                  </Card>
-                  : null
-                ))
-              ) : (
-                <p>Aucune nouvelle trouvée.</p>
-              )}
             </div>
           </div>
         </div>
