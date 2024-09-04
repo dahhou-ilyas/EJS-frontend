@@ -120,6 +120,7 @@ const Formulaire = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [genre, setGenre] = useState("PRIVEE")
   const [selectedDoctors, setSelectedDoctors] = useState([]);
+  const [selectedConsultedDoctor, setSelectedConsultedDoctor] = useState({})
 
   const [discussion, setDiscussion] = useState({})
   
@@ -259,16 +260,23 @@ const Formulaire = () => {
     const token = localStorage.getItem("access-token")
     const decodedToken = decodeToken(token)
 
-    const data = {
-      ...discussion,
-      genre: genre,
-      type: type,
-      specialitesDemandees: genre === "OUVERTE" ? specialitesDemandees : [],
-      medecinsInvitesIds: genre === "PRIVEE" ? selectedDoctors.map(doc => doc.id) : [],
-      date: date1,
-      heure: timeHours + ":" + timeMinutes,
-      medcinResponsableId: decodedToken.claims.id
+    const medcinConsulteId = genre === "PRIVEE" ? selectedConsultedDoctor.id : null;
+    let medecinsInvitesIds = genre === "PRIVEE" ? selectedDoctors.map(doc => doc.id) : [];
+    if (medcinConsulteId && !medecinsInvitesIds.includes(medcinConsulteId)) {
+        medecinsInvitesIds.push(medcinConsulteId);
     }
+
+    const data = {
+        ...discussion,
+        genre: genre,
+        type: type,
+        specialitesDemandees: genre === "OUVERTE" ? specialitesDemandees : [],
+        medecinsInvitesIds: medecinsInvitesIds,
+        date: date1,
+        heure: timeHours + ":" + timeMinutes,
+        medcinResponsableId: decodedToken.claims.id,
+        medcinConsulteId: medcinConsulteId,
+    };
 
     setDiscussion(data);
 
@@ -902,6 +910,8 @@ const Formulaire = () => {
                           <DoctorSelectionForm 
                             selectedDoctors={selectedDoctors} 
                             setSelectedDoctors={setSelectedDoctors}
+                            selectedConsultedDoctor={selectedConsultedDoctor}
+                            setSelectedConsultedDoctor={setSelectedConsultedDoctor}
                           />
                           <div className="col-md-12 mx-auto">
                             <label className="col-md-10 col-form-label">
