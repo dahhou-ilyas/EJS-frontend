@@ -31,7 +31,7 @@ export default function Sommeil() {
                                         <div className='d-flex flex-column align-items-center'>
                                             <Image
                                                 alt="#"
-                                                src="https://blog.reseau-morphee.fr/wp-content/uploads/sites/2/2021/12/mieux_dormir_pour_mieux_vivre-1130x580.jpg"
+                                                src="https://img.freepik.com/free-vector/woman-sleeping-bedroom_24877-76413.jpg?t=st=1725465718~exp=1725469318~hmac=7e0fd2903a918b546d8b1cce2c52f9ffce1462ec76807ffee03b8a6404a7a58d&w=826"
                                                 className="img-fluid my-5"
                                                 width={350}
                                                 height={350}
@@ -72,7 +72,7 @@ export default function Sommeil() {
                                 <div className='d-flex flex-column align-items-center'>
                                     <Image
                                         alt="#"
-                                        src="https://blog.reseau-morphee.fr/wp-content/uploads/sites/2/2021/12/mieux_dormir_pour_mieux_vivre-1130x580.jpg"
+                                        src="https://img.freepik.com/free-vector/woman-sleeping-bedroom_24877-76413.jpg?t=st=1725465718~exp=1725469318~hmac=7e0fd2903a918b546d8b1cce2c52f9ffce1462ec76807ffee03b8a6404a7a58d&w=826"
                                         className=" img-fluid my-5 "
                                         width= {350} height= {350}
                                         />

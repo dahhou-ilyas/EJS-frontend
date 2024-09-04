@@ -33,7 +33,7 @@ export default function Estime() {
                                     <div className='d-flex flex-column align-items-center'>
                                         <Image
                                             alt="#"
-                                            src="https://www.ciao.ch/media/topics/estime-de-soi.png.767x576_q85.png"
+                                            src="https://img.freepik.com/free-vector/high-self-esteem-illustration_23-2148743572.jpg?t=st=1725465274~exp=1725468874~hmac=867c067e47a5c0adbb311e5cbd2a587a48503645710a5420d67a6e5b039f47eb&w=740"
                                             className="img-fluid my-5"
                                             width={350} height={350}
                                         />
@@ -76,7 +76,7 @@ export default function Estime() {
                             <div className='d-flex flex-column align-items-center'>
                                 <Image
                                     alt="#"
-                                    src="https://www.ciao.ch/media/topics/estime-de-soi.png.767x576_q85.png"
+                                    src="https://img.freepik.com/free-vector/high-self-esteem-illustration_23-2148743572.jpg?t=st=1725465274~exp=1725468874~hmac=867c067e47a5c0adbb311e5cbd2a587a48503645710a5420d67a6e5b039f47eb&w=740"
                                     className=" img-fluid my-5 "
                                     width= {350} height= {350}
                                     />
