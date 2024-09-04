@@ -521,7 +521,10 @@ const MonProfile = () => {
                                 <div className="col-md-3">
                                   {index === 0 && (
                                     <label className="gen-label">
-                                      <p style={{ fontSize: '15px' }}>Année</p>
+                                      <p style={{ fontSize: '15px' }}>Année
+                                      <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}>///////Année</span></p>
                                     </label>
                                   )}
                                   <input
@@ -551,7 +554,9 @@ const MonProfile = () => {
                                 <div className="col-md-3">
                                   {index === 0 && (
                                     <label className="gen-label">
-                                      <p style={{ fontSize: '15px' }}>Institut</p>
+                                      <p style={{ fontSize: '15px' }}>Institut<span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}>////////////</span></p>
                                     </label>
                                   )}
                                   <input
@@ -566,7 +571,9 @@ const MonProfile = () => {
                                 <div className="col-md-3">
                                   {index === 0 && (
                                     <label className="gen-label">
-                                      <p style={{ fontSize: '15px' }}>&nbsp;</p> {/* Empty label space */}
+                                    <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}>Institut////////////</span>
                                     </label>
                                   )}
                                   <button
@@ -576,10 +583,9 @@ const MonProfile = () => {
                                       backgroundColor: '#f0941f', // Orange color
                                       color: '#fff',
                                       border: 'none',
-                                      padding: '8px 16px',
+                                      padding: '8px 8px',
                                       borderRadius: '5px',
                                       fontSize: '15px',
-                                      boxShadow: '0 4px #c0392b', // 3D effect with shadow
                                       cursor: 'pointer',
                                       transition: 'all 0.3s ease',
                                     }}
@@ -615,7 +621,7 @@ const MonProfile = () => {
                                   marginBottom: '20px'
                                 }}
                               >
-                                + Diplôme
+                                +Diplôme
                               </button>
                             </div>
                           </div>
@@ -630,7 +636,10 @@ const MonProfile = () => {
                                 <div className="col-md-3">
                                   {index === 0 && (
                                     <label className="gen-label">
-                                      <p style={{ fontSize: '15px' }}>Année</p>
+                                      <p style={{ fontSize: '15px' }}>Année
+                                      <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}>/////////////</span></p>
                                     </label>
                                   )}
                                   <input
@@ -645,7 +654,11 @@ const MonProfile = () => {
                                 <div className="col-md-3">
                                   {index === 0 && (
                                     <label className="gen-label">
-                                      <p style={{ fontSize: '15px' }}>Poste</p>
+                                      <p style={{ fontSize: '15px' }}>Poste
+                                      <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}>//////////////</span>
+                                      </p>
                                     </label>
                                   )}
                                   <input
@@ -660,7 +673,11 @@ const MonProfile = () => {
                                 <div className="col-md-3">
                                   {index === 0 && (
                                     <label className="gen-label">
-                                      <p style={{ fontSize: '15px' }}>Lieu de travail</p>
+                                      <p style={{ fontSize: '15px' }}>Lieu de travail
+                                      <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}>//....</span>
+                                      </p>
                                     </label>
                                   )}
                                   <input
@@ -675,7 +692,10 @@ const MonProfile = () => {
                                 <div className="col-md-3">
                                   {index === 0 && (
                                     <label className="gen-label">
-                                      <p style={{ fontSize: '15px' }}>&nbsp;</p> {/* Empty label space */}
+                                    <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',
+                                       marginRight:'1px'}}>Institut////////////</span>
                                     </label>
                                   )}
                                   <button
@@ -685,10 +705,9 @@ const MonProfile = () => {
                                       backgroundColor: '#f0941f', // Orange color
                                       color: '#fff',
                                       border: 'none',
-                                      padding: '8px 16px',
+                                      padding: '8px 8px',
                                       borderRadius: '5px',
                                       fontSize: '15px',
-                                      boxShadow: '0 4px #c0392b', // 3D effect with shadow
                                       cursor: 'pointer',
                                       transition: 'all 0.3s ease',
                                     }}
@@ -755,7 +774,7 @@ const MonProfile = () => {
                           </div>
 
 
-                          <div className="col-12">
+                          {/* <div className="col-12">
                             <div className="form-group form-check">
                               <input
                                 type="checkbox"
@@ -789,7 +808,7 @@ const MonProfile = () => {
                                 Médecin ESJ
                               </label>
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                         <button type="submit" className="btn btn-primary">
                           Mettre à jour
