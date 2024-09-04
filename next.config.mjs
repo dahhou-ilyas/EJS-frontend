@@ -13,26 +13,12 @@ const nextConfig = {
         port: "7000",
         pathname: '*'
       },
+      
       {
         protocol: "https",
-        hostname: "itsocial.fr",
+        hostname: "img.freepik.com",
       },
-      {
-        protocol: "https",
-        hostname: "www.ciao.ch",
-      },
-      {
-        protocol: "https",
-        hostname: "resize.elle.fr",
-      },
-      {
-        protocol: "https",
-        hostname: "static.vecteezy.com",
-      },
-      {
-        protocol: "https",
-        hostname: "blog.reseau-morphee.fr",
-      },
+
       {
         protocol: "https",
         hostname: "cdn-icons-png.freepik.com",

@@ -173,7 +173,7 @@ const Sidebar = (props) => {
               </li>
               
               <li>
-                <button
+                {/* <button
                   className="sidebar-btn"
                   onClick={handleLogout} 
                 >
@@ -181,7 +181,17 @@ const Sidebar = (props) => {
                   <i className="fa fa-sign-out" />
                   </span>{" "}
                   <span>Se Déconnecter</span>
-                </button>
+                </button> */}
+                <a
+                href="#"
+                onClick={handleLogout}
+                style={{ textDecoration: 'none' }}
+              >
+                <span className="menu-side">
+                  <i className="fa fa-sign-out" />
+                </span>{" "}
+                <span>Se Déconnecter</span>
+              </a>
               </li>
             </ul>
           </div>
