@@ -8,6 +8,7 @@ import Sidebar from "../../../components/espaceMedecin/Sidebar1";
 import { Profileuser, cameraicon } from "../../../components/espaceMedecin/imagepath";
 import "../../../assets/css/style.css";
 import { ToastContainer, toast } from "react-toastify";
+import { Button, Card, Form, Input, Space, Typography } from 'antd';
 import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
@@ -53,52 +54,52 @@ const MonProfile = () => {
   const getMedecinData = (id) => {
     if (id != null) {
       axios.get('http://localhost:8080/medecins/' + 2, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then(res => {
-      setMedecin(res.data);
-      setFormData({
-        prenom: res.data?.prenom,
-        nom: res.data?.nom,
-        cin: res.data?.cin,
-        inpe: res.data?.inpe,
-        ppr: res.data?.ppr,
-        specialite: res.data?.specialite,
-        mail: res.data?.mail,
-        sexe: res.data?.sexe,
-        linkedin: res.data?.linkedin,
-        about: res.data?.about,
-        password: res.data?.password,
-        estGeneraliste: res.data?.estGeneraliste,
-        estMedcinESJ: res.data?.estMedcinESJ,
-        medicalStudies: res.data?.medicalStudies || [{ annee: "", diplome: "", institut: "" }],
-        medicalExperience: res.data?.medicalExperience || [{ annee: "", hopital: "", poste: "" }],
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      router.push('/auth/medecins');
-    })
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+        .then(res => {
+          setMedecin(res.data);
+          setFormData({
+            prenom: res.data?.prenom,
+            nom: res.data?.nom,
+            cin: res.data?.cin,
+            inpe: res.data?.inpe,
+            ppr: res.data?.ppr,
+            specialite: res.data?.specialite,
+            mail: res.data?.mail,
+            sexe: res.data?.sexe,
+            linkedin: res.data?.linkedin,
+            about: res.data?.about,
+            password: res.data?.password,
+            estGeneraliste: res.data?.estGeneraliste,
+            estMedcinESJ: res.data?.estMedcinESJ,
+            medicalStudies: res.data?.medicalStudies || [{ annee: "", diplome: "", institut: "" }],
+            medicalExperience: res.data?.medicalExperience || [{ annee: "", hopital: "", poste: "" }],
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          router.push('/auth/medecins');
+        })
     }
   }
 
   function isTokenInvalidOrNotExist(token) {
     if (typeof token !== 'string' || token.trim() === '') {
       console.error('Token is invalid or does not exist');
-      return true; 
+      return true;
     }
     try {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp && decodedToken.exp < currentTime) {
-        return true; 
+        return true;
       }
-      return false; 
+      return false;
     } catch (error) {
       console.error("Error decoding token:", error);
-      return true; 
+      return true;
     }
   }
 
@@ -122,7 +123,7 @@ const MonProfile = () => {
       medicalStudies: [...prevState.medicalStudies, { annee: "", diplome: "", institut: "" }]
     }));
   };
-  
+
   const removeEducationField = (index) => {
     const updatedEducations = formData.medicalStudies.filter((_, i) => i !== index);
     setFormData({ ...formData, medicalStudies: updatedEducations });
@@ -134,11 +135,11 @@ const MonProfile = () => {
       medicalExperience: [...prevState.medicalExperience, { annee: "", hopital: "", poste: "" }]
     }));
   };
-  
+
   const removeExperienceField = (index) => {
     const updatedExperiences = formData.medicalExperience.filter((_, i) => i !== index);
     setFormData({ ...formData, medicalExperience: updatedExperiences });
-  };  
+  };
 
   const updateMedecin = (id, medecinData) => {
     console.log(medecinData);
@@ -151,18 +152,18 @@ const MonProfile = () => {
         },
       }
     )
-    .then(response => {
-      if (response.status === 200) {
-        console.log(response.data);
-      } else {
-        throw new Error("Failed to update medecin data");
-      }
-    })
-    .catch(error => {
-      console.error(error);
-      throw error;
-    });
-  };  
+      .then(response => {
+        if (response.status === 200) {
+          console.log(response.data);
+        } else {
+          throw new Error("Failed to update medecin data");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        throw error;
+      });
+  };
 
   const fetchMedecin = () => {
     try {
@@ -184,22 +185,29 @@ const MonProfile = () => {
     }));
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: checked,
-    }));
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const response = await axios.post('http://localhost:8080/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const imageUrl = response.data.url;
+      setFormData((prevState) => ({
+        ...prevState,
+        image_url: imageUrl,
+      }));
+      setPreviewUrl(imageUrl);
+      toast.success("Image uploaded successfully!");
+    } catch (error) {
+      console.error("Failed to upload image", error);
+      toast.error("Failed to upload image.");
+    }
   };
 
   const validateForm = () => {
@@ -273,13 +281,6 @@ const MonProfile = () => {
                       <div className="about-info">
                         <h4>
                           Profil du Docteur
-                          {/* <span>
-                            <Link href="#">
-                              <i className="feather-more-vertical">
-                                <FeatherIcon icon="more-vertical" />
-                              </i>
-                            </Link>
-                          </span> */}
                         </h4>
                       </div>
                       <div className="doctor-profile-head">
@@ -287,7 +288,7 @@ const MonProfile = () => {
                           <div className="profile-user-box">
                             <div className="profile-user-img">
                               <img
-                                src={previewUrl || Profileuser.src}
+                                src={previewUrl || medecin?.image_url || Profileuser.src}
                                 alt="Profile"
                               />{" "}
                               <div className="form-group doctor-up-files profile-edit-icon mb-0">
@@ -323,7 +324,6 @@ const MonProfile = () => {
                                   justifyContent: "flex-end",
                                 }}
                               >
-                                {/* LinkedIn Link */}
                                 <a
                                   className="btn"
                                   href={formData.linkedin}
@@ -361,6 +361,7 @@ const MonProfile = () => {
                       <form onSubmit={handleSubmit}>
                         <div className="row">
                           <div className="col-12 mt-4">
+                            <h4 style={{ marginBottom: '40px' }}>Paramètres du compte</h4>
                             <div className="form-group">
                               <label>À propos de moi</label>
                               <textarea
@@ -472,6 +473,278 @@ const MonProfile = () => {
                               />
                             </div>
                           </div>
+                          {/* <div className="col-12">
+                            <div className="form-group">
+                              <label>Mot de passe</label>
+                              <input
+                                type="password"
+                                className="form-control"
+                                name="password"
+                                placeholder="********"
+                                value={formData.password || ""}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12">
+                            <div className="form-group">
+                              <label>Confirmer le mot de passe</label>
+                              <input
+                                type="password"
+                                className="form-control"
+                                placeholder="********"
+                                name="confirmPassword"
+                                value={formData.confirmPassword || ""}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                          </div> */}
+                          <div className="col-12">
+                            <div className="form-group">
+                              <label>LinkedIn</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                name="linkedin"
+                                value={formData.linkedin || ""}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-6 col-xxl-9">
+                            <label className="gen-label">
+                              <label>Éducation</label>
+                            </label>
+                            {formData.medicalStudies.map((education, index) => (
+                              <div key={index} className="form-group row align-items-center">
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                      <p style={{ fontSize: '15px' }}>Année
+                                      <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}></span></p>
+                                    </label>
+                                  )}
+                                  <input
+                                    type="text"
+                                    value={education.annee}
+                                    onChange={(e) => handleEducationChange(index, e)}
+                                    className="form-control"
+                                    name="annee"
+                                    placeholder="Année"
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                      <p style={{ fontSize: '15px' }}>Diplôme/Formation</p>
+                                    </label>
+                                  )}
+                                  <input
+                                    className="form-control"
+                                    type="text"
+                                    name="diplome"
+                                    placeholder="Diplôme"
+                                    value={education.diplome}
+                                    onChange={(e) => handleEducationChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                      <p style={{ fontSize: '15px' }}>Institut<span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}></span></p>
+                                    </label>
+                                  )}
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="institut"
+                                    placeholder="Institut"
+                                    value={education.institut}
+                                    onChange={(e) => handleEducationChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                    <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}>Institut</span>
+                                    </label>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={() => removeEducationField(index)}
+                                    style={{
+                                      backgroundColor: '#f0941f', // Orange color
+                                      color: '#fff',
+                                      border: 'none',
+                                      padding: '8px 8px',
+                                      borderRadius: '5px',
+                                      fontSize: '15px',
+                                      cursor: 'pointer',
+                                      transition: 'all 0.3s ease',
+                                    }}
+                                    onMouseDown={(e) => {
+                                      e.currentTarget.style.boxShadow = '0 2px #c0392b';
+                                      e.currentTarget.style.transform = 'translateY(2px)';
+                                    }}
+                                    onMouseUp={(e) => {
+                                      e.currentTarget.style.boxShadow = '0 4px #c0392b';
+                                      e.currentTarget.style.transform = 'translateY(0)';
+                                    }}
+                                  >
+                                    Remove
+                                  </button>
+
+                                </div>
+                              </div>
+                            ))}
+
+                            <div className="col-md-4">
+                              <button
+                                type="button"
+                                onClick={addEducationField}
+                                style={{
+                                  border: '2px dashed black',
+                                  paddingTop: '6px',
+                                  paddingBottom: '6px',
+                                  paddingLeft: '120px',
+                                  paddingRight: '120px',
+                                  borderRadius: '10px',
+                                  fontSize: '15px',
+                                  marginTop: '10px',
+                                  marginBottom: '20px'
+                                }}
+                              >
+                                +Diplôme
+                              </button>
+                            </div>
+                          </div>
+
+
+                          <div className="col-12 col-md-6 col-xxl-9">
+                            <label className="gen-label">
+                              <label>Expérience</label>
+                            </label>
+                            {formData.medicalExperience.map((experience, index) => (
+                              <div key={index} className="form-group row">
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                      <p style={{ fontSize: '15px' }}>Année
+                                      <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}></span></p>
+                                    </label>
+                                  )}
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="annee"
+                                    placeholder="Année"
+                                    value={experience.annee}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                      <p style={{ fontSize: '15px' }}>Poste
+                                      <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}></span>
+                                      </p>
+                                    </label>
+                                  )}
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="poste"
+                                    placeholder="Poste"
+                                    value={experience.poste}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                      <p style={{ fontSize: '15px' }}>Lieu de travail
+                                      <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',}}>//....</span>
+                                      </p>
+                                    </label>
+                                  )}
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    name="lieu"
+                                    placeholder="Lieu de travail"
+                                    value={experience.hopital}
+                                    onChange={(e) => handleExperienceChange(index, e)}
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  {index === 0 && (
+                                    <label className="gen-label">
+                                    <span style={{color:'white',
+                                       visibility: 'hidden',
+                                       userSelect: 'none',
+                                       marginRight:'1px'}}>Institut</span>
+                                    </label>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={() => removeExperienceField(index)}
+                                    style={{
+                                      backgroundColor: '#f0941f', // Orange color
+                                      color: '#fff',
+                                      border: 'none',
+                                      padding: '8px 8px',
+                                      borderRadius: '5px',
+                                      fontSize: '15px',
+                                      cursor: 'pointer',
+                                      transition: 'all 0.3s ease',
+                                    }}
+                                    onMouseDown={(e) => {
+                                      e.currentTarget.style.boxShadow = '0 2px #c0392b';
+                                      e.currentTarget.style.transform = 'translateY(2px)';
+                                    }}
+                                    onMouseUp={(e) => {
+                                      e.currentTarget.style.boxShadow = '0 4px #c0392b';
+                                      e.currentTarget.style.transform = 'translateY(0)';
+                                    }}
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                            <div className="col-md-4">
+                              <button
+                                type="button"
+                                onClick={addExperienceField}
+                                style={{
+                                  border: '2px dashed black',
+                                  paddingTop: '6px',
+                                  paddingBottom: '6px',
+                                  paddingLeft: '120px',
+                                  paddingRight: '120px',
+                                  borderRadius: '10px',
+                                  fontSize: '15px',
+                                  marginTop: '10px',
+                                  marginBottom: '30px'
+                                }}
+                              >
+                                +Expérience
+                              </button>
+                            </div>
+                          </div>
+                          <h4 style={{ marginBottom: '40px' }}>Paramètres de sécurité </h4>
                           <div className="col-12">
                             <div className="form-group">
                               <label>Mot de passe</label>
@@ -498,109 +771,7 @@ const MonProfile = () => {
                               />
                             </div>
                           </div>
-                          <div className="col-12">
-                            <div className="form-group">
-                              <label>LinkedIn</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                name="linkedin"
-                                value={formData.linkedin || ""}
-                                onChange={handleInputChange}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 mt-4">
-                            <label>Education</label>
-                            {formData.medicalStudies.map((education, index) => (
-                              <div key={index} className="form-group row">
-                                <div className="col-md-4">
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    name="annee"
-                                    placeholder="Année"
-                                    value={education.annee}
-                                    onChange={(e) => handleEducationChange(index, e)}
-                                  />
-                                </div>
-                                <div className="col-md-4">
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    name="diplome"
-                                    placeholder="Diplôme"
-                                    value={education.diplome}
-                                    onChange={(e) => handleEducationChange(index, e)}
-                                  />
-                                </div>
-                                <div className="col-md-4">
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    name="institut"
-                                    placeholder="Institut"
-                                    value={education.institut}
-                                    onChange={(e) => handleEducationChange(index, e)}
-                                  />
-                                </div>
-                                <div className="col-md-4">
-                                  <button type="button" onClick={() => removeEducationField(index)} className="btn btn-danger">
-                                    Remove
-                                  </button>
-                                </div>
-                              </div>
-                            ))}
-                            <button type="button" onClick={addEducationField} className="btn btn-secondary">
-                              Add Education
-                            </button>
-                          </div>
-                          <div className="col-12 mt-4">
-                            <label>Experience</label>
-                            {formData.medicalExperience.map((experience, index) => (
-                              <div key={index} className="form-group row">
-                                <div className="col-md-4">
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    name="annee"
-                                    placeholder="Année"
-                                    value={experience.annee}
-                                    onChange={(e) => handleExperienceChange(index, e)}
-                                  />
-                                </div>
-                                <div className="col-md-4">
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    name="hopital"
-                                    placeholder="Hopital"
-                                    value={experience.hopital}
-                                    onChange={(e) => handleExperienceChange(index, e)}
-                                  />
-                                </div>
-                                <div className="col-md-4">
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    name="poste"
-                                    placeholder="Poste"
-                                    value={experience.poste}
-                                    onChange={(e) => handleExperienceChange(index, e)}
-                                  />
-                                </div>
-                                <div className="col-md-4">
-                                  <button type="button" onClick={() => removeExperienceField(index)} className="btn btn-danger">
-                                    Remove
-                                  </button>
-                                </div>
-                              </div>
-                            ))}
-                            <button type="button" onClick={addExperienceField} className="btn btn-secondary">
-                              Add Experience
-                            </button>
-                          </div>
-                          <div className="col-12">
+                          {/* <div className="col-12">
                             <div className="form-group form-check">
                               <input
                                 type="checkbox"
@@ -634,7 +805,7 @@ const MonProfile = () => {
                                 Médecin ESJ
                               </label>
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                         <button type="submit" className="btn btn-primary">
                           Mettre à jour

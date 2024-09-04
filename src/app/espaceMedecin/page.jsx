@@ -135,71 +135,84 @@ const Home = () => {
           <i className="fa fa-rocket" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
           <p className="mx-2" style={{ fontWeight: '550' }}>Accès Rapide</p>
           </div>
-          <div className="doctor-list-blk" style={{ width: "100%" }}>
-          <div className="row d-flex justify-content-center">
-          <div className="col-sm-4 col-md-2">
-            <div className="doctor-widget border-right-bg">
-                <div className="doctor-box-icon flex-shrink-0">
-                    <img src={bu.src} alt="" />
-                </div>
-                <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/espaceMedecin/MonProfil">
-                        <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Mon Profil</h4>
-                    </Link>
-                </div>
-            </div>
-        </div>
-        <div className="col-sm-4 col-md-2">
-            <div className="doctor-widget border-right-bg">
-                <div className="doctor-box-icon flex-shrink-0">
-                    <img src={gp.src} alt="" />
-                </div>
-                <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/espaceMedecin/MesPatients">
-                        <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Mes Patients</h4>
-                    </Link>
-                </div>
-            </div>
-        </div>
-        
-        <div className="col-sm-4 col-md-2" >
-            <div className="doctor-widget border-right-bg">
-                <div className="doctor-box-icon flex-shrink-0">
-                    <img src={cb.src} alt="" />
-                </div>
-                <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/chatbot">
-                        <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Chat Bot</h4>
-                    </Link>
-                </div>
-            </div>
-        </div>
-        <div className="col-sm-4 col-md-2" >
-            <div className="doctor-widget border-right-bg" >
-                <div className="doctor-box-icon flex-shrink-0" >
-                    <img src={tv.src} alt="" />
-                </div>
-                <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/TeleExpertise">
-                        <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Télé-Expertise</h4>
-                    </Link>
-                </div>
-            </div>
-        </div>
-        <div className="col-sm-4 col-md-2" >
-            <div className="doctor-widget">
-                <div className="doctor-box-icon flex-shrink-0">
-                    <img src={i.src} alt="" />
-                </div>
-                <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/IES">
-                        <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>IES</h4>
-                    </Link>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+          <div>
+          <div className="doctor-list-blk" style={{ width: "100%"}}>
+          <div className="row d-flex justify-content-center flex-wrap">
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+                  <div className="doctor-widget  h-100 d-flex flex-column align-items-center text-center">
+                      <div className="doctor-box-icon mb-2">
+                          <img src={bu.src} alt="Mon Profil" className="img-fluid" />
+                      </div>
+                      <div className="doctor-content dash-count">
+                          <Link href="/espaceMedecin/MonProfil">
+                              <h4 style={{ color: "#333448", fontSize: "20px", fontWeight: "600", marginTop: "10px", letterSpacing: "0.5px" }}>
+                                  Mon Profil
+                              </h4>
+                          </Link>
+                      </div>
+                  </div>
+              </div>
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+                  <div className="doctor-widget  h-100 d-flex flex-column align-items-center text-center">
+                      <div className="doctor-box-icon mb-2">
+                          <img src={gp.src} alt="Mes Patients" className="img-fluid" />
+                      </div>
+                      <div className="doctor-content dash-count">
+                          <Link href="/espaceMedecin/MesPatients">
+                              <h4 style={{ color: "#333448", fontSize: "20px", fontWeight: "600", marginTop: "10px", letterSpacing: "0.5px" }}>
+                                  Mes Patients
+                              </h4>
+                          </Link>
+                      </div>
+                  </div>
+              </div>
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+                  <div className="doctor-widget h-100 d-flex flex-column align-items-center text-center">
+                      <div className="doctor-box-icon mb-2">
+                          <img src={cb.src} alt="Chat Bot" className="img-fluid" />
+                      </div>
+                      <div className="doctor-content dash-count flex-grow-1">
+                          <Link href="/chatbot">
+                              <h4 style={{ color: "#333448", fontSize: "20px", fontWeight: "600", marginTop: "10px", letterSpacing: "0.5px" }}>
+                                  Chat Bot
+                              </h4>
+                          </Link>
+                      </div>
+                  </div>
+              </div>
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+                  <div className="doctor-widget  h-100 d-flex flex-column align-items-center text-center">
+                      <div className="doctor-box-icon mb-2">
+                          <img src={tv.src} alt="Télé-Expertise" className="img-fluid" />
+                      </div>
+                      <div className="doctor-content dash-count flex-grow-1">
+                          <Link href="/TeleExpertise">
+                              <h4 style={{ color: "#333448", fontSize: "20px", fontWeight: "600", marginTop: "10px", letterSpacing: "0.5px" }}>
+                                  Télé-Expertise
+                              </h4>
+                          </Link>
+                      </div>
+                  </div>
+              </div>
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+                  <div className="doctor-widget h-100 d-flex flex-column align-items-center text-center">
+                      <div className="doctor-box-icon mb-2">
+                          <img src={i.src} alt="IES" className="img-fluid" />
+                      </div>
+                      <div className="doctor-content dash-count flex-grow-1">
+                          <Link href="/IES">
+                              <h4 style={{ color: "#333448", fontSize: "20px", fontWeight: "600", marginTop: "10px",marginLeft:"18px", letterSpacing: "0.5px" }}>
+                                  IES
+                              </h4>
+                          </Link>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+   <div></div>
+            <div></div>
+          </div>
 
           <div>
             <div></div>
@@ -269,7 +282,7 @@ const Home = () => {
                                 <div className="card-body">
                                     <h4 className="card-title">{ item[2] + ' ' + item[1] }</h4>
                                     <p className="card-text" style={{ width: '300px' }}>{ item[3] }, { item[4] } ans</p>
-                                    <a href={'/MesPatients/DossierMedical/' + item[0]} className="btn btn-primary">Consulter le dossier médical</a>
+                                    <a href={'/MesPatients/DossierMedical/' + item[0]} className="btn btn-primary" style={{ maxWidth: '150px', display: 'inline-block', whiteSpace: 'nowrap' }}>Dossier médical</a>
                                 </div>
                             </div>
                         </div>

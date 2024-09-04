@@ -3,53 +3,46 @@ import "../../assets/css/style.css";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
-import {
-  logo,
-  baricon,
-  baricon1
-
-} from "./imagepath";
+import Logo from "../../../public/e-Espace.jpeg";
+import { logo, baricon, baricon1, user06 } from "./imagepath";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
+import axios from 'axios';
 
 const Header = ({section}) => {
   const router = useRouter();
-  const [user,setUser]=useState({})
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem('access-token');
-
-  //   if (!token) {
-  //     router.push('/auth/medecins');
-  //     return;
-  //   }
-  //   try {
-  //     const decodedToken = jwtDecode(token);
-  //     const currentTimestamp = Math.floor(Date.now() / 1000);
-
-  //     if (decodedToken.exp < currentTimestamp) {
-  //       console.error('Token has expired');
-  //       router.push('/auth/medecins');
-  //       return;
-  //     }
-
-  //     if(decodedToken.claims.role=="ROLE_JEUNE"){
-  //       router.push('/');
-  //       return;
-  //     }
-
-  //     setUser(decodedToken);
-  //   } catch (error) {
-  //     console.error('Invalid token:', error);
-  //     router.push('/auth/medecins');
-  //     return;
-  //   }
-  // }, []);
+  const [user, setUser] = useState({});
+  const [medecin, setMedecin] = useState(null);
+  const token = localStorage.getItem('access-token');
 
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
+
+    if (isTokenInvalidOrNotExist(token)) {
+      router.push('/auth/medecins');
+    } else {
+      const decodedToken = jwtDecode(token);
+      setUser(decodedToken);
+      getMedecinData(decodedToken?.claims?.id);
+    }
   }, []);
+
+  const getMedecinData = (id) => {
+    if (id != null) {
+      axios.get('http://localhost:8080/medecins/' + id, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+      })
+      .then(res => {
+        setMedecin(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+        router.push('/auth/medecins');
+      })
+    }
+  }
 
   const openDrawer = () => {
     const div = document.querySelector(".main-wrapper");
@@ -60,17 +53,25 @@ const Header = ({section}) => {
     }
   };
 
-  useEffect(() => {
-    const handleClick = () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-      } else {
-        if (document.exitChaimaAitAliFullscreen) {
-          document.exitFullscreen();
-        }
+  const isTokenInvalidOrNotExist = (token) => {
+    if (typeof token !== 'string' || token.trim() === '') {
+      console.error('Token is invalid or does not exist');
+      return true; 
+    }
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp && decodedToken.exp < currentTime) {
+        return true; 
       }
-    };
+      return false; 
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return true; 
+    }
+  }
 
+  useEffect(() => {
     const maximizeBtn = document.querySelector(".win-maximize");
     // maximizeBtn.addEventListener('click', handleClick);
 
@@ -78,6 +79,7 @@ const Header = ({section}) => {
       // maximizeBtn.removeEventListener('click', handleClick);
     };
   }, []);
+  
   const handlesidebar = () => {
     document.body.classList.toggle("mini-sidebar");
   };
@@ -95,21 +97,17 @@ const Header = ({section}) => {
     router.push("/auth/medecins");
   };
 
-  const firstName = user?.claims?.prenom
-    ? user.claims.nom.toUpperCase() +" "+ user.claims.prenom.toLowerCase()
-    : "";
-
   return (
     <div >
       <div className="header">
         <div className="header-left">
           <Link href="/espaceMedecin" className="logo">
-            <Image src={logo} width={80} height={80} alt="" />{" "}
-            <span>{section}</span>
+            <Image src={ Logo } width={ 150 } alt="" />
+            <span>{''}</span>
           </Link>
         </div>
-        <Link href="#" id="toggle_btn" onClick={handlesidebar}>
-          <Image src={baricon} alt=""  style={{marginLeft:"25px",marginTop:"26px"}}/>
+        <Link href="#" id="toggle_btn" onClick={ handlesidebar }>
+          <Image src={ baricon } alt="" style={{ marginLeft: '20px', marginTop: '27px' }}/>
         </Link>
         <Link
           href="#"
@@ -117,7 +115,7 @@ const Header = ({section}) => {
           className="mobile_btn float-start"
           onClick={handlesidebarmobilemenu}
         >
-          <Image src={baricon1} alt="" style={{marginTop:"22px"}}/>
+          <Image src={baricon1} alt="" style={{ marginTop:"22px" }}/>
         </Link>
         
         <ul className="nav user-menu float-end">
@@ -129,20 +127,20 @@ const Header = ({section}) => {
               className="dropdown-toggle nav-link user-link"
               data-bs-toggle="dropdown"
             >
-              <div className="user-names">
-                <h5>{firstName || "Mon Profile"}</h5>
+              <div className="user-names" style={{ textTransform: 'capitalize' }}>
+                <h5>{user?.claims?.nom ? `${user.claims.nom} ` : ''}{user?.claims?.prenom || '' || "Mon Profile"}</h5>
               </div>
-              <img src="https://i.postimg.cc/Kzp0N0w8/image.png" alt="Admin" className="user-img" />
+              {/* <img src="https://i.postimg.cc/Kzp0N0w8/image.png" alt="Admin" className="user-img" /> */}
+              <img src={ medecin?.image_url || user06 } alt="Admin" className="user-img" />
             </Link>
             <div className="dropdown-menu">
-              <Link href="/MonProfil" className="dropdown-item">
+              <Link href="/espaceMedecin/MonProfil" className="dropdown-item">
                 My Profile
               </Link>
-              <Link href="/ModifierProfil" className="dropdown-item">
+              <Link href="/espaceMedecin//ModifierProfil" className="dropdown-item">
                 Edit Profile
               </Link>
-              <Link href="#" onClick={handleLogout}  className="dropdown-item">
-              
+              <Link href="" onClick={handleLogout}  className="dropdown-item">
                 Logout
               </Link>
             </div>

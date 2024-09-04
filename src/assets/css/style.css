@@ -10079,7 +10079,7 @@ textarea.form-control {
   }
   .mini-sidebar .header .header-left {
     padding: 0 5px;
-    width: 60px;
+    width: 130px;
   }
   .mini-sidebar .sidebar {
     width: 60px;
@@ -11934,7 +11934,7 @@ tr.ant-table-row.ant-table-row-level-0.ant-table-row-selected,
  }
  .star {
    visibility:hidden;
-   font-size:30x;
+   font-size:25px;
    cursor:pointer;
    margin-bottom: 30px;
  }
@@ -11979,6 +11979,12 @@ tr.ant-table-row.ant-table-row-level-0.ant-table-row-selected,
 .sidebar-btn span {
   font-size: 16px;
 }
+
+.custom-table .ant-table-thead > tr > th:hover {
+  background-color: transparent !important; /* Replace with the desired color or remove */
+  cursor: default; /* Optional: removes the pointer cursor on hover */
+}
+
 
  
 /*Espace medecin additional end */
