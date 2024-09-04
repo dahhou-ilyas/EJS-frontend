@@ -20,9 +20,10 @@ export const getOuverteDiscussion = async (token) => {
     }
 }
 
-export const getMyCreatedDiscussions = async (token) => {
+export const getMyCreatedDiscussions = async (token, page) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/discussion?page=0&size=5&isParticipant=false`, {
+        if (!page) page = 0
+        const response = await axios.get(`${API_BASE_URL}/discussion?page=${page}&size=5&isParticipant=false`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -38,9 +39,10 @@ export const getMyCreatedDiscussions = async (token) => {
     }
 }
 
-export const getPlanifiedDiscussions = async (token) => {
+export const getPlanifiedDiscussions = async (token, page) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/discussion?page=0&size=5&isParticipant=true`, {
+        if (!page) page = 0
+        const response = await axios.get(`${API_BASE_URL}/discussion?page=${page}&size=5&isParticipant=true`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -56,9 +58,10 @@ export const getPlanifiedDiscussions = async (token) => {
     }
 }
 
-export const getTerminedDiscussions = async (token) => {
+export const getTerminedDiscussions = async (token, page) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/discussion?page=0&size=5&status=TERMINEE&isParticipant=false`, {
+        if (!page) page = 0
+        const response = await axios.get(`${API_BASE_URL}/discussion?page=${page}&size=5&status=TERMINEE&isParticipant=false`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

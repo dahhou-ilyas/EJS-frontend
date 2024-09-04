@@ -9,24 +9,41 @@ import DiscussionCree from "@/components/TeleExpertise/DiscussionCree";
 import DiscussionPlanifiee from "@/components/TeleExpertise/DiscussionPlanifiee";
 import DiscussionTerminee from "@/components/TeleExpertise/DiscussionTerminee";
 import Invitation from "@/components/TeleExpertise/Invitation";
+import Pagination from 'react-bootstrap/Pagination';
 import { getInvitations, getMyCreatedDiscussions, getPlanifiedDiscussions, getTerminedDiscussions } from "@/services/discussionService";
 
 const Discussions = () => {
-  const [discussionsCrees, setDiscussionsCrees] = useState([])
-  const [discussionsPlanifiees, setDiscussionsPlanifiees] = useState([])
-  const [discussionsTerminees, setDiscussionsTerminees] = useState([])
+  const [discussionsCrees, setDiscussionsCrees] = useState()
+  const [discussionsPlanifiees, setDiscussionsPlanifiees] = useState()
+  const [discussionsTerminees, setDiscussionsTerminees] = useState()
   const [invitations, setInvitations] = useState([])
 
   useEffect(() => {
     async function fetchData() {
       const token = localStorage.getItem("access-token")
-      setDiscussionsCrees((await getMyCreatedDiscussions(token)).content)
-      setDiscussionsPlanifiees((await getPlanifiedDiscussions(token)).content)
-      setDiscussionsTerminees((await getTerminedDiscussions(token)).content)
+      setDiscussionsCrees((await getMyCreatedDiscussions(token)))
+      setDiscussionsPlanifiees((await getPlanifiedDiscussions(token)))
+      setDiscussionsTerminees((await getTerminedDiscussions(token)))
       setInvitations(await getInvitations(token))
     }
     fetchData()
   }, [])
+
+
+  const handlePageChangeCreated = async (pageNumber) => {
+    const token = localStorage.getItem("access-token")
+    setDiscussionsCrees((await getMyCreatedDiscussions(token, pageNumber)))
+  };
+
+  const handlePageChangePlanified = async (pageNumber) => {
+    const token = localStorage.getItem("access-token")
+    setDiscussionsPlanifiees((await getPlanifiedDiscussions(token, pageNumber)))
+  };
+
+  const handlePageChangeTermined = async (pageNumber) => {
+    const token = localStorage.getItem("access-token")
+    setDiscussionsTerminees((await getTerminedDiscussions(token, pageNumber)))
+  };
 
   return (
     <div id="root">
@@ -112,7 +129,7 @@ const Discussions = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {discussionsCrees.map((discussion) => (
+                        {discussionsCrees && discussionsCrees.content.map((discussion) => (
                           <DiscussionCree
                             key={discussion.id}
                             id={discussion.id}
@@ -136,6 +153,24 @@ const Discussions = () => {
                         ))}
                       </tbody>
                     </table>
+
+                    {
+                      discussionsCrees &&
+                      discussionsCrees.totalPages > 1 &&
+                      <Pagination>
+                        {[...Array(discussionsCrees.totalPages)].map((_, index) => (
+                          <Pagination.Item
+                            key={index + 1}
+                            active={index === discussionsCrees.currentPage}
+                            onClick={() => handlePageChangeCreated(index)}
+                            style={{margin: index === 0 ? "0 0 0 auto" : index === discussionsCrees.totalPages -1 ? "0 auto 0 0" : "" }}
+                          >
+                            {index + 1}
+                          </Pagination.Item>
+                        ))}
+                      </Pagination>
+                    }
+
                   </div>
                   <div className="tab-pane" id="solid-rounded-justified-tab2">
                     <table className="table">
@@ -150,21 +185,39 @@ const Discussions = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {discussionsPlanifiees.map((discussion) => (
-                          <DiscussionPlanifiee
-                            key={discussion.id}
-                            discussionId={discussion.id}
-                            title={discussion.titre}
-                            MainDoctor={"Dr. " + discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
-                            neededSpecialities={discussion.specialitesDemandees}
-                            date={discussion.date}
-                            time={discussion.heure}
-                            type={discussion.type}
-                            status={discussion.status}
+                        {
+                          discussionsPlanifiees &&
+                          discussionsPlanifiees.content.map((discussion) => (
+                            <DiscussionPlanifiee
+                              key={discussion.id}
+                              discussionId={discussion.id}
+                              title={discussion.titre}
+                              MainDoctor={"Dr. " + discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
+                              neededSpecialities={discussion.specialitesDemandees}
+                              date={discussion.date}
+                              time={discussion.heure}
+                              type={discussion.type}
+                              status={discussion.status}
                           />
                         ))}
                       </tbody>
                     </table>
+                    {
+                      discussionsPlanifiees &&
+                      discussionsPlanifiees.totalPages > 1 &&
+                      <Pagination>
+                        {[...Array(discussionsPlanifiees.totalPages)].map((_, index) => (
+                          <Pagination.Item
+                            key={index + 1}
+                            active={index === discussionsPlanifiees.currentPage}
+                            onClick={() => handlePageChangePlanified(index)}
+                            style={{margin: index === 0 ? "0 0 0 auto" : index === discussionsPlanifiees.totalPages -1 ? "0 auto 0 0" : "" }}
+                          >
+                            {index + 1}
+                          </Pagination.Item>
+                        ))}
+                      </Pagination>
+                    }
                   </div>
                   <div className="tab-pane" id="solid-rounded-justified-tab3">
                     <table className="table">
@@ -179,22 +232,40 @@ const Discussions = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {discussionsTerminees.map((discussion) => (
-                          <DiscussionTerminee
-                            key={discussion.id}
-                            discussionId={discussion.id}
-                            title={discussion.titre}
-                            MainDoctor={"Dr. " + discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
-                            DoctorsWhoAttended={
-                              discussion.participants
-                                .map(participant => "Dr. " + participant.nom)
-                            }
-                            date={discussion.date}
-                            time={discussion.heure}
-                          />
+                        {
+                          discussionsTerminees &&
+                          discussionsTerminees.content.map((discussion) => (
+                            <DiscussionTerminee
+                              key={discussion.id}
+                              discussionId={discussion.id}
+                              title={discussion.titre}
+                              MainDoctor={"Dr. " + discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
+                              DoctorsWhoAttended={
+                                discussion.participants
+                                  .map(participant => "Dr. " + participant.nom)
+                              }
+                              date={discussion.date}
+                              time={discussion.heure}
+                            />
                         ))}
                       </tbody>
                     </table>
+                    {
+                      discussionsTerminees &&
+                      discussionsTerminees.totalPages > 1 &&
+                      <Pagination>
+                        {[...Array(discussionsTerminees.totalPages)].map((_, index) => (
+                          <Pagination.Item
+                            key={index + 1}
+                            active={index === discussionsTerminees.currentPage}
+                            onClick={() => handlePageChangeTermined(index)}
+                            style={{margin: index === 0 ? "0 0 0 auto" : index === discussionsTerminees.totalPages -1 ? "0 auto 0 0" : "" }}
+                          >
+                            {index + 1}
+                          </Pagination.Item>
+                        ))}
+                      </Pagination>
+                    }
                   </div>
                   <div
                     className="tab-pane"
