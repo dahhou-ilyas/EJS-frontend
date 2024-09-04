@@ -18,21 +18,21 @@ export default function HumeurResult() {
   const [interpretation, setInterpretation] = useState("");
   const pdfRef = useRef(null);
 
-  useEffect(() => {
-    if (Score < 8) {
-      setInterpretation(
-        "Votre évaluation indique que vous avez un bon état émotionnel. Continuez à prendre soin de vous et à pratiquer des activités qui vous apportent joie et satisfaction. Restez attentif à votre bien-être et n'hésitez pas à consulter nos ressources pour maintenir cet équilibre."
-      );
-    } else if (Score >= 8 && Score <= 10) {
-      setInterpretation(
-        "Votre évaluation suggère que vous traversez peut-être une période de changements émotionnels. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse."
-      );
-    } else {
-      setInterpretation(
-        "Votre évaluation suggère que vous traversez peut-être une période de préoccupations émotionnelles. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse."
-      );
-    }
-  }, [Score]);
+    useEffect(() => {
+      if (Score < 8) {
+        setInterpretation(
+          "Votre évaluation indique que vous avez un bon état émotionnel. Continuez à prendre soin de vous et à pratiquer des activités qui vous apportent joie et satisfaction. Restez attentif à votre bien-être et n'hésitez pas à consulter nos ressources pour maintenir cet équilibre."
+        );
+      } else if (Score >= 8 && Score <= 10) {
+        setInterpretation(
+          "Votre évaluation suggère que vous traversez peut-être une période de changements émotionnels. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse."
+        );
+      } else {
+        setInterpretation(
+          "Votre évaluation suggère que vous traversez une période de préoccupations émotionnelles. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance, et explorez nos conseils pour gérer les moments de stress ou de tristesse."
+        );
+      }
+    }, [Score]);
 
   useEffect(() => {
     const date = new Date();

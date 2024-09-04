@@ -11,28 +11,28 @@ const postItems_francais = [
       imgSrc: "https://www.ciao.ch/media/topics/estime-de-soi.png.767x576_q85.png",
       imgAlt: "Estime de soi",
       title: "Estime de soi",
-      description: "Est-ce que Vous Avez Confiance en Vous-Même ?"
+      description: "Est-ce que vous avez confiance en vous-même ?"
     },
     {
       href: "/soutien/paix",
       imgSrc: "https://resize.elle.fr/article/var/plain_site/storage/images/love-sexe/news/stress-inquietude-ou-anxiete-voici-comment-les-differencier-4043472/97177063-1-fre-FR/Stress-inquietude-ou-anxiete-Voici-comment-les-differencier-!.jpg",
       imgAlt: "Paix",
       title: "Paix",
-      description: "Êtes-vous en Paix avec Vous-Même ?"
+      description: "Êtes-vous en paix avec vous-même ?"
     },
     {
       href: "/soutien/humeur",
       imgSrc: "https://static.vecteezy.com/system/resources/previews/011/411/660/non_2x/man-felling-depression-under-moral-stressful-sad-feel-guilty-need-attention-help-sitting-alone-vector.jpg",
       imgAlt: "Humeur",
       title: "Humeur",
-      description: "Est-ce que Votre Humeur et Vitalité sont Équilibrées ?"
+      description: "Est-ce que votre humeur et vitalité sont équilibrées ?"
     },
     {
       href: "/soutien/sommeil",
       imgSrc: "https://blog.reseau-morphee.fr/wp-content/uploads/sites/2/2021/12/mieux_dormir_pour_mieux_vivre-1130x580.jpg",
       imgAlt: "Sommeil",
       title: "Sommeil",
-      description: "Est-ce que Votre Qualité de Sommeil Est Satisfaisante ?"
+      description: "Est-ce que votre qualité de sommeil est satisfaisante ?"
     }
   ];
   const postItems_arabe = [
@@ -160,7 +160,7 @@ const {arabic}=useLanguage();
                 <div class="middle">
                 <article className="soutien-blog blog-single-post">
                             <h5 className="relat-head ">
-                            Soutien Psychologique et Bien être
+                            Soutien psychologique et bien être
                             </h5>
                             <div className=" clearfix ">
                             

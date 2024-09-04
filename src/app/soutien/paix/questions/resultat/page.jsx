@@ -18,13 +18,14 @@ export default function Humeur_Result() {
   const [interpretation, setInterpretation] = useState('');
   const pdfRef = useRef(null);
 
+
   useEffect(() => {
     if (Score < 8) {
       setInterpretation("Votre évaluation indique que vous êtes en paix avec vous-même. Continuez à pratiquer des activités qui favorisent votre tranquillité et bien-être. Restez attentif à votre sérénité et n'hésitez pas à consulter nos ressources pour maintenir cet équilibre.");
     } else if (Score >= 8 && Score <= 10) {
-      setInterpretation("Votre évaluation suggère que vous traversez peut-être une période de stress ou d'inquiétude. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance pour gérer les moments d'anxiété.");
+      setInterpretation("Votre évaluation suggère que vous traversez peut-être une période de stress. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance pour gérer les moments d'anxiété.");
     } else {
-      setInterpretation("Votre évaluation suggère que vous traversez peut-être une période d'anxiété. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance pour gérer les moments d'anxiété.");
+      setInterpretation("Votre évaluation suggère que vous traversez peut-être une période difficile. Il est important de prêter attention à vos sentiments et de prendre soin de vous. Considérez parler à un professionnel ou à un proche de confiance pour gérer les moments d'anxiété.");
     }
   }, [Score]);
 
