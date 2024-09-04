@@ -9,7 +9,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import html2pdf from 'html2pdf.js';
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const { GoogleGenerativeAI } = require("@google/generative-ai");
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -132,7 +132,7 @@ const page = ({ params }) => {
                         <span>{ patient && patient[12] ? 'Oui' : 'Non' }</span>
                       </li>
                       <li>
-                        <h4>Niveau d'études</h4>
+                        <h4>Niveau d&apos;études</h4>
                         <span>{ patient && patient[13] }</span>
                       </li>
                       <li>
@@ -306,4 +306,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;
