@@ -44,13 +44,9 @@ const Live_Planification_Tracker = ({ showModifyLivePlanification, setStatus, is
     const [finalPhase, setFinalPhase] = useState([])
     const [isFetched, setIsFetched] = useState(false);
 
-
     const router = useRouter();
-    const [id, setId] = useState(1);
-
     useEffect(() => {
         const fetchLastLive = async () => {
-
             const token = localStorage.getItem("access-token");
 
             if (!token) {
@@ -60,53 +56,35 @@ const Live_Planification_Tracker = ({ showModifyLivePlanification, setStatus, is
 
             try {
                 const decodedToken = jwtDecode(token);
-                setId(decodedToken.claims.id);
+                const id = decodedToken.claims.id;
+
+                if (isItForAdmin) {
+                    const response1 = await axios(`http://localhost:8080/admins/${id}/streams?phase=notactivated`)
+                    const response2 = await axios(`http://localhost:8080/admins/${id}/streams?phase=question`)
+                    const response3 = await axios(`http://localhost:8080/admins/${id}/streams?phase=final`)
+                    const phase1 = await response1.data;
+                    const phase2 = await response2.data;
+                    const phase3 = await response3.data;
+                    setNotActivatedPhase(sortByDate(phase1));
+                    setQuestionPhase(sortByDate(phase2));
+                    setFinalPhase(sortByDate(phase3));
+                } else {
+                    const response1 = await axios(`http://localhost:8080/jeunes/${id}/streams?phase=question`)
+                    const response2 = await axios(`http://localhost:8080/jeunes/${id}/streams?phase=final`)
+                    const phase1 = await response1.data;
+                    const phase2 = await response2.data;
+                    setQuestionPhase(sortByDate(phase1));
+                    setFinalPhase(sortByDate(phase2));
+                }
             } catch (error) {
-                console.log(error);
             }
+
+            setIsFetched(true);
         };
 
         fetchLastLive();
     }, []);
 
-
-    const fetching = async () => {
-        try {
-            const response1 = await axios(`http://localhost:8080/admins/${id}/streams?phase=notactivated`)
-            const response2 = await axios(`http://localhost:8080/admins/${id}/streams?phase=question`)
-            const response3 = await axios(`http://localhost:8080/admins/${id}/streams?phase=final`)
-            const phase1 = await response1.data;
-            const phase2 = await response2.data;
-            const phase3 = await response3.data;
-            setNotActivatedPhase(sortByDate(phase1));
-            setQuestionPhase(sortByDate(phase2));
-            setFinalPhase(sortByDate(phase3));
-        } catch (e) {
-            console.log(e);
-        }
-
-    }
-    const fetchingforuser = async () => {
-        try {
-            const response1 = await axios(`http://localhost:8080/jeunes/${id}/streams?phase=question&limit=1`)
-            const response2 = await axios(`http://localhost:8080/jeunes/${id}/streams?phase=final&limit=1`)
-            const phase1 = await response1.data;
-            const phase2 = await response2.data;
-            setQuestionPhase(sortByDate(phase1));
-            setFinalPhase(sortByDate(phase2));
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    if (isItForAdmin) {
-        useEffect(() => { fetching(); setIsFetched(true); }, [])
-
-    }
-    else {
-        useEffect(() => { fetchingforuser(); setIsFetched(true); }, [])
-
-    }
     if ((notActivatedPhase.length == 0 || notActivatedPhase === undefined) &&
         (questionPhase.length == 0 || questionPhase === undefined) &&
         (finalPhase.length == 0 || finalPhase === undefined)

@@ -10,6 +10,7 @@ import { DATA } from "@/components/ies/ui/tables/schedule-data";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from 'jwt-decode';
+import Loading from "../utility/loading";
 
 /*const doneLives = livesData.filter(event => dayjs(event.Date).add(1, "hours").add(30, "minutes").isBefore(dayjs()));
 const notDoneYetLives = livesData.filter(event => dayjs(event.Date).add(1, "hours").add(30, "minutes").isAfter(dayjs()));*/
@@ -41,6 +42,7 @@ const Professional_Dashboard = () => {
     const [questionreceive, setquestionreceive] = useState([]);
     const [LiveSelect, setLiveSelect] = useState(null);
     const showDashboard = () => { setSelectedTab(tabNames.dashboard); };
+    const [fetched, setFetched] = useState(false);
     const showLinkAndQuestions = (LiveSelected) => {
         const questions = LiveSelected.questions;
         setLiveSelect(LiveSelected)
@@ -72,14 +74,21 @@ const Professional_Dashboard = () => {
                 try {
                     const decodedToken = jwtDecode(token);
                     const id = decodedToken.claims.id;
+                    const role = decodedToken.claims.role;
+
+                    if (!role.includes("MEDECIN") && !role.includes("SANTE")) {
+                        router.push("/auth/professionnels");
+                        return;
+                    }
+
                     setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
                     fetchQuestions(token, id);
                 } catch (error) {
-                    console.log(error);
                 }
             };
 
             init();
+            setFetched(true);
         }
         , [])
 
@@ -88,6 +97,8 @@ const Professional_Dashboard = () => {
         const url = lienStreamYard.startsWith('http') ? lienStreamYard : `https://${lienStreamYard}`;
         window.location.href = url;
     };
+
+    if (!fetched) return <Loading />;
 
     return (
         <>

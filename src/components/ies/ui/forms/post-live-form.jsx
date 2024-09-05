@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import { getAlertifyInstance } from "../../utility/alertify-singleton";
 import axios from "axios";
+import Loading from "../../utility/loading";
 
 const quality = [
     { value: 1, label: "★☆☆☆☆" },
@@ -44,6 +45,9 @@ const Post_Live_Form = ({ showDashboard }) => {
     const [inputValue2, setTextAreaValue] = useState('');
 
     const [alertify, setAlertify] = useState(null);
+    const [fetched, setFetched] = useState(false);
+
+    const router = useRouter();
 
     useEffect(() => {
         const initializeAlertify = async () => {
@@ -55,13 +59,31 @@ const Post_Live_Form = ({ showDashboard }) => {
             }
         };
 
+        const fetchData = async () => {
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/jeunes");
+                return;
+            }
+
+            try {
+                const decodedToken = jwtDecode(token);
+                const role = decodedToken.claims.role;
+
+                if (!role.includes("JEUNE")) {
+                    router.push("/auth/jeunes");
+                    return;
+                }
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+
         initializeAlertify();
+        fetchData();
+        setFetched(true);
     }, []);
-
-
-
-    const router = useRouter();
-    const [lastLive, setLastLive] = useState(null);
 
     const fetchLastLive = async (token, idJeune) => {
         try {
@@ -124,6 +146,7 @@ const Post_Live_Form = ({ showDashboard }) => {
         }
     };
 
+    if (!fetched) return <Loading />;
 
     return (
         <>

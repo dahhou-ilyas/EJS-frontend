@@ -1,6 +1,11 @@
 import FeatherIcon from "feather-icons-react/build/FeatherIcon";
-import { useState } from 'react';
+import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+import Loading from "../utility/loading";
+import axios from "axios";
 
+/*
 const sampleData = [
     {
         category: 'Nutrition',
@@ -57,6 +62,7 @@ const sampleData = [
         ]
     }
 ];
+*/
 
 const sortCategoriesByLongestTopic = (categories) => {
     return categories.sort((a, b) => {
@@ -65,8 +71,72 @@ const sortCategoriesByLongestTopic = (categories) => {
 };
 
 const Propositions = ({ toDashboard }) => {
-    const [data, setData] = useState(sortCategoriesByLongestTopic(sampleData));
-    console.log(data);
+    const [fetched, setFetched] = useState(false);
+    const [data, setData] = useState([]);
+    const [allLives, setAllLives] = useState(null);
+    const [suggestedThemes, setSuggestedThemes] = useState(null);
+
+    const router = useRouter();
+    useEffect(() => {
+        const fetchData = async () => {
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/administrateur");
+                return;
+            }
+
+            try {
+                const decodedToken = jwtDecode(token);
+                const id = decodedToken.claims.id;
+                const role = decodedToken.claims.role;
+
+                if (role.includes("MEDECIN") || role.includes("SANTE") || role.includes("JEUNE")) {
+                    router.push("/auth/administrateur");
+                    return;
+                }
+
+                const allLives = await axios.get(`http://localhost:8080/admins/${id}/streams?phase=`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                const lives = allLives.data;
+
+                const fetchSuggestedThemes = async () => {
+                    const themesPromises = lives.map(async (live) => {
+                        try {
+                            const response = await axios.get(`http://localhost:8080/streams/${live.id}/suggestedThemes`, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            });
+                            return { liveId: live.id, themes: response.data };
+                        } catch (error) {
+                            console.error(`Error fetching themes for live ID ${live.id}:`, error);
+                            return { liveId: live.id, themes: [] };
+                        }
+                    });
+
+                    const themesResults = await Promise.all(themesPromises);
+                    setSuggestedThemes(themesResults);
+                };
+
+                fetchSuggestedThemes();
+                console.log(suggestedThemes);
+
+                setAllLives(lives);
+                setFetched(true);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+
+        fetchData();
+        setFetched(true);
+    }, []);
+
+    if (!fetched) return <Loading />
 
     return (
         <>
@@ -117,18 +187,24 @@ const Propositions = ({ toDashboard }) => {
                             </div>
                         </div>
                         <div className="row">
-                            {data.map((category) => (
-                                <div key={category.category} className="col-lg-4 col-md-6">
-                                    <div className="category-card mb-4">
-                                        <div className="category-header">{category.category}</div>
-                                        <ul className="topic-list">
-                                            {category.topics.map((topic, index) => (
-                                                <li key={index} className="topic-list-item">{topic}</li>
-                                            ))}
-                                        </ul>
+                            {data.length > 0 ? (
+                                data.map((category) => (
+                                    <div key={category.category} className="col-lg-4 col-md-6">
+                                        <div className="category-card mb-4">
+                                            <div className="category-header">{category.category}</div>
+                                            <ul className="topic-list">
+                                                {category.topics.map((topic, index) => (
+                                                    <li key={index} className="topic-list-item">{topic}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     </div>
+                                ))
+                            ) : (
+                                <div className="col-12">
+                                    <p className="text-center">Aucune proposition disponible</p>
                                 </div>
-                            ))}
+                            )}
                         </div>
                     </div>
                 </div>

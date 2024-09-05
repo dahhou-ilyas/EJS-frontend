@@ -26,6 +26,7 @@ const MonProfile = () => {
     sexe: "",
     about: "",
     mail: "",
+    image_url: "",
     password: "",
     confirmPassword: "",
     estGeneraliste: false,
@@ -70,6 +71,7 @@ const MonProfile = () => {
             mail: res.data?.mail,
             sexe: res.data?.sexe,
             linkedin: res.data?.linkedin,
+            image_url: res.data?.image_url,
             about: res.data?.about,
             password: res.data?.password,
             estGeneraliste: res.data?.estGeneraliste,
@@ -324,35 +326,6 @@ const MonProfile = () => {
                                   justifyContent: "flex-end",
                                 }}
                               >
-                                <a
-                                  className="btn"
-                                  href={formData.linkedin}
-                                  style={{
-                                    borderColor: "transparent",
-                                    color: "black",
-                                    padding: "6px 12px",
-                                    fontSize: "14px",
-                                    backgroundColor: "transparent",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    textDecoration: "none",
-                                  }}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <div
-                                    className="personal-icons"
-                                    style={{ marginRight: "8px" }}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={faLinkedin}
-                                      style={{
-                                        color: "#0077B5",
-                                        fontSize: "24px",
-                                      }}
-                                    />
-                                  </div>
-                                </a>
                               </div>
                             </div>
                           </div>
@@ -504,7 +477,7 @@ const MonProfile = () => {
                           </div> */}
                           <div className="col-12">
                             <div className="form-group">
-                              <label>LinkedIn</label>
+                              <label>LinkedIn username</label>
                               <input
                                 type="text"
                                 className="form-control"
@@ -685,7 +658,7 @@ const MonProfile = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    name="lieu"
+                                    name="hopital"
                                     placeholder="Lieu de travail"
                                     value={experience.hopital}
                                     onChange={(e) => handleExperienceChange(index, e)}
