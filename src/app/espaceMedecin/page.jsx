@@ -2,24 +2,13 @@
 import "../../assets/css/style.css";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import axios from "axios";
 import Sidebar from "../../components/espaceMedecin/Sidebar1";
-import { morning_img_02, bu, gp, tv, cb ,i} from "../../components/espaceMedecin/imagepath";
+import { bu, gp, tv, cb ,i} from "../../components/espaceMedecin/imagepath";
 import { useRouter } from 'next/navigation';
 import { Card } from "antd";
 import Live_list from "../../components/espaceMedecin/Live_list";
-import * as bootstrap from "bootstrap";
 import { jwtDecode } from "jwt-decode";
-
-// const appointments = [
-//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-//   { day: "Wednesday", hour: "2:00 PM", patient: "Jane Smith" },
-//   { day: "Friday", hour: "1:00 PM", patient: "Bob Johnson" },
-//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-//   { day: "Monday", hour: "10:00 AM", patient: "John Doe" },
-// ];
 
 const Home = () => {
   const router = useRouter();
@@ -34,11 +23,6 @@ const Home = () => {
     if (isTokenInvalidOrNotExist(token)) {
       router.push('/auth/medecins');
     } else {
-      window.bootstrap = bootstrap;
-      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-      const tooltipList = [...tooltipTriggerList].map(
-        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-      );
       getFavoritePatients();
       const decodedToken = jwtDecode(token);
       setUser(decodedToken);
@@ -135,112 +119,85 @@ const Home = () => {
           <i className="fa fa-rocket" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
           <p className="mx-2" style={{ fontWeight: '550' }}>Accès Rapide</p>
           </div>
-          <div className="doctor-list-blk" style={{ width: "100%" }}>
-          <div className="row d-flex justify-content-center">
-          <div className="col-sm-4 col-md-2">
-            <div className="doctor-widget border-right-bg">
-                <div className="doctor-box-icon flex-shrink-0">
-                    <img src={bu.src} alt="" />
-                </div>
-                <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/espaceMedecin/MonProfil">
-                        <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Mon Profil</h4>
-                    </Link>
-                </div>
-            </div>
-        </div>
-        <div className="col-sm-4 col-md-2">
-            <div className="doctor-widget border-right-bg">
-                <div className="doctor-box-icon flex-shrink-0">
-                    <img src={gp.src} alt="" />
-                </div>
-                <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/espaceMedecin/MesPatients">
-                        <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Mes Patients</h4>
-                    </Link>
-                </div>
-            </div>
-        </div>
-        
-        <div className="col-sm-4 col-md-2" >
-            <div className="doctor-widget border-right-bg">
-                <div className="doctor-box-icon flex-shrink-0">
-                    <img src={cb.src} alt="" />
-                </div>
-                <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/chatbot">
-                        <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Chat Bot</h4>
-                    </Link>
-                </div>
-            </div>
-        </div>
-        <div className="col-sm-4 col-md-2" >
-            <div className="doctor-widget border-right-bg" >
-                <div className="doctor-box-icon flex-shrink-0" >
-                    <img src={tv.src} alt="" />
-                </div>
-                <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/TeleExpertise">
-                        <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>Télé-Expertise</h4>
-                    </Link>
-                </div>
-            </div>
-        </div>
-        <div className="col-sm-4 col-md-2" >
-            <div className="doctor-widget">
-                <div className="doctor-box-icon flex-shrink-0">
-                    <img src={i.src} alt="" />
-                </div>
-                <div className="doctor-content dash-count flex-grow-1">
-                    <Link href="/IES">
-                        <h4 style={{ color: "#333448", fontSize: "18px" , fontWeight: "700" }}>IES</h4>
-                    </Link>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
           <div>
-            <div></div>
-            <div></div>
+          <div className="doctor-list-blk" style={{ width: "100%"}}>
+          <div className="row d-flex justify-content-center flex-wrap">
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+                  <div className="doctor-widget  h-100 d-flex flex-column align-items-center text-center">
+                      <div className="doctor-box-icon mb-2">
+                          <img src={bu.src} alt="Mon Profil" className="img-fluid" />
+                      </div>
+                      <div className="doctor-content dash-count">
+                          <Link href="/espaceMedecin/MonProfil">
+                              <h4 style={{ color: "#333448", fontSize: "20px", fontWeight: "600", marginTop: "10px", letterSpacing: "0.5px" }}>
+                                  Mon Profil
+                              </h4>
+                          </Link>
+                      </div>
+                  </div>
+              </div>
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+                  <div className="doctor-widget  h-100 d-flex flex-column align-items-center text-center">
+                      <div className="doctor-box-icon mb-2">
+                          <img src={gp.src} alt="Mes Patients" className="img-fluid" />
+                      </div>
+                      <div className="doctor-content dash-count">
+                          <Link href="/espaceMedecin/MesPatients">
+                              <h4 style={{ color: "#333448", fontSize: "20px", fontWeight: "600", marginTop: "10px", letterSpacing: "0.5px" }}>
+                                  Mes Patients
+                              </h4>
+                          </Link>
+                      </div>
+                  </div>
+              </div>
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+                  <div className="doctor-widget h-100 d-flex flex-column align-items-center text-center">
+                      <div className="doctor-box-icon mb-2">
+                          <img src={cb.src} alt="Chat Bot" className="img-fluid" />
+                      </div>
+                      <div className="doctor-content dash-count flex-grow-1">
+                          <Link href="/chatbot">
+                              <h4 style={{ color: "#333448", fontSize: "20px", fontWeight: "600", marginTop: "10px", letterSpacing: "0.5px" }}>
+                                  Chat Bot
+                              </h4>
+                          </Link>
+                      </div>
+                  </div>
+              </div>
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+                  <div className="doctor-widget  h-100 d-flex flex-column align-items-center text-center">
+                      <div className="doctor-box-icon mb-2">
+                          <img src={tv.src} alt="Télé-Expertise" className="img-fluid" />
+                      </div>
+                      <div className="doctor-content dash-count flex-grow-1">
+                          <Link href="/TeleExpertise">
+                              <h4 style={{ color: "#333448", fontSize: "20px", fontWeight: "600", marginTop: "10px", letterSpacing: "0.5px" }}>
+                                  Télé-Expertise
+                              </h4>
+                          </Link>
+                      </div>
+                  </div>
+              </div>
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+                  <div className="doctor-widget h-100 d-flex flex-column align-items-center text-center">
+                      <div className="doctor-box-icon mb-2">
+                          <img src={i.src} alt="IES" className="img-fluid" />
+                      </div>
+                      <div className="doctor-content dash-count flex-grow-1">
+                          <Link href="/IES">
+                              <h4 style={{ color: "#333448", fontSize: "20px", fontWeight: "600", marginTop: "10px",marginLeft:"18px", letterSpacing: "0.5px" }}>
+                                  IES
+                              </h4>
+                          </Link>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
           </div>
           <p style={{ marginTop: "3rem", fontWeight: "550" }}></p>
           <div className="row d-flex flex-column flex-xl-row">
             <div >
-              {/* <p style={{ fontWeight: '550' }}>Rendez-vous</p> */}
-              {/* <div className="d-flex flex-row mt-4">
-              <i className="fa fa-calendar" style={{marginTop :'5px' ,  color : '#2E37A4' , type : 'solide'}}  />
-                <p className="mx-2" style={{ fontWeight: '550' }}>Rendez-vous</p>
-              </div>
-              <Card className="custom-card" style={{ height: "600px", display: 'flex', justifyContent: 'center', alignItems: 'center' , width:"700px" }}>
-                <div className="card-bodyy" >
-                  <h5 className="card-title">À venir</h5>
-                  {appointments.map((appointment, index) => (
-                    <div key={index} className="appointment">
-                      <p className="appointment-details">
-                        <span><strong>Jour:</strong> {appointment.day}</span>
-                        <span><strong>Heure:</strong> {appointment.hour}</span>
-                        <span><strong>Nom du patient:</strong> {appointment.patient}</span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-              <Card className="custom-card" style={{ height: "600px", display: 'flex', justifyContent: 'center', alignItems: 'center', width:"700px" }}>
-                <div className="card-bodyy">
-                  <h5 className="card-title">Dernières consultations</h5>
-                  {appointments.map((appointment, index) => (
-                    <div key={index} className="appointment">
-                      <p className="appointment-details">
-                        <span><strong>Jour:</strong> {appointment.day}</span>
-                        <span><strong>Heure:</strong> {appointment.hour}</span>
-                        <span><strong>Nom du patient:</strong> {appointment.patient}</span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Card> */}
                <div className="row d-flex flex-column flex-xl-row">
             <div className="top-left-content">
               <div className="d-flex flex-row mt-4">
@@ -269,7 +226,7 @@ const Home = () => {
                                 <div className="card-body">
                                     <h4 className="card-title">{ item[2] + ' ' + item[1] }</h4>
                                     <p className="card-text" style={{ width: '300px' }}>{ item[3] }, { item[4] } ans</p>
-                                    <a href={'/MesPatients/DossierMedical/' + item[0]} className="btn btn-primary">Consulter le dossier médical</a>
+                                    <a href={'/MesPatients/DossierMedical/' + item[0]} className="btn btn-primary" style={{ maxWidth: '150px', display: 'inline-block', whiteSpace: 'nowrap' }}>Dossier médical</a>
                                 </div>
                             </div>
                         </div>

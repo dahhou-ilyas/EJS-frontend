@@ -29,7 +29,7 @@ export default function Humeur() {
                     <div className='d-flex flex-column align-items-center'>
                       <Image
                         alt="Illustration de dépression"
-                        src='https://static.vecteezy.com/system/resources/previews/011/411/660/non_2x/man-felling-depression-under-moral-stressful-sad-feel-guilty-need-attention-help-sitting-alone-vector.jpg'
+                        src='https://img.freepik.com/free-vector/anxiety-concept-illustration_114360-8014.jpg?t=st=1725465303~exp=1725468903~hmac=a4406b85f724a87a735925831d5e118feeed46a06f8bfbafcf4cdad5b8541228&w=740'
                         className="img-fluid my-5"
                         width={350}
                         height={350}
@@ -67,7 +67,7 @@ export default function Humeur() {
                     <div className='d-flex flex-column align-items-center'>
                                     <Image
                                         alt="#"
-                                        src='https://static.vecteezy.com/system/resources/previews/011/411/660/non_2x/man-felling-depression-under-moral-stressful-sad-feel-guilty-need-attention-help-sitting-alone-vector.jpg'
+                                        src='https://img.freepik.com/free-vector/anxiety-concept-illustration_114360-8014.jpg?t=st=1725465303~exp=1725468903~hmac=a4406b85f724a87a735925831d5e118feeed46a06f8bfbafcf4cdad5b8541228&w=740'
                                         className=" img-fluid my-5 "
                                         width= {350} height= {350}
                                         />

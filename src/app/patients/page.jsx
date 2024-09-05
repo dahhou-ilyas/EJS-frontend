@@ -25,7 +25,7 @@ const Patients = () => {
     const accessToken = localStorage.getItem('access-token');
     const decodedAccessToken = jwtDecode(accessToken);
     // console.log(`decoded token `,decodedAccessToken);
-    axios.get("http://localhost:8080/jeunes", {
+    axios.get("http://localhost:8080/jeune", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

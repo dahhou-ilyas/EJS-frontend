@@ -1,4 +1,4 @@
-import Header from '@/components/auth/Header';
+import Header from '@/components/espaceMedecin/Header';
 import Sidebar from '@/components/espaceMedecin/Sidebar1';
 import Professional_Dashboard from '@/components/ies/dashboards/professional-dashboard';
 

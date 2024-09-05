@@ -7,14 +7,17 @@ import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import Image from "next/image";
 import Conversation from "@/components/TeleExpertise/Conversation";
 import { useWebSocket } from "@/hooks/useWebSocket";
-import { getDiscussion } from "@/services/discussionService";
+import { endDiscussion, getDiscussion } from "@/services/discussionService";
 import { decodeToken } from "@/utils/docodeToken";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import toast from "react-hot-toast";
+import pdfIcon from "@/assets/img/icons/pdf-icon.png";
+import docIcon from "@/assets/img/icons/doc-icon.png";
 
 const ChatMeeting = ({ params }) => {
   const router = useRouter()
-  const { connect,isConnected, stompClient } = useWebSocket()
+  const { connect, isConnected, stompClient } = useWebSocket()
   const [userId, setUserId] = useState()
   const [discussion, setDiscussion] = useState()
   const [messages, setMessages] = useState([])
@@ -23,7 +26,7 @@ const ChatMeeting = ({ params }) => {
 
   useEffect(() => {
     if (isConnected && stompClient) {
-      const subscription = stompClient.subscribe(
+      const subscription1 = stompClient.subscribe(
         `/topic/discussion/${params.discussionId}`,
         (message) => {
           const messageBody = JSON.parse(message.body);
@@ -40,11 +43,32 @@ const ChatMeeting = ({ params }) => {
         }
       );
 
+      const subscription2 = stompClient.subscribe(
+        `/topic/discussion/${params.discussionId}/ended`,
+        (message) => {
+          const messageBody = JSON.parse(message.body);
+          if (userId === messageBody.medcinConsulteId) {
+            toast.success("La discussion est terminée.")
+            router.push(`/TeleExpertise/Report/${params.discussionId}`)
+          } else {
+            toast.success("La discussion est terminée. Veuillez patienter quelques minutes pour que le médecin consulté termine le rapport.")
+            router.push("/TeleExpertise/Discussions")
+          }
+        }
+      );
+
       return () => {
-        subscription.unsubscribe();
+        subscription1.unsubscribe();
+        subscription2.unsubscribe();
       };
     }
   }, [isConnected, stompClient]);
+
+  const fetchFiles = async () => {
+    const response = await fetch(`/api/upload?id=${params.discussionId}`);
+    const data = await response.json();
+    setFileList(data.files);
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -55,6 +79,11 @@ const ChatMeeting = ({ params }) => {
         await connect(token);
         const res = await getDiscussion(token, params.discussionId);
         setDiscussion(res)
+        if (res.status !== "EN_COURS") {
+          router.push("/TeleExpertise")
+        } else {
+          fetchFiles()
+        }
       } catch (error) {
         router.push("/TeleExpertise")
         console.log(error.message)
@@ -62,17 +91,6 @@ const ChatMeeting = ({ params }) => {
     }
     fetchData()
   }, [])
-
-
-  useEffect(() => {
-    const fetchFiles = async () => {
-      const response = await fetch(`/api/upload?id=${params.discussionId}`);
-      const data = await response.json();
-      setFileList(data.files);
-    };
-
-    fetchFiles();
-  }, []);
 
   const sendMessage = () => {
     if (stompClient && isConnected) {
@@ -92,14 +110,53 @@ const ChatMeeting = ({ params }) => {
     }
   };
 
+  const sendEndedDiscussionMessage = () => {
+    if (stompClient && isConnected) {
+      stompClient.publish({
+        destination: "/app/chat.endDiscussion",
+        body: JSON.stringify(params.discussionId),
+      });
+    } else {
+      console.error("Cannot send message: STOMP client is not connected.");
+    }
+  }
+
+  const terminerDiscussion = async () => {
+    try {
+        const token = localStorage.getItem("access-token");
+
+        await endDiscussion(token, params.discussionId);
+
+        sendEndedDiscussionMessage()
+
+        const deleteResponse = await fetch(`/api/upload?id=${params.discussionId}`, {
+            method: 'DELETE',
+        });
+
+        const deleteResult = await deleteResponse.json();
+
+        if (deleteResponse.ok) {
+            console.log("Files deleted successfully:", deleteResult);
+            toast.success("Discussion terminée");
+            router.push("/TeleExpertise")
+        } else {
+            console.error("Failed to delete files:", deleteResult.message);
+            throw new Error(deleteResult.message);
+        }
+    } catch (error) {
+        console.log(error.message);
+        toast.error("Quelque chose s'est mal passé, veuillez réessayer");
+    }
+  };
+
   const leaveDiscussion = () => {
-    
+    router.push("/TeleExpertise")
   }
 
   if(
     (discussion && userId) && 
     ((!discussion.participants.some(participant => participant.id === userId) && !(discussion.medcinResponsable.id === userId)) ||
-    //discussion.status !== "EN_COURS" ||
+    discussion.status !== "EN_COURS" ||
     discussion.type !== "CHAT")
   ) {
     router.push("/TeleExpertise")
@@ -118,7 +175,7 @@ const ChatMeeting = ({ params }) => {
               <div className="row">
                 <div className="col-sm-12">
                   <ul className="breadcrumb">
-                  <li className="breadcrumb-item">
+                    <li className="breadcrumb-item">
                       <Link href="/TeleExpertise">Télé Expertise </Link>
                     </li>
                     <li className="breadcrumb-item">
@@ -192,7 +249,6 @@ const ChatMeeting = ({ params }) => {
                   ))}
                 </div>
               )}
-              <div className="DiscussionTraitement">{discussion.Traitement}</div>
               {fileList.length > 0 && (
                 <div>
                   <div className="Fichiers">Fichiers Attachés</div>
@@ -230,6 +286,14 @@ const ChatMeeting = ({ params }) => {
                         )}
                       </div>
                     ))}
+                    {discussion.commentaireFichiers != "" && (
+                      <div>
+                        <div className="Traitements">Commentaire Fichiers</div>
+                        <div className="DiscussionMotif">
+                          {discussion.commentaireFichiers}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -248,6 +312,7 @@ const ChatMeeting = ({ params }) => {
                   discussion.medcinResponsable.id === userId ?
                   <button 
                     className="btn btn-danger d-block mx-auto"
+                    onClick={terminerDiscussion}
                   >
                     Terminer la discussion
                   </button>

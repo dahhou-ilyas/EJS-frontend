@@ -6,9 +6,8 @@ import {
   faXTwitter,
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
-import FeatherIcon from "feather-icons-react";
 import Sidebar from "../../../components/espaceMedecin/Sidebar1";
-import { Profileuser, cameraicon } from "../../../components/espaceMedecin/imagepath";
+import { Profileuser } from "../../../components/espaceMedecin/imagepath";
 import "../../../assets/css/style.css";
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
@@ -132,17 +131,12 @@ const Page = () => {
                           <div className="profile-user-box">
                             <div className="profile-user-img">
                               <img
-                                src={previewUrl || Profileuser.src}
+                                src={medecin?.image_url || Profileuser.src}
                                 alt="Profile"
                               />
                               <div className="form-group doctor-up-files profile-edit-icon mb-0">
                                 <div className="uplod d-flex">
                                   <label className="file-upload profile-upbtn mb-0">
-                                    <img src={cameraicon.src} alt="Profile" />
-                                    <input
-                                      type="file"
-                                      onChange={handleFileChange}
-                                    />
                                   </label>
                                 </div>
                               </div>
@@ -248,13 +242,13 @@ const Page = () => {
                           </div>
                           <div className="col-xl-3 col-md-6 mt-3">
                             <div className="detail-personal">
-                              <h2>Généraliste ?</h2>
+                              <h2>Généraliste </h2>
                               <h3>{medecin.estGeneraliste ? "Oui" : "Non"}</h3>
                             </div>
                           </div>
                           <div className="col-xl-3 col-md-6 mt-3">
                             <div className="detail-personal">
-                              <h2>Médecin ESJ ?</h2>
+                              <h2>Médecin ESJ </h2>
                               <h3>{medecin.estMedcinESJ ? "Oui" : "Non"}</h3>
                             </div>
                           </div>
@@ -309,7 +303,7 @@ const Page = () => {
                             <thead>
                               <tr>
                                 <th>Année</th>
-                                <th>Hôpital</th>
+                                <th>Lieu de travail</th>
                                 <th>Poste</th>
                               </tr>
                             </thead>
