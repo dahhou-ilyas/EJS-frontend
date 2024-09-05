@@ -14,6 +14,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Live_Banner from "../ui/banners/we-live-banner";
+import Loading from "../utility/loading";
 
 const tabNames = {
     dashboard: 0,
@@ -22,6 +23,7 @@ const tabNames = {
 };
 
 const Youth_Dashboard = () => {
+    const [fetched, setFetched] = useState(false);
     const [selectedTab, setSelectedTab] = useState(tabNames.dashboard);
 
     const showDashboard = () => { setSelectedTab(tabNames.dashboard); };
@@ -52,6 +54,13 @@ const Youth_Dashboard = () => {
             try {
                 const decodedToken = jwtDecode(token);
                 const idJeune = decodedToken.claims.id;
+                const role = decodedToken.claims.role;
+
+                if (!role.includes("JEUNE")) {
+                    router.push("/auth/jeunes");
+                }
+
+                setFetched(true);
                 setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
 
                 const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
@@ -61,7 +70,6 @@ const Youth_Dashboard = () => {
                 });
                 setLastLive(response.data);
             } catch (error) {
-                console.log(error);
             }
         };
 
@@ -86,12 +94,13 @@ const Youth_Dashboard = () => {
                 });
                 setOngoingLive(response.data);
             } catch (error) {
-                console.log(error);
             }
         };
 
         fetchOngoingLive();
     }, []);
+
+    if (!fetched) return <Loading />;
 
     return (
         <>

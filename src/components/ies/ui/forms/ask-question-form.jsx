@@ -64,7 +64,6 @@ const Ask_Question_Form = ({ showDashboard, liveData }) => {
 						}
 					} else {
 						// Handle other errors
-						console.log(error);
 						if (alertify) {
 							alertify.error(`<strong>This is an error message:</strong> ${error}`);
 						}

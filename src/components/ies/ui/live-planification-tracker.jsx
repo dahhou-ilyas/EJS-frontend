@@ -77,7 +77,6 @@ const Live_Planification_Tracker = ({ showModifyLivePlanification, setStatus, is
                     setFinalPhase(sortByDate(phase2));
                 }
             } catch (error) {
-                console.log(error);
             }
 
             setIsFetched(true);
