@@ -14,6 +14,8 @@ import axios from "axios";
 import { decodeToken } from "@/utils/docodeToken";
 import { getDiscussion } from "@/services/discussionService";
 import { useRouter } from "next/navigation";
+import { PiMicrophoneFill, PiMicrophoneSlashFill } from "react-icons/pi";
+import { HiVideoCamera, HiVideoCameraSlash } from "react-icons/hi2";
 
 const streamConstraints = { audio: true, video: true };
 
@@ -477,26 +479,42 @@ export default function Test({ params }) {
               )}
             </div>
             <div className="col-xl-8">
-              {/* <div className="card chat-box">
-                <div className="page-content">
-                  <div className="meeting">
-                    <div className="meeting-wrapper">
-                      <div className="meeting-list">
-                        <div className="join-contents horizontal-view fade-whiteboard">
-                          
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
               <div 
                 style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  alignItems: "center",
                   gap: '10px',
+                  backgroundColor: 'white',
+                  //border: '2px solid black',
+                  //width: '750px'
+                  minHeight: "400px",
+                  borderRadius: "15px",
+                  paddingTop: "10px"
                 }}
               >
+                <div
+                  style={{
+                    width: '350px',
+                    height: '225px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#363636',
+                    marginBottom: '10px',
+                    borderRadius: "10px"
+                  }}
+                >
+                  <video
+                    //muted
+                    id="localVideo"
+                    autoPlay
+                    ref={localVideoRef}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  ></video>
+                </div> 
               {Object.keys(remoteVideoRefs.current).map(participantId => {
                   return (
                     <div
@@ -504,13 +522,14 @@ export default function Test({ params }) {
                       key={participantId}
                       style={{
                         width: '350px',
-                        //height: '225px',
+                        height: '225px',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: '#363636',
-                        marginRight: "5px"
+                        marginBottom: '10px',
+                        borderRadius: "10px"
                       }}
                     >
                       <video
@@ -523,28 +542,42 @@ export default function Test({ params }) {
                   )
               })}
             </div>
-            {/* <div className="d-flex mt-3 mx-auto">
+            <div className="mt-2 col-xl-12 flex gap-3">
               <button
                 id="toggleVideo"
-                className={`btn-circle ${isVideoEnabled ? 'enabled-style' : 'disabled-style'}`}
-                onClick={() => toggleTrack('video')}
+                className="w-14 h-14 rounded-full bg-red-500 ms-auto"
+                onClick={() => {toggleTrack('video')}}
               >
-                <i id="videoIcon" className={`bi ${isVideoEnabled ? 'bi-camera-video-fill' : 'bi-camera-video-off-fill'}`}></i>
+                {isVideoEnabled ? (
+                  <HiVideoCamera className="m-auto text-3xl text-white" />
+                ) : (
+                  <HiVideoCameraSlash className="m-auto text-3xl text-white" />
+                )}
+              </button>
+              <button 
+                className="bg-red-500 text-white px-2 py-1 rounded-md"
+              >
+                Terminer la discussion
               </button>
               <button
                 id="toggleAudio"
-                className={`btn-circle ${isAudioEnabled ? 'enabled-style' : 'disabled-style'}`}
-                onClick={() => toggleTrack('audio')}
+                className="w-14 h-14 rounded-full bg-red-500 me-auto"
+                onClick={() => {toggleTrack('audio')}}
               >
-                <i id="audioIcon" className={`bi ${isAudioEnabled ? 'bi-mic-fill' : 'bi-mic-mute-fill'}`}></i>
+                {isAudioEnabled ? (
+                  <PiMicrophoneFill className="m-auto text-3xl text-white" />
+                ) : (
+                  <PiMicrophoneSlashFill className="m-auto text-3xl text-white" />
+                )}
               </button>
-            </div> */}
+              
+            </div>
           </div>
             
         </div>
         }
       </div>
-      <video
+      {/* <video
         muted
         id="localVideo"
         autoPlay
@@ -556,7 +589,7 @@ export default function Test({ params }) {
           bottom: '20px',
           right: '20px',
         }}
-      ></video>
+      ></video> */}
     </div>
   )
 }
