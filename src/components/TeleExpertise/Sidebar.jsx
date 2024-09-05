@@ -23,7 +23,8 @@ const Sidebar = (props) => {
   const expandMenuOpen = () => {
     document.body.classList.add("expand-menu");
   };
-  const handlLogout = () => {
+  
+  const handleLogout = () => {
     localStorage.removeItem("access-token");
     router.push("/auth/medecins");
   };
@@ -133,27 +134,16 @@ const Sidebar = (props) => {
                 </Link>
               </li>
               <li>
-                <button
-                  className={
-                    props?.activeClassName === "parametres"
-                      ? "active mx-auto"
-                      : "ml-5 p-2"
-                  }
-                  onClick={handlLogout} // Assure-toi que la fonction s'appelle `handleLogout`
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "0",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <span className="menu-side pr-3">
-                    <Image width={25} src={logout} alt="" />
-                  </span>{" "}
-                  <span>Se Déconnecter</span>
-                </button>
+              <a
+                href="#"
+                onClick={handleLogout}
+                style={{ textDecoration: 'none' }}
+              >
+                <span className="menu-side">
+                  <i className="fa fa-sign-out" />
+                </span>{" "}
+                <span>Se Déconnecter</span>
+              </a>
               </li>
             </ul>
           </div>
