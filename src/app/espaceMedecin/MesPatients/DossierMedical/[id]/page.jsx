@@ -9,7 +9,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import html2pdf from 'html2pdf.js';
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const { GoogleGenerativeAI } = require("@google/generative-ai");
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -132,7 +132,7 @@ const page = ({ params }) => {
                         <span>{ patient && patient[12] ? 'Oui' : 'Non' }</span>
                       </li>
                       <li>
-                        <h4>Niveau d'études</h4>
+                        <h4>Niveau études</h4>
                         <span>{ patient && patient[13] }</span>
                       </li>
                       <li>
@@ -198,37 +198,37 @@ const page = ({ params }) => {
                     </h4>
                     {
                       consultations && consultations.map((item, index) => (
-                        <div>
+                        <div key={index}>
                           <h4 style={{ marginBottom: '20px', marginTop: '20px', textAlign: 'center' }}>Consultations { index + 1 }</h4>
                           <ul className="list-space">
                             <li style={{alignItems: 'start'}}>
                               <h4>Date consultation</h4>
                               <div style={{display: 'flex', flexDirection: 'column'}}>
-                                <span key={index}>{ item[0] }</span>
+                                <span>{ item[0] }</span>
                               </div>
                             </li>
                             <li style={{alignItems: 'start', marginTop: '-20px'}}>
                               <h4>Motif consultation</h4>
                               <div style={{display: 'flex', flexDirection: 'column'}}>
-                                <span key={index}>{ item[1] }</span>
+                                <span>{ item[1] }</span>
                               </div>
                             </li>
                             <li style={{alignItems: 'start', marginTop: '-20px'}}>
                               <h4>Diagnostic</h4>
                               <div style={{display: 'flex', flexDirection: 'column'}}>
-                                <span key={index}>{ item[2] }</span>
+                                <span>{ item[2] }</span>
                               </div>
                             </li>
                             <li style={{alignItems: 'start', marginTop: '-20px'}}>
                               <h4>Traitement</h4>
                               <div style={{display: 'flex', flexDirection: 'column'}}>
-                                <span key={index}>{ item[3] }</span>
+                                <span>{ item[3] }</span>
                               </div>
                             </li>
                             <li style={{alignItems: 'start', marginTop: '-20px'}}>
                               <h4>Recommandation</h4>
                               <div style={{display: 'flex', flexDirection: 'column'}}>
-                                <span key={index}>{ item[4] }</span>
+                                <span>{ item[4] }</span>
                               </div>
                             </li>
                           </ul>
@@ -306,4 +306,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

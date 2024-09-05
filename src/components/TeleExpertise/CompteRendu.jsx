@@ -2,24 +2,17 @@ import React from "react";
 
 const PrintableComponent = React.forwardRef((props, ref) => {
   const {
-    title,
     description,
     patientName,
     patientLastName,
-    patientDOB,
+    age,
     patientID,
     patientCIN,
     patientMassar,
     caseCreation,
     caseClosure,
-    requestingDoctorName,
-    requestingDoctorLastName,
-    requestingDoctorWorkplace,
-    requestingDoctorSpecialty,
-    consultedDoctorName,
-    consultedDoctorLastName,
-    consultedDoctorWorkplace,
-    consultedDoctorSpecialty,
+    requestingDoctor,
+    consultedDoctor,
     discussion,
     conclusion,
   } = props;
@@ -29,9 +22,9 @@ const PrintableComponent = React.forwardRef((props, ref) => {
       ref={ref}
       style={{
         padding: "20mm",
-        background: "white",
-        width: "210mm",
-        minHeight: "297mm",
+        //background: "white",
+        //width: "210mm",
+        //minHeight: "297mm",
         boxSizing: "border-box",
         fontFamily: "Arial, sans-serif",
         fontSize: "12pt",
@@ -94,7 +87,7 @@ const PrintableComponent = React.forwardRef((props, ref) => {
             marginBottom: "20px",
           }}
         >
-          <h1 style={{ fontSize: "16pt" }}>{title}</h1>
+          <h1 style={{ fontSize: "16pt" }}>Rapport de Télé-expertise</h1>
           <div style={{ textAlign: "right" }}>
             <h2 style={{ fontSize: "14pt", margin: 0 }}>e-ESJ</h2>
           </div>
@@ -144,10 +137,10 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                   backgroundColor: "#f5f5f5",
                 }}
               >
-                Date de naissance
+                Âge
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {patientDOB}
+                {age} ans
               </td>
               <td
                 style={{
@@ -173,7 +166,7 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                 CIN
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {patientCIN}
+                {patientCIN ? patientCIN : "_"}
               </td>
               <td
                 style={{
@@ -185,10 +178,10 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                 Code Massar
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {patientMassar}
+                {patientMassar ? patientMassar : "_"}
               </td>
             </tr>
-            <tr>
+            {/* <tr>
               <td
                 style={{
                   border: "1px solid #ccc",
@@ -213,7 +206,7 @@ const PrintableComponent = React.forwardRef((props, ref) => {
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
                 {caseClosure}
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
         <h2 style={{ fontSize: "14pt", marginBottom: "10px" }}>
@@ -242,7 +235,7 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                 Nom
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {requestingDoctorName}
+                {requestingDoctor.nom}
               </td>
               <td
                 style={{
@@ -254,7 +247,7 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                 Prénom
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {requestingDoctorLastName}
+                {requestingDoctor.prenom}
               </td>
             </tr>
             <tr>
@@ -265,10 +258,10 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                   backgroundColor: "#f5f5f5",
                 }}
               >
-                Lieu de travail
+                Mail
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {requestingDoctorWorkplace}
+                {requestingDoctor.mail}
               </td>
               <td
                 style={{
@@ -280,7 +273,7 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                 Spécialité
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {requestingDoctorSpecialty}
+                {requestingDoctor.estGeneraliste ? "Généraliste" : requestingDoctor.specialite}
               </td>
             </tr>
           </tbody>
@@ -307,7 +300,7 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                 Nom
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {consultedDoctorName}
+                {consultedDoctor.nom}
               </td>
               <td
                 style={{
@@ -319,7 +312,7 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                 Prénom
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {consultedDoctorLastName}
+                {consultedDoctor.prenom}
               </td>
             </tr>
             <tr>
@@ -330,10 +323,10 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                   backgroundColor: "#f5f5f5",
                 }}
               >
-                Lieu de travail
+                Mail
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {consultedDoctorWorkplace}
+                {consultedDoctor.mail}
               </td>
               <td
                 style={{
@@ -345,13 +338,13 @@ const PrintableComponent = React.forwardRef((props, ref) => {
                 Spécialité
               </td>
               <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {consultedDoctorSpecialty}
+                {consultedDoctor.estGeneraliste ? "Généraliste" : consultedDoctor.specialite}
               </td>
             </tr>
           </tbody>
         </table>
-        <h2 style={{ fontSize: "14pt", marginBottom: "10px" }}>Discussion</h2>
-        <p style={{ marginBottom: "20px" }}>{discussion}</p>
+        {/* <h2 style={{ fontSize: "14pt", marginBottom: "10px" }}>Discussion</h2>
+        <p style={{ marginBottom: "20px" }}>{discussion}</p> */}
         <h2 style={{ fontSize: "14pt", marginBottom: "10px" }}>
           Conclusion et recommandation
         </h2>

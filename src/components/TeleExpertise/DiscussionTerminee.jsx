@@ -4,8 +4,10 @@ import "@/assets/css/style.css";
 import Image from "next/image";
 import { pdficon } from "./imagepath";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 const DiscussionTerminee = ({
+  discussionId,
   title,
   MainDoctor,
   DoctorsWhoAttended,
@@ -13,14 +15,10 @@ const DiscussionTerminee = ({
   time,
   compteRendu,
 }) => {
-  // Function to handle file download
+  const router = useRouter()
+
   const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = compteRendu;
-    link.download = "compteRendu.pdf"; // Specify the default file name
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    router.push(`/TeleExpertise/Report/${discussionId}`)
   };
 
   return (

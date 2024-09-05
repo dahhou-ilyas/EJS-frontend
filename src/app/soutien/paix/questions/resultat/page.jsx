@@ -53,6 +53,7 @@ export default function Humeur_Result() {
   const userId = user?.claims?.id;
   const userNom = user?.claims?.nom;
   const userPrenom = user?.claims?.prenom;
+  const userEmail = user?.claims?.mail;
   
 
   useEffect(() => {
@@ -119,7 +120,7 @@ export default function Humeur_Result() {
   
       // Attempt to send the email
       try {
-        const result = await sendEmail(pdfBase64);
+        const result = await sendEmail(userEmail, pdfBase64);
         if (result.success) {
           console.log("PDF sent successfully via email");
         } else {
@@ -141,7 +142,7 @@ export default function Humeur_Result() {
       <Header />
       <div className="page-wrapper">
         <div className="content">
-          <Breadcrumb title={"Humeur"} />
+          <Breadcrumb title={"Bonheur"} />
           <div className="container">
           <div ref={pdfRef} style={{ fontSize: '20px' }}>
           
