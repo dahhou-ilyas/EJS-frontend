@@ -165,7 +165,7 @@ const Page = () => {
                                 {/* LinkedIn Link */}
                                 <a
                                   className="btn"
-                                  href={medecin.linkedin}
+                                  href={'https://www.linkedin.com/' + medecin.linkedin} 
                                   style={{
                                     borderColor: "transparent",
                                     color: "black",
