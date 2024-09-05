@@ -2,9 +2,13 @@ import axios from "axios";
 
 const API_BASE_URL = "http://localhost:8080";
 
-export const getMedecinById = async (id) => {
+export const getMedecinById = async (token, id) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/medecins/${id}`);
+    const response = await axios.get(`${API_BASE_URL}/medecins/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     if (response.status === 200) {
       return response.data;
     } else {
