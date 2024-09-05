@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import FileUploader from "../file-uploader";
 import { getAlertifyInstance } from "@/components/ies/utility/alertify-singleton";
 import { jwtDecode } from 'jwt-decode';
+import { useRouter } from "next/navigation";
 
 const Live_Planification_Form = ({ toDashboard }) => {
     const [alertify, setAlertify] = useState(null);
@@ -45,6 +46,35 @@ const Live_Planification_Form = ({ toDashboard }) => {
     const [selectedTime, setSelectedTime] = useState(null);
 
     const [file, setFile] = useState(null);
+    const [fetched, setFetched] = useState(false);
+    const router = useRouter();
+    useEffect(() => {
+        const init = async () => {
+
+            const token = localStorage.getItem("access-token");
+
+            if (!token) {
+                router.push("/auth/administrateur");
+                return;
+            }
+
+            try {
+                const decodedToken = jwtDecode(token);
+                const role = decodedToken.claims.role;
+
+                if (role.includes("MEDECIN") || role.includes("SANTE") || role.includes("JEUNE")) {
+                    router.push("/auth/administrateur");
+                    return;
+                }
+            } catch (error) {
+            }
+        };
+
+        init();
+        setFetched(true);
+    }, []);
+
+    if (!fetched) return <Loading />;
 
     const handleDateChange = (date) => {
         const formattedDate = dayjs(date).format('YYYY-MM-DD');
@@ -140,12 +170,12 @@ const Live_Planification_Form = ({ toDashboard }) => {
         const fetchProfessionals = async () => {
             try {
                 const token = localStorage.getItem("access-token");
-    
+
                 if (!token) {
                     router.push("/auth/administrateur");
                     return;
                 }
-    
+
                 const response = await axios.get("http://localhost:8080/responsables", {
                     headers: {
                         Authorization: `Bearer ${token}`

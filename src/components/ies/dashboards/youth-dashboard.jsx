@@ -76,7 +76,6 @@ const Youth_Dashboard = () => {
                 });
 
                 setOngoingLive(ongoingLiveResponse.data);
-                setFetched(true);
             } catch (error) {
                 console.error("Error fetching data: ", error);
             }
