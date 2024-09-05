@@ -1,4 +1,4 @@
-import Header from '@/components/auth/Header';
+import Header from '@/components/espaceMedecin/Header';
 import Stats_Page from '@/components/ies/ui/tables/stats-page';
 
 export default function Home() {
