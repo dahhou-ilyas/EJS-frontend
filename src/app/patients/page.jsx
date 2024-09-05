@@ -97,11 +97,18 @@ const Patients = () => {
       dataIndex: "dateNaissance",
       render: (text, record) => (
         <h2 className="profile-image">
-          <Link href={`${path}/${record.id}`}>{record.dateNaissance}</Link>
+          <Link href={`${path}/${record.id}`}>
+            {new Date(record.dateNaissance).toLocaleDateString('fr-FR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
+          </Link>
         </h2>
       ),
       sorter: (a, b) => new Date(a.dateNaissance) - new Date(b.dateNaissance)
-    },
+    }
+    ,
     {
       title: "Scolarise",
       dataIndex: "scolarise",
