@@ -67,7 +67,7 @@ const Patients = () => {
       dataIndex: "nom",
       render: (text, record) => (
         <h2 className="profile-image">
-          <Link href={`${path}/${record.id}`}>{record.nom}</Link>
+          <Link href={`${path}/${record.id}`}>{record.infoUser?.nom}</Link>
         </h2>
       ),
       sorter: (a, b) => a.nom.localeCompare(b.nom)
@@ -77,7 +77,7 @@ const Patients = () => {
       dataIndex: "prenom",
       render: (text, record) => (
         <h2 className="profile-image">
-          <Link href={`${path}/${record.id}`}>{record.prenom}</Link>
+          <Link href={`${path}/${record.id}`}>{record.infoUser?.prenom}</Link>
         </h2>
       ),
       sorter: (a, b) => a.prenom.localeCompare(b.prenom)
