@@ -24,35 +24,35 @@ const Header = ({t,locale}) => {
 
   const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
-    const token = localStorage.getItem('access-token');
+  // useEffect(() => {
+  //   const token = localStorage.getItem('access-token');
 
-    if (!token) {
-      router.push('/auth/jeunes');
-      return;
-    }
-    try {
-      const decodedToken = jwtDecode(token);
-      const currentTimestamp = Math.floor(Date.now() / 1000);
+  //   if (!token) {
+  //     router.push('/auth/jeunes');
+  //     return;
+  //   }
+  //   try {
+  //     const decodedToken = jwtDecode(token);
+  //     const currentTimestamp = Math.floor(Date.now() / 1000);
 
-      if (decodedToken.exp < currentTimestamp) {
-        console.error('Token has expired');
-        router.push('/auth/jeunes');
-        return;
-      }
+  //     if (decodedToken.exp < currentTimestamp) {
+  //       console.error('Token has expired');
+  //       router.push('/auth/jeunes');
+  //       return;
+  //     }
 
-      if(decodedToken.claims.role=="ROLE_MEDECIN" || decodedToken.claims.role=="ROLE_PROFESSIONELSANTE"){
-        router.push('/espaceMedecin');
-        return;
-      }
+  //     if(decodedToken.claims.role=="ROLE_MEDECIN" || decodedToken.claims.role=="ROLE_PROFESSIONELSANTE"){
+  //       router.push('/espaceMedecin');
+  //       return;
+  //     }
 
-      setUser(decodedToken);
-    } catch (error) {
-      console.error('Invalid token:', error);
-      router.push('/auth/jeunes');
-      return;
-    }
-  }, []);
+  //     setUser(decodedToken);
+  //   } catch (error) {
+  //     console.error('Invalid token:', error);
+  //     router.push('/auth/jeunes');
+  //     return;
+  //   }
+  // }, []);
 
   const onSelectChange = (value) => {
     const segments = pathname.split('/').filter(Boolean);
