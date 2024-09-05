@@ -658,7 +658,7 @@ const MonProfile = () => {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    name="lieu"
+                                    name="hopital"
                                     placeholder="Lieu de travail"
                                     value={experience.hopital}
                                     onChange={(e) => handleExperienceChange(index, e)}
