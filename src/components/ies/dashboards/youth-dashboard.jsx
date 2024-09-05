@@ -40,66 +40,52 @@ const Youth_Dashboard = () => {
 
     const router = useRouter();
     let [name, setName] = useState("User");
-
     useEffect(() => {
-        const fetchLastLive = async () => {
-
+        const fetchData = async () => {
             const token = localStorage.getItem("access-token");
-
+    
             if (!token) {
                 router.push("/auth/jeunes");
                 return;
             }
-
+    
             try {
                 const decodedToken = jwtDecode(token);
                 const idJeune = decodedToken.claims.id;
                 const role = decodedToken.claims.role;
-
+    
                 if (!role.includes("JEUNE")) {
                     router.push("/auth/jeunes");
                     return;
                 }
-
+    
                 setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
-
-                const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
+    
+                const lastLiveResponse = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setLastLive(response.data);
+
+                setLastLive(lastLiveResponse.data);
+    
+                const ongoingLiveResponse = await axios.get(`http://localhost:8080/streams/ongoing`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                setOngoingLive(ongoingLiveResponse.data);
+                setFetched(true);
             } catch (error) {
+                console.error("Error fetching data: ", error);
             }
         };
-
-        fetchLastLive();
+    
+        fetchData();
         setFetched(true);
     }, []);
-
-    useEffect(() => {
-        const fetchOngoingLive = async () => {
-
-            const token = localStorage.getItem("access-token");
-
-            if (!token) {
-                router.push("/auth/jeunes");
-                return;
-            }
-
-            try {
-                const response = await axios.get(`http://localhost:8080/streams/ongoing`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setOngoingLive(response.data);
-            } catch (error) {
-            }
-        };
-
-        fetchOngoingLive();
-    }, []);
+    
 
     if (!fetched) return <Loading />;
 
