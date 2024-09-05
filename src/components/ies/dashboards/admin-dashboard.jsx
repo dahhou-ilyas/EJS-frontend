@@ -55,15 +55,16 @@ const Admin_Dashboard = () => {
 
                 if (role.includes("MEDECIN") || role.includes("SANTE") || role.includes("JEUNE")) {
                     router.push("/auth/administrateur");
+                    return;
                 }
 
                 setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
-                setFetched(true);
             } catch (error) {
             }
         };
 
         init();
+        setFetched(true);
     }, []);
 
     if (!fetched) return <Loading />;

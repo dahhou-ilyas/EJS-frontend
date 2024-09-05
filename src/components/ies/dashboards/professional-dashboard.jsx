@@ -78,16 +78,17 @@ const Professional_Dashboard = () => {
 
                     if (!role.includes("MEDECIN") && !role.includes("SANTE")) {
                         router.push("/auth/professionnels");
+                        return;
                     }
 
                     setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
                     fetchQuestions(token, id);
-                    setFetched(true);
                 } catch (error) {
                 }
             };
 
             init();
+            setFetched(true);
         }
         , [])
 

@@ -58,9 +58,9 @@ const Youth_Dashboard = () => {
 
                 if (!role.includes("JEUNE")) {
                     router.push("/auth/jeunes");
+                    return;
                 }
 
-                setFetched(true);
                 setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
 
                 const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
@@ -74,6 +74,7 @@ const Youth_Dashboard = () => {
         };
 
         fetchLastLive();
+        setFetched(true);
     }, []);
 
     useEffect(() => {
