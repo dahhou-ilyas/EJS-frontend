@@ -42,6 +42,7 @@ const Live_Planification_Tracker = ({ showModifyLivePlanification, setStatus, is
     const [notActivatedPhase, setNotActivatedPhase] = useState([])
     const [questionPhase, setQuestionPhase] = useState([])
     const [finalPhase, setFinalPhase] = useState([])
+    const [isFetched, setIsFetched] = useState(false);
 
 
     const router = useRouter();
@@ -99,11 +100,11 @@ const Live_Planification_Tracker = ({ showModifyLivePlanification, setStatus, is
     }
 
     if (isItForAdmin) {
-        useEffect(() => { fetching() }, [])
+        useEffect(() => { fetching(); setIsFetched(true); }, [])
 
     }
     else {
-        useEffect(() => { fetchingforuser() }, [])
+        useEffect(() => { fetchingforuser(); setIsFetched(true); }, [])
 
     }
     if ((notActivatedPhase.length == 0 || notActivatedPhase === undefined) &&
@@ -111,7 +112,7 @@ const Live_Planification_Tracker = ({ showModifyLivePlanification, setStatus, is
         (finalPhase.length == 0 || finalPhase === undefined)
     ) {
         // Afficher un message ou un composant de chargement en attendant les données
-        return <Loading />;
+        return isFetched ? <p style={{ textAlign: 'center' }}>Données non disponibles</p> : <Loading />;
     }
 
     return (

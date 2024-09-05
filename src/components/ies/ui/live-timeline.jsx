@@ -132,7 +132,7 @@ const Live_Timeline = ({ isItForAdmin }) => {
                                                         return (
                                                             <li key={idx}>
                                                                 {formattedDate} <span>
-                                                                    <span className="custom-theme">{live.thematique.contenu}</span> - intervenant: {live.responsable.infoUser.nom}
+                                                                    <span className="custom-theme">{live.thematique.contenu}</span> - intervenant: <p style={{ color: "black" }}>{live.responsable.infoUser.nom.toUpperCase() + " " + live.responsable.infoUser.prenom}</p>
                                                                 </span>
                                                             </li>
                                                         );
