@@ -47,11 +47,11 @@ const Consultation = ({params}) => {
   let actionName = "";
   let buttonName = "Enregistrer";
 
-  useEffect(() => {
-    if (!pathName.includes('ajouter') && !pathName.includes('modifier')) {
-      router.push('/error'); // Redirect to error page if the action is invalid
-    }
-  }, [pathName, router]);
+  // useEffect(() => {
+  //   if (!pathName.includes('ajouter') && !pathName.includes('modifier')) {
+  //     router.push('/error'); // Redirect to error page if the action is invalid
+  //   }
+  // }, [pathName, router]); code diabolique qui fait tout cramer 
   
   if(pathName.includes("modifier")){
     actionName = buttonName = "Modifier";
