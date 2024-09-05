@@ -98,7 +98,6 @@ const Header = ({section}) => {
   };
 
   const handleLogout = () => {
-    e.preventDefault();
     localStorage.removeItem("access-token");
     router.push("/auth/medecins");
   };
