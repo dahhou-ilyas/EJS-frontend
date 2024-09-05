@@ -613,9 +613,10 @@ export default function Test({ params }) {
                     backgroundColor: 'white',
                     //border: '2px solid black',
                     //width: '750px'
-                    minHeight: "350px",
+                    minHeight: "400px",
                     borderRadius: "15px",
-                    paddingTop: "10px"
+                    paddingTop: "10px",
+                    paddingBottom: "20px"
                   }}
                 >
                   <div
@@ -627,7 +628,7 @@ export default function Test({ params }) {
                       alignItems: 'center',
                       justifyContent: 'center',
                       backgroundColor: '#363636',
-                      marginBottom: '10px',
+                      marginBottom: '20px',
                       borderRadius: "10px"
                     }}
                   >
@@ -653,7 +654,7 @@ export default function Test({ params }) {
                           alignItems: 'center',
                           justifyContent: 'center',
                           backgroundColor: '#363636',
-                          marginBottom: '10px',
+                          marginBottom: '20px',
                           borderRadius: "10px",
                           position: "relative"
                         }}
