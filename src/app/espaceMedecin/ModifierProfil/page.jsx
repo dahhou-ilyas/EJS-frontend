@@ -432,6 +432,7 @@ const MonProfile = () => {
                                 type="email"
                                 className="form-control"
                                 name="mail"
+                                disabled
                                 value={formData.mail || ""}
                                 onChange={handleInputChange}
                               />
@@ -443,6 +444,7 @@ const MonProfile = () => {
                               <input
                                 type="text"
                                 className="form-control"
+                                disabled
                                 name="cin"
                                 value={formData.cin || ""}
                                 onChange={handleInputChange}
@@ -467,6 +469,7 @@ const MonProfile = () => {
                               <input
                                 type="text"
                                 className="form-control"
+                                disabled
                                 name="inpe"
                                 value={formData.inpe || ""}
                                 onChange={handleInputChange}
