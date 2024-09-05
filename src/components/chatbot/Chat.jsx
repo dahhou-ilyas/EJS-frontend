@@ -37,7 +37,6 @@ const Chat = () => {
     useEffect(() => {
         // Retrieve token from localStorage
         const token = localStorage.getItem('access-token');
-  
         if (token) {
             setToken(token);
         }
@@ -58,7 +57,7 @@ const Chat = () => {
                 }, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'acces-token': token,
+                        Authorization: `Bearer ${token}`
                     },
                 });
 

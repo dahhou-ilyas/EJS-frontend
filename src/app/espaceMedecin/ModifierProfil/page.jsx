@@ -26,6 +26,7 @@ const MonProfile = () => {
     sexe: "",
     about: "",
     mail: "",
+    image_url: "",
     password: "",
     confirmPassword: "",
     estGeneraliste: false,
@@ -70,6 +71,7 @@ const MonProfile = () => {
             mail: res.data?.mail,
             sexe: res.data?.sexe,
             linkedin: res.data?.linkedin,
+            image_url: res.data?.image_url,
             about: res.data?.about,
             password: res.data?.password,
             estGeneraliste: res.data?.estGeneraliste,
@@ -432,6 +434,7 @@ const MonProfile = () => {
                                 type="email"
                                 className="form-control"
                                 name="mail"
+                                disabled
                                 value={formData.mail || ""}
                                 onChange={handleInputChange}
                               />
@@ -443,6 +446,7 @@ const MonProfile = () => {
                               <input
                                 type="text"
                                 className="form-control"
+                                disabled
                                 name="cin"
                                 value={formData.cin || ""}
                                 onChange={handleInputChange}
@@ -467,6 +471,7 @@ const MonProfile = () => {
                               <input
                                 type="text"
                                 className="form-control"
+                                disabled
                                 name="inpe"
                                 value={formData.inpe || ""}
                                 onChange={handleInputChange}

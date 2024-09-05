@@ -114,13 +114,13 @@ const Header = ({section}) => {
             </Link>
             <div className="dropdown-menu">
               <Link href="/espaceMedecin/MonProfil" className="dropdown-item">
-                My Profile
+                Mon profil
               </Link>
               <Link href="/espaceMedecin/ModifierProfil" className="dropdown-item">
-                Edit Profile
+                Modifier profil
               </Link>
               <a href="#" onClick={handleLogout}  className="dropdown-item">
-                Logout
+                Se déconnecter
               </a>
             </div>
           </li>
