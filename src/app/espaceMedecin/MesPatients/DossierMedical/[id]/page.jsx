@@ -132,7 +132,7 @@ const Page = ({ params }) => {
                         <span>{ patient && patient[12] ? 'Oui' : 'Non' }</span>
                       </li>
                       <li>
-                        <h4>Niveau d&apos;études</h4>
+                        <h4>Niveau études</h4>
                         <span>{ patient && patient[13] }</span>
                       </li>
                       <li>
@@ -198,37 +198,37 @@ const Page = ({ params }) => {
                     </h4>
                     {
                       consultations && consultations.map((item, index) => (
-                        <div>
+                        <div key={index}>
                           <h4 style={{ marginBottom: '20px', marginTop: '20px', textAlign: 'center' }}>Consultations { index + 1 }</h4>
                           <ul className="list-space">
                             <li style={{alignItems: 'start'}}>
                               <h4>Date consultation</h4>
                               <div style={{display: 'flex', flexDirection: 'column'}}>
-                                <span key={index}>{ item[0] }</span>
+                                <span>{ item[0] }</span>
                               </div>
                             </li>
                             <li style={{alignItems: 'start', marginTop: '-20px'}}>
                               <h4>Motif consultation</h4>
                               <div style={{display: 'flex', flexDirection: 'column'}}>
-                                <span key={index}>{ item[1] }</span>
+                                <span>{ item[1] }</span>
                               </div>
                             </li>
                             <li style={{alignItems: 'start', marginTop: '-20px'}}>
                               <h4>Diagnostic</h4>
                               <div style={{display: 'flex', flexDirection: 'column'}}>
-                                <span key={index}>{ item[2] }</span>
+                                <span>{ item[2] }</span>
                               </div>
                             </li>
                             <li style={{alignItems: 'start', marginTop: '-20px'}}>
                               <h4>Traitement</h4>
                               <div style={{display: 'flex', flexDirection: 'column'}}>
-                                <span key={index}>{ item[3] }</span>
+                                <span>{ item[3] }</span>
                               </div>
                             </li>
                             <li style={{alignItems: 'start', marginTop: '-20px'}}>
                               <h4>Recommandation</h4>
                               <div style={{display: 'flex', flexDirection: 'column'}}>
-                                <span key={index}>{ item[4] }</span>
+                                <span>{ item[4] }</span>
                               </div>
                             </li>
                           </ul>
