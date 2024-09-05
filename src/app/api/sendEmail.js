@@ -2,7 +2,7 @@
 
 import nodemailer from "nodemailer";
 
-export default async function sendEmail(pdfBase64) {
+export default async function sendEmail(userEmail, pdfBase64) {
   const transport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,  // Use 465 for SSL
@@ -24,7 +24,7 @@ export default async function sendEmail(pdfBase64) {
     console.log('Attempting to send email...');
     const sendResult = await transport.sendMail({
       from: "eespacesantejeunes@gmail.com",
-      to: "kribiif@gmail.com",
+      to: userEmail,
       subject: "Résultat du test",
       html: "<b>Vous trouverez ci-joint le résultat de votre test!</b>",
       attachments: [

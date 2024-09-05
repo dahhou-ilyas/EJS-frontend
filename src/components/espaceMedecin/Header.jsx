@@ -13,17 +13,22 @@ const Header = ({section}) => {
   const router = useRouter();
   const [user, setUser] = useState({});
   const [medecin, setMedecin] = useState(null);
-  const token = localStorage.getItem('access-token');
+  const [token,setToken]=useState("");
+  
 
   useEffect(() => {
-    require("bootstrap/dist/js/bootstrap.bundle.min.js");
+    if (typeof window !== 'undefined') {
+      require("bootstrap/dist/js/bootstrap.bundle.min.js");
 
-    if (isTokenInvalidOrNotExist(token)) {
-      router.push('/auth/medecins');
-    } else {
-      const decodedToken = jwtDecode(token);
-      setUser(decodedToken);
-      getMedecinData(decodedToken?.claims?.id);
+      const token = localStorage.getItem('access-token');
+      if (isTokenInvalidOrNotExist(token)) {
+        router.push('/auth/medecins');
+      } else {
+        setToken(token);
+        const decodedToken = jwtDecode(token);
+        setUser(decodedToken);
+        getMedecinData(decodedToken?.claims?.id);
+      }
     }
   }, []);
 
@@ -39,7 +44,7 @@ const Header = ({section}) => {
       })
       .catch(err => {
         console.log(err);
-        router.push('/auth/medecins');
+        //router.push('/auth/medecins');
       })
     }
   }
@@ -102,7 +107,7 @@ const Header = ({section}) => {
       <div className="header">
         <div className="header-left">
           <Link href="/espaceMedecin" className="logo">
-            <Image src={ Logo } width={ 150 } alt="" />
+            <Image src={ Logo } width={ 150 } alt="Logo" />
             <span>{''}</span>
           </Link>
         </div>
@@ -137,12 +142,12 @@ const Header = ({section}) => {
               <Link href="/espaceMedecin/MonProfil" className="dropdown-item">
                 My Profile
               </Link>
-              <Link href="/espaceMedecin//ModifierProfil" className="dropdown-item">
+              <Link href="/espaceMedecin/ModifierProfil" className="dropdown-item">
                 Edit Profile
               </Link>
-              <Link href="" onClick={handleLogout}  className="dropdown-item">
+              <a href="#" onClick={handleLogout}  className="dropdown-item">
                 Logout
-              </Link>
+              </a>
             </div>
           </li>
         </ul>
@@ -156,15 +161,15 @@ const Header = ({section}) => {
             <i className="fa-solid fa-ellipsis-vertical" />
           </Link>
           <div className="dropdown-menu dropdown-menu-end">
-            <Link href="/" className="dropdown-item">
+            <Link href="/espaceMedecin/MonProfil" className="dropdown-item">
               My Profile
             </Link>
-            <Link href="/" className="dropdown-item">
+            <Link href="/espaceMedecin/ModifierProfil" className="dropdown-item">
               Edit Profile
             </Link>
-            <Link href="#" onClick={handleLogout}  className="dropdown-item">
+            <a href="#" onClick={handleLogout}  className="dropdown-item">
               Logout
-            </Link>
+            </a>
           </div>
         </div>
       </div>

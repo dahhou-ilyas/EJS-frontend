@@ -51,6 +51,8 @@ export default function SommeilResult() {
   const userId = user?.claims?.id;
   const userNom = user?.claims?.nom;
   const userPrenom = user?.claims?.prenom;
+  const userEmail = user?.claims?.mail;
+
 
   useEffect(() => {
     if (Score <= 8) {
@@ -74,12 +76,13 @@ export default function SommeilResult() {
 
   const generatePDF = async () => {
     const element = pdfRef.current;
+    try{
     const canvas = await html2canvas(element, {
-      scale: 1, 
+      scale: 2, 
       logging: false,
       useCORS: true
     });
-    const imgData = canvas.toDataURL("image/jpeg", 0.7); 
+    const imgData = canvas.toDataURL("image/jpeg", 0.9); 
     const pdf = new jsPDF({
       unit: 'px',
       format: 'a4',
@@ -89,13 +92,17 @@ export default function SommeilResult() {
     const pageHeight = pdf.internal.pageSize.getHeight();
     const widthRatio = pageWidth / canvas.width;
     const heightRatio = pageHeight / canvas.height;
-    const ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
-  
+    const ratio = Math.min(widthRatio, heightRatio);
+
     const canvasWidth = canvas.width * ratio;
     const canvasHeight = canvas.height * ratio;
-  
+
     pdf.addImage(imgData, 'JPEG', 0, 0, canvasWidth, canvasHeight);
-    return pdf.output('arraybuffer');
+      return pdf.output('arraybuffer');
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      throw new Error("Failed to generate PDF");
+    }
   };
 
   const handleGenerateAndSendPDF = async () => {
@@ -120,7 +127,7 @@ export default function SommeilResult() {
   
       // Attempt to send the email
       try {
-        const result = await sendEmail(pdfBase64);
+        const result = await sendEmail(userEmail, pdfBase64);
         if (result.success) {
           console.log("PDF sent successfully via email");
         } else {
@@ -142,7 +149,7 @@ export default function SommeilResult() {
       <Header />
       <div className="page-wrapper">
         <div className="content">
-          <Breadcrumb title={"Paix"} />
+          <Breadcrumb title={"Sommeil"} />
           <div className="container">
           <div ref={pdfRef} style={{ fontSize: '20px' }}>
           
