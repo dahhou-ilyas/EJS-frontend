@@ -123,29 +123,28 @@ const ChatMeeting = ({ params }) => {
 
   const terminerDiscussion = async () => {
     try {
-        const token = localStorage.getItem("access-token");
+      const token = localStorage.getItem("access-token");
 
-        await endDiscussion(token, params.discussionId);
+      await endDiscussion(token, params.discussionId);
 
-        sendEndedDiscussionMessage()
+      sendEndedDiscussionMessage()
 
-        const deleteResponse = await fetch(`/api/upload?id=${params.discussionId}`, {
-            method: 'DELETE',
-        });
+      const deleteResponse = await fetch(`/api/upload?id=${params.discussionId}`, {
+        method: 'DELETE',
+      });
 
-        const deleteResult = await deleteResponse.json();
+      const deleteResult = await deleteResponse.json();
 
-        if (deleteResponse.ok) {
-            console.log("Files deleted successfully:", deleteResult);
-            toast.success("Discussion terminée");
-            router.push("/TeleExpertise")
-        } else {
-            console.error("Failed to delete files:", deleteResult.message);
-            throw new Error(deleteResult.message);
-        }
+      if (deleteResponse.ok) {
+          console.log("Files deleted successfully:", deleteResult);
+      } else {
+        console.error("Failed to delete files:", deleteResult.message);
+        //throw new Error(deleteResult.message);
+      }
+      router.push("/TeleExpertise")
     } catch (error) {
-        console.log(error.message);
-        toast.error("Quelque chose s'est mal passé, veuillez réessayer");
+      console.log(error.message);
+      toast.error("Quelque chose s'est mal passé, veuillez réessayer");
     }
   };
 
