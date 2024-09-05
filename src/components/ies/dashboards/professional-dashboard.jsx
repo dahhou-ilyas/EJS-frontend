@@ -82,12 +82,12 @@ const Professional_Dashboard = () => {
 
                     setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
                     fetchQuestions(token, id);
-                    setFetched(true);
                 } catch (error) {
                 }
             };
 
             init();
+            setFetched(true);
         }
         , [])
 

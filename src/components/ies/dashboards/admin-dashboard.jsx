@@ -58,12 +58,12 @@ const Admin_Dashboard = () => {
                 }
 
                 setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
-                setFetched(true);
             } catch (error) {
             }
         };
 
         init();
+        setFetched(true);
     }, []);
 
     if (!fetched) return <Loading />;

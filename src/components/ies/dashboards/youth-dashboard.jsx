@@ -60,7 +60,6 @@ const Youth_Dashboard = () => {
                     router.push("/auth/jeunes");
                 }
 
-                setFetched(true);
                 setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
 
                 const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
@@ -74,6 +73,7 @@ const Youth_Dashboard = () => {
         };
 
         fetchLastLive();
+        setFetched(true);
     }, []);
 
     useEffect(() => {
