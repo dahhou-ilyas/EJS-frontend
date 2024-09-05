@@ -89,7 +89,7 @@ const AuthAdmin = () => {
 }
   
 const nextStep = () => {
-  router.push('/');
+  router.push('/ies/admin');
 }
 const envoyerEmail = () => {
   fetch('http://localhost:8080/register/resend-token?email='+token.mail, {

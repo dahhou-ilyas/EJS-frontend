@@ -1,12 +1,9 @@
 'use client'
 
-import Header from '@/components/ies/ui/header';
+import Header from '@/components/auth/Header';
 import Propostions from '@/components/ies/ui/propositions';
 
 export default function Home() {
-  const name = "Mohamed Hani";
-  const role = "Admin";
-
   const data = {
     nodes: [
       { id: 'Impact of Smoking on Health' },
@@ -32,7 +29,7 @@ export default function Home() {
   };
   return (
     <>
-      <Header name={name} role={role} />
+      <Header />
       <div style={{ paddingTop: '70px' }}>
         <Propostions toDashboard="/ies/admin" data={data} />
       </div>

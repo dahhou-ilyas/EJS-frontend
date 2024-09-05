@@ -56,11 +56,19 @@ const Ask_Question_Form = ({ showDashboard, liveData }) => {
 					if (alertify) {
 						alertify.success('<strong>This is a success message:</strong> done');
 					}
+					location.reload();
 				} catch (error) {
-					console.log(error);
-
-					// Toast
-					if (alertify) alertify.error(`<strong>This is an error message:</strong> ${error}`);
+					if (error.response && error.response.status === 409) {
+						if (alertify) {
+							alertify.error('<strong>This is an error message:</strong> You have already asked');
+						}
+					} else {
+						// Handle other errors
+						console.log(error);
+						if (alertify) {
+							alertify.error(`<strong>This is an error message:</strong> ${error}`);
+						}
+					}
 				}
 			} catch (error) {
 				console.error("Error saving the live: " + error);

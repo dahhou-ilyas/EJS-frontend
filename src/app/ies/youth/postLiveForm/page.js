@@ -3,9 +3,6 @@ import Header from '@/components/auth/Header';
 import Post_Live_Form from "@/components/ies/ui/forms/post-live-form";
 
 export default function Home() {
-  const name = "Leila Mourad";
-  const role = "Jeune";
-
   return (
     <>
       <Header/>
