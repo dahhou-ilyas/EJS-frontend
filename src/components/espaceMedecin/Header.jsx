@@ -17,20 +17,16 @@ const Header = ({section}) => {
   
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      require("bootstrap/dist/js/bootstrap.bundle.min.js");
-
-      const token = localStorage.getItem('access-token');
-      if (isTokenInvalidOrNotExist(token)) {
-        router.push('/auth/medecins');
-      } else {
-        setToken(token);
-        const decodedToken = jwtDecode(token);
-        setUser(decodedToken);
-        getMedecinData(decodedToken?.claims?.id);
-      }
+    const token = localStorage.getItem('access-token');
+    if (isTokenInvalidOrNotExist(token)) {
+      router.push('/auth/medecins');
+    } else {
+      setToken(token);
+      const decodedToken = jwtDecode(token);
+      setUser(decodedToken);
+      getMedecinData(decodedToken?.claims?.id);
     }
-  }, []);
+  }, [token]);
 
   const getMedecinData = (id) => {
     if (id != null) {
@@ -44,19 +40,9 @@ const Header = ({section}) => {
       })
       .catch(err => {
         console.log(err);
-        //router.push('/auth/medecins');
       })
     }
   }
-
-  const openDrawer = () => {
-    const div = document.querySelector(".main-wrapper");
-    if (div?.className?.includes("open-msg-box")) {
-      div?.classList?.remove("open-msg-box");
-    } else {
-      div?.classList?.add("open-msg-box");
-    }
-  };
 
   const isTokenInvalidOrNotExist = (token) => {
     if (typeof token !== 'string' || token.trim() === '') {
@@ -75,15 +61,6 @@ const Header = ({section}) => {
       return true; 
     }
   }
-
-  useEffect(() => {
-    const maximizeBtn = document.querySelector(".win-maximize");
-    // maximizeBtn.addEventListener('click', handleClick);
-
-    return () => {
-      // maximizeBtn.removeEventListener('click', handleClick);
-    };
-  }, []);
   
   const handlesidebar = () => {
     document.body.classList.toggle("mini-sidebar");
@@ -92,9 +69,6 @@ const Header = ({section}) => {
   const handlesidebarmobilemenu = () => {
     document.body.classList.toggle("slide-nav");
     document.getElementsByTagName("html")[0].classList.toggle("menu-opened");
-    /*document
-      .getElementsByClassName("sidebar-overlay")[0]
-      .classList.toggle("opened");*/
   };
 
   const handleLogout = () => {
