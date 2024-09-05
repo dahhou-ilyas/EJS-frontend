@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 const Stats_Page = () => {
     const searchParams = useSearchParams();

@@ -46,7 +46,7 @@ const Live_Planification_Form = ({ toDashboard }) => {
     const [selectedTime, setSelectedTime] = useState(null);
 
     const [file, setFile] = useState(null);
-
+    const [fetched, setFetched] = useState(false);
     const router = useRouter();
     useEffect(() => {
         const init = async () => {

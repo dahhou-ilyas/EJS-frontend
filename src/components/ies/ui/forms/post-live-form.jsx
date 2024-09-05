@@ -45,6 +45,9 @@ const Post_Live_Form = ({ showDashboard }) => {
     const [inputValue2, setTextAreaValue] = useState('');
 
     const [alertify, setAlertify] = useState(null);
+    const [fetched, setFetched] = useState(false);
+
+    const router = useRouter();
 
     useEffect(() => {
         const initializeAlertify = async () => {
@@ -56,25 +59,18 @@ const Post_Live_Form = ({ showDashboard }) => {
             }
         };
 
-        initializeAlertify();
-    }, []);
-
-
-
-    const router = useRouter();
-    useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem("access-token");
-    
+
             if (!token) {
                 router.push("/auth/jeunes");
                 return;
             }
-    
+
             try {
                 const decodedToken = jwtDecode(token);
                 const role = decodedToken.claims.role;
-    
+
                 if (!role.includes("JEUNE")) {
                     router.push("/auth/jeunes");
                     return;
@@ -83,13 +79,11 @@ const Post_Live_Form = ({ showDashboard }) => {
                 console.error("Error fetching data: ", error);
             }
         };
-    
+
+        initializeAlertify();
         fetchData();
         setFetched(true);
     }, []);
-    
-
-    if (!fetched) return <Loading />;
 
     const fetchLastLive = async (token, idJeune) => {
         try {
@@ -152,6 +146,7 @@ const Post_Live_Form = ({ showDashboard }) => {
         }
     };
 
+    if (!fetched) return <Loading />;
 
     return (
         <>
