@@ -22,7 +22,7 @@ const MesPatients = () => {
   
     const getAllJeunes = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/jeune', {
+        const response = await axios.get('http://localhost:8080/jeunes', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
