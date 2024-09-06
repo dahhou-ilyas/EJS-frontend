@@ -20,6 +20,24 @@ export const getOuverteDiscussion = async (token) => {
     }
 }
 
+export const getDiscussionsByMonth = async (token, month, year) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/discussion/month?year=${year}&month=${month}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          throw new Error("Failed to fetch discussions by month");
+        }
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
 export const getMyCreatedDiscussions = async (token, page) => {
     try {
         if (!page) page = 0
