@@ -11,6 +11,7 @@ import Link from "next/link";
 import { carouselSlides } from "@/components/ies/utility/carousel-slides";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from 'jwt-decode';
+import Loading from "../utility/loading";
 
 const tabNames = {
     dashboard: 0,
@@ -21,6 +22,7 @@ const tabNames = {
 const Admin_Dashboard = () => {
     const [selectedTab, setSelectedTab] = useState(tabNames.dashboard);
     const [selectedLive, setselectedLive] = useState(null);
+    const [fetched, setFetched] = useState(false);
 
     const showDashboard = () => { setSelectedTab(tabNames.dashboard); };
     const showModifyLivePlanification = (live) => {
@@ -49,14 +51,23 @@ const Admin_Dashboard = () => {
 
             try {
                 const decodedToken = jwtDecode(token);
+                const role = decodedToken.claims.role;
+
+                if (role.includes("MEDECIN") || role.includes("SANTE") || role.includes("JEUNE")) {
+                    router.push("/auth/administrateur");
+                    return;
+                }
+
                 setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
             } catch (error) {
-                console.log(error);
             }
         };
 
         init();
+        setFetched(true);
     }, []);
+
+    if (!fetched) return <Loading />;
 
     return (
         <>

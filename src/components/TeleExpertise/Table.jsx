@@ -18,7 +18,7 @@ const Table = ({ columns, data }) => {
   const currentDoctors = data.slice(indexOfFirstDoctor, indexOfLastDoctor);
 
   const handleClick = (e) => {
-    router.push(`/Chat/${e}`);
+    router.push(`/TeleExpertise/Chat/${e}`);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -49,7 +49,7 @@ const Table = ({ columns, data }) => {
                       </div>
                     ) : column.accessor === "actions" ? (
                       <button
-                        onClick={() => handleClick(row.name)}
+                        onClick={() => handleClick(row.id)}
                         className="btn btn-primary1 btn-sm"
                         style={{ color: "white" }}
                       >

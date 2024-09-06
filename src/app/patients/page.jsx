@@ -25,7 +25,7 @@ const Patients = () => {
     const accessToken = localStorage.getItem('access-token');
     const decodedAccessToken = jwtDecode(accessToken);
     // console.log(`decoded token `,decodedAccessToken);
-    axios.get("http://localhost:8080/jeune", {
+    axios.get("http://localhost:8080/jeunes", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -67,7 +67,7 @@ const Patients = () => {
       dataIndex: "nom",
       render: (text, record) => (
         <h2 className="profile-image">
-          <Link href={`${path}/${record.id}`}>{record.nom}</Link>
+          <Link href={`${path}/${record.id}`}>{record.infoUser?.nom}</Link>
         </h2>
       ),
       sorter: (a, b) => a.nom.localeCompare(b.nom)
@@ -77,7 +77,7 @@ const Patients = () => {
       dataIndex: "prenom",
       render: (text, record) => (
         <h2 className="profile-image">
-          <Link href={`${path}/${record.id}`}>{record.prenom}</Link>
+          <Link href={`${path}/${record.id}`}>{record.infoUser?.prenom}</Link>
         </h2>
       ),
       sorter: (a, b) => a.prenom.localeCompare(b.prenom)
@@ -97,11 +97,18 @@ const Patients = () => {
       dataIndex: "dateNaissance",
       render: (text, record) => (
         <h2 className="profile-image">
-          <Link href={`${path}/${record.id}`}>{record.dateNaissance}</Link>
+          <Link href={`${path}/${record.id}`}>
+            {new Date(record.dateNaissance).toLocaleDateString('fr-FR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
+          </Link>
         </h2>
       ),
       sorter: (a, b) => new Date(a.dateNaissance) - new Date(b.dateNaissance)
-    },
+    }
+    ,
     {
       title: "Scolarise",
       dataIndex: "scolarise",

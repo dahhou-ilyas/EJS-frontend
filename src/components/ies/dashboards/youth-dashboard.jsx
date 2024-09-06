@@ -14,6 +14,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Live_Banner from "../ui/banners/we-live-banner";
+import Loading from "../utility/loading";
 
 const tabNames = {
     dashboard: 0,
@@ -22,6 +23,7 @@ const tabNames = {
 };
 
 const Youth_Dashboard = () => {
+    const [fetched, setFetched] = useState(false);
     const [selectedTab, setSelectedTab] = useState(tabNames.dashboard);
 
     const showDashboard = () => { setSelectedTab(tabNames.dashboard); };
@@ -38,60 +40,53 @@ const Youth_Dashboard = () => {
 
     const router = useRouter();
     let [name, setName] = useState("User");
-
     useEffect(() => {
-        const fetchLastLive = async () => {
-
+        const fetchData = async () => {
             const token = localStorage.getItem("access-token");
-
+    
             if (!token) {
                 router.push("/auth/jeunes");
                 return;
             }
-
+    
             try {
                 const decodedToken = jwtDecode(token);
                 const idJeune = decodedToken.claims.id;
+                const role = decodedToken.claims.role;
+    
+                if (!role.includes("JEUNE")) {
+                    router.push("/auth/jeunes");
+                    return;
+                }
+    
                 setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
-
-                const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
+    
+                const lastLiveResponse = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setLastLive(response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
 
-        fetchLastLive();
-    }, []);
-
-    useEffect(() => {
-        const fetchOngoingLive = async () => {
-
-            const token = localStorage.getItem("access-token");
-
-            if (!token) {
-                router.push("/auth/jeunes");
-                return;
-            }
-
-            try {
-                const response = await axios.get(`http://localhost:8080/streams/ongoing`, {
+                setLastLive(lastLiveResponse.data);
+    
+                const ongoingLiveResponse = await axios.get(`http://localhost:8080/streams/ongoing`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setOngoingLive(response.data);
+
+                setOngoingLive(ongoingLiveResponse.data);
             } catch (error) {
-                console.log(error);
+                console.error("Error fetching data: ", error);
             }
         };
-
-        fetchOngoingLive();
+    
+        fetchData();
+        setFetched(true);
     }, []);
+    
+
+    if (!fetched) return <Loading />;
 
     return (
         <>

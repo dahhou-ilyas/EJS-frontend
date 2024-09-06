@@ -3,9 +3,6 @@ import Header from '@/components/auth/Header';
 import List_Lives from "@/components/ies/ui/list-lives";
 
 export default function Home() {
-  const name = "Leila Mourad";
-  const role = "Jeune";
-
   return (
     <>
       <Header/>

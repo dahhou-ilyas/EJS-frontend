@@ -42,14 +42,14 @@ const Conversation = ({ messages, value, setValue, sendMessage, targetDate }) =>
   return (
     <div>
       {/* Timer */}
-      <div className="text-center">
+      {/* <div className="text-center">
         <p className="h5 mb-1">
           Temps restant: <span className="text-danger">{timeLeft.minutes} minutes et {timeLeft.seconds} seconds</span>
         </p>
         <p className="h4 text-danger">
           
         </p>
-      </div>
+      </div> */}
       {/* Chat */}
       <div className="card chat-message-box">
         <div className="card-body p-0">

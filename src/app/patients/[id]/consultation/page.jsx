@@ -1,4 +1,5 @@
 "use client";
+//page dediee a la creation d'une nouvelle consultion (pour afficher ou modifier une consultation aller a /historique/id)
 
 //LIBRARIES
 import { useState, useEffect } from "react";
@@ -9,6 +10,8 @@ import Image from "next/image";
 import SelectInput from "@/components/ppn/SelectInput";
 import Header from "@/components/espaceMedecin/Header";
 import bootstrapBundleMin from "bootstrap/dist/js/bootstrap.bundle.min.js";
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 // ASSETS
 //These might be necessarry for style if so, use them via : https://github.com/Usmaexe/PPN/tree/main/src/assets/css
@@ -36,6 +39,7 @@ import TextInput from "@/components/ppn/TextInput";
 
 const Consultation = ({params}) => {
   const id = params.id
+
   const pages = ["Patients", id, "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
@@ -44,21 +48,8 @@ const Consultation = ({params}) => {
   
   let actionName = "";
   let buttonName = "Enregistrer";
-
-  useEffect(() => {
-    if (!pathName.includes('ajouter') && !pathName.includes('modifier')) {
-      router.push('/error'); // Redirect to error page if the action is invalid
-    }
-  }, [pathName, router]);
   
-  if(pathName.includes("modifier")){
-    actionName = buttonName = "Modifier";
-  }
-  else{
-    actionName = "Ajouter";
-  }
-
-
+  const [decodedAccessToken,setDecodedAccessToken] = useState("");
   const [patient, setPatient] = useState(null); // Initialisé à null
   const [loading, setLoading] = useState(true); // Indicateur de chargement
   const [error, setError] = useState(null); // Gestion des erreurs
@@ -68,12 +59,23 @@ const Consultation = ({params}) => {
       if (id) {
         setLoading(true); // Début du chargement
         try {
-          const response = await fetch(`http://localhost:8080/jeunes/${id}`);
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
+          const accessToken = localStorage.getItem('access-token');
+          if (!accessToken) {
+            throw new Error('No access token found');
           }
-          const data = await response.json();
-          setPatient(data);
+          // const decodedAccessToken = jwtDecode(accessToken);
+          setDecodedAccessToken(jwtDecode(accessToken))
+           // Ensure the token is decoded correctly
+          // console.log('Decoded token:', decodedAccessToken);
+          
+          axios.get("http://localhost:8080/jeunes/"+id, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+              // .then(response => response.json()) pas besoin de conversion json pour axios ;)
+              .then(response => {setPatient(response.data);console.log(response.data)})
+              .catch(error => console.error('Error fetching patient:', error));
           
         } catch (error) {
           console.error('Error fetching patient:', error);
@@ -384,7 +386,7 @@ const Consultation = ({params}) => {
   }
 
   function handleCancel() {
-    router.push("/Patients/Patient");
+    router.push("/patients/"+id);
   }
 
   const [motif, setMotif] = useState({ value: '', label: '' });
@@ -452,7 +454,7 @@ const Consultation = ({params}) => {
   const handleSubmit = async (e) => {
     const submitButton = document.querySelector("button[id='submit-button']");
     e.preventDefault()
-    const medecinId = 1;
+    const medecinId = decodedAccessToken.claims.id;
     const antecedentPersonnel = { type, specification, specificationAutre,nombreAnnee };
     const antecedentFamilial = {typeAntFam, autre};
 
@@ -475,27 +477,23 @@ const Consultation = ({params}) => {
     }
 
     // HERE WHERE THE DATA IS BEEN SENT TO THE END POINT : /jeunes/[id]/consultations
-    const res = await fetch (`http://localhost:8080/jeunes/${id}/consultations`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(consultation)
-    })
-
-    //IF THE RESPONSE IS OK THEN THE DOCTOR IS REDIRECTED TO PATIENTS PAGE 
-    if (res.status === 200 ){
-     // Using Bootstrap's Modal API to show the modal
-      const successModal = new bootstrapBundleMin.Modal(document.getElementById('success-alert-modal'));
-      successModal.show();
-
-      // Optional: Redirect after some delay
-      setTimeout(() => {
-        // Replace this with your router logic
-        router.push(`/Patients/${id}`);
-      }, 5000); 
-    }
-    else{
-      //the error page
-      router.push('/404')
+    try {
+      const res = await axios.post(`http://localhost:8080/jeunes/${id}/consultations`, consultation);
+    
+      // IF THE RESPONSE IS OK THEN THE DOCTOR IS REDIRECTED TO PATIENTS PAGE
+      if (res.status === 200) {
+        // Using Bootstrap's Modal API to show the modal
+        const successModal = new bootstrapBundleMin.Modal(document.getElementById('success-alert-modal'));
+        successModal.show();
+    
+        //Redirect after some delay
+        setTimeout(() => {
+          router.push(`/patients/${id}`);
+        }, 5000);
+      } 
+    } catch (error) {
+      // Handle the error and redirect to 404 page
+      router.push('/404');
     }
   }
 

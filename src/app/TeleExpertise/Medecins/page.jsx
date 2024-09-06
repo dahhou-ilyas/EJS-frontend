@@ -8,6 +8,8 @@ import Image from "next/image";
 import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import { searchnormal } from "@/components/TeleExpertise/imagepath";
 import Table from "@/components/TeleExpertise/Table";
+import { getAllMedecins } from "@/services/medecinService";
+import { decodeToken } from "@/utils/docodeToken";
 
 const Medecins = () => {
   const columns = useMemo(
@@ -32,136 +34,31 @@ const Medecins = () => {
     []
   );
 
-  const data = useMemo(
-    () => [
-      {
-        name: "Ahmed El Mansouri",
-        speciality: "Gynécologue",
-        email: "ahmed.elmansouri@example.com",
-      },
-      {
-        name: "Fatima Zahra Amrani",
-        speciality: "Pédiatre",
-        email: "fatima.amrani@example.com",
-      },
-      {
-        name: "Ali Benchekroun",
-        speciality: "Dermatologue",
-        email: "ali.benchekroun@example.com",
-      },
-      {
-        name: "Leila El Haddad",
-        speciality: "Ophtalmologue",
-        email: "leila.elhaddad@example.com",
-      },
-      {
-        name: "Khalid Bouzid",
-        speciality: "Pédiatre",
-        email: "khalid.bouzid@example.com",
-      },
-      {
-        name: "Rachida El Youssfi",
-        speciality: "Psychiatre",
-        email: "rachida.elyoussfi@example.com",
-      },
-      {
-        name: "Omar Fassi",
-        speciality: "Gynécologue",
-        email: "omar.fassi@example.com",
-      },
-      {
-        name: "Nadia Benjelloun",
-        speciality: "Dermatologue",
-        email: "nadia.benjelloun@example.com",
-      },
-      {
-        name: "Samir Toumi",
-        speciality: "Psychiatre",
-        email: "samir.toumi@example.com",
-      },
-      {
-        name: "Zineb El Kharraz",
-        speciality: "Medecin Généraliste",
-        email: "zineb.elkharraz@example.com",
-      },
-      {
-        name: "Hassan El Bacha",
-        speciality: "Ophtalmologue",
-        email: "hassan.elbacha@example.com",
-      },
-      {
-        name: "Amina El Habib",
-        speciality: "Dermatologue",
-        email: "amina.elhabib@example.com",
-      },
-      {
-        name: "Mohamed El Idrissi",
-        speciality: "Medecin Généraliste",
-        email: "mohamed.elidrissi@example.com",
-      },
-      {
-        name: "Sofia Bensouda",
-        speciality: "Gynécologue",
-        email: "sofia.bensouda@example.com",
-      },
-      {
-        name: "Youssef El Alami",
-        speciality: "Ophtalmologue",
-        email: "youssef.elalami@example.com",
-      },
-      {
-        name: "Jean Dupont",
-        speciality: "Pédiatre",
-        email: "jean.dupont@example.com",
-      },
-      {
-        name: "Marie Lefèvre",
-        speciality: "Dermatologue",
-        email: "marie.lefevre@example.com",
-      },
-      {
-        name: "Alice Martin",
-        speciality: "Psychiatre",
-        email: "alice.martin@example.com",
-      },
-      {
-        name: "Robert Bernard",
-        speciality: "Medecin Généraliste",
-        email: "robert.bernard@example.com",
-      },
-      {
-        name: "Catherine Dubois",
-        speciality: "Ophtalmologue",
-        email: "catherine.dubois@example.com",
-      },
-      {
-        name: "David Moreau",
-        speciality: "Dermatologue",
-        email: "david.moreau@example.com",
-      },
-      {
-        name: "Émilie Petit",
-        speciality: "Gynécologue",
-        email: "emilie.petit@example.com",
-      },
-      {
-        name: "François Leroy",
-        speciality: "Pédiatre",
-        email: "francois.leroy@example.com",
-      },
-      {
-        name: "Grace Lemoine",
-        speciality: "Medecin Généraliste",
-        email: "grace.lemoine@example.com",
-      },
-      {
-        name: "Henri Marchand",
-        speciality: "Ophtalmologue",
-        email: "henri.marchand@example.com",
-      },
-    ],
-    []
-  );
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    async function fetchData() {
+      const token = localStorage.getItem("access-token")
+      const decodedToken = decodeToken(token)
+      try {
+        const res = await getAllMedecins(token)
+        const filteredData = res
+          .filter(d => d.id !== decodedToken.claims.id)
+          .map(d => ({
+            ...d,
+            name: d.nom + " " + d.prenom,
+            speciality: d.estGeneraliste ? "Medecin Généraliste" : d.specialite,
+            email: d.mail
+          }));
+
+        setData(filteredData);
+        //console.log(res)
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    fetchData()
+  }, [])
 
   const [filteredData, setFilteredData] = useState(data);
   const [search, setSearch] = useState("");
@@ -198,7 +95,7 @@ const Medecins = () => {
                 <div className="col-sm-12">
                   <ul className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <Link href="/TeleExpertise">Page d'accueil</Link>
+                      <Link href="/TeleExpertise">Télé Expertise </Link>
                     </li>
                     <li className="breadcrumb-item">
                       <FeatherIcon icon="chevron-right" />
@@ -220,8 +117,10 @@ const Medecins = () => {
                           <div className="doctor-table-blk">
                             {/* <h3>Médecins ou Spécialité</h3> */}
                             <div className="doctor-search-blk">
-                              <div className="top-nav-search table-search-blk">
-                                <form className="d-flex">
+                              <div className="top-nav-search table-search-blk" style={{marginRight: "10px"}}>
+                                <form className="d-flex" onSubmit={(e) => {
+                                  e.preventDefault()
+                                }}>
                                   <input
                                     type="text"
                                     value={search}
