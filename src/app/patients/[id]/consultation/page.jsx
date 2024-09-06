@@ -1,4 +1,5 @@
 "use client";
+//page dediee a la creation d'une nouvelle consultion (pour afficher ou modifier une consultation aller a /historique/id)
 
 //LIBRARIES
 import { useState, useEffect } from "react";

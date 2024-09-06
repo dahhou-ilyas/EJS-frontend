@@ -20,6 +20,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
 const Historique = ({ params }) => {
+  const [patient,setPatient] = useState(null);
   const [consultations, setConsultations] = useState([]);
   const [selectedConsultation, setSelectedConsultation] = useState(null);
 
@@ -44,9 +45,12 @@ const Historique = ({ params }) => {
         console.log(`liste des consultations ${consultations}`)
       
     };
-
+    
     fetchConsultations();
+    console.log(`trying to show list of consultation `);
+    console.log(consultations);
   }, [id]);
+
 
   const handleModify = (idConsultation) => {
     router.push(`historique/${idConsultation}`);
@@ -333,11 +337,14 @@ const Historique = ({ params }) => {
                       style={{ width: "7%", height: "7%" }}
                     />
                     <h4 className="modal-title">
-                      Consultation du {new Date(selectedConsultation.date).toLocaleDateString('fr-FR', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })}
+                      Consultation du { 
+                        new Date(selectedConsultation.date).toLocaleDateString('fr-FR', 
+                        {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        })
+                      }
                     </h4>
                     <button
                       type="button"
