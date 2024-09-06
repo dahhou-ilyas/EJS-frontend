@@ -47,7 +47,6 @@ const Professional_Dashboard = () => {
     const showLinkAndQuestions = async (LiveSelected) => {
         try {
             const questions = LiveSelected.questions.length > 0 ? LiveSelected.questions : null;
-            console.log("quesiton", questions)
 
             if ((questions !== null) && (questions !== undefined)) {
                 const response = await axios.post(
@@ -62,10 +61,9 @@ const Professional_Dashboard = () => {
 
                 const responseData = response.data.replace(/```json|```/g, '').split(" - ");
                 setquestionreceive(responseData)
-                console.log(questionreceive)
             }
         } catch (error) {
-            console.error('Error fetching summarized topics:', error);
+            console.error('Error fetching summarized questions:', error);
         }
 
         setLiveSelect(LiveSelected)
