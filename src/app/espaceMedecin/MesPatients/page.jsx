@@ -1,264 +1,254 @@
 "use client";
+
 import "../../../assets/css/style.css";
 import { useMemo, useEffect, useState } from "react";
 import Link from "next/link";
 import Sidebar from "../../../components/espaceMedecin/Sidebar1";
-import Header from '@/components/espaceMedecin/Header';
-import { Table  } from 'antd';
+import { Table } from 'antd';
 import "../../../assets/css/font-awesome.min.css";
 import axios from 'axios';
-import {
-  refreshicon,
-  searchnormal,
-} from '../../../components/espaceMedecin/imagepath';
+import { refreshicon, searchnormal } from '../../../components/espaceMedecin/imagepath';
 import { useRouter } from 'next/navigation';
 import { jwtDecode } from "jwt-decode";
 
 const MesPatients = () => {
-    const router = useRouter();
-    const [searchText, setSearchText] = useState("");
-    const [data, setData] = useState([]);
-    const token = localStorage.getItem('access-token');
-  
-    const getAllJeunes = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/jeune', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        setData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  
-    const updateFavoriteState = async (jeuneId, favorite) => {
-      try {
-          await axios.put(
-              `http://localhost:8080/jeune/favorite/${jeuneId}/${favorite}`,
-              {},
-              {
-                  headers: {
-                      Authorization: `Bearer ${token}`
-                  }
-              }
-          );
-          getAllJeunes();
-      } catch (error) {
-          console.error(error);
-      }
-    };
+  const router = useRouter();
+  const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState(null);
+  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
 
-    function isTokenInvalidOrNotExist(token) {
-      if (typeof token !== 'string' || token.trim() === '') {
-        console.error('Token is invalid or does not exist');
-        return true; 
+  const getAllJeunes = (medecinId) => {
+    axios.get(`http://localhost:8080/jeune/medecin/${medecinId}`,  {
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
-      try {
-        const decodedToken = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
-        if (decodedToken.exp && decodedToken.exp < currentTime) {
-          return true; 
-        }
-        return false; 
-      } catch (error) {
-        console.error("Error decoding token:", error);
-        return true; 
-      }
-    }
-  
-    const handleCheckboxChange = async (event, jeuneId) => {
-      const favorite = event.target.checked;
-      await updateFavoriteState(jeuneId, favorite);
-    };
-  
-    const filteredData = useMemo(() => {
-      return data.filter(patient => {
-        const fullName = `${patient.infoUser.prenom} ${patient.infoUser.nom}`.toLowerCase();
-        const motifConsultation = patient.consultation.length > 0 ? patient.consultation[0].motif_consultation.toLowerCase() : '';
-        return (
-          fullName.includes(searchText.toLowerCase()) ||
-          patient.sexe.toLowerCase().includes(searchText.toLowerCase()) ||
-          motifConsultation.includes(searchText.toLowerCase())
+    })
+    .then(res => {
+        console.log(res.data);
+        setData(res.data);
+    })
+    .catch(err => {
+        console.log(err);
+    })
+  }
+
+  const timestampToDateString = (timestamp) => {
+    const date = new Date(timestamp);
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
+  }
+
+  const updateFavoriteState = async (jeuneId, favorite) => {
+    try {
+        await axios.put(
+            `http://localhost:8080/jeune/favorite/${jeuneId}/${favorite}`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
         );
-      });
-    }, [searchText, data]);
-  
-    const columns = [
-      {
-        title: " ",
-        width: 40,
-        render: (record) => (
-          <input
-            className="star"
-            type="checkbox"
-            checked={record.favorite}
-            onChange={(event) => handleCheckboxChange(event, record.id)}
-          />
-        )
-      },
-      {
+        getAllJeunes(user?.claims?.id);
+    } catch (error) {
+        console.error(error);
+    }
+  };
+
+  const handleCheckboxChange = async (event, jeuneId) => {
+    const favorite = event.target.checked;
+    await updateFavoriteState(jeuneId, favorite);
+  };
+
+  const filteredData = useMemo(() => {
+    return data && data.filter((item) =>
+      item[1].toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [searchText, data]);
+
+  const columns = [
+    {
+        title : " ",
+        width : 40,
+        render : (item) => <input className="star" type="checkbox" checked={ item[8] } onChange={(event) => handleCheckboxChange(event, item[0])} />
+    },
+    {
         title: <span style={{ textAlign: 'center' }}>NIP</span>,
-        dataIndex: 'identifiantPatient',
+        dataIndex: 7,
         width: 200,
-        sorter: (a, b) => a.identifiantPatient - b.identifiantPatient,
+        sorter: (a, b) => a[7] - b[7],
         render: (text) => <span style={{ whiteSpace: 'pre-wrap', marginLeft: '0px' }}>{text}</span>,
-      },
-      {
+    },
+    {
         title: <span style={{ textAlign: 'center' }}>Nom et Prénom</span>,
-        dataIndex: 'infoUser',
+        dataIndex: 0,
         width: 300,
-        render: (infoUser) => (
-          <span style={{ whiteSpace: 'pre-wrap', marginLeft: '0px' }}>
-            {infoUser.prenom} {infoUser.nom}
-          </span>
+        render: (text, record) => (
+            <span style={{ whiteSpace: 'pre-wrap', marginLeft: '0px' }}>
+                {record[2]} {record[1]}
+            </span>
         ),
-        sorter: (a, b) => `${a.infoUser.prenom} ${a.infoUser.nom}`.localeCompare(`${b.infoUser.prenom} ${b.infoUser.nom}`)
-      },
-      {
+        sorter: (a, b) => `${a[2]} ${a[1]}`.localeCompare(`${b[2]} ${b[1]}`)
+    },   
+    {
         title: <span style={{ marginLeft: '20px' }}>Sexe</span>,
-        dataIndex: 'sexe',
+        dataIndex: 3,
         width: 200,
         render: (text) => <span style={{ whiteSpace: 'pre-wrap', marginLeft: '25px' }}>{text}</span>,
-        sorter: (a, b) => a.sexe.localeCompare(b.sexe)
-      },
-      {
+        sorter: (a, b) => `${a[2]} ${a[1]}`.localeCompare(`${b[2]} ${b[1]}`)
+
+    },
+    {
         title: <span style={{ marginLeft: '20px' }}>Age</span>,
-        dataIndex: 'age',
+        dataIndex: 4,
         width: 200,
         render: (text) => <span style={{ whiteSpace: 'pre-wrap', marginLeft: '25px' }}>{text} ans</span>,
-        sorter: (a, b) => b.age - a.age
-      },
-      {
+        sorter: (a, b) => b[3].localeCompare(a[3])
+    },
+    {
         title: <span style={{ marginLeft: '20px' }}>Motif de consultation</span>,
-        dataIndex: 'consultation',
+        dataIndex: 5,
         width: 250,
-        render: (consultation) => (
-          <span style={{ textAlign: 'center' }}>
-            {consultation.length > 0 ? consultation[0].motif_consultation : 'N/A'}
-          </span>
-        ),
-      },
-      {
+        render: (text) => <span style={{ textAlign: 'center' }}>{text}</span>,
+    },
+    {
         title: <span style={{ marginLeft: '20px' }}>Date de consultation</span>,
-        dataIndex: 'consultation',
+        dataIndex: 6,
         width: 300,
-        render: (consultation) => (
-          <span style={{ whiteSpace: 'pre-wrap', marginLeft: '25px' }}>
-            {consultation.length > 0 ? consultation[0].date_consultation : 'N/A'}
-          </span>
-        ),
-        sorter: (a, b) => a.consultation.length > 0 ? a.consultation[0].date_consultation.localeCompare(b.consultation.length > 0 ? b.consultation[0].date_consultation : '') : ''
-      },
-      {
+        render: (text) => <span style={{ whiteSpace: 'pre-wrap', marginLeft: '25px' }}>{timestampToDateString(text)}</span>,
+        sorter: (a, b) => timestampToDateString(a[6]).localeCompare(timestampToDateString(b[6]))
+    },
+    {
         title: <span style={{ marginLeft: '20px' }}>Dossier médical</span>,
         width: 250,
-        render: (record) => (
-          <a href={`/espaceMedecin/MesPatients/DossierMedical/${record.id}`} style={{ marginLeft: '20px' }}>Dossier médical</a>
-        ),
-      },
-    ];
-  
-    const handleSearchInputChange = (e) => {
-      setSearchText(e.target.value);
-    };
-  
-    useEffect(() => {
-      if (isTokenInvalidOrNotExist(token)) {
-        router.push('/auth/medecins');
-      } else {
-        getAllJeunes();
+        render: (item) => <a href={'/patients/' + item[0]} style={{marginLeft: '20px'}}>Dossier médical</a>,
+    },
+  ];
+
+  const isTokenInvalidOrNotExist = (token) => {
+    if (typeof token !== 'string' || token.trim() === '') {
+      console.error('Token is invalid or does not exist');
+      return true; 
+    }
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp && decodedToken.exp < currentTime) {
+        return true; 
       }
-    }, []);
-  
-    return (
-      <>
-        <Header />
-        <Sidebar />
-        <div className="page-wrapper">
-          <div className="content">
-            {/* Page Header */}
-            <div className="page-header">
-              <div className="row">
-                <div className="col-sm-12">
-                  <ul className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <Link href="#"> Mes Patients</Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            {/* /Page Header */}
-            <div className="row">
-              <div className="col-sm-12">
-                <div className="card card-table show-entire">
-                  <div className="card-body">
-                    {/* Table Header */}
-                    <div className="page-table-header mb-2">
-                      <div className="row align-items-center">
-                        <div className="col">
-                          <div className="doctor-table-blk">
-                            <h3 style={{ marginRight: "20px" }}>Mes Patients</h3>
-                            <div className="doctor-search-blk">
-                              <div className="top-nav-search table-search-blk">
-                                <form>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Search here"
-                                    value={searchText}
-                                    onChange={handleSearchInputChange}
-                                  />
-                                  <Link className="btn" href="#">
-                                    <img
-                                      src={searchnormal.src}
-                                      alt="#"
-                                    />
-                                  </Link>
-                                </form>
-                              </div>
-                              <div className="add-group">
-                                <Link
-                                  href="#"
-                                  className="btn btn-primary doctor-refresh ms-2"
-                                >
-                                  <img src={refreshicon.src} alt="#" />
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* /Table Header */}
-                    <div className="table-responsive doctor-list">
-                      <Table
-                        className="custom-table"
-                        pagination={{
-                          total: filteredData.length,
-                          showTotal: (total, range) =>
-                            <span style={{ fontWeight: 'bold', fontSize: '16px', fontFamily: 'Poppins' }}>
-                              Nombre total des patients : {total} patients
-                            </span>
-                        }}
-                        columns={columns}
-                        dataSource={filteredData}
-                        rowKey={(record) => record.id}
-                        style={{
-                          // backgroundColor: '#f2f2f2', // Replace with your desired background color for the table
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
-    );
+      return false; 
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return true; 
+    }
+  }
+
+  const applySearch = () => {
+      const filteredData = data && data.filter(patient => {
+          return (
+              patient[1].toLowerCase().includes(searchText.toLowerCase()) ||
+              patient[2].toLowerCase().includes(searchText.toLowerCase()) ||
+              patient[3].toLowerCase().includes(searchText.toLowerCase()) ||
+              patient[5].toLowerCase().includes(searchText.toLowerCase())
+          );
+      });
+
+      return filteredData;
   };
-  
+  const handleSearchInputChange = (e) => {
+      setSearchText(e.target.value);
+  };
+
+  useEffect(() => {
+    setToken(localStorage.getItem('access-token'));
+    if (isTokenInvalidOrNotExist(token)) {
+      console.log('Invalid token');
+    } else {
+      const decodedToken = jwtDecode(token);
+      setUser(decodedToken);
+      getAllJeunes(decodedToken?.claims?.id);
+    }
+  }, [token]);
+
+  return (
+      <>
+          <Sidebar id='menu-item1' id1='menu-items1' activeClassName='doctor-list' />
+          <div className="page-wrapper">
+              <div className="content">
+                  {/* Page Header */}
+                  <div className="page-header">
+                      <div className="row">
+                          <div className="col-sm-12">
+                              <ul className="breadcrumb">
+                                  <li className="breadcrumb-item">
+                                      <Link href="#"> Mes Patients</Link>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+                  {/* /Page Header */}
+                  <div className="row">
+                      <div className="col-sm-12">
+                          <div className="card card-table show-entire">
+                              <div className="card-body">
+                                  {/* Table Header */}
+                                  <div className="page-table-header mb-2">
+                                      <div className="row align-items-center">
+                                          <div className="col">
+                                              <div className="doctor-table-blk">
+                                                  <h3 style={{ marginRight: "20px" }}>Mes Patients</h3>
+                                                  <div className="doctor-search-blk">
+                                                  <div className="top-nav-search table-search-blk">
+                                                  <form>
+                                                  <input
+                                                      type="text"
+                                                      className="form-control"
+                                                      placeholder="Search here"
+                                                      value={searchText}
+                                                      onChange={handleSearchInputChange}
+                                                  />
+                                                  <Link className="btn" href="#">
+                                                    <img
+                                                      src={searchnormal.src}
+                                                      alt="#"
+                                                      />
+                                                  </Link>
+                                                  </form>                                                                                
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  {/* /Table Header */}
+                                  <div className="table-responsive doctor-list">
+                                      <Table
+                                          pagination={{
+                                              patients_number: data && data.length,
+                                              showTotal: (patients_number, range) =>
+                                                  <span style={{ fontWeight: 'bold', fontSize: '16px' , fontFamily:'Poppins'}}>
+                                              Nombre total des patients : {patients_number} patients
+                                              </span>
+                                              
+                                          }}
+                                          columns={columns}
+                                          dataSource={applySearch()}
+                                          rowKey={(record) => record.id}
+                                          style={{
+                                              // backgroundColor: '#f2f2f2', // Replace with your desired background color for the table
+                                          }}
+                                      />
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </>
+  );
+  };
+
   export default MesPatients;
