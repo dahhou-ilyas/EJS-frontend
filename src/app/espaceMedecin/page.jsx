@@ -12,22 +12,22 @@ import { jwtDecode } from "jwt-decode";
 
 const Home = () => {
   const router = useRouter();
-  const [rating, setRating] = useState(0);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [news, setNews] = useState([]);
-  const token = localStorage.getItem('access-token');
   const [favoritePatients, setFavoritePatients] = useState(null);
   const [user, setUser] = useState(null);
+  let token = null;
 
   useEffect(() => {
+    token = localStorage.getItem('access-token');
+
     if (isTokenInvalidOrNotExist(token)) {
       router.push('/auth/medecins');
     } else {
-      getFavoritePatients();
+      getFavoritePatients(token);
       const decodedToken = jwtDecode(token);
       setUser(decodedToken);
     }
-  }, []);
+  }, []); 
 
   const getFavoritePatients = () => {
     axios.get('http://localhost:8080/jeune/favorite-patients', {

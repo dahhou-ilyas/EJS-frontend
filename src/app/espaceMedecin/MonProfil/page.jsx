@@ -19,9 +19,11 @@ const Page = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [user, setUser]=useState(null);
-  const token = localStorage.getItem('access-token');
+  let token = null;
 
   useEffect(() => {
+    token = localStorage.getItem('access-token')
+
     if (isTokenInvalidOrNotExist(token)) {
       router.push('/auth/medecins');
     } else {

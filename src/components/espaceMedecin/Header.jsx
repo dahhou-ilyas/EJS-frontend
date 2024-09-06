@@ -114,8 +114,7 @@ const Header = ({section}) => {
               <div className="user-names" style={{ textTransform: 'capitalize' }}>
                 <h5>{user?.claims?.nom ? `${user.claims.nom} ` : ''}{user?.claims?.prenom || '' || "Mon Profile"}</h5>
               </div>
-              {/* <img src="https://i.postimg.cc/Kzp0N0w8/image.png" alt="Admin" className="user-img" /> */}
-              <img src={ medecin?.image_url || user06 } alt="Admin" className="user-img" />
+              <img src={ medecin?.image_url || user06.src } alt="Admin" className="user-img" />
             </Link>
             <div className="dropdown-menu">
               <Link href="/espaceMedecin/MonProfil" className="dropdown-item">
