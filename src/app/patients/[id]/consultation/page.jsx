@@ -38,6 +38,7 @@ import TextInput from "@/components/ppn/TextInput";
 
 const Consultation = ({params}) => {
   const id = params.id
+
   const pages = ["Patients", id, "Consultation"];
   const defaultOption = [{ value: "0", label: "Choisir.." }];
   const router = useRouter();
@@ -46,21 +47,8 @@ const Consultation = ({params}) => {
   
   let actionName = "";
   let buttonName = "Enregistrer";
-
-  // useEffect(() => {
-  //   if (!pathName.includes('ajouter') && !pathName.includes('modifier')) {
-  //     router.push('/error'); // Redirect to error page if the action is invalid
-  //   }
-  // }, [pathName, router]); code diabolique qui fait tout cramer 
   
-  if(pathName.includes("modifier")){
-    actionName = buttonName = "Modifier";
-  }
-  else{
-    actionName = "Ajouter";
-  }
-
-
+  const [decodedAccessToken,setDecodedAccessToken] = useState("");
   const [patient, setPatient] = useState(null); // Initialisé à null
   const [loading, setLoading] = useState(true); // Indicateur de chargement
   const [error, setError] = useState(null); // Gestion des erreurs
@@ -74,8 +62,10 @@ const Consultation = ({params}) => {
           if (!accessToken) {
             throw new Error('No access token found');
           }
-          const decodedAccessToken = jwtDecode(accessToken); // Ensure the token is decoded correctly
-          console.log('Decoded token:', decodedAccessToken);
+          // const decodedAccessToken = jwtDecode(accessToken);
+          setDecodedAccessToken(jwtDecode(accessToken))
+           // Ensure the token is decoded correctly
+          // console.log('Decoded token:', decodedAccessToken);
           
           axios.get("http://localhost:8080/jeunes/"+id, {
             headers: {
@@ -395,7 +385,7 @@ const Consultation = ({params}) => {
   }
 
   function handleCancel() {
-    router.push("/Patients/Patient");
+    router.push("/patients/"+id);
   }
 
   const [motif, setMotif] = useState({ value: '', label: '' });
@@ -463,7 +453,7 @@ const Consultation = ({params}) => {
   const handleSubmit = async (e) => {
     const submitButton = document.querySelector("button[id='submit-button']");
     e.preventDefault()
-    const medecinId = 1;
+    const medecinId = decodedAccessToken.claims.id;
     const antecedentPersonnel = { type, specification, specificationAutre,nombreAnnee };
     const antecedentFamilial = {typeAntFam, autre};
 
@@ -495,10 +485,9 @@ const Consultation = ({params}) => {
         const successModal = new bootstrapBundleMin.Modal(document.getElementById('success-alert-modal'));
         successModal.show();
     
-        // Optional: Redirect after some delay
+        //Redirect after some delay
         setTimeout(() => {
-          // Replace this with your router logic
-          router.push(`/Patients/${id}`);
+          router.push(`/patients/${id}`);
         }, 5000);
       } 
     } catch (error) {

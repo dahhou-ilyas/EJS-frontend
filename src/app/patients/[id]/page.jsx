@@ -223,7 +223,15 @@ const Patient = ({params}) => {
                       </li>
                       <li>
                         <h4>Date de Naissance</h4>
-                        <span>{patient.dateNaissance}</span>
+                        <span>{
+                          new Date(patient.dateNaissance).toLocaleDateString('fr-FR', 
+                                  {
+                                  day: '2-digit',
+                                  month: '2-digit',
+                                  year: 'numeric',
+                                  })
+                          }
+                        </span>
                       </li>
                       <li>
                         <h4>Adresse</h4>
