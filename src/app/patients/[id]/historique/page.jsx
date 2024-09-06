@@ -16,6 +16,8 @@ import {
 import { useRouter } from 'next/navigation';
 import { handleGenerateDocument } from "../page";
 import Sidebar from '@/components/espaceMedecin/Sidebar1';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const Historique = ({ params }) => {
   const [consultations, setConsultations] = useState([]);
@@ -23,23 +25,31 @@ const Historique = ({ params }) => {
 
   const router = useRouter();
   const { id } = params;
+  const [decodedAccessToken,setDecodedAccessToken] = useState("");
 
   useEffect(() => {
     const fetchConsultations = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/jeunes/${id}`);
-        const data = await response.json();
-        setConsultations(data.dossierMedial.historiqueConsultations);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des données:', error);
-      }
+        const accessToken = localStorage.getItem('access-token');
+        setDecodedAccessToken(jwtDecode(accessToken))
+        axios.get("http://localhost:8080/jeune/"+id, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+            // .then(response => response.json()) pas besoin de conversion json pour axios ;)
+            .then(response => {setConsultations(response.data.dossierMedial?.historiqueConsultations)})
+            .catch(error => console.error('Error fetching patient:', error));
+        
+        
+        console.log(`liste des consultations ${consultations}`)
+      
     };
 
     fetchConsultations();
   }, [id]);
 
   const handleModify = (idConsultation) => {
-    router.push(`Historique/${idConsultation}`);
+    router.push(`historique/${idConsultation}`);
   }
   
   if(consultations.length==0){
@@ -284,7 +294,11 @@ const Historique = ({ params }) => {
                           data-bs-target="#con-close-modal"
                           onClick={() => setSelectedConsultation(consultation)}>
                           <div className="timeline-heading">
-                            <h5 className="">Date : {consultation.date}</h5>
+                            <h5 className="">Date : {new Date(consultation.date).toLocaleDateString('fr-FR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}</h5>
                           </div>
                           <div className="timeline-body">
                             <p>Motif : {consultation.motif}</p>
@@ -319,7 +333,11 @@ const Historique = ({ params }) => {
                       style={{ width: "7%", height: "7%" }}
                     />
                     <h4 className="modal-title">
-                      Consultation du {selectedConsultation.date}
+                      Consultation du {new Date(selectedConsultation.date).toLocaleDateString('fr-FR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })}
                     </h4>
                     <button
                       type="button"

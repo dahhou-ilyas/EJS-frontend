@@ -278,7 +278,7 @@ const Patient = ({params}) => {
                         <h5>Ajouter Une Nouvelle Consultation </h5>
                       </div>
                     </Link>
-                    <Link href={`./${id}/Historique/`} className="personal-activity">
+                    <Link href={`./${id}/historique/`} className="personal-activity">
                       <div className="personal-icons status-green">
                         <Image src={medalicon02} alt="" />
                       </div>
