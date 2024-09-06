@@ -73,6 +73,7 @@ const sortCategoriesByLongestTopic = (categories) => {
 const Propositions = ({ toDashboard }) => {
     const [fetched, setFetched] = useState(false);
     const [data, setData] = useState([]);
+    const [dataFetched, setDataFetched] = useState(false);
     const [allLives, setAllLives] = useState(null);
     const [suggestedThemes, setSuggestedThemes] = useState(null);
 
@@ -123,7 +124,29 @@ const Propositions = ({ toDashboard }) => {
                 };
 
                 fetchSuggestedThemes();
-                console.log(suggestedThemes);
+
+                try {
+                    const topics = suggestedThemes?.every(theme => theme === null) ? null : suggestedThemes?.filter(theme => theme !== null).join(" - ");
+
+                    if (topics !== null && topics !== undefined) {
+                        const response = await axios.post(
+                            'http://localhost:7777/summarized_topics',
+                            topics,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                }
+                            }
+                        );
+
+                        const responseData = response.data.replace(/```json|```/g, '');
+                        setData(JSON.parse(responseData));
+                    }
+                    setDataFetched(true);
+                } catch (error) {
+                    console.error('Error fetching summarized topics:', error);
+                }
 
                 setAllLives(lives);
                 setFetched(true);
@@ -202,7 +225,7 @@ const Propositions = ({ toDashboard }) => {
                                 ))
                             ) : (
                                 <div className="col-12">
-                                    <p className="text-center">Aucune proposition disponible</p>
+                                    {dataFetched ? <p className="text-center">Aucune proposition disponible</p> : <Loading />}
                                 </div>
                             )}
                         </div>
