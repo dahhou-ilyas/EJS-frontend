@@ -225,6 +225,7 @@ const MesPatients = () => {
                                   {/* /Table Header */}
                                   <div className="table-responsive doctor-list">
                                       <Table
+                                          className="custom-table"
                                           pagination={{
                                               patients_number: data && data.length,
                                               showTotal: (patients_number, range) =>

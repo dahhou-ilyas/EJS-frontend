@@ -18,7 +18,7 @@ const ModifierProfil = () => {
   const router = useRouter();
   const [medecin, setMedecin] = useState(null);
   const [user, setUser] = useState(null);
-  let token = null;
+  const [token, setToken] = useState(localStorage.getItem('access-token'));
   const [formData, setFormData] = useState({
     prenom: "",
     nom: "",
@@ -43,8 +43,6 @@ const ModifierProfil = () => {
   const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
-    token = localStorage.getItem('access-token')
-    
     if (isTokenInvalidOrNotExist(token)) {
       router.push('/auth/medecins');
     } else {
@@ -56,7 +54,7 @@ const ModifierProfil = () => {
 
   const getMedecinData = (id) => {
     if (id != null) {
-      axios.get('http://localhost:8080/medecins/' + 2, {
+      axios.get('http://localhost:8080/medecins/' + id, {
         headers: {
           Authorization: `Bearer ${token}`
         }
