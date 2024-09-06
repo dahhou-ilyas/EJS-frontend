@@ -7,12 +7,15 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 const Stats_Page = () => {
     const searchParams = useSearchParams();
     const [queryParams, setQueryParams] = useState({ id: '', thematique: '' });
     const [loading, setLoading] = useState(true);
+    const [fetched, setFetched] = useState(true);
     const [liveStats, setLiveStats] = useState(null);
+    const [opinion, setOpinion] = useState(null);
 
     const router = useRouter();
     useEffect(
@@ -24,6 +27,14 @@ const Stats_Page = () => {
                 const token = localStorage.getItem("access-token");
 
                 if (!token) {
+                    router.push("/auth/professionnels");
+                    return;
+                }
+
+                const decodedToken = jwtDecode(token);
+                const role = decodedToken.claims.role;
+
+                if (!role.includes("MEDECIN") && !role.includes("SANTE")) {
                     router.push("/auth/professionnels");
                     return;
                 }
@@ -59,17 +70,40 @@ const Stats_Page = () => {
                 };
 
                 const stats = await fetchLiveStats(id, token);
-                setLiveStats(stats);
 
+                try {
+                    const long_comments = stats?.opinions.length > 0 ? stats?.opinions : null;
+
+                    if ((long_comments !== null) && (long_comments !== undefined)) {
+                        const response = await axios.post(
+                            'http://localhost:7777/summarized_long_comments',
+                            { long_comments },
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                }
+                            }
+                        );
+
+                        const responseData = response.data.replace(/```json|```/g, '');
+                        setOpinion(responseData);
+                    }
+                } catch (error) {
+                    console.error('Error fetching summarized opinions:', error);
+                }
+
+                setLiveStats(stats);
                 setQueryParams({
                     id: id || '', thematique: thematique || ''
                 });
                 setLoading(false);
             }
             init();
+            setFetched(true);
         }, [searchParams]);
 
-    if (loading) {
+    if (!fetched || loading) {
         return (
             <Loading />
         );
@@ -108,9 +142,11 @@ const Stats_Page = () => {
             </div>
             <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '16px', marginBottom: '16px' }}>
                 <p className="pt-0 mt-1" style={{ paddingBottom: '2px', paddingLeft: '4px' }}><strong><i className="fa fa-cog"></i> IA-IES - Résumé des avis des jeunes pour vous:</strong></p>
-                <p className="pt-0 mt-0" style={{ textIndent: '20px', paddingInline: '16px' }}>
-                    {liveStats.opinions}
-                </p>
+                {opinion ? (
+                    <p className="pt-0 mt-1">{opinion}</p>
+                ) : (
+                    <p className="pt-0 mt-1" style={{ textAlign: 'center' }}>Aucun avis disponible</p>
+                )}
             </div>
         </div>
     );

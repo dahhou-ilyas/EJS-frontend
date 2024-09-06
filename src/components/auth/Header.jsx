@@ -37,6 +37,7 @@ const Header = ({t,locale}) => {
 
       if (decodedToken.exp < currentTimestamp) {
         console.error('Token has expired');
+        localStorage.removeItem('access-token');
         router.push('/auth/jeunes');
         return;
       }

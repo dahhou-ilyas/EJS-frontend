@@ -16,8 +16,9 @@ import {
 import { useRouter } from 'next/navigation';
 import { handleGenerateDocument } from "../page";
 import Sidebar from '@/components/espaceMedecin/Sidebar1';
-
+import axios from 'axios';
 const Historique = ({ params }) => {
+  const [patient,setPatient] = useState(null);
   const [consultations, setConsultations] = useState([]);
   const [selectedConsultation, setSelectedConsultation] = useState(null);
 
@@ -27,16 +28,29 @@ const Historique = ({ params }) => {
   useEffect(() => {
     const fetchConsultations = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/jeunes/${id}`);
-        const data = await response.json();
+        const accessToken = localStorage.getItem('access-token');
+          if (!accessToken) {
+            throw new Error('No access token found');
+          }
+        const response = await axios.get("http://localhost:8080/jeunes/data1/"+id, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        const data = response.data;
+        setPatient(data);
+        console.log(data)
         setConsultations(data.dossierMedial.historiqueConsultations);
-      } catch (error) {
+      }catch (error) {
         console.error('Erreur lors de la récupération des données:', error);
       }
     };
-
+    
     fetchConsultations();
+    console.log(`trying to show list of consultation `);
+    console.log(consultations);
   }, [id]);
+
 
   const handleModify = (idConsultation) => {
     router.push(`Historique/${idConsultation}`);
@@ -284,7 +298,15 @@ const Historique = ({ params }) => {
                           data-bs-target="#con-close-modal"
                           onClick={() => setSelectedConsultation(consultation)}>
                           <div className="timeline-heading">
-                            <h5 className="">Date : {consultation.date}</h5>
+                            <h5 className="">Date : {
+                              new Date(consultation.date).toLocaleDateString('fr-FR', 
+                              {
+                              day: '2-digit',
+                              month: '2-digit',
+                              year: 'numeric',
+                              })
+                            }
+                            </h5>
                           </div>
                           <div className="timeline-body">
                             <p>Motif : {consultation.motif}</p>
@@ -319,7 +341,14 @@ const Historique = ({ params }) => {
                       style={{ width: "7%", height: "7%" }}
                     />
                     <h4 className="modal-title">
-                      Consultation du {selectedConsultation.date}
+                      Consultation du { 
+                        new Date(selectedConsultation.date).toLocaleDateString('fr-FR', 
+                        {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        })
+                      }
                     </h4>
                     <button
                       type="button"

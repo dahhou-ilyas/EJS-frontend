@@ -10,6 +10,8 @@ import { DATA } from "@/components/ies/ui/tables/schedule-data";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from 'jwt-decode';
+import Loading from "../utility/loading";
+import axios from "axios";
 
 /*const doneLives = livesData.filter(event => dayjs(event.Date).add(1, "hours").add(30, "minutes").isBefore(dayjs()));
 const notDoneYetLives = livesData.filter(event => dayjs(event.Date).add(1, "hours").add(30, "minutes").isAfter(dayjs()));*/
@@ -41,10 +43,30 @@ const Professional_Dashboard = () => {
     const [questionreceive, setquestionreceive] = useState([]);
     const [LiveSelect, setLiveSelect] = useState(null);
     const showDashboard = () => { setSelectedTab(tabNames.dashboard); };
-    const showLinkAndQuestions = (LiveSelected) => {
-        const questions = LiveSelected.questions;
+    const [fetched, setFetched] = useState(false);
+    const showLinkAndQuestions = async (LiveSelected) => {
+        try {
+            const questions = LiveSelected.questions.length > 0 ? LiveSelected.questions : null;
+
+            if ((questions !== null) && (questions !== undefined)) {
+                const response = await axios.post(
+                    'http://localhost:7777/summarized_questions',
+                    { questions },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                const responseData = response.data.replace(/```json|```/g, '').split(" - ");
+                setquestionreceive(responseData)
+            }
+        } catch (error) {
+            console.error('Error fetching summarized questions:', error);
+        }
+
         setLiveSelect(LiveSelected)
-        setquestionreceive(questions)
         setSelectedTab(tabNames.linkAndQuestions);
     };
     const fetchQuestions = async (token, id) => {
@@ -72,14 +94,21 @@ const Professional_Dashboard = () => {
                 try {
                     const decodedToken = jwtDecode(token);
                     const id = decodedToken.claims.id;
+                    const role = decodedToken.claims.role;
+
+                    if (!role.includes("MEDECIN") && !role.includes("SANTE")) {
+                        router.push("/auth/professionnels");
+                        return;
+                    }
+
                     setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
                     fetchQuestions(token, id);
                 } catch (error) {
-                    console.log(error);
                 }
             };
 
             init();
+            setFetched(true);
         }
         , [])
 
@@ -88,6 +117,8 @@ const Professional_Dashboard = () => {
         const url = lienStreamYard.startsWith('http') ? lienStreamYard : `https://${lienStreamYard}`;
         window.location.href = url;
     };
+
+    if (!fetched) return <Loading />;
 
     return (
         <>
@@ -170,7 +201,7 @@ const Professional_Dashboard = () => {
                                             <h4 className="mb-4">Questions des jeunes (résumés par l'IA e-ESJ)</h4>
                                             <ul>
                                                 {questionreceive.map(question => (
-                                                    <><li key={question.id}>{question.contenu}</li><br /></>
+                                                    <><li key={question}>{question}</li><br /></>
                                                 ))}
                                             </ul>
                                         </div>
