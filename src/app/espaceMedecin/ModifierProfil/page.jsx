@@ -14,11 +14,11 @@ import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-const MonProfile = () => {
+const ModifierProfil = () => {
   const router = useRouter();
   const [medecin, setMedecin] = useState(null);
   const [user, setUser] = useState(null);
-  const token = localStorage.getItem('access-token');
+  let token = null;
   const [formData, setFormData] = useState({
     prenom: "",
     nom: "",
@@ -43,6 +43,8 @@ const MonProfile = () => {
   const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
+    token = localStorage.getItem('access-token')
+    
     if (isTokenInvalidOrNotExist(token)) {
       router.push('/auth/medecins');
     } else {
@@ -800,4 +802,4 @@ const MonProfile = () => {
   );
 };
 
-export default MonProfile;
+export default ModifierProfil;
