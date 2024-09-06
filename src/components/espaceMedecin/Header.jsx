@@ -23,6 +23,10 @@ const Header = ({section}) => {
     } else {
       setToken(token);
       const decodedToken = jwtDecode(token);
+      if(decodedToken?.claims?.role=="ROLE_JEUNE"){
+        router.push("/");
+        return;
+      }
       setUser(decodedToken);
       getMedecinData(decodedToken?.claims?.id);
     }
@@ -53,6 +57,7 @@ const Header = ({section}) => {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp && decodedToken.exp < currentTime) {
+        localStorage.removeItem('access-token');
         return true; 
       }
       return false; 
