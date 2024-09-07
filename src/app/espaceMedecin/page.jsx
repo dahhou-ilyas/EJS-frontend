@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { Card } from "antd";
 import Live_list from "../../components/espaceMedecin/Live_list";
 import { jwtDecode } from "jwt-decode";
-import 'boxicons';
+
 
 const Home = () => {
   const router = useRouter();
@@ -19,6 +19,7 @@ const Home = () => {
   let token = null;
 
   useEffect(() => {
+    require("boxicons");
     token = localStorage.getItem('access-token');
 
     if (isTokenInvalidOrNotExist(token)) {
