@@ -7,13 +7,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from 'next/navigation';
 import NavigationHeader from "@/components/ppn/NavigationHeader";
-import Header from "@/components/espaceMedecin/Header"
 import "@/assets/css/style.css";
 // import "@/assets/css/links.css";
+
 import { plusicon, refreshicon, imagesend, dots, edit, deleteIcon } from "@/components/imagepath";
 import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { jwtDecode } from 'jwt-decode';
-
+// import RootRootLayout from "../RootLayout";
+// import RootLayout from "../layout";
 
 const Patients = () => {
   console.log('ht');
@@ -24,7 +25,6 @@ const Patients = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem('access-token');
     const decodedAccessToken = jwtDecode(accessToken);
-    // console.log(`decoded token `,decodedAccessToken);
     axios.get("http://localhost:8080/jeunes", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -122,12 +122,10 @@ const Patients = () => {
   ];
 
   return (
-    <div id="main-wrapper">
-      <Header section={"Mes Patients"}/>
-      <Sidebar activeClassName='ppn'/>
-      {/* <Navbar/> */}
-      <div className="page-wrapper">
-        <div className="content">
+  <div>
+    <Header section={"Mes Patients"}/>
+    <Sidebar activeClassName='ppn'/>
+      <div className="content">
           <NavigationHeader pages={["Patients"]} currentPage="Patients" />
           <div className="row">
             <div className="col-sm-12">
@@ -168,27 +166,26 @@ const Patients = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div id="delete_patient" className="modal fade delete-modal" role="dialog">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-body text-center">
-                <Image src={imagesend} alt="#" width={50} height={46} />
-                <h3>Are you sure want to delete this ?</h3>
-                <div className="m-t-20">
-                  <Link href="#" className="btn btn-white me-2" data-bs-dismiss="modal">
-                    Close
-                  </Link>
-                  <button type="submit" className="btn btn-danger">
-                    Delete
-                  </button>
-                </div>
+      </div>
+      <div id="delete_patient" className="modal fade delete-modal" role="dialog">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-body text-center">
+              <Image src={imagesend} alt="#" width={50} height={46} />
+              <h3>Are you sure want to delete this ?</h3>
+              <div className="m-t-20">
+                <Link href="#" className="btn btn-white me-2" data-bs-dismiss="modal">
+                  Close
+                </Link>
+                <button type="submit" className="btn btn-danger">
+                  Delete
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+  </div>  
   );
 };
 
