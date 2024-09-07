@@ -12,6 +12,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
 // ASSETS
+import "@/assets/css/ppn/consultation.css";
 //These might be necessarry for style if so, use them via : https://github.com/Usmaexe/PPN/tree/main/src/assets/css
 // import "@/assets/css/links.css";
 // import "@/assets/css/consultation.css";

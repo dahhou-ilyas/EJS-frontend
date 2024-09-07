@@ -1,11 +1,11 @@
 import Header from "@/components/espaceMedecin/Header";
 import Sidebar from "@/components/espaceMedecin/Sidebar1";
 
-export const metadata = {
-  title: "ppn",
-  description:
-    "Acces Rapide a les informations medicals des patients",
-};
+// export const metadata = {
+//   title: "ppn",
+//   description:
+//     "Acces Rapide a les informations medicals des patients",
+// };
 
 const RootLayout = ({ children }) => {
   return (
@@ -15,7 +15,7 @@ const RootLayout = ({ children }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <meta name="description" />
-        <title>{metadata.title}</title>
+        {/* <title>{metadata.title}</title> */}
       </head>
       <body>
         <div id="main-wrapper">

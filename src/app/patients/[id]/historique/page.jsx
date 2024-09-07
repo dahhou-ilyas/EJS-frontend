@@ -50,6 +50,7 @@ const Historique = ({ params }) => {
     console.log(`trying to show list of consultation `);
     console.log(consultations);
   }, [id]);
+  const pages = ["patients", id, "historique"];
 
 
   const handleModify = (idConsultation) => {
@@ -263,7 +264,7 @@ const Historique = ({ params }) => {
   return (
     <>
       <div className="content">
-        <NavigationHeader pages={["Patients", id, "Historique"]} currentPage="Historique" />
+        <NavigationHeader pages={pages} currentPage="historique" />
 
         <div className="row hist-row">
           <div className="col-md-12 hist-card">
