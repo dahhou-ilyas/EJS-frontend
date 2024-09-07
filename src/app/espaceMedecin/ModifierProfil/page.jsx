@@ -14,11 +14,11 @@ import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-const MonProfile = () => {
+const ModifierProfil = () => {
   const router = useRouter();
   const [medecin, setMedecin] = useState(null);
   const [user, setUser] = useState(null);
-  const token = localStorage.getItem('access-token');
+  const [token, setToken] = useState(localStorage.getItem('access-token'));
   const [formData, setFormData] = useState({
     prenom: "",
     nom: "",
@@ -54,7 +54,7 @@ const MonProfile = () => {
 
   const getMedecinData = (id) => {
     if (id != null) {
-      axios.get('http://localhost:8080/medecins/' + 2, {
+      axios.get('http://localhost:8080/medecins/' + id, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -800,4 +800,4 @@ const MonProfile = () => {
   );
 };
 
-export default MonProfile;
+export default ModifierProfil;

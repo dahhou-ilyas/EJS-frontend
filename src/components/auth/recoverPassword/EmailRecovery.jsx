@@ -32,9 +32,17 @@ const Fields = ({ nextStep }) => {
     const { handleSubmit, formState } = form;
     const { errors } = formState;
 
-    const onSubmit = (data) => {
-        console.log(data.email);
-        nextStep(data.email);
+    const onSubmit =async (data) => {
+        const response = await fetch('http://localhost:8080/validator/mail?mail='+data.email);
+        if(!response.ok){
+            form.setError("email",{
+                type: "manual",
+                message: "email not existe", // Ensure this translation key is added to your translation files
+            });
+            return;
+        }else{
+            nextStep(data.email);
+        }
     };
 
     return (

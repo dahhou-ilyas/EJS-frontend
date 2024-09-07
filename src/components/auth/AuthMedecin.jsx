@@ -81,7 +81,7 @@ const AuthMedecin = () => {
                 } else {
                     form.setError("identifier", {
                         type: "manual",
-                        message: t("errors.server"),
+                        message: t("errors.credentials"),
                     });
                 }
                 throw new Error('Authentication failed');
