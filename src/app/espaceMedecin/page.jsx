@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import Sidebar from "../../components/espaceMedecin/Sidebar1";
-import { bu, gp, tv, cb ,i} from "../../components/espaceMedecin/imagepath";
+import { bu, gp, tv, cb, i } from "../../components/espaceMedecin/imagepath";
 import { useRouter } from 'next/navigation';
 import { Card } from "antd";
 import Live_list from "../../components/espaceMedecin/Live_list";
 import { jwtDecode } from "jwt-decode";
+import 'boxicons';
 
 const Home = () => {
   const router = useRouter();
@@ -23,14 +24,14 @@ const Home = () => {
     if (isTokenInvalidOrNotExist(token)) {
       router.push('/auth/medecins');
     } else {
-      getFavoritePatients(token);
       const decodedToken = jwtDecode(token);
       setUser(decodedToken);
+      getFavoritePatients(decodedToken?.claims?.id);
     }
   }, []); 
 
-  const getFavoritePatients = () => {
-    axios.get('http://localhost:8080/jeune/favorite-patients', {
+  const getFavoritePatients = (medecinId) => {
+    axios.get(`http://localhost:8080/jeune/favorite/${medecinId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -220,13 +221,13 @@ const Home = () => {
                       <div className="card">
                         <div className="row no-gutters">
                             <div className="col-sm-5">
-                                <img className="card-img" src={ item[5] } alt=""/>
+                              <i class='bx bxs-user-circle' style={{fontSize: '150px', marginLeft: '50px', color: '#2E37A4'}}></i>
                             </div>
                             <div className="col-sm-7">
                                 <div className="card-body">
                                     <h4 className="card-title">{ item[2] + ' ' + item[1] }</h4>
                                     <p className="card-text" style={{ width: '300px' }}>{ item[3] }, { item[4] } ans</p>
-                                    <a href={'/MesPatients/DossierMedical/' + item[0]} className="btn btn-primary" style={{ maxWidth: '150px', display: 'inline-block', whiteSpace: 'nowrap' }}>Dossier médical</a>
+                                    <a href={'/patients/' + item[0]} className="btn btn-primary" style={{ maxWidth: '150px', display: 'inline-block', whiteSpace: 'nowrap' }}>Dossier médical</a>
                                 </div>
                             </div>
                         </div>
