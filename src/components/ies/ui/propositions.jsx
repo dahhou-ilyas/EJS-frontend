@@ -102,7 +102,7 @@ const Propositions = ({ toDashboard }) => {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                const lives = allLives.data;
+                const lives = allLives.data.slice(-7);
 
                 const fetchSuggestedThemes = async () => {
                     const themesPromises = lives.map(async (live) => {
@@ -112,26 +112,28 @@ const Propositions = ({ toDashboard }) => {
                                     Authorization: `Bearer ${token}`
                                 }
                             });
-                            return { liveId: live.id, themes: response.data };
+                            return { liveId: live.id, themes: response.data === '' ? [] : response.data };
                         } catch (error) {
                             console.error(`Error fetching themes for live ID ${live.id}:`, error);
                             return { liveId: live.id, themes: [] };
                         }
                     });
 
-                    const themesResults = await Promise.all(themesPromises);
-                    setSuggestedThemes(themesResults);
+                    return Promise.all(themesPromises);
                 };
 
-                fetchSuggestedThemes();
+                const themesResults = await fetchSuggestedThemes();
 
                 try {
-                    const topics = suggestedThemes?.every(theme => theme === null) ? null : suggestedThemes?.filter(theme => theme !== null).join(" - ");
+                    const topics = themesResults
+                        ?.map(item => item.themes.filter(theme => theme.length > 0))
+                        .filter(topic => topic.length > 0);
+                    null;
 
                     if (topics !== null && topics !== undefined) {
                         const response = await axios.post(
                             'http://localhost:7777/summarized_topics',
-                            topics,
+                            { topics },
                             {
                                 headers: {
                                     Authorization: `Bearer ${token}`,
@@ -148,6 +150,7 @@ const Propositions = ({ toDashboard }) => {
                     console.error('Error fetching summarized topics:', error);
                 }
 
+                setSuggestedThemes(themesResults);
                 setAllLives(lives);
                 setFetched(true);
             } catch (error) {
