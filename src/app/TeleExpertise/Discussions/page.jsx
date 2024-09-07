@@ -277,7 +277,7 @@ const Discussions = () => {
                         {invitations.map((invitation) => (
                           <Invitation
                             key={invitation.discussion.id}
-                            invitationId={invitation.discussion.id}
+                            invitationId={invitation.id}
                             title={invitation.discussion.titre}
                             description={invitation.discussion.motifDeTeleExpertise}
                             doctor={invitation.discussion.medcinResponsable.nom + " " + invitation.discussion.medcinResponsable.prenom}
