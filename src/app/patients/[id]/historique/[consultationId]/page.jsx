@@ -975,7 +975,7 @@ return (
                     hide = {!isBiologie}
                     functions = {[setSelectedOption,handleExamenChangeBio]}   
                   />
-
+{/* testing */}
                   <SelectInput 
                     columnSize = {[12,4,4]}
                     label = "Examen Radiologique"
