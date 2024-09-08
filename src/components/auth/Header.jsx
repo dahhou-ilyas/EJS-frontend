@@ -66,7 +66,7 @@ const Header = ({t,locale}) => {
   };
 
   const firstName = user?.claims?.prenom
-    ? user.claims.nom.toUpperCase() +" "+ user.claims.prenom.slice(1).toLowerCase()
+    ? user.claims.nom.toUpperCase() +" "+ user.claims.prenom.slice(0).toUpperCase()
     : "";
 
   const notifications = [
