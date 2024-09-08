@@ -25,7 +25,7 @@ import { format } from "date-fns";
 import { getMedecinById } from "@/services/medecinService";
 import { useRouter } from "next/navigation";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [messages, setMessages] = useState([])
   const [value, setValue] = useState("")
   const { connect, isConnected, stompClient } = useWebSocket()
