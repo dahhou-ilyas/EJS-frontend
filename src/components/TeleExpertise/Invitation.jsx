@@ -1,5 +1,6 @@
 import { acceptInvitation, declineInvitation } from "@/services/discussionService";
 import { format } from "date-fns";
+import Image from "next/image";
 import React from "react";
 import toast from "react-hot-toast";
 
@@ -52,7 +53,7 @@ const Invitation = ({
     <div className="discussion-item">
       <div className="discussion-header">
         {doctorPhoto ? (
-          <img src={doctorPhoto} alt={doctor} />
+          <Image src={doctorPhoto} alt={doctor} />
         ) : (
           <div className="initials">{getInitials(doctor)}</div>
         )}
