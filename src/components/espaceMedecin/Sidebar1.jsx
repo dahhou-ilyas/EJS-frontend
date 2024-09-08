@@ -54,8 +54,18 @@ const Sidebar = (props) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("access-token");
-    router.push("/auth/medecins");
+    const token= localStorage.getItem("access-token");
+    const decod=jwtDecode(token);
+    const checkRole = decod.claims.role;
+    if(checkRole=="ROLE_PROFESSIONELSANTE"){
+      localStorage.removeItem("access-token");
+      router.push("/auth/professionnels");
+      return;
+    }else{
+      localStorage.removeItem("access-token");
+      router.push("/auth/medecins");
+      return;
+    }
   };
 
   const toggleMedecinsMenu = () => {
