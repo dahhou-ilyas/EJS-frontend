@@ -12,6 +12,7 @@ import { jwtDecode } from "jwt-decode";
 import { getAlertifyInstance } from "../../utility/alertify-singleton";
 import axios from "axios";
 import Loading from "../../utility/loading";
+import { SPRINGBOOT_API_URL } from "@/config";
 
 const quality = [
     { value: 1, label: "★☆☆☆☆" },
@@ -87,7 +88,7 @@ const Post_Live_Form = ({ showDashboard }) => {
 
     const fetchLastLive = async (token, idJeune) => {
         try {
-            const response = await axios.get(`http://localhost:8080/jeunes/${idJeune}/streams/last`, {
+            const response = await axios.get(`${SPRINGBOOT_API_URL}/jeunes/${idJeune}/streams/last`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             return response.data;
@@ -98,7 +99,7 @@ const Post_Live_Form = ({ showDashboard }) => {
 
     const postFeedback = async (token, idJeune, lastLive, feedback) => {
         try {
-            await axios.post(`http://localhost:8080/jeunes/${idJeune}/streams/${lastLive.id}/feedbacks`, feedback, {
+            await axios.post(`${SPRINGBOOT_API_URL}/jeunes/${idJeune}/streams/${lastLive.id}/feedbacks`, feedback, {
                 headers: { Authorization: `Bearer ${token}` }
             });
         } catch (error) {

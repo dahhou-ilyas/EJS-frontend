@@ -6,6 +6,7 @@ import FeatherIcon from "feather-icons-react/build/FeatherIcon";
 import Live_Card from '@/components/ies/ui/cards/live-card';
 import axios from 'axios';
 import Loading from '../utility/loading';
+import { SPRINGBOOT_API_URL } from '@/config';
 
 const List_Lives = ({ toDashboard }) => {
   //const [data, setData] = useState([])
@@ -15,7 +16,7 @@ const List_Lives = ({ toDashboard }) => {
 
   const fetcholdlives = async () => {
     // A optimiser: encore même problème
-    const datalive = await axios(`http://localhost:8080/streams?phase=outdated`)
+    const datalive = await axios(`${SPRINGBOOT_API_URL}/streams?phase=outdated`)
     setlivePrecedents(datalive.data)
     setLivesLoaded(true);
   }

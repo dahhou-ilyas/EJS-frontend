@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { Card } from "antd";
 import Live_list from "../../components/espaceMedecin/Live_list";
 import { jwtDecode } from "jwt-decode";
+import { SPRINGBOOT_API_URL } from "@/config";
 
 
 const Home = () => {
@@ -32,7 +33,7 @@ const Home = () => {
   }, []); 
 
   const getFavoritePatients = (medecinId) => {
-    axios.get(`http://localhost:8080/jeune/favorite/${medecinId}`, {
+    axios.get(`${SPRINGBOOT_API_URL}/jeune/favorite/${medecinId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

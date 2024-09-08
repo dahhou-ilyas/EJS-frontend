@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { SPRINGBOOT_API_URL } from "@/config";
 
 const ModifierProfil = () => {
   const router = useRouter();
@@ -54,7 +55,7 @@ const ModifierProfil = () => {
 
   const getMedecinData = (id) => {
     if (id != null) {
-      axios.get('http://localhost:8080/medecins/' + id, {
+      axios.get(SPRINGBOOT_API_URL+'/medecins/' + id, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -146,7 +147,7 @@ const ModifierProfil = () => {
   const updateMedecin = (id, medecinData) => {
     console.log(medecinData);
     axios.patch(
-      `http://localhost:8080/medecins/${id}`,
+      `${SPRINGBOOT_API_URL}/medecins/${id}`,
       medecinData,
       {
         headers: {
@@ -193,7 +194,7 @@ const ModifierProfil = () => {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const response = await axios.post('http://localhost:8080/upload', formData, {
+      const response = await axios.post(SPRINGBOOT_API_URL+'/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`

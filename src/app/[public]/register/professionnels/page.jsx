@@ -5,6 +5,7 @@ import NameForm from '@/components/auth/register/NameForm';
 import EmailForm from '@/components/auth/register/EmailForm';
 import PasswordForm from '@/components/auth/register/PasswordForm';
 import Confirmation from '@/components/auth/register/Confirmation';
+import { SPRINGBOOT_API_URL } from '@/config';
 
 
 
@@ -26,7 +27,7 @@ const RegisterProfessionnelsForm = () => {
   
   const handleSubmit = (values) => {
     console.log('Form Data:', values);
-    fetch('http://localhost:8080/register/professionnels', {
+    fetch(SPRINGBOOT_API_URL+'/register/professionnels', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

@@ -13,6 +13,7 @@ import "@/assets/css/style.css";
 import { plusicon, refreshicon, imagesend, dots, edit, deleteIcon } from "@/components/imagepath";
 import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { jwtDecode } from 'jwt-decode';
+import { SPRINGBOOT_API_URL } from "@/config";
 // import RootRootLayout from "../RootLayout";
 // import RootLayout from "../layout";
 
@@ -25,7 +26,7 @@ const Patients = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem('access-token');
     const decodedAccessToken = jwtDecode(accessToken);
-    axios.get("http://localhost:8080/jeunes", {
+    axios.get(SPRINGBOOT_API_URL+"/jeunes", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

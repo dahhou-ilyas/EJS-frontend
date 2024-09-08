@@ -27,6 +27,7 @@ import { useTranslations } from "next-intl";
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
 import { LanguageSelector2 } from '../LanguageSelector2';
+import { SPRINGBOOT_API_URL } from '@/config';
 
 const AuthProfessionnels = () => {
     const t = useTranslations("AuthProfessionnels");
@@ -54,7 +55,7 @@ const AuthProfessionnels = () => {
     const alertDialogTriggerRef2 = useRef(null);
 
     const onSubmit = (data) => {
-        fetch('http://localhost:8080/auth/login/professionelSante', {
+        fetch(SPRINGBOOT_API_URL+'/auth/login/professionelSante', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -106,7 +107,7 @@ const AuthProfessionnels = () => {
         router.push('/espaceMedecin');
     }
     const envoyerEmail = () => {
-        fetch('http://localhost:8080/register/resend-token?email='+token.mail, {
+        fetch(SPRINGBOOT_API_URL+'/register/resend-token?email='+token.mail, {
             method: 'POST'
           }).then(response => {
             if (!response.ok) {
@@ -126,7 +127,7 @@ const AuthProfessionnels = () => {
         console.log("***************");
         console.log(accesToken);
         console.log("***************");
-        fetch(`http://localhost:8080/professionnels/${token.id}`, {
+        fetch(`${SPRINGBOOT_API_URL}/professionnels/${token.id}`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",

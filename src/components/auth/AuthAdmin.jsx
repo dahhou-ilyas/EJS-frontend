@@ -28,6 +28,7 @@ import CheckVerifiedEmail from "./CheckVerifiedEmail";
 
 import { useTranslations } from "next-intl";
 import { LanguageSelector2 } from "../LanguageSelector2";
+import { SPRINGBOOT_API_URL } from "@/config";
 
 const AuthAdmin = () => {
   const t = useTranslations("AuthAdmin"); // Admin translation key
@@ -60,7 +61,7 @@ const AuthAdmin = () => {
   const onSubmit = (data) => {
     console.log("Sending data to API:", data);
   
-    fetch("http://localhost:8080/auth/login/administrateurs", {
+    fetch(SPRINGBOOT_API_URL+"/auth/login/administrateurs", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -92,7 +93,7 @@ const nextStep = () => {
   router.push('/ies/admin');
 }
 const envoyerEmail = () => {
-  fetch('http://localhost:8080/register/resend-token?email='+token.mail, {
+  fetch(SPRINGBOOT_API_URL+'/register/resend-token?email='+token.mail, {
       method: 'POST'
     }).then(response => {
       if (!response.ok) {
@@ -112,7 +113,7 @@ const confirmeRules=()=>{
   console.log("***************");
   console.log(accesToken);
   console.log("***************");
-  fetch(`http://localhost:8080/administrateurs/${token.id}`, {
+  fetch(`${SPRINGBOOT_API_URL}/administrateurs/${token.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

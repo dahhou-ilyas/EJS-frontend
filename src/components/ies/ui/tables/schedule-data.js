@@ -1,9 +1,10 @@
 "use client"
+import { SPRINGBOOT_API_URL } from "@/config";
 import axios from "axios";
 
 export function DATA(token, id) {
   const fetch1 = async () => {
-    const data = await axios(`http://localhost:8080/responsables/${id}/streams?phase=goingto`, {
+    const data = await axios(`${SPRINGBOOT_API_URL}/responsables/${id}/streams?phase=goingto`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -12,7 +13,7 @@ export function DATA(token, id) {
     return noanimated;
   }
   const fetch2 = async () => {
-    const data = await axios(`http://localhost:8080/responsables/${id}/streams?phase=animated`, {
+    const data = await axios(`${SPRINGBOOT_API_URL}/responsables/${id}/streams?phase=animated`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

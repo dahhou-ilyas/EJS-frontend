@@ -13,6 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { SPRINGBOOT_API_URL } from "@/config";
 
 const Fields = ({ setFormData, nextStep }) => {
   const t = useTranslations('CinForm'); 
@@ -43,7 +44,7 @@ const Fields = ({ setFormData, nextStep }) => {
   const onSubmit = async (data) => {
     try {
       // Fetch validation from backend
-      const response = await fetch(`http://localhost:8080/validator/cin?cin=${data.cin}`);
+      const response = await fetch(`${SPRINGBOOT_API_URL}/validator/cin?cin=${data.cin}`);
       
       if (!response.ok) {
         form.setError('cin', {

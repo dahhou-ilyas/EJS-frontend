@@ -13,6 +13,7 @@ import Input from './Input';
 import axios from 'axios';
 import Header from '../espaceMedecin/Header';
 import Sidebar from '../espaceMedecin/Sidebar1';
+import { FLASK_API_URL } from '@/config';
 
 const Chat = () => {
     const greetings = {
@@ -52,7 +53,7 @@ const Chat = () => {
             ]);
 
             try {
-                const response = await axios.post('http://localhost:5000/chatbot/ask', {
+                const response = await axios.post(FLASK_API_URL+'/chatbot/ask', {
                     message: message,
                 }, {
                     headers: {

@@ -31,6 +31,7 @@ import CheckVerifiedEmail from './CheckVerifiedEmail';
 import { useTranslations } from "next-intl";
 import { jwtDecode } from 'jwt-decode';
 import { LanguageSelector2 } from '../LanguageSelector2';
+import { SPRINGBOOT_API_URL } from '@/config';
 
 const AuthJeunes = () => {
     const t = useTranslations("AuthJeunes");
@@ -57,7 +58,7 @@ const AuthJeunes = () => {
     const alertDialogTriggerRef2 = useRef(null);
 
     const onSubmit = (data) => {
-        fetch('http://localhost:8080/auth/login/jeunes', {
+        fetch(SPRINGBOOT_API_URL+'/auth/login/jeunes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -116,7 +117,7 @@ const AuthJeunes = () => {
     }
 
     const envoyerEmail = () => {
-        fetch('http://localhost:8080/register/resend-token?email=' + token.mail, {
+        fetch(SPRINGBOOT_API_URL+'/register/resend-token?email=' + token.mail, {
             method: 'POST'
         }).then(response => {
             if (!response.ok) {

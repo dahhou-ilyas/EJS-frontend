@@ -8,6 +8,7 @@ import TextAreaWithCharacterCount from '@/components/ies/ui/textarea-character-c
 import { getAlertifyInstance } from '@/components/ies/utility/alertify-singleton';
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
+import { SPRINGBOOT_API_URL } from '@/config';
 
 const Ask_Question_Form = ({ showDashboard, liveData }) => {
 	const [alertify, setAlertify] = useState(null);
@@ -46,7 +47,7 @@ const Ask_Question_Form = ({ showDashboard, liveData }) => {
 					const decodedToken = jwtDecode(token);
 					const idJeune = decodedToken.claims.id;
 					const question = { contenu: inputValue };
-					await axios.post(`http://localhost:8080/jeune/${idJeune}/streams/${id}/questions`, question, {
+					await axios.post(`${SPRINGBOOT_API_URL}/jeune/${idJeune}/streams/${id}/questions`, question, {
 						headers: {
 							Authorization: `Bearer ${token}`
 						}

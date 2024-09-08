@@ -8,6 +8,7 @@ import { useState } from 'react';
 import InformationsMedecin from '@/components/auth/register/InformationsMedecin';
 
 import Confirmation from '@/components/auth/register/Confirmation';
+import { SPRINGBOOT_API_URL } from '@/config';
 
 
 const RegisterMedecinsForm = () => {
@@ -32,7 +33,7 @@ const RegisterMedecinsForm = () => {
   
   const handleSubmit = (values) => {
     console.log('Form Data:', values);
-    fetch('http://localhost:8080/register/medecins', {
+    fetch(SPRINGBOOT_API_URL+'/register/medecins', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

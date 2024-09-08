@@ -4,6 +4,7 @@ import { daysForQuestions, daysFoSending, daysBeforeAutoInform } from '@/compone
 import dayjs from 'dayjs';
 import axios from 'axios';
 import Live_Planification_Form_Filled from "@/components/ies/ui/forms/live-planification-modify-form";
+import { SPRINGBOOT_API_URL } from '@/config';
 
 
 const getColor = (status) => {
@@ -40,7 +41,7 @@ const Live_Tracker_Card = ({ cardkey, item, isItForAdmin, setStatus, showModifyL
         return null; // or a loading spinner? maybe later
     }
     const deleting = async (id) => {
-        await axios.delete(`http://localhost:8080/streams/${id}`)
+        await axios.delete(`${SPRINGBOOT_API_URL}/streams/${id}`)
     }
 
     const [year, month, day, hour = 0, minute = 0, second = 0] = item.date;
@@ -63,7 +64,7 @@ const Live_Tracker_Card = ({ cardkey, item, isItForAdmin, setStatus, showModifyL
     const activedLive = async (id) => {
         const idd = Number(id)
         console.log(id)
-        await axios.patch(`http://localhost:8080/streams/${idd}`)
+        await axios.patch(`${SPRINGBOOT_API_URL}/streams/${idd}`)
     }
 
     return (

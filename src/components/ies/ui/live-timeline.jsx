@@ -4,6 +4,7 @@ import Loading from "../utility/loading";
 import dayjs from "dayjs";
 import { sortByDate } from "./live-planification-tracker";
 import { jwtDecode } from 'jwt-decode';
+import { SPRINGBOOT_API_URL } from "@/config";
 
 function capitalizeFirstLetter(x) {
     return x.charAt(0).toUpperCase() + x.slice(1);
@@ -51,13 +52,13 @@ const Live_Timeline = ({ isItForAdmin }) => {
                 let response = null;
                 const idUser = decodedToken.claims.id;
                 if (!isItForAdmin) {
-                    response = await axios.get(`http://localhost:8080/admins/${1}/streams?phase=outdated`, {
+                    response = await axios.get(`${SPRINGBOOT_API_URL}/admins/${1}/streams?phase=outdated`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
                     });
                 } else {
-                    response = await axios.get(`http://localhost:8080/admins/${idUser}/streams?phase=outdated`, {
+                    response = await axios.get(`${SPRINGBOOT_API_URL}/admins/${idUser}/streams?phase=outdated`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }

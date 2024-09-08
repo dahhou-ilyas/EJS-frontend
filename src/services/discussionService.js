@@ -1,10 +1,11 @@
+import { SPRINGBOOT_API_URL } from "@/config";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080";
+
 
 export const getOuverteDiscussion = async (token) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/discussion/ouverte`, {
+        const response = await axios.get(`${SPRINGBOOT_API_URL}/discussion/ouverte`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -22,7 +23,7 @@ export const getOuverteDiscussion = async (token) => {
 
 export const getDiscussionsByMonth = async (token, month, year) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/discussion/month?year=${year}&month=${month}`, {
+        const response = await axios.get(`${SPRINGBOOT_API_URL}/discussion/month?year=${year}&month=${month}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -41,7 +42,7 @@ export const getDiscussionsByMonth = async (token, month, year) => {
 export const getMyCreatedDiscussions = async (token, page) => {
     try {
         if (!page) page = 0
-        const response = await axios.get(`${API_BASE_URL}/discussion?page=${page}&size=5&isParticipant=false`, {
+        const response = await axios.get(`${SPRINGBOOT_API_URL}/discussion?page=${page}&size=5&isParticipant=false`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -60,7 +61,7 @@ export const getMyCreatedDiscussions = async (token, page) => {
 export const getPlanifiedDiscussions = async (token, page) => {
     try {
         if (!page) page = 0
-        const response = await axios.get(`${API_BASE_URL}/discussion?page=${page}&size=5&isParticipant=true`, {
+        const response = await axios.get(`${SPRINGBOOT_API_URL}/discussion?page=${page}&size=5&isParticipant=true`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -79,7 +80,7 @@ export const getPlanifiedDiscussions = async (token, page) => {
 export const getTerminedDiscussions = async (token, page) => {
     try {
         if (!page) page = 0
-        const response = await axios.get(`${API_BASE_URL}/discussion?page=${page}&size=5&status=TERMINEE&isParticipant=false`, {
+        const response = await axios.get(`${SPRINGBOOT_API_URL}/discussion?page=${page}&size=5&status=TERMINEE&isParticipant=false`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -97,7 +98,7 @@ export const getTerminedDiscussions = async (token, page) => {
 
 export const getInvitations = async (token) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/invitation?status=INVITEE`, {
+        const response = await axios.get(`${SPRINGBOOT_API_URL}/invitation?status=INVITEE`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -115,7 +116,7 @@ export const getInvitations = async (token) => {
 
 export const startDiscussion = async (token, id) => {
     try {
-        const response = await axios.put(`${API_BASE_URL}/discussion/${id}/start`,{}, {
+        const response = await axios.put(`${SPRINGBOOT_API_URL}/discussion/${id}/start`,{}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -133,7 +134,7 @@ export const startDiscussion = async (token, id) => {
 
 export const endDiscussion = async (token, id) => {
     try {
-        const response = await axios.put(`${API_BASE_URL}/discussion/${id}/end`,{}, {
+        const response = await axios.put(`${SPRINGBOOT_API_URL}/discussion/${id}/end`,{}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -151,7 +152,7 @@ export const endDiscussion = async (token, id) => {
 
 export const createDiscussion = async (token, discussion) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/discussion`, discussion, {
+        const response = await axios.post(`${SPRINGBOOT_API_URL}/discussion`, discussion, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -169,7 +170,7 @@ export const createDiscussion = async (token, discussion) => {
 
 export const joinOuverteDiscussion = async (token, id) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/discussion/${id}/join`, {}, {
+        const response = await axios.post(`${SPRINGBOOT_API_URL}/discussion/${id}/join`, {}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -187,7 +188,7 @@ export const joinOuverteDiscussion = async (token, id) => {
 
 export const getDiscussion = async (token, id) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/discussion/${id}`,{
+        const response = await axios.get(`${SPRINGBOOT_API_URL}/discussion/${id}`,{
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -205,7 +206,7 @@ export const getDiscussion = async (token, id) => {
 
 export const acceptInvitation = async (token, id) => {
     try {
-        const response = await axios.put(`${API_BASE_URL}/invitation/${id}/accept`, {}, {
+        const response = await axios.put(`${SPRINGBOOT_API_URL}/invitation/${id}/accept`, {}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -223,7 +224,7 @@ export const acceptInvitation = async (token, id) => {
 
 export const declineInvitation = async (token, id) => {
     try {
-        const response = await axios.put(`${API_BASE_URL}/invitation/${id}/decline`, {}, {
+        const response = await axios.put(`${SPRINGBOOT_API_URL}/invitation/${id}/decline`, {}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -241,7 +242,7 @@ export const declineInvitation = async (token, id) => {
 
 export const createCompteRendu = async (token, compterendu) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/compterendu`, compterendu, {
+        const response = await axios.post(`${SPRINGBOOT_API_URL}/compterendu`, compterendu, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

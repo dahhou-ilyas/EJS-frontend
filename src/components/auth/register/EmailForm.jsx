@@ -14,6 +14,7 @@ import {
   FormDescription,
 } from "@/components/ui/form";
 import { useTranslations } from 'next-intl'; // Adjust import based on your setup
+import { SPRINGBOOT_API_URL } from "@/config";
 
 
 
@@ -50,7 +51,7 @@ const Fields = ({ setFormData, nextStep }) => {
   const onSubmit = async (data) => {
     try {
         // Fetch validation from backend
-        const response = await fetch(`http://localhost:8080/validator/infouser?mail=${data.email}&numTel=${data.tel}`);
+        const response = await fetch(`${SPRINGBOOT_API_URL}/validator/infouser?mail=${data.email}&numTel=${data.tel}`);
 
         if (!response.ok) {
             form.setError('email', {

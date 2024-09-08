@@ -24,6 +24,7 @@ import {
 import {dossier} from "@/assets/json/dumpdata_ppn";
 import jsPDF from "jspdf";
 import Sidebar from "@/components/espaceMedecin/Sidebar1";
+import { SPRINGBOOT_API_URL } from "@/config";
 
 export function handleGenerateDocument(){   
   const doc = new jsPDF()
@@ -53,7 +54,7 @@ const Patient = ({params}) => {
     const accessToken = localStorage.getItem('access-token');
     const decodedAccessToken = jwtDecode(accessToken);
     console.log(`decoded token `,decodedAccessToken);
-    axios.get("http://localhost:8080/jeunes/"+id, {
+    axios.get(SPRINGBOOT_API_URL+"/jeunes/"+id, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

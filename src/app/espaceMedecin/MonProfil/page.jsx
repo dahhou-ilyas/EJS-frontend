@@ -12,6 +12,7 @@ import "../../../assets/css/style.css";
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { SPRINGBOOT_API_URL } from "@/config";
 
 const Page = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const Page = () => {
 
   const getMedecinData = (id) => {
     if (id != null) {
-      axios.get('http://localhost:8080/medecins/' + id, {
+      axios.get(SPRINGBOOT_API_URL+'/medecins/' + id, {
       headers: {
         Authorization: `Bearer ${token}`
       }

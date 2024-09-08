@@ -1,10 +1,11 @@
+import { SPRINGBOOT_API_URL } from "@/config";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080";
+
 
 export const getMedecinById = async (token, id) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/medecins/${id}`, {
+    const response = await axios.get(`${SPRINGBOOT_API_URL}/medecins/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -23,7 +24,7 @@ export const getMedecinById = async (token, id) => {
 export const updateMedecin = async (id, medecinData) => {
   try {
     const response = await axios.patch(
-      `${API_BASE_URL}/medecins/${id}`,
+      `${SPRINGBOOT_API_URL}/medecins/${id}`,
       medecinData,
       {
         headers: {
@@ -44,7 +45,7 @@ export const updateMedecin = async (id, medecinData) => {
 
 export const getAllMedecins = async (token) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/medecins`, {
+    const response = await axios.get(`${SPRINGBOOT_API_URL}/medecins`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

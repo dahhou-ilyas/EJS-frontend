@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { SPRING_SOCKET, SPRINGBOOT_API_URL } from '@/config';
 
 export const useWebSocket = () => {
   const [stompClient, setStompClient] = useState(null);
@@ -9,13 +10,13 @@ export const useWebSocket = () => {
   const connect = (token) => {
     return new Promise((resolve, reject) => {
       const client = new Client({
-        brokerURL: `ws://localhost:8080/ws?token=${token}`,
+        brokerURL: `${SPRING_SOCKET}/ws?token=${token}`,
         connectHeaders: {},
         debug: (str) => console.log(str),
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
-        webSocketFactory: () => new SockJS(`http://localhost:8080/ws?token=${token}`),
+        webSocketFactory: () => new SockJS(`${SPRINGBOOT_API_URL}/ws?token=${token}`),
         onConnect: () => {
           setIsConnected(true);
           setStompClient(client);

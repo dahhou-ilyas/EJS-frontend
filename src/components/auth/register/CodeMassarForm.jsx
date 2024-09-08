@@ -13,6 +13,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { useTranslations } from 'next-intl';
+import { SPRINGBOOT_API_URL } from "@/config";
 
 const Fields = ({ setFormData, nextStep }) => {
     const t = useTranslations('CodeMassarForm');
@@ -45,7 +46,7 @@ const Fields = ({ setFormData, nextStep }) => {
     const onSubmit = async (data) => {
         try {
             // Fetch validation from backend
-            const response = await fetch(`http://localhost:8080/validator/codeMassare?codeMassare=${data.codeMassar}`);
+            const response = await fetch(`${SPRINGBOOT_API_URL}/validator/codeMassare?codeMassare=${data.codeMassar}`);
 
             if (!response.ok) {
                 form.setError('codeMassar', {

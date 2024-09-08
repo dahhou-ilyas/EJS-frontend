@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
+import { EXPRESS_API_URL, SPRINGBOOT_API_URL } from "@/config";
 
 const Stats_Page = () => {
     const searchParams = useSearchParams();
@@ -42,17 +43,17 @@ const Stats_Page = () => {
                 const fetchLiveStats = async (id, token) => {
                     try {
                         const [evaluationsRes, recommendationsRes, opinionsRes] = await Promise.all([
-                            axios.get(`http://localhost:8080/streams/${id}/evaluations`, {
+                            axios.get(`${SPRINGBOOT_API_URL}/streams/${id}/evaluations`, {
                                 headers: {
                                     Authorization: `Bearer ${token}`
                                 }
                             }),
-                            axios.get(`http://localhost:8080/streams/${id}/recommendations`, {
+                            axios.get(`${SPRINGBOOT_API_URL}/streams/${id}/recommendations`, {
                                 headers: {
                                     Authorization: `Bearer ${token}`
                                 }
                             }),
-                            axios.get(`http://localhost:8080/streams/${id}/opinions`, {
+                            axios.get(`${SPRINGBOOT_API_URL}/streams/${id}/opinions`, {
                                 headers: {
                                     Authorization: `Bearer ${token}`
                                 }
@@ -76,7 +77,7 @@ const Stats_Page = () => {
 
                     if ((long_comments !== null) && (long_comments !== undefined)) {
                         const response = await axios.post(
-                            'http://localhost:7777/summarized_long_comments',
+                            EXPRESS_API_URL+'/summarized_long_comments',
                             { long_comments },
                             {
                                 headers: {

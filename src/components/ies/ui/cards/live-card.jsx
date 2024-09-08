@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
+import { SPRINGBOOT_API_URL } from '@/config';
 
 const Live_Card = ({ item }) => {
   const handleRedirect = (lienStreamYard) => {
@@ -15,7 +16,7 @@ const Live_Card = ({ item }) => {
     <div className="col-sm-6 col-md-6 col-xl-4">
       <div className="blog grid-blog">
         <div className="blog-image">
-          <a href="#" onClick={(e) => { e.preventDefault(); handleRedirect(item.lienYoutube); }}><Image className="img-fluid" src={`http://localhost:8080/streams/${item.id}/image`} width={313} height={173} alt="Video" /></a>
+          <a href="#" onClick={(e) => { e.preventDefault(); handleRedirect(item.lienYoutube); }}><Image className="img-fluid" src={`${SPRINGBOOT_API_URL}/streams/${item.id}/image`} width={313} height={173} alt="Video" /></a>
         </div>
         <div className="blog-content">
           <div className="blog-grp-blk">

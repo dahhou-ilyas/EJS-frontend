@@ -8,6 +8,7 @@ import { logo, baricon, baricon1, user06 } from "./imagepath";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import axios from 'axios';
+import { SPRINGBOOT_API_URL } from "@/config";
 
 const Header = ({section}) => {
   const router = useRouter();
@@ -34,7 +35,7 @@ const Header = ({section}) => {
 
   const getMedecinData = (id) => {
     if (id != null) {
-      axios.get('http://localhost:8080/medecins/' + id, {
+      axios.get(SPRINGBOOT_API_URL+'/medecins/' + id, {
       headers: {
         Authorization: `Bearer ${token}`
       }

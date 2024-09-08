@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { jwtDecode } from 'jwt-decode';
 import Loading from "../utility/loading";
 import axios from "axios";
+import { EXPRESS_API_URL } from "@/config";
 
 /*const doneLives = livesData.filter(event => dayjs(event.Date).add(1, "hours").add(30, "minutes").isBefore(dayjs()));
 const notDoneYetLives = livesData.filter(event => dayjs(event.Date).add(1, "hours").add(30, "minutes").isAfter(dayjs()));*/
@@ -50,7 +51,7 @@ const Professional_Dashboard = () => {
 
             if ((questions !== null) && (questions !== undefined)) {
                 const response = await axios.post(
-                    'http://localhost:7777/summarized_questions',
+                    EXPRESS_API_URL+'/summarized_questions',
                     { questions },
                     {
                         headers: {

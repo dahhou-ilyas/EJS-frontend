@@ -8,6 +8,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import html2pdf from 'html2pdf.js';
+import { SPRINGBOOT_API_URL } from "@/config";
 
 const Page = ({ params }) => {
   const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -31,7 +32,7 @@ const Page = ({ params }) => {
   const [message, setMessage] = useState(null);
 
   const getDossierMedicalInformations = () => {
-    axios.get('http://localhost:8080/jeune/dossier-medical/' + params.id, {
+    axios.get(SPRINGBOOT_API_URL+'/jeune/dossier-medical/' + params.id, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

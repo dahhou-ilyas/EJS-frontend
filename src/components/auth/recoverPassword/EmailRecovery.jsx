@@ -14,6 +14,7 @@ import {
     FormMessage,
     FormDescription,
 } from "@/components/ui/form";
+import { SPRINGBOOT_API_URL } from "@/config";
 
 const Fields = ({ nextStep }) => {
     const t = useTranslations("EmailRecovery");
@@ -33,7 +34,7 @@ const Fields = ({ nextStep }) => {
     const { errors } = formState;
 
     const onSubmit =async (data) => {
-        const response = await fetch('http://localhost:8080/validator/mail?mail='+data.email);
+        const response = await fetch(SPRINGBOOT_API_URL+'/validator/mail?mail='+data.email);
         if(!response.ok){
             form.setError("email",{
                 type: "manual",

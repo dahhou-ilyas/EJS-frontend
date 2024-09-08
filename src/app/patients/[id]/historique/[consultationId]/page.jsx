@@ -34,6 +34,7 @@ import NavigationHeader from "@/components/ppn/NavigationHeader";
 import TextAreaInput from "@/components/ppn/TextAreaInput";
 import TextInput from "@/components/ppn/TextInput";
 import Sidebar from "@/components/espaceMedecin/Sidebar1";
+import { SPRINGBOOT_API_URL } from "@/config";
 
 
 const modifierConsultation = ({params}) => {
@@ -93,7 +94,7 @@ const modifierConsultation = ({params}) => {
     if (consultationId) {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:8080/consultations/${consultationId}`);
+        const response = await fetch(`${SPRINGBOOT_API_URL}/consultations/${consultationId}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -136,7 +137,7 @@ const modifierConsultation = ({params}) => {
     
     if (consultation.jeune) {
       // Remplacez l'URL par celle de votre API ou de votre backend
-      fetch(`http://localhost:8080/jeunes/` + consultation.jeune)
+      fetch(`${SPRINGBOOT_API_URL}/jeunes/` + consultation.jeune)
         .then(response => response.json())
         .then(data => setPatient(data))
         .catch(error => console.error('Error fetching patient:', error));
@@ -595,7 +596,7 @@ const modifierConsultation = ({params}) => {
   };
 
     // HERE WHERE THE DATA IS BEEN SENT TO THE END POINT : /consultations/[consultationId]
-    const res = await fetch (`http://localhost:8080/consultations/${consultationId}`, {
+    const res = await fetch (`${SPRINGBOOT_API_URL}/consultations/${consultationId}`, {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(consultationM)
