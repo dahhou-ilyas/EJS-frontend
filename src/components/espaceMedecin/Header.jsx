@@ -78,8 +78,17 @@ const Header = ({section}) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("access-token");
-    router.push("/auth/medecins");
+    const decod=jwtDecode(token);
+    const checkRole=decod.claims.role;
+    if(checkRole=="ROLE_PROFESSIONELSANTE"){
+      localStorage.removeItem("access-token");
+      router.push("/auth/professionnels");
+      return;
+    }else{
+      localStorage.removeItem("access-token");
+      router.push("/auth/medecins");
+      return;
+    }
   };
 
   return (
