@@ -36,7 +36,7 @@ import { printer } from "@/components/imagepath";
 
 // COMPONENTS
 import Header from "@/components/espaceMedecin/Header";
-import Sidebar from "@/components/espaceMedecin/Sidebar1";
+//import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import NavigationHeader from "@/components/ppn/NavigationHeader";//USED TO NAVIGATE BETWEEN INTERN PAGES OF MEDICAL FOLDER
 import SelectInput from "@/components/ppn/SelectInput";
 import TextAreaInput from "@/components/ppn/TextAreaInput";

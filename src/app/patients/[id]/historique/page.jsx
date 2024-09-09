@@ -15,7 +15,7 @@ import {
 } from "@/components/imagepath";
 import { useRouter } from 'next/navigation';
 import { handleGenerateDocument } from "../page";
-import Sidebar from '@/components/espaceMedecin/Sidebar1';
+//import Sidebar from '@/components/espaceMedecin/Sidebar1';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { SPRINGBOOT_API_URL } from '@/config';

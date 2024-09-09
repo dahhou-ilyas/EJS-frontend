@@ -11,7 +11,7 @@ import "@/assets/css/style.css";
 // import "@/assets/css/links.css";
 
 import { plusicon, refreshicon, imagesend, dots, edit, deleteIcon } from "@/components/imagepath";
-import Sidebar from "@/components/espaceMedecin/Sidebar1";
+//import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { jwtDecode } from 'jwt-decode';
 import { SPRINGBOOT_API_URL } from "@/config";
 // import RootRootLayout from "../RootLayout";
