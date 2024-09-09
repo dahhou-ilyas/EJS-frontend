@@ -1,5 +1,5 @@
 "use client";
-import "@/assets/css/style.css";
+import "@/../public/ies/assets/css/style.css";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
