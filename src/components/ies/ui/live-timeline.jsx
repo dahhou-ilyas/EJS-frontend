@@ -113,7 +113,7 @@ const Live_Timeline = ({ isItForAdmin }) => {
             <div className="card flex-fill comman-shadow custom-timeline-card px-4 pt-2 mb-0 pb-0">
                 <div className="card-header custom-timeline-header">
                     <h4 className="card-title d-inline-block custom-timeline-title">
-                        Lives de l'année {currentYear}
+                        Lives de l&apos;année {currentYear}
                     </h4>
                 </div>
                 <div className="card-body mx-auto w-100">

@@ -19,7 +19,7 @@ const ModifierProfil = () => {
   const router = useRouter();
   const [medecin, setMedecin] = useState(null);
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('access-token'));
+  const [token, setToken] = useState(null);
   const [formData, setFormData] = useState({
     prenom: "",
     nom: "",
@@ -44,6 +44,11 @@ const ModifierProfil = () => {
   const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
+    const storedToken = localStorage.getItem('access-token');
+    setToken(storedToken);
+  }, []);
+
+  useEffect(() => {
     if (isTokenInvalidOrNotExist(token)) {
       router.push('/auth/medecins');
     } else {
@@ -51,7 +56,7 @@ const ModifierProfil = () => {
       setUser(decodedToken);
       fetchMedecin();
     }
-  }, [user && user.claims.id]);
+  }, [user && user.claims.id, token]);
 
   const getMedecinData = (id) => {
     if (id != null) {

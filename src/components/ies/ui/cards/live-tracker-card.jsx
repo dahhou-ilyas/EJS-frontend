@@ -21,10 +21,6 @@ const Live_Tracker_Card = ({ cardkey, item, isItForAdmin, setStatus, showModifyL
         setStatus(status)
     }, [])
 
-    if (!item?.date || !Array.isArray(item.date) || item.date.length < 3) {
-        console.error('Invalid date format in item:', item);
-        return null;
-    }
     const [currentTime, setCurrentTime] = useState(null);
 
 
@@ -37,9 +33,15 @@ const Live_Tracker_Card = ({ cardkey, item, isItForAdmin, setStatus, showModifyL
         return () => clearInterval(interval);
     }, []);
 
+    if (!item?.date || !Array.isArray(item.date) || item.date.length < 3) {
+        console.error('Invalid date format in item:', item);
+        return null;
+    }
+    
     if (!currentTime) {
         return null; // or a loading spinner? maybe later
     }
+
     const deleting = async (id) => {
         await axios.delete(`${SPRINGBOOT_API_URL}/streams/${id}`)
     }
@@ -121,7 +123,7 @@ const Live_Tracker_Card = ({ cardkey, item, isItForAdmin, setStatus, showModifyL
                                     className={`btn btn-primary w-100 d-flex justify-content-between align-items-center custom-button-ies custom-button-ies-question ${false ? 'custom-disabled' : ''}`}
                                     onClick={(event) => { event.stopPropagation(); activedLive(item.id) }}
                                 >
-                                    <span className='me-4' style={{ whiteSpace: 'noWrap' }}>Informer l'intervenant </span><i className="fa fa-user-md" />
+                                    <span className='me-4' style={{ whiteSpace: 'noWrap' }}>Informer l&apos;intervenant </span><i className="fa fa-user-md" />
                                 </a>}
                                 <a
                                     href="#"

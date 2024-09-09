@@ -263,7 +263,7 @@ const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors, selectedCons
               fontFamily: "Poppins",
             }}
           >
-            Choisissez d'autre Médecins :
+            Choisissez d&apos;autre Médecins :
           </h4>
         }
       >
