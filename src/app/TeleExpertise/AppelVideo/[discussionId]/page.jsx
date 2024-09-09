@@ -484,14 +484,20 @@ export default function Test({ params }) {
               <div className="row">
                 <div className="col-sm-12">
                   <ul className="breadcrumb">
-                      <li className="breadcrumb-item">
-                        <Link href="/TeleExpertise">Télé Expertise </Link>
-                      </li>
-                      <li className="breadcrumb-item">
-                        <FeatherIcon icon="chevron-right" />
-                      </li>
                     <li className="breadcrumb-item">
-                      <Link href="/Discussions">Discussions </Link>
+                        <Link href="/espaceMedecin">Page d&#39;accueil </Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                        <FeatherIcon icon="chevron-right" />
+                    </li>
+                    <li className="breadcrumb-item">
+                      <Link href="/TeleExpertise">Télé-Expertise</Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                      <FeatherIcon icon="chevron-right" />
+                    </li>
+                    <li className="breadcrumb-item">
+                      <Link href="/TeleExpertise/Discussions">Discussions </Link>
                     </li>
                     <li className="breadcrumb-item">
                       <FeatherIcon icon="chevron-right" />

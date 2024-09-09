@@ -49,14 +49,15 @@ const ModifierProfil = () => {
   }, []);
 
   useEffect(() => {
-    if (isTokenInvalidOrNotExist(token)) {
+    const t = localStorage.getItem('access-token');
+    if (isTokenInvalidOrNotExist(t)) {
       router.push('/auth/medecins');
     } else {
-      const decodedToken = jwtDecode(token);
+      const decodedToken = jwtDecode(t);
       setUser(decodedToken);
       fetchMedecin();
     }
-  }, [user && user.claims.id, token]);
+  }, [user && user.claims.id]);
 
   const getMedecinData = (id) => {
     if (id != null) {

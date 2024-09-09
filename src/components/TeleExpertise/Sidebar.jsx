@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { dashboard, doctor, logout, menuicon10, menuicon08 } from "./imagepath";
 import Scrollbars from "react-custom-scrollbars-2";
+import 'boxicons/css/boxicons.min.css';
 import { useRouter } from "next/navigation";
 
 const Sidebar = (props) => {
@@ -50,7 +51,7 @@ const Sidebar = (props) => {
             onMouseOver={expandMenuOpen}
           >
             <ul>
-              <li className="menu-title">TéléExpertise</li>
+              <li className="menu-title">Menu: Télé-Expertise</li>
               <li className="submenu">
                 <Link
                   className={

@@ -50,8 +50,16 @@ const Table = ({ columns, data }) => {
                     ) : column.accessor === "actions" ? (
                       <button
                         onClick={() => handleClick(row.id)}
-                        className="btn btn-primary1 btn-sm"
-                        style={{ color: "white" }}
+                        style={{
+                          color: "white",
+                          backgroundColor: "darkblue",
+                          padding: "5px 10px",
+                          borderRadius: "5px",
+                          border: "none",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          transition: "background-color 0.3s ease",
+                        }}
                       >
                         envoyer un message
                       </button>
