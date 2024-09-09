@@ -131,7 +131,13 @@ const Page = ({ params }) => {
                 <div className="col-sm-12">
                   <ul className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <Link href="/TeleExpertise">Télé Expertise </Link>
+                        <Link href="/espaceMedecin">Page d&#39;accueil </Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                        <FeatherIcon icon="chevron-right" />
+                    </li>
+                    <li className="breadcrumb-item">
+                      <Link href="/TeleExpertise">Télé-Expertise</Link>
                     </li>
                     <li className="breadcrumb-item">
                       <FeatherIcon icon="chevron-right" />
@@ -163,4 +169,4 @@ const Page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

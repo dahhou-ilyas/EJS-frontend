@@ -196,10 +196,10 @@ const Professional_Dashboard = () => {
                                     <div className="col-12 p-4 pb-0">
                                         <div className="form-heading mb-4 pb-4">
                                             <h4 className="mb-4">Lien StreamYard</h4>
-                                            <a href="#" onClick={(e) => { e.preventDefault(); handleRedirect(LiveSelect.lienStreamYard); }}>Veuillez cliquer ici pour joindre le Live quand c'est le moment.</a>
+                                            <a href="#" onClick={(e) => { e.preventDefault(); handleRedirect(LiveSelect.lienStreamYard); }}>Veuillez cliquer ici pour joindre le Live quand c&apos;est le moment.</a>
                                         </div>
                                         <div className="form-heading">
-                                            <h4 className="mb-4">Questions des jeunes (résumés par l'IA e-ESJ)</h4>
+                                            <h4 className="mb-4">Questions des jeunes (résumés par l&apos;IA e-ESJ)</h4>
                                             <ul>
                                                 {questionreceive.map(question => (
                                                     <><li key={question}>{question}</li><br /></>

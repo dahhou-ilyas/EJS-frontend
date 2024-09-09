@@ -154,7 +154,7 @@ function HumeurResult() {
           
             <div className="top soutien-container-title flex items-center space-x-4">
             <Image src={logo} alt="Logo" width={100} height={100} />
-              <p className='text-center' style={{ fontSize: '30px' }}>Résultat du test de l'Humeur et de la Vitalité</p>
+              <p className='text-center' style={{ fontSize: '30px' }}>Résultat du test de l&apos;Humeur et de la Vitalité</p>
             </div>
             
               <div className="middle soutien-blog blog-single-post">

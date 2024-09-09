@@ -143,7 +143,7 @@ export default function Questions() {
        <Breadcrumb title={"Humeur"}  showbutt  /> 
        <div class="container">
            <div class="top soutien-container-title">
-               <p className=' text-center'>   Evaluation de l'Humeur et de la Vitalité   </p>
+               <p className=' text-center'>   Evaluation de l&apos;Humeur et de la Vitalité   </p>
            </div>
        <div class="middle">
 
@@ -190,7 +190,7 @@ export default function Questions() {
                   <article className="soutien-blog blog-single-post">
 
                    <div className="container mx-auto p-4 d-flex flex-column align-items-center">
-                    <h3 className="font-light  my-8">Merci d'avoir complété le test !</h3>
+                    <h3 className="font-light  my-8">Merci d&apos;avoir complété le test !</h3>
                     <img
                         src="https://cdn-icons-png.freepik.com/512/6559/6559073.png"
                         alt="Logo"
