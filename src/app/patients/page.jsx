@@ -11,7 +11,7 @@ import "@/assets/css/style.css";
 // import "@/assets/css/links.css";
 
 import { plusicon, refreshicon, imagesend, dots, edit, deleteIcon } from "@/components/imagepath";
-import Sidebar from "@/components/espaceMedecin/Sidebar1";
+//import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { jwtDecode } from 'jwt-decode';
 import { SPRINGBOOT_API_URL } from "@/config";
 // import RootRootLayout from "../RootLayout";
@@ -124,9 +124,7 @@ const Patients = () => {
 
   return (
   <div>
-    <Header section={"Mes Patients"}/>
-    <Sidebar activeClassName='ppn'/>
-      <div className="content">
+      <div className="content mx-4 mt-4">
           <NavigationHeader pages={["Patients"]} currentPage="Patients" />
           <div className="row">
             <div className="col-sm-12">

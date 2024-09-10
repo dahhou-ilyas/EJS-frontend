@@ -19,7 +19,7 @@ const ModifierProfil = () => {
   const router = useRouter();
   const [medecin, setMedecin] = useState(null);
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('access-token'));
+  const [token, setToken] = useState(null);
   const [formData, setFormData] = useState({
     prenom: "",
     nom: "",
@@ -44,10 +44,16 @@ const ModifierProfil = () => {
   const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
-    if (isTokenInvalidOrNotExist(token)) {
+    const storedToken = localStorage.getItem('access-token');
+    setToken(storedToken);
+  }, []);
+
+  useEffect(() => {
+    const t = localStorage.getItem('access-token');
+    if (isTokenInvalidOrNotExist(t)) {
       router.push('/auth/medecins');
     } else {
-      const decodedToken = jwtDecode(token);
+      const decodedToken = jwtDecode(t);
       setUser(decodedToken);
       fetchMedecin();
     }

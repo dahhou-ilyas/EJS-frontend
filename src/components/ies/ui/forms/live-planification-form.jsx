@@ -75,8 +75,6 @@ const Live_Planification_Form = ({ toDashboard }) => {
         setFetched(true);
     }, []);
 
-    if (!fetched) return <Loading />;
-
     const handleDateChange = (date) => {
         const formattedDate = dayjs(date).format('YYYY-MM-DD');
         setSelectedDate(formattedDate);
@@ -201,6 +199,8 @@ const Live_Planification_Form = ({ toDashboard }) => {
         }));
         setProfessionals(data);
     }, [dataprofs]);
+
+    if (!fetched) return <Loading />;
 
     return (
         <>

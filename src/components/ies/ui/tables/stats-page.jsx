@@ -137,7 +137,7 @@ const Stats_Page = () => {
                     <Bar_Chart data={data1} categories={categories1} title={title1} />
                 </div>
                 <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '32px', flex: '1' }}>
-                    <p className="pt-0 mt-0" style={{ paddingBottom: '12px' }}><strong>Réponses: <span style={{ fontStyle: "italic" }}>Recommanderiez-vous cette session à d'autres personnes?</span></strong></p>
+                    <p className="pt-0 mt-0" style={{ paddingBottom: '12px' }}><strong>Réponses: <span style={{ fontStyle: "italic" }}>Recommanderiez-vous cette session à d&apos;autres personnes?</span></strong></p>
                     <Bar_Chart data={data2} categories={categories2} title={title2} />
                 </div>
             </div>

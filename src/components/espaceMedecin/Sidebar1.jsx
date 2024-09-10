@@ -9,16 +9,27 @@ import { dashboard, doctor, logout, menuicon10, menuicon08 } from "./imagepath";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useRouter } from "next/navigation";
 import 'boxicons/css/boxicons.min.css';
+import { jwtDecode } from "jwt-decode";
 
 
 const Sidebar = (props) => {
-  useEffect(() => {
-    require("bootstrap/dist/js/bootstrap.bundle.min.js");
-  }, []);
+  const [isMedecin,setIsMedecin]=useState(false);
+  
 
   const [sidebar, setSidebar] = useState("");
   const [isMedecinsOpen, setIsMedecinsOpen] = useState(false); // State for toggle
   const router = useRouter();
+
+  useEffect(()=>{
+    require("bootstrap/dist/js/bootstrap.bundle.min.js");
+  },[])
+
+  useEffect(() => {
+    const token= localStorage.getItem("access-token");
+    const decodeToken=jwtDecode(token);
+    const isMedcins=(decodeToken.claims.role=="ROLE_MEDECIN");
+    setIsMedecin(isMedcins);
+  }, []);
 
   const useClientOnlyEffect = (effect, deps) => {
     const [isClient, setIsClient] = useState(false);
@@ -43,8 +54,18 @@ const Sidebar = (props) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("access-token");
-    router.push("/auth/medecins");
+    const token= localStorage.getItem("access-token");
+    const decod=jwtDecode(token);
+    const checkRole = decod.claims.role;
+    if(checkRole=="ROLE_PROFESSIONELSANTE"){
+      localStorage.removeItem("access-token");
+      router.push("/auth/professionnels");
+      return;
+    }else{
+      localStorage.removeItem("access-token");
+      router.push("/auth/medecins");
+      return;
+    }
   };
 
   const toggleMedecinsMenu = () => {
@@ -145,19 +166,23 @@ const Sidebar = (props) => {
                   <span>IES</span>
                 </Link>
               </li>
-              <li>
-                <Link
-                  className={
-                    props?.activeClassName === "chatbot" ? "active" : ""
-                  }
-                  href="/chatbot"
-                >
-                  <span className="menu-side">
-                  <i className="fa fa-commenting" />
-                  </span>{" "}
-                  <span>ChatBot</span>
-                </Link>
-              </li>
+              {
+                isMedecin && (
+                    <li>
+                      <Link
+                        className={
+                          props?.activeClassName === "chatbot" ? "active" : ""
+                        }
+                        href="/chatbot"
+                      >
+                        <span className="menu-side">
+                        <i className="fa fa-commenting" />
+                        </span>{" "}
+                        <span>ChatBot</span>
+                      </Link>
+                    </li>
+                )
+              }
               <li>
                 <Link
                   className={

@@ -25,7 +25,7 @@ import { format } from "date-fns";
 import { getMedecinById } from "@/services/medecinService";
 import { useRouter } from "next/navigation";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [messages, setMessages] = useState([])
   const [value, setValue] = useState("")
   const { connect, isConnected, stompClient } = useWebSocket()
@@ -131,7 +131,13 @@ const page = ({ params }) => {
                 <div className="col-sm-12">
                   <ul className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <Link href="/TeleExpertise">Télé Expertise </Link>
+                        <Link href="/espaceMedecin">Page d&#39;accueil </Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                        <FeatherIcon icon="chevron-right" />
+                    </li>
+                    <li className="breadcrumb-item">
+                      <Link href="/TeleExpertise">Télé-Expertise</Link>
                     </li>
                     <li className="breadcrumb-item">
                       <FeatherIcon icon="chevron-right" />
@@ -163,4 +169,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

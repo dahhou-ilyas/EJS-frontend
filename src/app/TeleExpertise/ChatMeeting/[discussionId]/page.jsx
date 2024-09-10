@@ -122,34 +122,40 @@ const ChatMeeting = ({ params }) => {
   }
 
   const terminerDiscussion = async () => {
-    try {
-      const token = localStorage.getItem("access-token");
-
-      await endDiscussion(token, params.discussionId);
-
-      sendEndedDiscussionMessage()
-
-      const deleteResponse = await fetch(`/api/upload?id=${params.discussionId}`, {
-        method: 'DELETE',
-      });
-
-      const deleteResult = await deleteResponse.json();
-
-      if (deleteResponse.ok) {
-          console.log("Files deleted successfully:", deleteResult);
-      } else {
-        console.error("Failed to delete files:", deleteResult.message);
-        //throw new Error(deleteResult.message);
+    const confirmed = window.confirm('Etes-vous sûr de vouloir terminer cette discussion ?');
+    if (confirmed) {
+      try {
+        const token = localStorage.getItem("access-token");
+  
+        await endDiscussion(token, params.discussionId);
+  
+        sendEndedDiscussionMessage()
+  
+        const deleteResponse = await fetch(`/api/upload?id=${params.discussionId}`, {
+          method: 'DELETE',
+        });
+  
+        const deleteResult = await deleteResponse.json();
+  
+        if (deleteResponse.ok) {
+            console.log("Files deleted successfully:", deleteResult);
+        } else {
+          console.error("Failed to delete files:", deleteResult.message);
+          //throw new Error(deleteResult.message);
+        }
+        router.push("/TeleExpertise")
+      } catch (error) {
+        console.log(error.message);
+        toast.error("Quelque chose s'est mal passé, veuillez réessayer");
       }
-      router.push("/TeleExpertise")
-    } catch (error) {
-      console.log(error.message);
-      toast.error("Quelque chose s'est mal passé, veuillez réessayer");
     }
   };
 
   const leaveDiscussion = () => {
-    router.push("/TeleExpertise")
+    const confirmed = window.confirm('Etes-vous sûr de vouloir quitter cette discussion ?');
+    if (confirmed) {
+      router.push("/TeleExpertise")
+    }
   }
 
   if(
@@ -174,14 +180,20 @@ const ChatMeeting = ({ params }) => {
               <div className="row">
                 <div className="col-sm-12">
                   <ul className="breadcrumb">
+                   <li className="breadcrumb-item">
+                        <Link href="/espaceMedecin">Page d&#39;accueil </Link>
+                    </li>
                     <li className="breadcrumb-item">
-                      <Link href="/TeleExpertise">Télé Expertise </Link>
+                        <FeatherIcon icon="chevron-right" />
+                    </li>
+                    <li className="breadcrumb-item">
+                      <Link href="/TeleExpertise">Télé-Expertise</Link>
                     </li>
                     <li className="breadcrumb-item">
                       <FeatherIcon icon="chevron-right" />
                     </li>
                     <li className="breadcrumb-item">
-                      <Link href="/TeleExpertise/Discussions">Discussions </Link>
+                      <Link href="/TeleExpertise/Discussions">Discussions</Link>
                     </li>
                     <li className="breadcrumb-item">
                       <FeatherIcon icon="chevron-right" />

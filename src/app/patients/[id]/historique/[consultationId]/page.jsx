@@ -33,7 +33,7 @@ import Header from "@/components/espaceMedecin/Header";
 import NavigationHeader from "@/components/ppn/NavigationHeader";
 import TextAreaInput from "@/components/ppn/TextAreaInput";
 import TextInput from "@/components/ppn/TextInput";
-import Sidebar from "@/components/espaceMedecin/Sidebar1";
+//import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { SPRINGBOOT_API_URL } from "@/config";
 import axios from 'axios';
 

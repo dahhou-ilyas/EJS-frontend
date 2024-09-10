@@ -1,0 +1,51 @@
+# Dépendances
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Next.js
+.next
+out
+
+# Fichiers de build
+build
+dist
+
+# Fichiers de cache
+.cache
+
+# Fichiers de développement
+.git
+.gitignore
+.eslintrc
+.prettierrc
+README.md
+Dockerfile
+docker-compose.yml
+*.md
+
+# Fichiers d'environnement
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers de test
+__tests__
+*.test.js
+*.spec.js
+
+# Fichiers de logs
+logs
+*.log
+
+# Fichiers d'IDE
+.idea
+.vscode
+*.swp
+*.swo

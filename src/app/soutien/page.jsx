@@ -68,7 +68,7 @@ const postItems_francais = [
 
 var postItems;
 
-export default function page() {
+export default function Page() {
 const {arabic}=useLanguage();
   if(arabic){
     postItems=postItems_arabe

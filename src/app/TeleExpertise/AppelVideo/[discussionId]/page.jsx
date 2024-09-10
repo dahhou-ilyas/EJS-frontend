@@ -392,16 +392,19 @@ export default function Test({ params }) {
   }
 
   const leaveDiscussion = () => {
-    const payload = {
-      type: "leave",
-      discussionId: params.discussionId,
-      senderId: userId,
-    }
-    stompClient.publish({
-      destination: "/app/room.leave",
-      body: JSON.stringify(payload)
-    })
-    router.push("/TeleExpertise")
+    const confirmed = window.confirm('Etes-vous sûr de vouloir quitter cette discussion ?');
+    if (confirmed) {
+      const payload = {
+        type: "leave",
+        discussionId: params.discussionId,
+        senderId: userId,
+      }
+      stompClient.publish({
+        destination: "/app/room.leave",
+        body: JSON.stringify(payload)
+      })
+      router.push("/TeleExpertise")
+    } 
   }
 
   const onEnd = (payload) => {
@@ -417,37 +420,40 @@ export default function Test({ params }) {
   }
 
   const terminerDiscussion = async () => {
-    try {
-      const token = localStorage.getItem("access-token");
-
-      await endDiscussion(token, params.discussionId);
-
-      const payload = {
-        type: "end",
-        discussionId: params.discussionId,
-        senderId: userId,
-        sdp: discussion.medcinConsulte.id
+    const confirmed = window.confirm('Etes-vous sûr de vouloir terminer cette discussion ?');
+    if (confirmed) {
+      try {
+        const token = localStorage.getItem("access-token");
+  
+        await endDiscussion(token, params.discussionId);
+  
+        const payload = {
+          type: "end",
+          discussionId: params.discussionId,
+          senderId: userId,
+          sdp: discussion.medcinConsulte.id
+        }
+        stompClient.publish({
+          destination: "/app/room.end",
+          body: JSON.stringify(payload)
+        })
+  
+        const deleteResponse = await fetch(`/api/upload?id=${params.discussionId}`, {
+          method: 'DELETE',
+        });
+        const deleteResult = await deleteResponse.json();
+        if (deleteResponse.ok) {
+            console.log("Files deleted successfully:", deleteResult);
+            toast.success("Discussion terminée");
+        } else {
+            console.error("Failed to delete files:", deleteResult.message);
+            //throw new Error(deleteResult.message);
+        }
+        router.push("/TeleExpertise")
+      } catch (error) {
+        console.log(error.message);
+        toast.error("Quelque chose s'est mal passé, veuillez réessayer");
       }
-      stompClient.publish({
-        destination: "/app/room.end",
-        body: JSON.stringify(payload)
-      })
-
-      const deleteResponse = await fetch(`/api/upload?id=${params.discussionId}`, {
-        method: 'DELETE',
-      });
-      const deleteResult = await deleteResponse.json();
-      if (deleteResponse.ok) {
-          console.log("Files deleted successfully:", deleteResult);
-          toast.success("Discussion terminée");
-      } else {
-          console.error("Failed to delete files:", deleteResult.message);
-          //throw new Error(deleteResult.message);
-      }
-      router.push("/TeleExpertise")
-    } catch (error) {
-      console.log(error.message);
-      toast.error("Quelque chose s'est mal passé, veuillez réessayer");
     }
   }
 
@@ -478,14 +484,20 @@ export default function Test({ params }) {
               <div className="row">
                 <div className="col-sm-12">
                   <ul className="breadcrumb">
-                      <li className="breadcrumb-item">
-                        <Link href="/TeleExpertise">Télé Expertise </Link>
-                      </li>
-                      <li className="breadcrumb-item">
-                        <FeatherIcon icon="chevron-right" />
-                      </li>
                     <li className="breadcrumb-item">
-                      <Link href="/Discussions">Discussions </Link>
+                        <Link href="/espaceMedecin">Page d&#39;accueil </Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                        <FeatherIcon icon="chevron-right" />
+                    </li>
+                    <li className="breadcrumb-item">
+                      <Link href="/TeleExpertise">Télé-Expertise</Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                      <FeatherIcon icon="chevron-right" />
+                    </li>
+                    <li className="breadcrumb-item">
+                      <Link href="/TeleExpertise/Discussions">Discussions </Link>
                     </li>
                     <li className="breadcrumb-item">
                       <FeatherIcon icon="chevron-right" />

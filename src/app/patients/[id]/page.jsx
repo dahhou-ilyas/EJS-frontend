@@ -23,7 +23,7 @@ import {
 } from "@/components/imagepath";
 import {dossier} from "@/assets/json/dumpdata_ppn";
 import jsPDF from "jspdf";
-import Sidebar from "@/components/espaceMedecin/Sidebar1";
+//import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { SPRINGBOOT_API_URL } from "@/config";
 
 export function handleGenerateDocument(){   
@@ -91,7 +91,7 @@ const Patient = ({params}) => {
                     <ul className="list-space">
                       <li>
                         <h4>NIP</h4>
-                        <span>{patient.identifiantPatient}</span>
+                        <span>{patient.id}</span>
                       </li>
                       <li>
                         <h4>CIN</h4>

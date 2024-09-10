@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
@@ -10,10 +10,10 @@ import logo from "../../../../../assets/img/logo.png";
 import sendEmail from '../../../../api/sendEmail';
 import Breadcrumb from "@/components/soutien/home/breadcrumb";
 import Csidebar from "@/components/auth/Csidebar";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { useRouter } from 'next/navigation';
 
-export default function Resultat() {
+function Resultat() {
   const searchParams = useSearchParams();
   const Score = searchParams.get("finalScore");
   const [currentDate, setCurrentDate] = useState("");
@@ -158,7 +158,7 @@ export default function Resultat() {
           
             <div className="top soutien-container-title flex items-center space-x-4">
             <Image src={logo} alt="Logo" width={100} height={100} />
-              <p className='text-center' style={{ fontSize: '30px' }}>Résultat du test de l'Estime de soi</p>
+              <p className='text-center' style={{ fontSize: '30px' }}>Résultat du test de l&apos;Estime de soi</p>
             </div>
             
               <div className="middle soutien-blog blog-single-post">
@@ -197,5 +197,13 @@ export default function Resultat() {
       </div>
     </div>
     </>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <Resultat />
+    </Suspense>
   );
 }

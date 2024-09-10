@@ -215,7 +215,7 @@ const Post_Live_Form = ({ showDashboard }) => {
                                         </div>
                                     </div>
                                     <div className="input-block row mb-4">
-                                        <label className="col-form-label col-md-4">Recommanderiez-vous cette session à d'autres personnes? <span className="login-danger">*</span></label>
+                                        <label className="col-form-label col-md-4">Recommanderiez-vous cette session à d&apos;autres personnes? <span className="login-danger">*</span></label>
                                         <div className="col-md-8">
                                             <Select
                                                 options={yesno}

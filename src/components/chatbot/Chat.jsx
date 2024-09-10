@@ -14,6 +14,8 @@ import axios from 'axios';
 import Header from '../espaceMedecin/Header';
 import Sidebar from '../espaceMedecin/Sidebar1';
 import { FLASK_API_URL } from '@/config';
+import { jwtDecode } from 'jwt-decode';
+import { useRouter } from "next/navigation";
 
 const Chat = () => {
     const greetings = {
@@ -24,6 +26,7 @@ const Chat = () => {
     const [messages, setMessages] = useState([greetings]);
     const [token , setToken] = useState(null);
     const messagesEndRef = useRef(null);
+    const router = useRouter();
 
     useEffect(() => {
         scrollToBottom();
@@ -39,6 +42,12 @@ const Chat = () => {
         // Retrieve token from localStorage
         const token = localStorage.getItem('access-token');
         if (token) {
+            const decodeToken=jwtDecode(token);
+            const isMedcins=(decodeToken.claims.role=="ROLE_MEDECIN");
+            if(!isMedcins){
+                router.push("/espaceMedecin");
+                return;
+            }
             setToken(token);
         }
     }, []);
