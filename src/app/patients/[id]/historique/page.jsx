@@ -245,14 +245,14 @@ const Historique = ({ params }) => {
                     >
                       Imprimer
                     </button> */}
-                    {/* <button
+                    <button
                       type="button"
                       className="btn btn-info btn-modifier"
                       data-bs-dismiss="modal"
                       onClick={() => handleModify(selectedConsultation.id)}
                     >
                       Modifier
-                    </button> */}
+                    </button>
                   </div>
                 </>
               )}
@@ -460,7 +460,7 @@ const Historique = ({ params }) => {
                     onClick={handleGenerateDocument}
                   >
                     Imprimer
-                  </button>
+                  </button> */}
                   <button
                     type="button"
                     className="btn btn-info btn-modifier"
@@ -468,7 +468,7 @@ const Historique = ({ params }) => {
                     onClick={() => handleModify(selectedConsultation.id)}
                   >
                     Modifier
-                  </button> */}
+                  </button>
                 </div>
               </>
             )}

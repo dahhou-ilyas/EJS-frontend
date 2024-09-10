@@ -35,6 +35,7 @@ import TextAreaInput from "@/components/ppn/TextAreaInput";
 import TextInput from "@/components/ppn/TextInput";
 import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { SPRINGBOOT_API_URL } from "@/config";
+import axios from 'axios';
 
 
 const modifierConsultation = ({params}) => {
@@ -88,61 +89,71 @@ const modifierConsultation = ({params}) => {
   // examen medical
   const [examenMedicalsM, setExamenMedicalsM] = useState("");
   
+  const [decodedAccessToken, setDecodedAccessToken] = useState("");
 
   useEffect(() => {
-  const fetchConsultation = async () => {
-    if (consultationId) {
-      setLoading(true);
-      try {
-        const response = await fetch(`${SPRINGBOOT_API_URL}/consultations/${consultationId}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+    const fetchConsultation = async () => {
+      const accessToken = localStorage.getItem('access-token');
+      if (consultationId) {
+        setLoading(true);
+        try {
+          const response = await axios.get(`${SPRINGBOOT_API_URL}/jeune/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          });
+          console.log("this is the response",response)
+          setPatient(response.data)
+
+          const list = response.data.dossierMedial?.historiqueConsultations;
+          console.log("this is the list ", list);
+
+          const data = list.find(
+            (cons) => cons.id == consultationId 
+          );
+
+          setConsultation(data); // State update scheduled
+
+          // Use `data` directly here
+          setMotifM(data.motif);
+          setTypeM(data.antecedentPersonnel?.type);
+          setSpecificationM(data.antecedentPersonnel?.specification);
+          setSpecificationAutreM(data.antecedentPersonnel?.specificationAutre);
+          setNombreAnneeM(data.antecedentPersonnel?.nombreAnnee);
+          setExamenMedicalsM(data.examenMedicals);
+          setTypeAntFamM(data.antecedentFamilial?.typeAntFam);
+          setAutreM(data.antecedentFamilial?.autre);
+          setInterrogatoireM(data.interrogatoire);
+          setConseilsM(data.conseils);
+
+        } catch (error) {
+          console.error('Error fetching consultation:', error);
+          setError(error.message);
+        } finally {
+          setLoading(false);
+          console.log("loading done");
         }
-        const data = await response.json();
-        console.log("this is the data ",data);
-
-        setConsultation(data); // State update scheduled
-        
-        // Use `data` directly here
-        setMotifM(data.motif);
-        setTypeM(data.antecedentPersonnel?.type);
-        setSpecificationM(data.antecedentPersonnel?.specification);
-        setSpecificationAutreM(data.antecedentPersonnel?.specificationAutre);
-        setNombreAnneeM(data.antecedentPersonnel?.nombreAnnee);
-        setExamenMedicalsM(data.examenMedicals);
-        setTypeAntFamM(data.antecedentFamilial?.typeAntFam);
-        setAutreM(data.antecedentFamilial?.autre);
-        setInterrogatoireM(data.interrogatoire);
-        setConseilsM(data.conseils);
-
-      } catch (error) {
-        console.error('Error fetching consultation:', error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-        console.log("loading done");
       }
-    }
-  };
+    };
 
-  fetchConsultation(); // Call the async function
-}, [consultationId]);
-
-  
+    fetchConsultation(); // Call the async function
+  }, [consultationId, id]);
 
   
+
+  
   
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    if (consultation.jeune) {
-      // Remplacez l'URL par celle de votre API ou de votre backend
-      fetch(`${SPRINGBOOT_API_URL}/jeunes/` + consultation.jeune)
-        .then(response => response.json())
-        .then(data => setPatient(data))
-        .catch(error => console.error('Error fetching patient:', error));
-    }
-  }, [consultation.jeune]);
+  //   if (consultation.jeune) {
+  //     // Remplacez l'URL par celle de votre API ou de votre backend
+  //     fetch(`${SPRINGBOOT_API_URL}/jeunes/` + consultation.jeune)
+  //       .then(response => response.json())
+  //       .then(data => setPatient(data))
+  //       .catch(error => console.error('Error fetching patient:', error));
+  //   }
+  // }, [consultation.jeune]);
  
   useEffect(() => {
     if (loading) return;
@@ -596,15 +607,19 @@ const modifierConsultation = ({params}) => {
   };
 
     // HERE WHERE THE DATA IS BEEN SENT TO THE END POINT : /consultations/[consultationId]
-    const res = await fetch (`${SPRINGBOOT_API_URL}/consultations/${consultationId}`, {
-      method: "PUT",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(consultationM)
-    })
+    const res = await axios.put(
+      `${SPRINGBOOT_API_URL}/jeunes/${id}/consultations/${consultationId}`,
+      consultationM, // This is the body (data being sent)
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
 
     //IF THE RESPONSE IS OK THEN THE DOCTOR IS REDIRECTED TO PATIENTS PAGE 
     if (res.status === 200 ){;
-      router.push(`/Patients/${id}/Historique`); 
+      router.push(`/patients/${id}/historique`); 
     }
     else{
       //the error page
@@ -649,7 +664,7 @@ return (
                 <div className="row">
                   <div className="col-12 mb-4">
                     <div className="form-heading mb-7">
-                      <h3>Modifier une consultation pour {patient.nom} {patient.prenom} </h3>
+                      <h3>Modifier une consultation pour {patient.infoUser?.nom} {patient.infoUser?.prenom} </h3>
                     </div>
                   </div>
 
