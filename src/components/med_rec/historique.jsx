@@ -120,7 +120,7 @@ export default function Consultations() {
   const sortedConsultations = sortConsultations(filteredConsultations, sortMode)
 
   return (
-    <div className="min-h-screen bg-[#e6f2ff] relative">
+    <div className="min-h-screen bg-white relative">
       <Navbar />
       <div className="flex justify-between p-4">
         <Button
@@ -182,25 +182,45 @@ export default function Consultations() {
         </div>
       </div>
       <div className={`flex justify-center my-4 ${showInfo ? "blur" : ""}`}>
-        <div className="relative w-full max-w-md">
-          <Input
+      <div className="relative w-full max-w-md">
+          <FaSearch
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '0.75rem',
+              transform: 'translateY(-50%)',
+              color: '#333',
+              fontSize: '1rem',
+            }}
+          />
+          <input
             type="search"
             placeholder="Rechercher une consultation"
-            className="search-input pl-10 pr-4 py-2 rounded-full"
             value={searchTerm}
             onChange={handleSearch}
-          />
-          <FaSearch
-            className="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500"
+            style={{
+              backgroundColor: 'white',
+              paddingLeft: '2.5rem', 
+              paddingRight: '1rem',
+              color: '#333',
+              border: '1px solid #ccc',
+              borderRadius: '9999px', 
+              width: '100%',
+              height: '2.5rem',
+              transition: 'border-color 0.3s ease',
+            }}
+            onFocus={(e) => (e.target.style.borderColor = '#1877F2')}
+            onBlur={(e) => (e.target.style.borderColor = '#ccc')}
           />
         </div>
+
       </div>
       <div className={`space-y-4 p-4 ${showInfo ? "blur" : ""}`}>
         {sortedConsultations.map((consultation) => (
           <Card
             key={consultation.id}
             className={`p-4 rounded-lg shadow-md ${
-              searchTerm.toLowerCase().includes(consultation.title.toLowerCase()) ? "bg-blue-500 text-white" : "bg-white"
+              searchTerm.toLowerCase().includes(consultation.title.toLowerCase()) ? "bg-blue-500 text-white" : "bg-[#e6f2ff]"
             }`}
           >
             <div className="flex justify-between items-start">

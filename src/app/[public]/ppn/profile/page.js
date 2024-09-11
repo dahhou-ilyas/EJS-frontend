@@ -1,5 +1,5 @@
 
-import { Profile } from "@/components/component/profile";
+import { Profile } from "@/components/med_rec/profile";
 
 export default function Home() {
   return (

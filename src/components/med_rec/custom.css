@@ -121,3 +121,26 @@
 }
 
 
+.search-input {
+  background-color: white;
+  padding-left: 2.5rem; /* Pour laisser de l'espace pour l'icône de la loupe */
+  padding-right: 1rem;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 9999px; /* Pour un effet "rounded-full" */
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #1877F2; /* Ajoute une couleur de bordure personnalisée lors du focus */
+  outline: none;
+}
+
+.fa-search {
+  left: 0.75rem; /* Ajuste la position pour être proche du texte */
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  color: #333;
+  font-size: 1rem;
+}
