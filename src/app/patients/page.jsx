@@ -147,43 +147,6 @@ const Patients = () => {
   <div>
       <div className="content mx-4 mt-4">
           <NavigationHeader pages={["Patients"]} currentPage="Patients" />
-          {/* <SearchBar onSearch={setQuery} /> */}
-          <form>
-                <div>
-                    <label htmlFor="nom">Nom:</label>
-                    <input
-                        type="text"
-                        id="nom"
-                        value={nom}
-                        onChange={(e) => setNom(e.target.value)}
-                        placeholder="Search by nom"
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="prenom">Prenom:</label>
-                    <input
-                        type="text"
-                        id="prenom"
-                        value={prenom}
-                        onChange={(e) => setPrenom(e.target.value)}
-                        placeholder="Search by prenom"
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="id">ID:</label>
-                    <input
-                        type="text"
-                        id="id"
-                        value={id}
-                        onChange={(e) => setId(e.target.value)}
-                        placeholder="Search by ID"
-                    />
-                </div>
-
-                <button type="submit" onClick={handleSearch}>Search</button>
-            </form>
           <div className="row">
             <div className="col-sm-12">
               <div className="card card-table show-entire">
@@ -196,12 +159,49 @@ const Patients = () => {
                           <div className="doctor-search-blk">
                             <div className="top-nav-search table-search-blk"></div>
                             <div className="add-group">
-                              <Link href="/" className="btn btn-primary add-pluss ms-2">
-                                <Image src={plusicon} alt="#" />
-                              </Link>
-                              <button onClick={handleRefresh} className="btn btn-primary doctor-refresh ms-2">
-                                <Image src={refreshicon} alt="#" />
-                              </button>
+                              <form className="search-form flex flex-row p-1 rounded-lg max-w-lg mx-auto">
+                                <div className="search-input">
+                                  <input
+                                    type="text"
+                                    id="nom"
+                                    value={nom}
+                                    onChange={(e) => setNom(e.target.value)}
+                                    placeholder="Rechercher par nom"
+                                    className="border rounded-md px-2 py-2"
+                                  />
+                                </div>
+
+                                <div className="search-input">
+                                  <input
+                                    type="text"
+                                    id="prenom"
+                                    value={prenom}
+                                    onChange={(e) => setPrenom(e.target.value)}
+                                    placeholder="Rechercher par prenom"
+                                    className="border rounded-md px-3 py-2"
+                                  />
+                                </div>
+
+                                <div className="search-input">
+                                  <input
+                                    type="text"
+                                    id="id"
+                                    value={id}
+                                    onChange={(e) => setId(e.target.value)}
+                                    placeholder="Rechercher par ID"
+                                    className="border rounded-md px-3 py-2"
+                                  />
+                                </div>
+
+                                <button
+                                  type="submit"
+                                  onClick={handleSearch}
+                                  className="doctor-refresh ms-2 search-button bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                                >
+                                  Search
+                                </button>
+                               </form>
+                              
                             </div>
                           </div>
                         </div>
