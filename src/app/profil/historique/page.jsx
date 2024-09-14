@@ -1,6 +1,5 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-// import Sidebar from "@/components/Sidebar";
 import NavigationHeader from "@/components/ppn/NavigationHeader";
 import Header from "@/components/espaceMedecin/Header";
 import Image from "next/image";
@@ -15,18 +14,18 @@ import {
 } from "@/components/imagepath";
 import { useRouter } from 'next/navigation';
 import { handleGenerateDocument } from "../page";
-//import Sidebar from '@/components/espaceMedecin/Sidebar1';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { SPRINGBOOT_API_URL } from '@/config';
+import { useSearchParams } from 'next/navigation';
 
-const Historique = ({ params }) => {
+const Historique = () => {
   const [patient,setPatient] = useState(null);
   const [consultations, setConsultations] = useState([]);
   const [selectedConsultation, setSelectedConsultation] = useState(null);
-
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
   const router = useRouter();
-  const { id } = params;
   const [decodedAccessToken,setDecodedAccessToken] = useState("");
 
   useEffect(() => {
@@ -38,7 +37,6 @@ const Historique = ({ params }) => {
             Authorization: `Bearer ${accessToken}`,
           },
         })
-            // .then(response => response.json()) pas besoin de conversion json pour axios ;)
             .then(response => {setConsultations(response.data.dossierMedial?.historiqueConsultations)})
             .catch(error => console.error('Error fetching patient:', error));
         
@@ -50,8 +48,8 @@ const Historique = ({ params }) => {
     fetchConsultations();
     console.log(`trying to show list of consultation `);
     console.log(consultations);
-  }, [id]);
-  const pages = ["patients", id, "historique"];
+  }, []);
+  const pages = ["profil","historique"];
 
 
   const handleModify = (idConsultation) => {
@@ -63,7 +61,7 @@ const Historique = ({ params }) => {
     return (
       <>
         <div className="content">
-          <NavigationHeader pages={["patients", id, "historique"]} currentPage="Historique" />
+          <NavigationHeader pages={["profil", "historique"]} currentPage="Historique" />
 
           <div className="row hist-row">
             <div className="col-md-12 hist-card">
@@ -235,24 +233,6 @@ const Historique = ({ params }) => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="modal-footer">
-                    {/* <button
-                      type="button"
-                      className="btn btn-secondary waves-effect btn-imprimer"
-                      data-bs-dismiss="modal"
-                      onClick={handleGenerateDocument}
-                    >
-                      Imprimer
-                    </button> */}
-                    <button
-                      type="button"
-                      className="btn btn-info btn-modifier"
-                      data-bs-dismiss="modal"
-                      onClick={() => handleModify(selectedConsultation.id)}
-                    >
-                      Modifier
-                    </button>
                   </div>
                 </>
               )}
@@ -451,24 +431,6 @@ const Historique = ({ params }) => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="modal-footer">
-                  {/* <button
-                    type="button"
-                    className="btn btn-secondary waves-effect btn-imprimer"
-                    data-bs-dismiss="modal"
-                    onClick={handleGenerateDocument}
-                  >
-                    Imprimer
-                  </button> */}
-                  <button
-                    type="button"
-                    className="btn btn-info btn-modifier"
-                    data-bs-dismiss="modal"
-                    onClick={() => handleModify(selectedConsultation.id)}
-                  >
-                    Modifier
-                  </button>
                 </div>
               </>
             )}

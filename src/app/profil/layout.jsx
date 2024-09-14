@@ -1,5 +1,5 @@
-import Header from "@/components/espaceMedecin/Header";
-import Sidebar from "@/components/espaceMedecin/Sidebar1";
+import Header from "@/components/auth/Header";
+import Csidebar from "@/components/auth/Csidebar";
 
 // export const metadata = {
 //   title: "ppn",
@@ -20,7 +20,7 @@ const RootLayout = ({ children }) => {
       <body>
         <div id="main-wrapper">
           <Header section="ppn" />
-          <Sidebar activeClassName = "ppn"/>
+          <Csidebar activeClassName = "ppn"/>
           <div className="page-wrapper">
             {children}
           </div>

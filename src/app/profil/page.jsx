@@ -9,7 +9,6 @@ import "@/assets/css/style.css";
 // import "@/assets/css/patient.css";
 import {jwtDecode} from 'jwt-decode';
 import axios from "axios";
-
 import FeatherIcon from "feather-icons-react";
 
 // import "@/assets/css/font-awesome.min.css";
@@ -41,6 +40,7 @@ const Profil = () => {
   
   
   const [patient, setPatient] = useState([]);
+  const [id,setId] = useState(-1);
   const search = useSearchParams();
   // const {from} = router.back;
   const from = search.get('from');
@@ -48,6 +48,7 @@ const Profil = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem('access-token');
     const decodedAccessToken = jwtDecode(accessToken);
+    setId(decodedAccessToken.claims.id);
     // const id = decodedAccessToken.claims.id;
 
     axios.get(SPRINGBOOT_API_URL+"/jeunes/"+decodedAccessToken.claims.id, {
@@ -138,19 +139,7 @@ const Profil = () => {
               <div className="doctor-personals-grp">
                 <div className="card">
                   <div className="card-body">
-                    {/* <div className="heading-detail">
-                      <h4>Speciality</h4>
-                    </div> */}
-                    <Link href={`./consultation`}  className="personal-activity">
-                      <div className="personal-icons status-grey">
-                        <Image src={medalicon} alt="" />
-                      </div>
-                      <div className="views-personal">
-                        <h4>Consultation</h4>
-                        <h5>Ajouter Une Nouvelle Consultation </h5>
-                      </div>
-                    </Link>
-                    <Link href={`./historique/`} className="personal-activity">
+                    <Link href={`/profil/historique?id=${id}`} className="personal-activity">
                       <div className="personal-icons status-green">
                         <Image src={medalicon02} alt="" />
                       </div>
@@ -159,27 +148,6 @@ const Profil = () => {
                         <h5>L&#39;historique de Consultation</h5>
                       </div>
                     </Link>
-                    <Link href="../TeleExpertise" className="personal-activity">
-                      <div className="personal-icons status-blue">
-                        <Image src={callicon1} alt="" />
-                      </div>
-                      <div className="views-personal">
-                        <h4>TeleExpertise</h4>
-                        <h5>Se Mettre en Contact</h5>
-                      </div>
-                    </Link>
-                    
-                    <div className="personal-activity generate mb-0"
-                      onClick={handleGenerateDocument}
-                    >
-                      <div className="personal-icons status-orange">
-                        <Image src={medalicon03} alt="" />
-                      </div>
-                      <div className="views-personal">
-                        <h4>Compte Rendu</h4>
-                        <h5>Generer son Compte Rendu</h5>
-                      </div>
-                    </div >
                   </div>
                 </div>
               </div>
