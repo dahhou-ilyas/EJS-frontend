@@ -143,7 +143,7 @@ const Sidebar = (props) => {
               <li>
                 <Link
                   className={
-                    props?.activeClassName === "ppn" ? "active" : ""
+                    props?.activeClassName === "ppnx" ? "active" : ""
                   }
                   href="/espaceMedecin/MesPatients"
                 >
@@ -164,6 +164,19 @@ const Sidebar = (props) => {
                   <i className="fa fa-info-circle" />
                   </span>{" "}
                   <span>IES</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={
+                    props?.activeClassName === "ppn" ? "active" : ""
+                  }
+                  href="/patients"
+                >
+                  <span className="menu-side">
+                  <Image src={menuicon08} alt="" />
+                  </span>{" "}
+                  <span>Patients</span>
                 </Link>
               </li>
               {

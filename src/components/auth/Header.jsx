@@ -69,54 +69,7 @@ const Header = ({t,locale}) => {
     ? user.claims.nom.toUpperCase() +" "+ user.claims.prenom.slice(0).toUpperCase()
     : "";
 
-  const notifications = [
-    {
-      id: 1,
-      avatar: "V",
-      user: "John Doe",
-      action: "added new task",
-      task: "Patient appointment booking",
-      time: "4 mins ago",
-      href: "/",
-    },
-    {
-      id: 2,
-      avatar: "V",
-      user: "Tarah Shropshire",
-      action: "changed the task name",
-      task: "Appointment booking with payment gateway",
-      time: "6 mins ago",
-      href: "/",
-    },
-    {
-      id: 3,
-      avatar: "L",
-      user: "Misty Tison",
-      action: "added",
-      task: "Doctor available module",
-      additional: ["Domenic Houston", "Claire Mapes"],
-      time: "8 mins ago",
-      href: "/",
-    },
-    {
-      id: 4,
-      avatar: "G",
-      user: "Rolland Webber",
-      action: "completed task",
-      task: "Patient and Doctor video conferencing",
-      time: "12 mins ago",
-      href: "/",
-    },
-    {
-      id: 5,
-      avatar: "V",
-      user: "Bernardo Galaviz",
-      action: "added new task",
-      task: "Private chat module",
-      time: "2 days ago",
-      href: "/",
-    },
-  ];
+  const notifications = [];
   useEffect(() => {
     require("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
@@ -160,6 +113,11 @@ const Header = ({t,locale}) => {
       // maximizeBtn.removeEventListener('click', handleClick);
     };
   }, []);
+
+  const toDossierMedical=()=>{
+    router.push('/profil');
+  }
+
   const handleLogout = () => {
     console.log("object");
     localStorage.removeItem('access-token');
@@ -202,54 +160,7 @@ const Header = ({t,locale}) => {
               <Image className="relative bottom-2" style={{ marginTop: "20px" }} src={noteicon1} alt="" />
               <span className="pulse" />
             </Link>
-            <div className="dropdown-menu notifications">
-              <div className="topnav-dropdown-header">
-                <span>Notifications</span>
-              </div>
-              <div className="drop-scroll">
-                <ul className="notification-list">
-                  {notifications.map((notification) => (
-                    <li key={notification.id} className="notification-message">
-                      <Link href={notification.href}>
-                        <div className="media">
-                          <span className="avatar">{notification.avatar}</span>
-                          <div className="media-body">
-                            <p className="noti-details">
-                              <span className="noti-title">
-                                {notification.user}
-                              </span>{" "}
-                              {notification.action}{" "}
-                              {notification.additional &&
-                                notification.additional.map((name, index) => (
-                                  <span key={index} className="noti-title">
-                                    {name}
-                                    {index <
-                                      notification.additional.length - 1 &&
-                                      " and "}
-                                  </span>
-                                ))}
-                              {notification.task && (
-                                <span className="noti-title">
-                                  {notification.task}
-                                </span>
-                              )}
-                            </p>
-                            <p className="noti-time">
-                              <span className="notification-time">
-                                {notification.time}
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="topnav-dropdown-footer">
-                <Link href="/">View all Notifications</Link>
-              </div>
-            </div>
+            
           </div>
           {/* <li className="nav-item dropdown d-none d-sm-block">
             <Link
@@ -281,6 +192,7 @@ const Header = ({t,locale}) => {
                   <span className="rtl:ml-1"><FaRegUser /></span>
                   <button 
                     className="block text-sm font-medium text-gray-700"
+                    onClick={toDossierMedical}
                   >
                     {(typeof t === 'function' && t('profile')) || "Profile"}
                   </button>
@@ -330,60 +242,14 @@ const Header = ({t,locale}) => {
           </Link>
           <div className="dropdown-menu dropdown-menu-end">
             <Link href="/" className="dropdown-item">
-              My Profile
+              Profile
             </Link>
             <Link href="/" className="dropdown-item">
-              Edit Profile
-            </Link>
-            <Link href="/" className="dropdown-item">
-              Settings
-            </Link>
-            <Link href="/" className="dropdown-item">
-              Logout
+              Se déconnecter
             </Link>
           </div>
         </div>
       </div>
-
-      {/* messages */}
-      {/*
-      <div className="notification-box">
-        <div className="msg-sidebar notifications msg-noti">
-          <div className="topnav-dropdown-header">
-            <span>Messages</span>
-          </div>
-          <div className="drop-scroll msg-list-scroll" id="msg_list">
-            <ul className="list-box">
-              {messages.map((message) => (
-                <li key={message.id}>
-                  <Link href={message.href}>
-                    <div
-                      className={`list-item ${
-                        message.newMessage ? "new-message" : ""
-                      }`}
-                    >
-                      <div className="list-left">
-                        <span className="avatar">{message.avatar}</span>
-                      </div>
-                      <div className="list-body">
-                        <span className="message-author">{message.author}</span>
-                        <span className="message-time">{message.time}</span>
-                        <div className="clearfix"></div>
-                        <span className="message-content">
-                          {message.content}
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="topnav-dropdown-footer">
-            <Link href="/">See all messages</Link>
-          </div>
-        </div>
-      </div>*/}
       <style jsx>{`
         @media only screen and (max-width: 768px) {
           .header-left {
