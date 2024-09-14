@@ -70,7 +70,7 @@ const Sidebar = (props) => {
                   className={
                     props?.activeClassName === "doctors" ? "active" : ""
                   }
-                  href="/TeleExpertise/Medecins"
+                  href="/profil"
                 >
                   <span className="menu-side">
                     <Image src={doctor} alt="" />

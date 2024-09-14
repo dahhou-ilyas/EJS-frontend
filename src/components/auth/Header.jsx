@@ -160,6 +160,11 @@ const Header = ({t,locale}) => {
       // maximizeBtn.removeEventListener('click', handleClick);
     };
   }, []);
+
+  const toDossierMedical=()=>{
+    router.push('/profil');
+  }
+
   const handleLogout = () => {
     console.log("object");
     localStorage.removeItem('access-token');
@@ -281,6 +286,7 @@ const Header = ({t,locale}) => {
                   <span className="rtl:ml-1"><FaRegUser /></span>
                   <button 
                     className="block text-sm font-medium text-gray-700"
+                    onClick={toDossierMedical}
                   >
                     {(typeof t === 'function' && t('profile')) || "Profile"}
                   </button>

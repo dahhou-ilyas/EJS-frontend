@@ -17,6 +17,7 @@ const Home = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [favoritePatients, setFavoritePatients] = useState(null);
   const [user, setUser] = useState(null);
+  const [isMedecin,SetIsMedecin]=useState(false);
   let token = null;
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const Home = () => {
     } else {
       const decodedToken = jwtDecode(token);
       setUser(decodedToken);
+      SetIsMedecin(decodedToken.claims.role=="ROLE_MEDECIN");
       getFavoritePatients(decodedToken?.claims?.id);
     }
   }, []); 
@@ -153,7 +155,8 @@ const Home = () => {
                       </div>
                   </div>
               </div>
-              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
+              {isMedecin && (
+                <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
                   <div className="doctor-widget h-100 d-flex flex-column align-items-center text-center">
                       <div className="doctor-box-icon mb-2">
                           <img src={cb.src} alt="Chat Bot" className="img-fluid" />
@@ -166,7 +169,8 @@ const Home = () => {
                           </Link>
                       </div>
                   </div>
-              </div>
+                </div>
+              )}
               <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex align-items-stretch">
                   <div className="doctor-widget  h-100 d-flex flex-column align-items-center text-center">
                       <div className="doctor-box-icon mb-2">
