@@ -174,7 +174,7 @@ const MesPatients = () => {
 
   return (
       <>
-          <Sidebar id='menu-item1' id1='menu-items1' activeClassName='doctor-list' />
+          <Sidebar id='menu-item1' id1='menu-items1' activeClassName='ppnx' />
           <div className="page-wrapper">
               <div className="content">
                   {/* Page Header */}
