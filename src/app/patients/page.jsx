@@ -8,7 +8,6 @@ import Image from "next/image";
 import { usePathname } from 'next/navigation';
 import NavigationHeader from "@/components/ppn/NavigationHeader";
 import "@/assets/css/style.css";
-import SearchBar from "./searchBar";
 import { plusicon, refreshicon, imagesend, dots, edit, deleteIcon } from "@/components/imagepath";
 import { jwtDecode } from 'jwt-decode';
 import { SPRINGBOOT_API_URL } from "@/config";
