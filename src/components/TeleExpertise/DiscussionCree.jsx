@@ -83,9 +83,9 @@ const DiscussionCree = ({
           <button
             type="button"
             className="launch-button"
-            disabled={
+            /* disabled={
               !(new Date() >= new Date(date) && new Date() <= new Date(new Date(date).getTime() + 30 * 60000))
-            }
+            } */
             onClick={launchDiscussion}
           >
             Lancer

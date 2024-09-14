@@ -260,7 +260,7 @@ const Formulaire = () => {
     const token = localStorage.getItem("access-token")
     const decodedToken = decodeToken(token)
 
-    const medcinConsulteId = genre === "PRIVEE" ? selectedConsultedDoctor.id : null;
+    const medcinConsulteId = selectedConsultedDoctor.id;
     let medecinsInvitesIds = genre === "PRIVEE" ? selectedDoctors.map(doc => doc.id) : [];
     if (medcinConsulteId && !medecinsInvitesIds.includes(medcinConsulteId)) {
         medecinsInvitesIds.push(medcinConsulteId);
@@ -277,7 +277,7 @@ const Formulaire = () => {
         medcinResponsableId: decodedToken.claims.id,
         medcinConsulteId: medcinConsulteId,
     };
-
+    console.log(data)
     setDiscussion(data);
 
   }
@@ -928,6 +928,7 @@ const Formulaire = () => {
                             setSelectedDoctors={setSelectedDoctors}
                             selectedConsultedDoctor={selectedConsultedDoctor}
                             setSelectedConsultedDoctor={setSelectedConsultedDoctor}
+                            isPrivee={true}
                           />
                           <div className="col-md-12 mx-auto">
                             <label className="col-md-10 col-form-label">
@@ -1004,6 +1005,13 @@ const Formulaire = () => {
                             className="divider"
                             style={{ width: "100%" }}
                           ></hr>
+                          <DoctorSelectionForm 
+                            selectedDoctors={selectedDoctors} 
+                            setSelectedDoctors={setSelectedDoctors}
+                            selectedConsultedDoctor={selectedConsultedDoctor}
+                            setSelectedConsultedDoctor={setSelectedConsultedDoctor}
+                            isPrivee={false}
+                          />
                           <div
                             className="col-md-12"
                             style={{ marginTop: "35px" }}
