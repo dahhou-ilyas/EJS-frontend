@@ -29,8 +29,18 @@ const Terms = ({nextStep, alertDialogTriggerRef}) => {
 
     useEffect(()=>{
         const token = localStorage.getItem('access-token');
-        const decodToken=jwtDecode(token);
-        setIsJeune(decodToken.claims.role=="ROLE_JEUNE");
+        
+        if (token) {
+            try {
+                const decodToken = jwtDecode(token);
+                setIsJeune(decodToken?.claims?.role === "ROLE_JEUNE");
+            } catch (error) {
+                console.error("Erreur lors du décodage du token : ", error);
+            }
+        } else {
+            console.log("Aucun token trouvé dans localStorage");
+        }
+        
     },[])
 
     return (  

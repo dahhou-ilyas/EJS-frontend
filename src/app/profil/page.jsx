@@ -2,7 +2,7 @@
 import Header from "@/components/espaceMedecin/Header";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import "@/assets/css/style.css";
 // import "@/assets/css/links.css";
@@ -157,4 +157,10 @@ const Profil = () => {
   );
 };
 
-export default Profil;
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <Profil />
+    </Suspense>
+  );
+}
