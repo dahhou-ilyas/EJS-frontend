@@ -260,7 +260,7 @@ const Formulaire = () => {
     const token = localStorage.getItem("access-token")
     const decodedToken = decodeToken(token)
 
-    const medcinConsulteId = genre === "PRIVEE" ? selectedConsultedDoctor.id : null;
+    const medcinConsulteId = selectedConsultedDoctor.id;
     let medecinsInvitesIds = genre === "PRIVEE" ? selectedDoctors.map(doc => doc.id) : [];
     if (medcinConsulteId && !medecinsInvitesIds.includes(medcinConsulteId)) {
         medecinsInvitesIds.push(medcinConsulteId);
@@ -277,7 +277,7 @@ const Formulaire = () => {
         medcinResponsableId: decodedToken.claims.id,
         medcinConsulteId: medcinConsulteId,
     };
-
+    console.log(data)
     setDiscussion(data);
 
   }
@@ -744,8 +744,16 @@ const Formulaire = () => {
                           <button
                             id="suivant1"
                             type="button"
-                            className="btn btn-primary1"
-                            style={{ color: "white" }}
+                            style={{
+                              color: "white",
+                              backgroundColor: "darkblue",
+                              padding: "5px 10px",
+                              borderRadius: "5px",
+                              border: "none",
+                              cursor: "pointer",
+                              fontSize: "14px",
+                              transition: "background-color 0.3s ease",
+                            }}
                             onClick={suivant1}
                           >
                             Suivant
@@ -806,8 +814,16 @@ const Formulaire = () => {
                           <button
                             type="button"
                             id="suivant2"
-                            className="btn btn-primary1"
-                            style={{ color: "white" }}
+                            style={{
+                              color: "white",
+                              backgroundColor: "darkblue",
+                              padding: "5px 10px",
+                              borderRadius: "5px",
+                              border: "none",
+                              cursor: "pointer",
+                              fontSize: "14px",
+                              transition: "background-color 0.3s ease",
+                            }}
                             onClick={suivant2}
                           >
                             Suivant
@@ -912,6 +928,7 @@ const Formulaire = () => {
                             setSelectedDoctors={setSelectedDoctors}
                             selectedConsultedDoctor={selectedConsultedDoctor}
                             setSelectedConsultedDoctor={setSelectedConsultedDoctor}
+                            isPrivee={true}
                           />
                           <div className="col-md-12 mx-auto">
                             <label className="col-md-10 col-form-label">
@@ -988,6 +1005,13 @@ const Formulaire = () => {
                             className="divider"
                             style={{ width: "100%" }}
                           ></hr>
+                          <DoctorSelectionForm 
+                            selectedDoctors={selectedDoctors} 
+                            setSelectedDoctors={setSelectedDoctors}
+                            selectedConsultedDoctor={selectedConsultedDoctor}
+                            setSelectedConsultedDoctor={setSelectedConsultedDoctor}
+                            isPrivee={false}
+                          />
                           <div
                             className="col-md-12"
                             style={{ marginTop: "35px" }}
@@ -1069,8 +1093,16 @@ const Formulaire = () => {
                           <button
                             id="suivant3"
                             type="button"
-                            className="btn btn-primary1"
-                            style={{ color: "white" }}
+                            style={{
+                              color: "white",
+                              backgroundColor: "darkblue",
+                              padding: "5px 10px",
+                              borderRadius: "5px",
+                              border: "none",
+                              cursor: "pointer",
+                              fontSize: "14px",
+                              transition: "background-color 0.3s ease",
+                            }}
                             onClick={suivant3}
                           >
                             Suivant
@@ -1189,9 +1221,18 @@ const Formulaire = () => {
                         <div className="text-end">
                           <button
                             type="submit"
-                            className="btn btn-primary1"
                             disabled={!isConsentChecked}
-                            style={{ marginTop: "20px", color: "white" }}
+                            style={{
+                              marginTop: "20px",
+                              color: "white",
+                              backgroundColor: "darkblue",
+                              padding: "5px 10px",
+                              borderRadius: "5px",
+                              border: "none",
+                              cursor: "pointer",
+                              fontSize: "14px",
+                              transition: "background-color 0.3s ease",
+                            }}
                             onClick={handleCreateDiscussion}
                           >
                             Soumettre

@@ -8,7 +8,7 @@ import { decodeToken } from "@/utils/docodeToken";
 
 const { Option } = Select;
 
-const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors, selectedConsultedDoctor, setSelectedConsultedDoctor} ) => {
+const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors, selectedConsultedDoctor, setSelectedConsultedDoctor, isPrivee} ) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
   const [searchTermConsulted, setSearchTermConsulted] = useState("");
@@ -251,56 +251,62 @@ const DoctorSelectionForm = ( {selectedDoctors, setSelectedDoctors, selectedCons
           {options1}
         </Select>
       </Form.Item>
-      <hr
-        className="divider"
-        style={{ width: "100%" }}
-      ></hr>
-      <Form.Item
-        label={
-          <h4
-            style={{
-              fontSize: "16px",
-              fontFamily: "Poppins",
-            }}
-          >
-            Choisissez d&apos;autre Médecins :
-          </h4>
-        }
-      >
-        <Select
-          mode="multiple"
-          showSearch
-          placeholder="Chercher un Médecin"
-          onSearch={handleSearch}
-          onSelect={handleSelect}
-          onDeselect={handleDeselect}
-          filterOption={false}
+      {
+        isPrivee &&
+        <hr
+          className="divider"
           style={{ width: "100%" }}
-          dropdownRender={(menu) => (
-            <div>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <Input
-                  placeholder="Chercher un Médecin"
-                  prefix={<SearchOutlined />}
-                  value={searchTerm}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  style={{ width: "100%" }}
-                />
-
-                <Dropdown overlay={specialityMenu} trigger={["click"]}>
-                  <Button style={{ border: "none", padding: "0 8px" }}>
-                    Spécialités <DownOutlined />
-                  </Button>
-                </Dropdown>
-              </div>
-              {menu}
-            </div>
-          )}
-          tagRender={tagRender}
+        ></hr>
+      }
+      {
+        isPrivee &&
+        <Form.Item
+          label={
+            <h4
+              style={{
+                fontSize: "16px",
+                fontFamily: "Poppins",
+              }}
+            >
+              Choisissez d&apos;autre Médecins :
+            </h4>
+          }
         >
-          {options}
-        </Select>
-      </Form.Item>
+          <Select
+            mode="multiple"
+            showSearch
+            placeholder="Chercher un Médecin"
+            onSearch={handleSearch}
+            onSelect={handleSelect}
+            onDeselect={handleDeselect}
+            filterOption={false}
+            style={{ width: "100%" }}
+            dropdownRender={(menu) => (
+              <div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Input
+                    placeholder="Chercher un Médecin"
+                    prefix={<SearchOutlined />}
+                    value={searchTerm}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    style={{ width: "100%" }}
+                  />
+
+                  <Dropdown overlay={specialityMenu} trigger={["click"]}>
+                    <Button style={{ border: "none", padding: "0 8px" }}>
+                      Spécialités <DownOutlined />
+                    </Button>
+                  </Dropdown>
+                </div>
+                {menu}
+              </div>
+            )}
+            tagRender={tagRender}
+          >
+            {options}
+          </Select>
+        </Form.Item>
+      }
     </Form>
   );
 };

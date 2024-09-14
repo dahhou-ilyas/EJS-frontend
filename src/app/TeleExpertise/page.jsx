@@ -13,53 +13,6 @@ import Discussion from "@/components/TeleExpertise/Discussion";
 import { decodeToken } from "@/utils/docodeToken";
 import { getOuverteDiscussion } from "@/services/discussionService";
 
-/* const discussions = [
-  {
-    id: 1,
-    title: "Irritation cutanée",
-    description:
-      "Discutons du cas d'un patient souffrant d'une irritation cutanée. Cette discussion abordera les causes potentielles, les symptômes et les traitements",
-    doctor: "Aymane El bazi",
-    doctorSpeciality: "Chirurgien",
-    neededSpecialities: ["Dermatologue", "Infectiologue"],
-    date: "21/02/2024",
-    time: "11:00",
-  },
-  {
-    id: 2,
-    title: "Microbe dentaire",
-    description:
-      "Discutons du cas d'un patient souffrant d'une irritation cutanée. Cette discussion abordera les causes potentielles.",
-    doctor: "Elbachir Janah",
-    doctorSpeciality: "Chirurgien",
-    neededSpecialities: ["Dentiste"],
-    date: "21/08/2024",
-    time: "10:30",
-  },
-  {
-    id: 3,
-    title: "Microbe dentaire",
-    description:
-      "Discutons du cas d'un patient souffrant d'une irritation cutanée. Cette discussion abordera les causes potentielles, les symptômes et les traitements de l'irritation.",
-    doctor: "Issam Elmonakhi",
-    doctorSpeciality: "Dermatologue",
-    neededSpecialities: ["Dentiste", "Cardiologue"],
-    date: "10/09/2024",
-    time: "10:00",
-  },
-  {
-    id: 4,
-    title: "Microbe dentaire",
-    description:
-      "Discutons du cas d'un patient souffrant d'une irritation cutanée. Cette discussion abordera les causes potentielles, les symptômes et les traitements de l'irritation.",
-    doctor: "Salma Elmonakhi",
-    doctorSpeciality: "Cardiologue",
-    neededSpecialities: ["Dentiste", "Cardiologue"],
-    date: "10/09/2024",
-    time: "10:00",
-  },
-]; */
-
 const Home = () => {
   const router = useRouter();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -180,28 +133,31 @@ const Home = () => {
           )}
 
           {/* Discussion Section */}
-          <div className="discussion-section mt-5">
-            <h3>Pour Vous</h3>
-            <div className="discussion-list mt-3">
-              {discussions.map((discussion) => (
-                discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom != name && 
-                !discussion.participants.some(participant => participant.id === userId) &&
-                <Discussion
-                  key={discussion.id}
-                  id={discussion.id}
-                  title={discussion.titre}
-                  description={discussion.motifDeTeleExpertise}
-                  doctor={discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
-                  doctorSpeciality={discussion.medcinResponsable.specialite}
-                  doctorPhoto={discussion.doctorPhoto}
-                  neededSpecialities={discussion.specialitesDemandees}
-                  date={format(discussion.date , 'yyyy-MM-dd')}
-                  time={discussion.heure}
-                  setDiscussions={setDiscussions}
-                />
-              ))}
+          {
+            discussions.length > 0 &&
+            <div className="discussion-section mt-5">
+              <h3>Pour Vous</h3>
+              <div className="discussion-list mt-3">
+                {discussions.map((discussion) => (
+                  discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom != name && 
+                  !discussion.participants.some(participant => participant.id === userId) &&
+                  <Discussion
+                    key={discussion.id}
+                    id={discussion.id}
+                    title={discussion.titre}
+                    description={discussion.motifDeTeleExpertise}
+                    doctor={discussion.medcinResponsable.nom + " " + discussion.medcinResponsable.prenom}
+                    doctorSpeciality={discussion.medcinResponsable.specialite}
+                    doctorPhoto={discussion.doctorPhoto}
+                    neededSpecialities={discussion.specialitesDemandees}
+                    date={format(discussion.date , 'yyyy-MM-dd')}
+                    time={discussion.heure}
+                    setDiscussions={setDiscussions}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          }
           {/* Discussion Section */}
         </div>
       </div>
