@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import NavigationHeader from "@/components/ppn/NavigationHeader";
 import Header from "@/components/espaceMedecin/Header";
 import Image from "next/image";
@@ -441,4 +441,11 @@ const Historique = () => {
   );
 };
 
-export default Historique;
+
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <Historique />
+    </Suspense>
+  );
+}
