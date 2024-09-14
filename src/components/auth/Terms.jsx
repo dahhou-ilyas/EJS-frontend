@@ -28,19 +28,21 @@ const Terms = ({nextStep, alertDialogTriggerRef}) => {
     };
 
     useEffect(()=>{
-        const token = localStorage.getItem('access-token');
-        
-        if (token) {
-            try {
-                const decodToken = jwtDecode(token);
-                setIsJeune(decodToken?.claims?.role === "ROLE_JEUNE");
-            } catch (error) {
-                console.error("Erreur lors du décodage du token : ", error);
+        if (typeof window !== 'undefined') {
+            // Le code ne s'exécutera que côté client
+            const token = localStorage.getItem('access-token');
+            
+            if (token) {
+                try {
+                    const decodedToken = jwtDecode(token);
+                    setIsJeune(decodedToken?.claims?.role === "ROLE_JEUNE");
+                } catch (error) {
+                    console.error("Erreur lors du décodage du token : ", error);
+                }
+            } else {
+                console.log("Aucun token trouvé dans localStorage");
             }
-        } else {
-            console.log("Aucun token trouvé dans localStorage");
         }
-        
     },[])
 
     return (  
