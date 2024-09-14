@@ -45,6 +45,10 @@ const Terms = ({nextStep, alertDialogTriggerRef}) => {
         }
     },[])
 
+    function removeToken(){
+        localStorage.removeItem('access-token');
+    }
+
     return (  
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -113,7 +117,7 @@ const Terms = ({nextStep, alertDialogTriggerRef}) => {
                     </label>
                 </div>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Annuler</AlertDialogCancel>
+                    <AlertDialogCancel onClick={removeToken}>Annuler</AlertDialogCancel>
                     <AlertDialogAction disabled={!termsAccepted} onClick={nextStep}>Continuer</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
