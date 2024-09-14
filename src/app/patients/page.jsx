@@ -8,36 +8,57 @@ import Image from "next/image";
 import { usePathname } from 'next/navigation';
 import NavigationHeader from "@/components/ppn/NavigationHeader";
 import "@/assets/css/style.css";
-// import "@/assets/css/links.css";
-
 import { plusicon, refreshicon, imagesend, dots, edit, deleteIcon } from "@/components/imagepath";
-//import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { jwtDecode } from 'jwt-decode';
 import { SPRINGBOOT_API_URL } from "@/config";
-// import RootRootLayout from "../RootLayout";
-// import RootLayout from "../layout";
 
 const Patients = () => {
-  console.log('ht');
+  const [query, setQuery] = useState("");
+  const [nom, setNom] = useState('');
+  const [prenom, setPrenom] = useState('');
+  const [id, setId] = useState('');
   const [patients, setPatients] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const path = usePathname();
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem('access-token');
-    const decodedAccessToken = jwtDecode(accessToken);
-    axios.get(SPRINGBOOT_API_URL+"/jeunes", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
+  const fetchPatients = async (query) => {
+    if (query.trim()) {
+      const accessToken = localStorage.getItem('access-token');
+      const decodedAccessToken = jwtDecode(accessToken);
+      axios.get(SPRINGBOOT_API_URL+`/jeunes_filter?${query}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then(response => {
         setPatients(response.data);
       })
       .catch(error => {
         console.error("There was an error fetching the patients!", error);
       });
-  }, []);
+    }else{
+      setPatients([]);
+    }
+  };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const query = new URLSearchParams();
+    if (id) query.append('id', id);
+    if (nom) query.append('nom', nom);
+    if (prenom) query.append('prenom', prenom);
+
+    if (id || nom || prenom) {
+        fetchPatients(query.toString());
+    }
+};
+
+  // useEffect(() => {
+  //   const query = new URLSearchParams();
+  //   if (id) query.append('id', id);
+  //   if (nom) query.append('nom', nom);
+  //   if (prenom) query.append('prenom', prenom);
+  //   fetchPatients(query.toString());
+  // }, [query]);
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -58,7 +79,7 @@ const Patients = () => {
       dataIndex: "id",
       render: (text, record) => (
         <h2 className="profile-image">
-          <Link href={`${path}/${record.id}`}>{record.identifiantPatient}</Link>
+          <Link href={`${path}/${record.id}`}>{record.id}</Link>
         </h2>
       ),
       sorter: (a, b) => a.identifiantPatient - b.identifiantPatient
@@ -138,12 +159,49 @@ const Patients = () => {
                           <div className="doctor-search-blk">
                             <div className="top-nav-search table-search-blk"></div>
                             <div className="add-group">
-                              <Link href="/" className="btn btn-primary add-pluss ms-2">
-                                <Image src={plusicon} alt="#" />
-                              </Link>
-                              <button onClick={handleRefresh} className="btn btn-primary doctor-refresh ms-2">
-                                <Image src={refreshicon} alt="#" />
-                              </button>
+                              <form className="search-form flex flex-row p-1 rounded-lg max-w-lg mx-auto">
+                                <div className="search-input">
+                                  <input
+                                    type="text"
+                                    id="nom"
+                                    value={nom}
+                                    onChange={(e) => setNom(e.target.value)}
+                                    placeholder="Rechercher par nom"
+                                    className="border rounded-md px-2 py-2"
+                                  />
+                                </div>
+
+                                <div className="search-input">
+                                  <input
+                                    type="text"
+                                    id="prenom"
+                                    value={prenom}
+                                    onChange={(e) => setPrenom(e.target.value)}
+                                    placeholder="Rechercher par prenom"
+                                    className="border rounded-md px-3 py-2"
+                                  />
+                                </div>
+
+                                <div className="search-input">
+                                  <input
+                                    type="text"
+                                    id="id"
+                                    value={id}
+                                    onChange={(e) => setId(e.target.value)}
+                                    placeholder="Rechercher par ID"
+                                    className="border rounded-md px-3 py-2"
+                                  />
+                                </div>
+
+                                <button
+                                  type="submit"
+                                  onClick={handleSearch}
+                                  className="doctor-refresh ms-2 search-button bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                                >
+                                  Search
+                                </button>
+                               </form>
+                              
                             </div>
                           </div>
                         </div>
