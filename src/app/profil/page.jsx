@@ -5,14 +5,10 @@ import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import "@/assets/css/style.css";
-// import "@/assets/css/links.css";
-// import "@/assets/css/patient.css";
 import {jwtDecode} from 'jwt-decode';
 import axios from "axios";
 import FeatherIcon from "feather-icons-react";
 
-// import "@/assets/css/font-awesome.min.css";
-// import "@/assets/css/customized.css";  
 import {
   blogimg2,
   medalicon03,
@@ -40,25 +36,30 @@ const Profil = () => {
   
   
   const [patient, setPatient] = useState([]);
+  const [patientDetail, setPatientDetail] = useState([]);
   const [id,setId] = useState(-1);
   const search = useSearchParams();
-  // const {from} = router.back;
   const from = search.get('from');
   
   useEffect(() => {
     const accessToken = localStorage.getItem('access-token');
     const decodedAccessToken = jwtDecode(accessToken);
     setId(decodedAccessToken.claims.id);
-    // const id = decodedAccessToken.claims.id;
 
     axios.get(SPRINGBOOT_API_URL+"/jeunes/"+decodedAccessToken.claims.id, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-        // .then(response => response.json()) pas besoin de conversion json pour axios ;)
-        .then(data => {setPatient(data.data);console.log(data.data)})
+        .then(data => {setPatient(data.data);})
         .catch(error => console.error('Error fetching patient:', error));
+    axios.get(SPRINGBOOT_API_URL+"/jeune/"+decodedAccessToken.claims.id, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+        .then(data => {setPatientDetail(data.data);})
+        .catch(error => console.error('Error fetching patient details:', error));
     
   }, []);
   
@@ -107,10 +108,6 @@ const Profil = () => {
                         </span>
                       </li>
                       <li>
-                        <h4>Adresse</h4>
-                        <span>13 Rue Elwahda, Sale</span>
-                      </li>
-                      <li>
                         <h4>Adresse Email</h4>
                         <span>{patient.mail}</span>
                       </li>
@@ -127,9 +124,71 @@ const Profil = () => {
                         <span>{patient.niveauEtudesActuel}</span>
                       </li>
                       <li>
-                        <h4>CNE</h4>
-                        <span>{patient.cne}</span>
+                        <h4>Maladies declarées</h4>
+                        <span>
+                        {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                        patientDetail.dossierMedial.antecedentsPersonnels[0]?.maladies?.length > 0
+                          ? patientDetail.dossierMedial.antecedentsPersonnels[0].maladies.join(', ')
+                          : 'Aucune maladie declarée'}
+                        </span>
                       </li>
+                      {/* Médicaments */}
+                      <li>
+                        <h4>Médicaments</h4>
+                        <span>
+                          {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.utiliseMedicaments &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.medicaments?.length > 0
+                            ? patientDetail.dossierMedial.antecedentsPersonnels[0].medicaments.join(', ')
+                            : 'Aucun médicament utilisé'}
+                        </span>
+                      </li>
+
+                      {/* Chirurgies */}
+                      <li>
+                        <h4>Chirurgies</h4>
+                        <span>
+                          {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.chirurgicaux &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.operationsChirurgicales
+                            ? `Opération: ${patientDetail.dossierMedial.antecedentsPersonnels[0].operationsChirurgicales.typeOperation} (${patientDetail.dossierMedial.antecedentsPersonnels[0].operationsChirurgicales.anneeOperation})`
+                            : 'Aucune chirurgie'}
+                        </span>
+                      </li>
+
+                      {/* Habitudes */}
+                      <li>
+                        <h4>Habitudes</h4>
+                        <span>
+                          {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.habitudes?.length > 0
+                            ? patientDetail.dossierMedial.antecedentsPersonnels[0].habitudes.join(', ')
+                            : 'Aucune habitude déclarée'}
+                        </span>
+                      </li>
+
+                      {/* Cigarettes par jour */}
+                      <li>
+                        <h4>Cigarettes par jour</h4>
+                        <span>
+                          {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.cigarettesParJour
+                            ? `${patientDetail.dossierMedial.antecedentsPersonnels[0].cigarettesParJour} cigarettes par jour`
+                            : 'Aucune consommation de cigarettes'}
+                        </span>
+                      </li>
+
+                      {/* Durée de fumée */}
+                      <li>
+                        <h4>Durée de fumée</h4>
+                        <span>
+                          {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.dureeFumee
+                            ? `${patientDetail.dossierMedial.antecedentsPersonnels[0].dureeFumee} ans de fumée`
+                            : 'Pas d’information sur la durée de fumée'}
+                        </span>
+                      </li>
+                                          
                     </ul>
                   </div>
                 </div>

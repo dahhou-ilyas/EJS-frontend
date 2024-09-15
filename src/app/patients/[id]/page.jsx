@@ -39,7 +39,7 @@ export function handleGenerateDocument(){
 
 const Patient = ({params}) => {
   const id = params.id
-
+  const [patientDetail,setPatientDetail] = useState([])
   const [patient, setPatient] = useState([]);
   const search = useSearchParams();
   // const {from} = router.back;
@@ -47,22 +47,27 @@ const Patient = ({params}) => {
 
   useEffect(() => {
 
-    // console.log(search);
-    // console.log('params \n'+params);
-    // console.log(`id from params is ${id}`);
     if (id) {
-    const accessToken = localStorage.getItem('access-token');
-    const decodedAccessToken = jwtDecode(accessToken);
-    console.log(`decoded token `,decodedAccessToken);
-    axios.get(SPRINGBOOT_API_URL+"/jeunes/"+id, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-        // .then(response => response.json()) pas besoin de conversion json pour axios ;)
+      const accessToken = localStorage.getItem('access-token');
+      const decodedAccessToken = jwtDecode(accessToken);
+      axios.get(SPRINGBOOT_API_URL+"/jeunes/"+id, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
         .then(data => {setPatient(data.data);console.log(data.data)})
         .catch(error => console.error('Error fetching patient:', error));
+
+      axios.get(SPRINGBOOT_API_URL+"/jeune/"+id, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+          .then(data => {setPatientDetail(data.data);})
+          .catch(error => console.error('Error fetching patient details:', error));
+        
     }
+
   }, [id]);
   
   //OLD CODE HAS BEEN DELETED 
@@ -132,6 +137,71 @@ const Patient = ({params}) => {
                       <li>
                         <h4>CNE</h4>
                         <span>{patient.cne}</span>
+                      </li>
+                      <li>
+                        <h4>Maladies declarées</h4>
+                        <span>
+                        {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                        patientDetail.dossierMedial.antecedentsPersonnels[0]?.maladies?.length > 0
+                          ? patientDetail.dossierMedial.antecedentsPersonnels[0].maladies.join(', ')
+                          : 'Aucune maladie declarée'}
+                        </span>
+                      </li>
+                      {/* Médicaments */}
+                      <li>
+                        <h4>Médicaments</h4>
+                        <span>
+                          {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.utiliseMedicaments &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.medicaments?.length > 0
+                            ? patientDetail.dossierMedial.antecedentsPersonnels[0].medicaments.join(', ')
+                            : 'Aucun médicament utilisé'}
+                        </span>
+                      </li>
+
+                      {/* Chirurgies */}
+                      <li>
+                        <h4>Chirurgies</h4>
+                        <span>
+                          {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.chirurgicaux &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.operationsChirurgicales
+                            ? `Opération: ${patientDetail.dossierMedial.antecedentsPersonnels[0].operationsChirurgicales.typeOperation} (${patientDetail.dossierMedial.antecedentsPersonnels[0].operationsChirurgicales.anneeOperation})`
+                            : 'Aucune chirurgie'}
+                        </span>
+                      </li>
+
+                      {/* Habitudes */}
+                      <li>
+                        <h4>Habitudes</h4>
+                        <span>
+                          {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.habitudes?.length > 0
+                            ? patientDetail.dossierMedial.antecedentsPersonnels[0].habitudes.join(', ')
+                            : 'Aucune habitude déclarée'}
+                        </span>
+                      </li>
+
+                      {/* Cigarettes par jour */}
+                      <li>
+                        <h4>Cigarettes par jour</h4>
+                        <span>
+                          {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.cigarettesParJour
+                            ? `${patientDetail.dossierMedial.antecedentsPersonnels[0].cigarettesParJour} cigarettes par jour`
+                            : 'Aucune consommation de cigarettes'}
+                        </span>
+                      </li>
+
+                      {/* Durée de fumée */}
+                      <li>
+                        <h4>Durée de fumée</h4>
+                        <span>
+                          {patientDetail?.dossierMedial?.antecedentsPersonnels?.length > 0 &&
+                          patientDetail.dossierMedial.antecedentsPersonnels[0]?.dureeFumee
+                            ? `${patientDetail.dossierMedial.antecedentsPersonnels[0].dureeFumee} ans de fumée`
+                            : 'Pas d’information sur la durée de fumée'}
+                        </span>
                       </li>
                     </ul>
                   </div>
