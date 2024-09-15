@@ -1,6 +1,5 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-// import Sidebar from "@/components/Sidebar";
 import NavigationHeader from "@/components/ppn/NavigationHeader";
 import Header from "@/components/espaceMedecin/Header";
 import Image from "next/image";
@@ -14,8 +13,6 @@ import {
   eye
 } from "@/components/imagepath";
 import { useRouter } from 'next/navigation';
-import { handleGenerateDocument } from "../page";
-//import Sidebar from '@/components/espaceMedecin/Sidebar1';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { SPRINGBOOT_API_URL } from '@/config';
@@ -38,7 +35,6 @@ const Historique = ({ params }) => {
             Authorization: `Bearer ${accessToken}`,
           },
         })
-            // .then(response => response.json()) pas besoin de conversion json pour axios ;)
             .then(response => {setConsultations(response.data.dossierMedial?.historiqueConsultations)})
             .catch(error => console.error('Error fetching patient:', error));
         
@@ -75,7 +71,7 @@ const Historique = ({ params }) => {
                           data-bs-toggle="modal"
                           data-bs-target="#con-close-modal">
                           <Image
-                            src={teeth} // Remplacez selon vos besoins
+                            src={teeth}
                             style={{ width: "50%", height: "50%" }}
                             height={50}
                             alt="#"
@@ -237,14 +233,6 @@ const Historique = ({ params }) => {
                     </div>
                   </div>
                   <div className="modal-footer">
-                    {/* <button
-                      type="button"
-                      className="btn btn-secondary waves-effect btn-imprimer"
-                      data-bs-dismiss="modal"
-                      onClick={handleGenerateDocument}
-                    >
-                      Imprimer
-                    </button> */}
                     <button
                       type="button"
                       className="btn btn-info btn-modifier"
@@ -279,7 +267,7 @@ const Historique = ({ params }) => {
                         data-bs-toggle="modal"
                         data-bs-target="#con-close-modal">
                         <Image
-                          src={consultation.motif.includes("Bucco-dentaire") ? teeth : eye} // Remplacez selon vos besoins
+                          src={consultation.motif.includes("Bucco-dentaire") ? teeth : eye}
                           style={{ width: "50%", height: "50%" }}
                           height={50}
                           alt="#"
@@ -453,14 +441,6 @@ const Historique = ({ params }) => {
                   </div>
                 </div>
                 <div className="modal-footer">
-                  {/* <button
-                    type="button"
-                    className="btn btn-secondary waves-effect btn-imprimer"
-                    data-bs-dismiss="modal"
-                    onClick={handleGenerateDocument}
-                  >
-                    Imprimer
-                  </button> */}
                   <button
                     type="button"
                     className="btn btn-info btn-modifier"

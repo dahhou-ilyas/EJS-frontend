@@ -52,14 +52,6 @@ const Patients = () => {
     }
 };
 
-  // useEffect(() => {
-  //   const query = new URLSearchParams();
-  //   if (id) query.append('id', id);
-  //   if (nom) query.append('nom', nom);
-  //   if (prenom) query.append('prenom', prenom);
-  //   fetchPatients(query.toString());
-  // }, [query]);
-
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };

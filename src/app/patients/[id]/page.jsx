@@ -5,15 +5,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import "@/assets/css/style.css";
-// import "@/assets/css/links.css";
-// import "@/assets/css/patient.css";
 import {jwtDecode} from 'jwt-decode';
 import axios from "axios";
 
-import FeatherIcon from "feather-icons-react";
-
-// import "@/assets/css/font-awesome.min.css";
-// import "@/assets/css/customized.css";  
 import {
   blogimg2,
   medalicon03,
@@ -23,7 +17,6 @@ import {
 } from "@/components/imagepath";
 import {dossier} from "@/assets/json/dumpdata_ppn";
 import jsPDF from "jspdf";
-//import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { SPRINGBOOT_API_URL } from "@/config";
 
 export function handleGenerateDocument(){   
@@ -242,18 +235,6 @@ const Patient = ({params}) => {
                         <h5>Se Mettre en Contact</h5>
                       </div>
                     </Link>
-                    
-                    <div className="personal-activity generate mb-0"
-                      onClick={handleGenerateDocument}
-                    >
-                      <div className="personal-icons status-orange">
-                        <Image src={medalicon03} alt="" />
-                      </div>
-                      <div className="views-personal">
-                        <h4>Compte Rendu</h4>
-                        <h5>Generer son Compte Rendu</h5>
-                      </div>
-                    </div >
                   </div>
                 </div>
               </div>

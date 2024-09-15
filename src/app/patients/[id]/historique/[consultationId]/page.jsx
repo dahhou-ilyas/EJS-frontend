@@ -1,16 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-//LIBRARIES
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
-// import bootstrapBundleMin from "bootstrap/dist/js/bootstrap.bundle.min.js";
-
-// ASSETS
 import "@/assets/css/ppn/links.css";
 import "@/assets/css/ppn/consultation.css";
 import {
@@ -26,14 +22,12 @@ import {
   antFamilial
 } from "@/assets/json/dumpdata_ppn";
 
-// COMPONENTS
 import { printer } from "@/components/imagepath";
 import SelectInput from "@/components/ppn/SelectInput";
 import Header from "@/components/espaceMedecin/Header";
 import NavigationHeader from "@/components/ppn/NavigationHeader";
 import TextAreaInput from "@/components/ppn/TextAreaInput";
 import TextInput from "@/components/ppn/TextInput";
-//import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { SPRINGBOOT_API_URL } from "@/config";
 import axios from 'axios';
 
@@ -47,22 +41,6 @@ const modifierConsultation = ({params}) => {
   let pathName = usePathname();
   pathName = pathName.toLowerCase();
   
-  // let actionName = "";
-  // let buttonName = "Enregistrer";
-
-  // useEffect(() => {
-  //   if (!pathName.includes('ajouter') && !pathName.includes('modifier')) {
-  //     router.push('/error'); // Redirect to error page if the action is invalid
-  //   }
-  // }, [pathName, router]);
-  
-  // if(pathName.includes("modifier")){
-  //   actionName = buttonName = "Modifier";
-  // }
-  // else{
-  //   actionName = "Ajouter";
-  // }
-
   const [consultation, setConsultation] = useState({});
   const [patient, setPatient] = useState("");
   const [loading, setLoading] = useState("");
@@ -82,8 +60,6 @@ const modifierConsultation = ({params}) => {
 
   const [interrogatoireM, setInterrogatoireM] = useState("");
   
-  
-
   const [conseilsM, setConseilsM] = useState("");
 
   // examen medical
@@ -112,7 +88,7 @@ const modifierConsultation = ({params}) => {
             (cons) => cons.id == consultationId 
           );
 
-          setConsultation(data); // State update scheduled
+          setConsultation(data);
 
           // Use `data` directly here
           setMotifM(data.motif);
@@ -136,24 +112,8 @@ const modifierConsultation = ({params}) => {
       }
     };
 
-    fetchConsultation(); // Call the async function
+    fetchConsultation();
   }, [consultationId, id]);
-
-  
-
-  
-  
-
-  // useEffect(() => {
-    
-  //   if (consultation.jeune) {
-  //     // Remplacez l'URL par celle de votre API ou de votre backend
-  //     fetch(`${SPRINGBOOT_API_URL}/jeunes/` + consultation.jeune)
-  //       .then(response => response.json())
-  //       .then(data => setPatient(data))
-  //       .catch(error => console.error('Error fetching patient:', error));
-  //   }
-  // }, [consultation.jeune]);
  
   useEffect(() => {
     if (loading) return;
@@ -555,12 +515,6 @@ const modifierConsultation = ({params}) => {
     </div>);
   }
 
-  if (error) {
-    // return <div>Error: {error}</div>; // Afficher un message d'erreur
-  }
-
-  
-
   const currentDate = new Date(); // Crée un nouvel objet Date avec la date et l'heure actuelles
   const year = currentDate.getFullYear(); // Récupère l'année
   const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Récupère le mois (ajoute 1 car les mois commencent à 0)
@@ -654,7 +608,6 @@ return (
           <div className="card">
             <div className="card-body">
               <div id='alert-message' className="alert alert-danger alert-dismissible fade show hideInput" role="alert">
-                {/* <strong>Error!</strong> A <Link href="#" className="alert-link">problem</Link> has been occurred while submitting your data. */}
                 <strong>Erreur!</strong> Merci de remplir tous les champs marqués d&apos;un (*).
                 <button type="button" className="btn-close" onClick={hideAlert} aria-label="Close">
                   <span aria-hidden="true"> </span>
@@ -1052,17 +1005,7 @@ return (
                         id = "submit-button"
                         type = "submit"
                         className="btn me-1 customizedBtn save"
-                        // data-bs-toggle="modal" data-bs-target="#success-alert-modal"
                       >Modifier
-                        {/* <Link
-                          className="dropdown-item"
-                          href="#"
-                          data-bs-toggle="modal"
-                          data-bs-target="#delete_patient"
-                        >
-                          {buttonName}
-                        </Link> */}
-                        
                       </button>
                       <button
                         type="button"
