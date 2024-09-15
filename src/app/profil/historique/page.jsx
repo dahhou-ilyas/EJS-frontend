@@ -1,7 +1,6 @@
 "use client"
 import React, { Suspense, useEffect, useState } from 'react';
 import NavigationHeader from "@/components/ppn/NavigationHeader";
-import Header from "@/components/espaceMedecin/Header";
 import Image from "next/image";
 
 import "@/assets/css/ppn/links.css";
@@ -13,7 +12,6 @@ import {
   eye
 } from "@/components/imagepath";
 import { useRouter } from 'next/navigation';
-import { handleGenerateDocument } from "../page";
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { SPRINGBOOT_API_URL } from '@/config';
@@ -57,7 +55,6 @@ const Historique = () => {
   }
   
   if(consultations.length==0){
-    console.log('hy');
     return (
       <>
         <div className="content">
@@ -73,7 +70,7 @@ const Historique = () => {
                           data-bs-toggle="modal"
                           data-bs-target="#con-close-modal">
                           <Image
-                            src={teeth} // Remplacez selon vos besoins
+                            src={teeth}
                             style={{ width: "50%", height: "50%" }}
                             height={50}
                             alt="#"

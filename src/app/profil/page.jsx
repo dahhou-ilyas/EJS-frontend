@@ -18,19 +18,7 @@ import {
 } from "@/components/imagepath";
 import {dossier} from "@/assets/json/dumpdata_ppn";
 import jsPDF from "jspdf";
-//import Sidebar from "@/components/espaceMedecin/Sidebar1";
 import { SPRINGBOOT_API_URL } from "@/config";
-
-export function handleGenerateDocument(){   
-  const doc = new jsPDF()
-  doc.text(`Date: ${dossier.date}`, 10, 10);
-  doc.text(`Espace: ${dossier.location}`, 10, 20);
-  doc.text(`Consultation: ${dossier.title}`, 10, 30);//(text,x,y);x and y are coordinates
-  doc.text(`Motif: ${dossier.motif}`, 10, 40);
-  doc.text(`Docteur: ${dossier.doctor}`, 10, 50);
-  doc.text(`Ordonnance: ${dossier.info}`, 10, 60);
-  doc.save(`${dossier.title}.pdf`);
-}
 
 const Profil = () => {
   
