@@ -418,34 +418,6 @@
       "psycho":"Soutien Psychologique",
       "dossierMedical":"Dossier Medical",
       "accueil":"Page d'accueil"
-    },
-
-
-    "Med": {
-    "Accueil": "Accueil",
-    "Dossier Medical": "Dossier Médical",
-    "Education à la Santé": "Éducation à la Santé",
-    "Tests Psychologiques": "Tests Psychologiques",
-    "Profile": "Profil",
-    "Se déconnecter": "Se déconnecter",
-    "Language": "Langue",
-    "Ahmed": "Ahmed",
-    "NIP": "NIP",
-    "Mon profil": "Mon profil",
-    "Historique médical": "Historique médical",
-    "Date de naissance": "Date de naissance",
-    "Sexe": "Sexe",
-    "Scolarisation": "Scolarisation",
-    "Adresse": "Adresse",
-    "Activité": "Activité",
-    "Numéro de téléphone": "Numéro de téléphone",
-    "Adresse mail": "Adresse mail",
-    "Type de sang": "Type de sang",
-    "Masculin": "Masculin",
-    "Non scolarisé": "Non scolarisé",
-    "Ouvrier": "Ouvrier",
-    "Arabe": "Arabe",
-    "Français": "Français"
     }
 
 
