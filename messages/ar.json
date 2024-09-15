@@ -419,33 +419,5 @@
       "psycho":"دعم نفسي",
       "dossierMedical":"ملفي الطبي",
       "accueil":"الصفحة الرئيسية"
-    },
-
-
-    "Med": {
-    "Accueil": "الرئيسية",
-    "Dossier Medical": "الملف الطبي",
-    "Education à la Santé": "التثقيف الصحي",
-    "Tests Psychologiques": "الاختبارات النفسية",
-    "Profile": "الملف الشخصي",
-    "Se déconnecter": "تسجيل الخروج",
-    "Language": "اللغة",
-    "Ahmed": "أحمد",
-    "NIP": "رقم التعريف",
-    "Mon profil": "ملفي الشخصي",
-    "Historique médical": "سجلي الطبي",
-    "Date de naissance": "تاريخ الميلاد",
-    "Sexe": "الجنس",
-    "Scolarisation": "التعليم",
-    "Adresse": "العنوان",
-    "Activité": "النشاط",
-    "Numéro de téléphone": "رقم الهاتف",
-    "Adresse mail": "البريد الإلكتروني",
-    "Type de sang": "فصيلة الدم",
-    "Masculin": "ذكر",
-    "Non scolarisé": "غير متمدرس",
-    "Ouvrier": "عامل",
-    "Arabe": "العربية",
-    "Français": "الفرنسية"
-  }
+    }
 }
