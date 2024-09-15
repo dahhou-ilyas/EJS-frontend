@@ -34,10 +34,11 @@ const Header = ({section}) => {
   }, [token]);
 
   const getMedecinData = (id) => {
+    const token1 = localStorage.getItem('access-token');
     if (id != null) {
       axios.get(SPRINGBOOT_API_URL+'/medecins/' + id, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token1}`
       }
       })
       .then(res => {

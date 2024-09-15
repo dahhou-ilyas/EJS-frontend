@@ -20,8 +20,8 @@ export const metadata = {
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en">
-      <body>
+    <>
+      <>
         <Header section="eESJ" />
         {children}
         <Script
@@ -29,8 +29,8 @@ const RootLayout = ({ children }) => {
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />
-      </body>
-    </html>
+      </>
+    </>
   );
 };
 export default RootLayout;
