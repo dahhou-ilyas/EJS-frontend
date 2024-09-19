@@ -7,7 +7,6 @@ import {
   baricon,
   baricon1,
   user06,
-  noteicon1,
 } from "@/components/imagepath";
 import Image from "next/image";
 import { PiSignOut } from "react-icons/pi";
@@ -150,18 +149,8 @@ const Header = ({t,locale}) => {
           <Image src={baricon1} alt="" />
         </Link>
 
-        <ul className="justify-center items-center nav user-menu float-end" dir="ltr">
-          <div className="nav-item dropdown d-none d-sm-block">
-            <Link
-              href="/"
-              className="dropdown-toggle nav-link"
-              data-bs-toggle="dropdown"
-            >
-              <Image className="relative bottom-2" style={{ marginTop: "20px" }} src={noteicon1} alt="" />
-              <span className="pulse" />
-            </Link>
-            
-          </div>
+        <ul className="justify-center mt-3 items-center nav user-menu float-end" dir="ltr">
+          
           {/* <li className="nav-item dropdown d-none d-sm-block">
             <Link
               href="/"
