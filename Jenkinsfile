@@ -18,12 +18,13 @@ pipeline {
             }
         }
         
-        
-        
         stage('Docker Build') {
             steps {
                 script {
-                    dockerImage = docker.build("${DOCKERHUB_CREDENTIALS_USR}/ejjs-frontend:${env.BUILD_NUMBER}")
+                    // Build Docker image using sh
+                    sh """
+                        docker build -t ${DOCKERHUB_CREDENTIALS_USR}/ejjs-frontend:${env.BUILD_NUMBER} .
+                    """
                 }
             }
         }
@@ -31,10 +32,11 @@ pipeline {
         stage('Docker Push') {
             steps {
                 script {
-                    docker.withRegistry('', 'dockerhub-credentials') {
-                        dockerImage.push()
-                        dockerImage.push('latest')
-                    }
+                    // Login to DockerHub using credentials and push the image
+                    sh """
+                        echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin
+                        docker push ${DOCKERHUB_CREDENTIALS_USR}/ejjs-frontend:${env.BUILD_NUMBER}
+                    """
                 }
             }
         }
@@ -42,6 +44,7 @@ pipeline {
     
     post {
         always {
+            // Logout from DockerHub
             sh 'docker logout'
         }
     }
