@@ -41,10 +41,10 @@ pipeline {
             }
         }
     }
+
     
     post {
         always {
-            // Logout from DockerHub
             sh 'docker logout'
         }
     }
