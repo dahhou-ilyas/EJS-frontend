@@ -5,10 +5,10 @@ FROM jenkins/agent:alpine-jdk11
 USER root
 
 # Installer Node.js version 18
-RUN apk add --no-cache \
-    curl \
-    && curl -fsSL https://nodejs.org/dist/v18.17.1/node-v18.17.1-linux-x64.tar.xz | tar -xJ -C /usr/local --strip-components=1 --no-same-owner \
-    && apk del curl
+RUN apk add --no-cache bash curl nodejs npm
 
 # Revenir à l'utilisateur jenkins
 USER jenkins
+
+# Définir le point d'entrée pour l'agent Jenkins
+ENTRYPOINT ["/usr/local/bin/jenkins-agent"]

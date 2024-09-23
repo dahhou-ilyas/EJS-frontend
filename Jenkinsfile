@@ -1,9 +1,8 @@
 pipeline {
-    agent { 
-        node {
-            label 'docker-agent-nodejs'
-            }
-      }
+    agent any
+    tools {
+        nodejs('20.9.0')
+    }
     triggers {
         pollSCM '* * * * *'
     }
