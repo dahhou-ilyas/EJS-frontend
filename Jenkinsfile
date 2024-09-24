@@ -2,6 +2,7 @@ pipeline {
     agent any
     tools {
         nodejs('20.9.0')
+        'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'mydocker'
     }
     triggers {
         pollSCM '* * * * *'
@@ -21,9 +22,10 @@ pipeline {
         stage('Docker Build and Push') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
-                        def appImage = docker.build("${DOCKERHUB_CREDENTIALS_USR}/ejjs-frontend:${env.BUILD_NUMBER}")
-                        appImage.push()
+                    withDockerRegistry(credentialsId: 'dockerhub-credentials', url: 'https://index.docker.io/v1/') {
+                        def imageName = "${DOCKERHUB_CREDENTIALS_USR}/ejjs-frontend:${env.BUILD_NUMBER}"
+                        sh "docker build -t ${imageName} ."
+                        sh "docker push ${imageName}"
                     }
                 }
             }
@@ -33,10 +35,7 @@ pipeline {
     post {
         always {
             script {
-                // Ensure we're in a node context
-                node {
-                    sh 'docker logout'
-                }
+                sh 'docker logout'
             }
         }
     }
