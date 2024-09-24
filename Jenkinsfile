@@ -28,8 +28,13 @@ pipeline {
 
         stage('Docker Build and Push') {
             steps {
-                sh 'docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW'
-                sh 'docker build -t dahhouilyas/esj .'
+                withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS', usernameVariable: 'DOCKERHUB_CREDENTIALS_USR', passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW')]) {
+                    sh 'docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW'
+                }
+        
+                sh "docker build -t dahhouilyas/esj:${BUILD_ID} ."
+        
+                sh "docker push dahhouilyas/esj:${BUILD_ID}"
             }
         }
         
