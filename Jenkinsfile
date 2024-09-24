@@ -19,17 +19,13 @@ pipeline {
             }
         }
         
-        stage('Docker Build and Push') {
-            steps {
-                script {
-                    withDockerRegistry(credentialsId: 'dahhouilyas', url: 'https://index.docker.io/v1/') {
-                        def imageName = "${DOCKERHUB_CREDENTIALS_USR}/ejjs-frontend:${env.BUILD_NUMBER}"
-                        sh "docker build -t ${imageName} ."
-                        sh "docker push ${imageName}"
-                    }
-                }
-            }
+        stage('Check Docker Path') {
+        steps {
+            sh 'which docker'
+            sh 'docker --version'
         }
+    }
+        
     }
 
     post {
