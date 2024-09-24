@@ -18,20 +18,11 @@ pipeline {
             }
         }
         
-        stage('Docker Build') {
+        stage('Docker Build and Push') {
             steps {
                 script {
-                    // Build Docker image using docker.build
-                    def appImage = docker.build("${DOCKERHUB_CREDENTIALS_USR}/ejjs-frontend:${env.BUILD_NUMBER}")
-                }
-            }
-        }
-        
-        stage('Docker Push') {
-            steps {
-                script {
-                    // Use Docker plugin's withRegistry for login and push
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
+                        def appImage = docker.build("${DOCKERHUB_CREDENTIALS_USR}/ejjs-frontend:${env.BUILD_NUMBER}")
                         appImage.push()
                     }
                 }
@@ -41,7 +32,12 @@ pipeline {
 
     post {
         always {
-            sh 'docker logout'
+            script {
+                // Ensure we're in a node context
+                node {
+                    sh 'docker logout'
+                }
+            }
         }
     }
 }
