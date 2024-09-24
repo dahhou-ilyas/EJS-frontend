@@ -9,7 +9,7 @@ pipeline {
     }
     environment {
         CI = 'true'
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
+        DOCKERHUB_CREDENTIALS = credentials('dahhouilyas')
     }
     
     stages {
