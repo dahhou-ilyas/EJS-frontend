@@ -44,6 +44,8 @@ const Professional_Dashboard = () => {
     const [LiveSelect, setLiveSelect] = useState(null);
     const showDashboard = () => { setSelectedTab(tabNames.dashboard); };
     const [fetched, setFetched] = useState(false);
+    const [token, setToken] = useState(null);
+
     const showLinkAndQuestions = async (LiveSelected) => {
         try {
             const questions = LiveSelected.questions.length > 0 ? LiveSelected.questions : null;
@@ -53,6 +55,7 @@ const Professional_Dashboard = () => {
                     { questions },
                     {
                         headers: {
+                            Authorization: `Bearer ${token}`,
                             'Content-Type': 'application/json'
                         }
                     }
@@ -100,6 +103,7 @@ const Professional_Dashboard = () => {
                         return;
                     }
 
+                    setToken(token);
                     setName(decodedToken.claims.nom.toUpperCase() + " " + decodedToken.claims.prenom);
                     fetchQuestions(token, id);
                 } catch (error) {
