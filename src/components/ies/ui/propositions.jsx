@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from 'react';
 import Loading from "../utility/loading";
 import axios from "axios";
-import { EXPRESS_API_URL, SPRINGBOOT_API_URL } from "@/config";
+import { SPRINGBOOT_API_URL } from "@/config";
 
 /*
 const sampleData = [
@@ -132,8 +132,7 @@ const Propositions = ({ toDashboard }) => {
                     null;
 
                     if (topics !== null && topics !== undefined) {
-                        const response = await axios.post(
-                            EXPRESS_API_URL+'/summarized_topics',
+                        const response = await axios.post('/api/summarized_topics',
                             { topics },
                             {
                                 headers: {
@@ -143,7 +142,7 @@ const Propositions = ({ toDashboard }) => {
                             }
                         );
 
-                        const responseData = response.data.replace(/```json|```/g, '');
+                        const responseData = response.data.summary.replace(/```json|```/g, '');
                         setData(JSON.parse(responseData));
                     }
                     setDataFetched(true);
