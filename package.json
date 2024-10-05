@@ -44,6 +44,7 @@
     "embla-carousel-react": "^8.1.8",
     "feather-icons-react": "^0.7.0",
     "html2pdf.js": "^0.10.2",
+    "jsonwebtoken": "^9.0.2",
     "jspdf": "^2.5.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.400.0",

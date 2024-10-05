@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import jwt from 'jsonwebtoken';
 import { run } from '../utils/genAI';
 
 const into_n_questions = 10;
@@ -35,6 +36,19 @@ const questions_summarizer_prompt = `
 
 export async function POST(req) {
     try {
+        const authHeader = req.headers.get('Authorization');
+        const token = authHeader && authHeader.split(' ')[1];
+
+        if (!token) {
+            return NextResponse.json({ error: 'Token is missing' }, { status: 401 });
+        }
+
+        try {
+            jwt.verify(token, process.env.JWT_SECRET);
+        } catch {
+            return NextResponse.json({ error: 'Invalid token' }, { status: 403 });
+        }
+
         const { questions } = await req.json();
 
         if (!questions || !Array.isArray(questions) || questions.length === 0) {

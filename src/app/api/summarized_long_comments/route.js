@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import jwt from 'jsonwebtoken';
 import { run } from '../utils/genAI';
 
 const into_n_words = 200;
@@ -31,6 +32,19 @@ const long_comments_summarizer_prompt = `
 
 export async function POST(req) {
     try {
+        const authHeader = req.headers.get('Authorization');
+        const token = authHeader && authHeader.split(' ')[1];
+
+        if (!token) {
+            return NextResponse.json({ error: 'Token is missing' }, { status: 401 });
+        }
+
+        try {
+            jwt.verify(token, process.env.JWT_SECRET);
+        } catch {
+            return NextResponse.json({ error: 'Invalid token' }, { status: 403 });
+        }
+        
         const { long_comments } = await req.json();
 
         if (!long_comments || !Array.isArray(long_comments) || long_comments.length === 0) {
