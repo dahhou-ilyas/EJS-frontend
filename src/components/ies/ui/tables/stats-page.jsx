@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
-import { EXPRESS_API_URL, SPRINGBOOT_API_URL } from "@/config";
+import { SPRINGBOOT_API_URL } from "@/config";
 
 const Stats_Page = () => {
     const searchParams = useSearchParams();
@@ -76,8 +76,7 @@ const Stats_Page = () => {
                     const long_comments = stats?.opinions.length > 0 ? stats?.opinions : null;
 
                     if ((long_comments !== null) && (long_comments !== undefined)) {
-                        const response = await axios.post(
-                            EXPRESS_API_URL+'/summarized_long_comments',
+                        const response = await axios.post('/api/summarized_long_comments',
                             { long_comments },
                             {
                                 headers: {
@@ -87,7 +86,7 @@ const Stats_Page = () => {
                             }
                         );
 
-                        const responseData = response.data.replace(/```json|```/g, '');
+                        const responseData = response.data.summary.replace(/```json|```/g, '');
                         setOpinion(responseData);
                     }
                 } catch (error) {
